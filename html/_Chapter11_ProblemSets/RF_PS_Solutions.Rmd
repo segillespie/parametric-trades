@@ -1,0 +1,267 @@
+---
+title: "Random Forest Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the chapter on classification and regression trees and random forests in the course https://doe.dscoe.org. In this problem set, you'll first perform regression using a regression tree and a random forest on the <a href = "https://archive.ics.uci.edu/ml/datasets/Student+Performance">Student Performance</a> data set. Then you will perform classification using a random forest on the Glass data set (the same data set used in the support vector machine problem set). Both data sets are available from the University of California - Irvine's Machine Learning Repository.
+
+The solutions for this problem set use the following packages; however, you may use whatever packages you prefer.
+
+* `rpart`
+
+* `tidyverse`
+
+* `randomForest`
+
+# Regression
+
+The student performance data set is a zip file, so it's a little trickier to download than a .csv file. This code will do the trick.
+
+```
+# create an empty temporary file
+# temp <- tempfile()
+
+# download the target file to the temp file
+# download.file("https://archive.ics.uci.edu/ml/machine-learning-databases/00320/student.zip",temp)
+
+# read the data from one of the unzipped files
+# sp <- read.csv(unzip(temp, "student-mat.csv"), sep=';', stringsAsFactors = TRUE)
+
+# delete the temporary file
+# unlink(temp)
+
+# remove the temp variable from the name space
+# rm(temp)
+```
+
+```{r message=FALSE, warning=FALSE}
+# create an empty temporary file
+temp <- tempfile()
+
+# download the target file to the temp file
+download.file("https://archive.ics.uci.edu/ml/machine-learning-databases/00320/student.zip",temp)
+
+# read the data from one of the unzipped files
+sp <- read.csv(unzip(temp, "student-mat.csv"), sep=';', stringsAsFactors = TRUE)
+
+# delete the temporary file
+unlink(temp)
+
+# remove the temp variable from the name space
+rm(temp)
+```
+
+The data consists of 395 observations of 33 predictors. The first 30 columns are all information about the students including demographic, social, and school-related features. The last three columns are the student's grades in a math class. It's not completely clear, but I assume the grades are from a one-term math class broken into thirds and that`G1` is the grade received after midterm #1, `G2` is the grade after midterm #2, and `G3` is the final grade. The predictor variables are explained at the link to the website above, but also use `str()` to get a feel for the data.
+
+```{r}
+str(sp)
+```
+
+## Regression Tree
+
+Grow a tree with `G3` as the response and include all other variables as predictors. Plot the tree.
+
+```{r}
+library(rpart)
+library(rpart.plot)
+
+set.seed(42)
+sp.tree = rpart(G3 ~ ., data=sp)
+
+rpart.plot(sp.tree, digits = 3, type=4, extra=101)
+```
+
+### Variable Importance
+
+The `G2` factor shows up in a lot of the splits, which makes sense. Your previous grade in a class is probably a good predictor of your final grade. Print the variable importance for your model with `MyTree$variable.importance` and comment on the results. 
+
+```{r}
+sp.tree$variable.importance
+
+# after G2, G1 is the next most important, then it drops off rapidly to 
+# absences and failures
+```
+
+Plotting the variable importance would be a nice touch.
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+
+ggplot() +
+  geom_col(aes(x=factor(names(sp.tree$variable.importance), 
+                        levels=rev(names(sp.tree$variable.importance))), 
+               y=sp.tree$variable.importance)) +
+  coord_flip() +
+  ylab("Variable Importance") +
+  xlab("Factor") +
+  ggtitle("Regression Tree Variable Importance") +
+  theme_bw()
+```
+
+### Prune
+
+Prune the tree using the 1se rule. First use `plotcp()` to determine the number of splits to allow.
+
+```{r}
+plotcp(sp.tree, upper = "splits")
+```
+
+Now find the `CP` associated with the `nsplit`.
+
+```{r}
+printcp(sp.tree)
+```
+
+Choose a `CP` value slightly greater than the one you identified above, and use it to prune your tree. Then, plot the pruned tree.
+
+```{r}
+sp.prune = rpart(G3~., cp = 0.019, data = sp)
+
+rpart.plot(sp.prune, digits = 3, type=4, extra=101)
+```
+
+### Deviance
+
+How much deviance do your unpruned and pruned trees explain?
+
+```{r}
+# unpruned deviance explained
+(1-0.11615)*100 
+
+# pruned 
+(1-0.14623)*100 
+# 0.14623 comes from the relerror column at nsplit = 6
+```
+
+### Drop G1 and G2
+
+Grow a new tree without `G1` and `G2`, print the variable importance, and comment on the results. 
+
+```{r}
+sp.tree2 = rpart(G3~., data = sp %>% select(-G1, -G2), model=TRUE)
+
+sp.tree2$variable.importance
+
+# the first two are the same, but then it differs. Also, a lot
+# more variables are included in this tree.
+```
+
+### Deviance
+
+Without pruning the tree, how much variance does the tree explain without `G1` and `G2`?
+
+```{r}
+printcp(sp.tree2)
+
+# deviance explained
+(1-0.59538)*100 
+```
+
+### Linear Model
+
+Fit and summarize a linear model and consider how you might go about eliminating predictors and developing a good linear model fit.
+
+```{r}
+summary(lm(G3~., data=sp))
+```
+
+## Random Forest
+
+Perform regression using a random forest and with all predictors (including `G1` and `G2`). How much deviance does the random forest explain?
+
+```{r}
+library(randomForest)
+
+set.seed(42)
+
+sp.rf<- randomForest(G3~., importance=TRUE, data=sp)
+sp.rf
+```
+
+### Variable Importance
+
+Plot the variable importance for the random forest model.
+
+```{r, fig.height=8}
+varImpPlot(sp.rf)
+```
+
+# Random Forest Classification
+
+Download the glass data set from the UC-Irvine repository. This will save you some typing:
+
+```
+# glass=read.csv('https://archive.ics.uci.edu/ml/machine-learning-databases/glass/glass.data', 
+#                col.names=c("ID", "RI", "Na", "Mg", "Al", "Si", "K", "Ca", "Ba", "Fe", "Type"),
+#                header=F, colClasses=c(rep("numeric", 10), "factor"))
+```
+
+As indicated on the repository's website, 
+
+>The study of classification of types of glass was motivated by criminological investigation. At the scene of the crime, the glass left can be used as evidence...if it is correctly identified!
+
+The data has 11 columns with the categorical response variable with six levels, `Type`, in the last column. The first column is a sample ID number followed by refractive index and then the weight percent of seven elements in their corresponding oxide. Our task is to see if we can correctly identify the six glass types using a classification tree and a random forest. We'll compare our results to those we obtained using a support vector classifier from the most recent problem set.
+  
+```{r}
+glass=read.csv('https://archive.ics.uci.edu/ml/machine-learning-databases/glass/glass.data', 
+               col.names=c("ID", "RI", "Na", "Mg", "Al", "Si", "K", "Ca", "Ba", "Fe", "Type"),
+               header=F, colClasses=c(rep("numeric", 10), "factor"))
+```
+
+## Train and Test Data Sets
+
+Set a random number generator seed, and create a training and a test data set using an 80/20 split. **Important: Use the same seed that you used in the support vector classifier problem.** Either drop the `ID` column or just don't include it when training your models.
+
+```{r}
+# set the seed
+set.seed(42)
+
+# create training set
+train = sample(1:nrow(glass), nrow(glass)*0.8, replace=FALSE)
+glass_train = glass %>% slice(train) %>% select(-ID)
+
+# create test set
+glass_test = glass %>% slice(-train) %>% select(-ID)
+```
+
+## Grow a Forest
+
+Fit the model on the training set using default hyperparameters and print the resulting object.
+
+```{r}
+glass.rf = randomForest(Type ~ ., data = glass_train)
+print(glass.rf)
+```
+
+## Plot
+
+Plot the randomForest object to see if it stabilized before 500 trees.
+
+```{r}
+plot(glass.rf)
+```
+
+## Confusion Matrix and Accuracy
+
+Make predictions on the test set, produce a confusion matrix, and calculate the prediction accuracy. How does it compare the support vector classifier from the previous problem set?
+
+```{r}
+# confusion matrix
+rf.tab = table(predict(glass.rf, newdata=glass_test %>% select(-Type)), glass_test$Type)
+rf.tab
+
+# accuracy
+sum(diag(rf.tab)) / nrow(glass_test)
+
+# the accuracy is slightly worse than the radial kernel SVC but better than the linear kernel.
+```
+

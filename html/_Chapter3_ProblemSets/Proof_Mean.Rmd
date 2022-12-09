@@ -1,0 +1,23 @@
+---
+title: "Proof That the Mean is an Unbiased Estimator"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+An estimator, $\bar{\phi}$ of a random variable $X$'s parameter $\phi$ is unbiased (by <a href = 'https://mathworld.wolfram.com/UnbiasedEstimator.html'> definition </a>) if $E(\bar{\phi}) = \phi$.
+
+For the mean, our estimator, $\bar{\mu}$, is defined as $\bar{\mu} = \frac{1}{n}\sum_1^nx_i$, where $x_1,x_2, ...x_n \sim  X$.  
+
+We can then calculate $E(\bar{\phi})$:
+
+* $E(\bar{\mu})$
+* $E(\frac{1}{n}\sum_1^nx_i)$ by definition.
+* $\frac{1}{n}\sum_1^nE(x_i)$ Recall that $E()$ is a <a href = 'https://mathworld.wolfram.com/ExpectationValue.html'>linear function</a>.
+* $\frac{1}{n}\sum_1^n\mu$, Recall that the expected value of a random variable $X$ is its mean.
+* $\frac{1}{n}\cdot n\mu$
+* $\mu$
+
+Thus, $E(\bar{\mu}) = \mu$ and we can say the standard arithmetic mean of a sample is an unbiased estimator of $\mu$.

@@ -1,0 +1,59 @@
+---
+title: "Multi Comparison Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the section on multi factor ANOVA in the course https://doe.dscoe.org.  
+
+For this problem set, we will use the following packages:
+
+```{r, warning = F, message = F}
+library(tidyverse)
+```
+
+
+# Active Protection System
+
+You are an analyst tasked with testing an Active Protection System (APS).  You have five variants of an APS, A, B, C, D, and E and are assessing the number of losses your system incurs in five runs of a simulation to determine which is the best APS.  Your data is contained in <a href = '/_Chapter3_1_ProblemSets/aps.csv'> aps.csv </a>.^[Note, your simulation is an aggregate one, so you can receive partial losses, e.g. 12.3]
+
+## Read the Data
+
+Read the data and clean / format it as necessary.
+
+```{r}
+# Answer Here
+```
+
+## Tukey Test
+
+Assume that you have already done your ANOVA and identified that the choice of APS has a statistically significant effect.
+
+Conduct a Tukey HSD test to determine which levels are distinct at a 95% confidence level.  Visualize this result.  Interpret your results.
+
+
+```{r}
+# Answer Here
+```
+
+
+
+
+# Multi Factor Data
+
+In the multi-factor comparison <a href = '/_Chapter3_1_ProblemSets/Multi_Factor_ANOVA_ProblemSet_Questions.html'> problem set </a> recall that we had a response with four factors (A, B, C, and D) that could each take on a low or high level (represented by '-1' and '1' respectively).  When we did the ANOVA that only showed main and 2-way interactions, we showed that the interaction between Factor A and Factor B was significant (i.e., at least one of the levels of 'A:B' had a mean that was statistically different from the others).  Use <a href = '/_Chapter3_1_ProblemSets/multi_factor.csv'> multi_factor.csv </a> and a Tukey HSD test to show which of the levels of 'A:B' are distinct.
+
+Conduct a Tukey HSD test and show your results graphically to show what levels of A:B can be considered distinct from the others (use a 99% confidence level).
+
+
+```{r}
+# Answer Here
+```

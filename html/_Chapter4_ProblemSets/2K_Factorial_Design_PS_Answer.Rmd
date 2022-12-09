@@ -1,0 +1,221 @@
+---
+title: "Introduction to Factorial Designs Problem Set - 2^K Designs"
+output: 
+  html_document:
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+# $2^3$ Design
+
+*Note, this is adapted from §6.10 of (Montgomery, 2017).*^[Note, this problem was initally a question about a machining tool, but the analysis is equally valid for simulation results]
+
+You conducted a simulation to assess the impact of three factors, A, B, and C at a low and high level each.  You used a $2^3$ full factorial design.  You were able to do three replicates of each treatment combination and conducted the simulation in a random order so that you would meet all assumptions.  Your data is contained in <a href = '/_Chapter4_ProblemSets/montgomery_6_1.csv'> montgomery_6_1.csv </a>.
+
+```{r}
+# 
+myData <- read.csv('montgomery_6_1.csv')
+head(myData)
+```
+
+## Visualize the Data
+
+Visualize the data using both boxplots and interaction plots.  Interpret your results.
+
+```{r}
+# Box plots
+# Note, we need to change the Factors to factors (R data types), but I didn't want to yet
+# also we need to format our data nicely
+
+myTempData <- myData %>% mutate(A = as.factor(A), B = as.factor(B), C = as.factor(C)) %>% pivot_longer(cols = c(Rep.1, Rep.2, Rep.3), names_to = 'Rep', values_to = 'Response')
+
+ggpubr::ggarrange(
+  ggplot(myTempData) + 
+    geom_boxplot(aes(x = A, y = Response )),
+  ggplot(myTempData) + 
+    geom_boxplot(aes(x = B, y = Response )),
+  ggplot(myTempData) + 
+    geom_boxplot(aes(x = C, y = Response )),
+  nrow = 2, ncol = 2,
+  labels = c('A', 'B', 'C')
+)
+
+# It appears that B has an impact; perhaps C, though that is less clear, almost certainly not A
+
+# Interaction plots
+ggpubr::ggarrange(
+  ggplot(myTempData, aes(x = A, y = Response, color = B, group = B)) +
+    stat_summary(fun = 'mean', geom = 'line') +
+    stat_summary(fun = 'mean', geom = 'point'),
+  ggplot(myTempData, aes(x = A, y = Response, color = C, group = C)) +
+    stat_summary(fun = 'mean', geom = 'line') +
+    stat_summary(fun = 'mean', geom = 'point'),
+  ggplot(myTempData, aes(x = B, y = Response, color = C, group = C)) +
+    stat_summary(fun = 'mean', geom = 'line') +
+    stat_summary(fun = 'mean', geom = 'point'),
+  ncol = 2, nrow = 2, labels = c('AB', 'AC', 'BC')
+)
+
+# We see a pretty clear interaction between A and C, perhaps a bit less so between B and C, and not really between A and B
+```
+
+## Estimate the Effects
+
+Estimate the effects using contrasts.
+
+```{r}
+myTempData <- myData %>% 
+  mutate(AB = A*B, AC = A*C, BC = B*C, ABC = A*B*C, Response.Sum = Rep.1 + Rep.2 + Rep.3)
+
+Effect.A <- sum(myTempData$A * myTempData$Response.Sum) / (3*2^(3-1))
+Effect.B <- sum(myTempData$B * myTempData$Response.Sum) / (3*2^(3-1))
+Effect.C <- sum(myTempData$C * myTempData$Response.Sum) / (3*2^(3-1))
+Effect.AB <- sum(myTempData$AB * myTempData$Response.Sum) / (3*2^(3-1))
+Effect.AC <- sum(myTempData$AC * myTempData$Response.Sum) / (3*2^(3-1))
+Effect.BC <- sum(myTempData$BC * myTempData$Response.Sum) / (3*2^(3-1))
+Effect.ABC <- sum(myTempData$ABC * myTempData$Response.Sum) / (3*2^(3-1))
+
+data.frame(Factor = c('A', 'B', 'C', 'AB', 'AC', 'BC', 'ABC'), 
+           Effect = c(Effect.A, Effect.B, Effect.C, Effect.AB, Effect.AC, Effect.BC, Effect.ABC))
+
+# We see that the effect of B appears to be the largest and clearly non-zero; B additionally
+# We see our interactions of AC is significant, with perhaps a 2 way interactino of BC and 3-way with ABC
+```
+
+## Conduct ANOVA
+
+Conduct a 3-factor ANOVA for the data set and assess your results.
+
+```{r}
+# Format and select data usefully
+myTempData <- myData %>% 
+  mutate(A = as.factor(A), B = as.factor(B), C = as.factor(C)) %>% 
+  pivot_longer(cols = c(Rep.1, Rep.2, Rep.3), names_to = 'Rep', values_to = 'Response') %>% 
+  select(-c(TC, Rep))
+
+# Conduct the ANOVA
+myAOV <- aov(Response ~ (.)^3, data = myTempData)
+
+# View the response
+summary(myAOV)
+# This confirms our graphical and effects analysis that B, C, and AC are all significant at alpha = .01
+
+# Plot for assumptions
+par(mfrow = c(2,2))
+plot(myAOV)
+# We appear to meet assumptions
+shapiro.test(myAOV$residuals)
+bartlett.test(Response ~ TC, data = myData %>% pivot_longer(cols = c(Rep.1, Rep.2, Rep.3), names_to = 'Rep', values_to = 'Response'))
+```
+
+## Bonus
+
+Visualize this design in three dimensions.
+
+```{r}
+myTempData <- myData %>% 
+  mutate(A = as.factor(A), B = as.factor(B), C = as.factor(C)) %>% 
+  pivot_longer(cols = c(Rep.1, Rep.2, Rep.3), names_to = 'Rep', values_to = 'Response') 
+
+
+# ggplot doesn't, insofar as i know have a good 3D plotting capability
+# plotly is a nice library for this though
+# https://plotly-r.com/d-charts.html has a good example for how to do 3D plots
+library(plotly)
+
+# We can look at the design geometrically
+plot_ly(myTempData, x = ~A, y = ~B, z = ~C) %>% 
+  add_text(text = ~TC) %>% 
+  add_markers()
+
+myZ.CPos <- as.matrix(
+  myTempData %>% 
+    filter(C == 1) %>% 
+    group_by(A, B) %>% 
+    summarize(Mean = mean(Response)) %>% 
+    pivot_wider(A, names_from = B, values_from = Mean) %>%
+    ungroup() %>% 
+    select(-A)
+)             
+
+myZ.CNeg <- as.matrix(
+  myTempData %>% 
+    filter(C == -1) %>% 
+    group_by(A, B) %>% 
+    summarize(Mean = mean(Response)) %>% 
+    pivot_wider(A, names_from = B, values_from = Mean) %>%
+    ungroup() %>% 
+    select(-A)
+)             
+              
+# We can also view a three D surface with interactions, but these get really hard
+# to interpret, so this is more for fun.
+
+# I'm not good at plotly so there's absolutely a better way to do this
+# when C is high we see the surface in red
+# When C is low we see the surface in blue
+
+plot_ly() %>% 
+  add_surface(x = c(-1, 1), y = c(-1, 1), z = ~myZ.CPos, colorscale = list(c(0, 1), c('rgb(255, 0, 0', 'rgb(255, 0, 0)'))) %>% 
+  add_surface(x = c(-1, 1), y = c(-1, 1), z = ~myZ.CNeg, colorscale = list(c(0, 1), c('rgb(0, 0, 255', 'rgb(0, 0, 255)'))) %>% 
+  layout(scene = list(
+    xaxis = list(title = 'A'),
+    yaxis = list(title = 'B'),
+    zaxis = list(title = 'Mean Response')
+  ))
+
+```
+
+
+# Conceptual
+
+## Combinatorics
+
+For a 6 factor, full factorial ($2^6$) design, with factors A, B, C, D, E, F and levels -1 and 1:
+
+1. How many treatment combinations are there?
+
+```{r}
+# there are 2^6
+2^6
+```
+
+2. What is the total number of factors and interaction effects?
+
+Recall that $\sum_{k = 0}^{n} \binom{n}{k} = 2^n$.  But we will not have a "no factor effect" so we can subtract one
+
+```{r}
+# The toal number of factors and interaction effects is the sum of 6 choose k where n ranges from 1 to 6.  
+2^6 - 1
+# There are 63
+
+# We can confirm this manually if desired
+choose(6, 1) + choose(6, 2) + choose(6, 3) + choose(6, 4) + choose(6, 5) + choose(6, 6)
+```
+
+3. What are the levels for each factor for the treatment combination:
+    * `(1)`
+    * `ab`
+    * `c`
+    * `def`
+
+```{}
+(1): A = B = C = D = E = F = -1
+ab: A = B = 1, C = D = E = F = -1
+c: C = 1, A = B = D = E = F = -1
+def: A = B = C = -1, D = E = F = 1
+```
+
+4. What is the "product" of:
+    * ABC and BCD?
+    * AB, ACE, ADEF?
+    
+```{}
+ABC*BCD = A(B^2)CD = ACD
+AB*ACE*ADEF = (A^3)BCD(E^2)F = ABCDF
+```

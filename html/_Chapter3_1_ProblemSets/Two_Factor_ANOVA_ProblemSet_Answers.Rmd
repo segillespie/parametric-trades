@@ -1,0 +1,195 @@
+---
+title: "Two Factor ANOVA Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the section on two factor ANOVA in the course https://doe.dscoe.org.  
+
+For this problem set, we will use the following packages:
+
+```{r, warning = F, message = F}
+library(tidyverse)
+```
+
+# Weapon System
+
+In this problem, you are an analyst developing requirements for a future soldier weapon.  You have a physics simulation that incorporates the input data for both the weapon system and the range the system is employed at.  It provides the number of targets hit as an output.  The data is available as <a href = '/_Chapter3_1_ProblemSets/weapon_range.csv'> weapon_range.csv </a>. 
+
+## Read the Data
+
+Read the data, format it as required, and identify the factors, levels, and numbers of replicates.
+
+```{r}
+# Read the data
+wr <- read.csv('./weapon_range.csv')
+# Ensuring you keep the range and weapon system as a factor vs. a number 
+# Enables more appropriate visualization
+wr$Range <- as.factor(wr$Range)
+wr$Weapon <- as.factor(wr$Weapon)
+
+summary(wr)
+# Factor A: Range with 3 levels
+# Factor B: Weapon with 3 levels
+# There are 6 replicates per treatment combination
+```
+
+## Visualize the Data
+
+Produce trace-plots of the mean number of targets engaged as a function of both the weapon and the range.  What do you observe based on these?
+
+```{r, warning = F}
+# Produce a trace plot.  You can do this in a number of ways, on the example I
+# powered through with formatting the data to get the means and then using geom_point and geom_segement
+# but these stat summary functions are super useful
+
+# This provides you with the x and y axis; you need the group aesthetic to appropriately 
+# do the grouping for the summary statistics
+ggplot(data = wr, aes(x = Weapon, y = Targets, color = Range, group = Range)) + 
+  # Plot the means as points
+  stat_summary(fun = 'mean') +
+  # "Connect the dots
+  stat_summary(fun = 'mean', geom = 'line')
+
+# This is the same plot, but with 
+ggplot(data = wr, aes(x = Range, y = Targets, color = Weapon, group = Weapon)) + 
+  stat_summary(fun = 'mean') + 
+  stat_summary(fun = 'mean', geom = 'line')
+
+# We see rather clearly that there is an interaction effect between range and weapon system
+
+```
+
+## Conduct the ANOVA
+
+Conduct a two-factor ANOVA for this analysis, check your assumptions, and draw relevant conclusions.
+
+```{r}
+wr.aov <- aov(Targets ~ Range + Weapon + Range:Weapon, data = wr)
+summary(wr.aov)
+
+# Clearly both factors and their interaction have an impact on the 
+# number of targets engaged.
+
+plot(wr.aov)
+
+# It appears that we meet the assumptions of independent, normally distributed, and homoskedatic errors
+# Let's check numerically:
+
+# Normality
+shapiro.test(wr.aov$residuals)
+# We fail to reject the null that the residuals are normally distributed
+
+# Homoskedasticity
+bartlett.test(wr.aov$residuals, wr$Range)
+bartlett.test(wr.aov$residuals, wr$Weapon)
+# These both pass the test at an alpha of .05.  Given the relatively small number of replicates, 
+# it's probably safe to assume constant variance
+
+
+
+```
+
+
+# Tank Gunnery Problem
+
+You are conducting a study assessing the utility of a sensor for a tank.  There are three possible choices for the sensor: "Gen 1", "Gen 2", and "Gen 3".  You have a human in the loop simulation where users can virtually conduct a tank gunnery.  As you know the abilities of gunners can vary greatly, you randomly select five gunners out of a tank battalion and name them "A", "B", "C", "D", "E" and have them conduct the gunnery in your simulation.  You provide each gunner with a random order to conduct the simulations.  Each gunner does each simulation four times.  You measure their probability of hit in the simulation.  Your data is contained in <a href = '/_Chapter3_1_ProblemSets/gunnery.csv'> gunnery.csv </a>.
+
+## Conceptual
+
+What type of model is this?
+
+```{}
+This is a two factor, mixed-effects model
+```
+
+What are your factors and the levels?
+
+```{}
+Factor 1: The sensor with 3 x levels: Gen 1, Gen 2, Gen 3 (Fixed).
+Factor 2: The gunner.  We had 5 randomly selected levels out of a larger population.
+The interaction Factor 1 x Factor 2: There are 15 levels of the interaction.
+```
+
+## Read and Format the Data
+
+```{r, echo = F}
+# Included for future reference
+# 
+# gunnery <- data.frame(Sensor = rep(rep(c('Gen 1', 'Gen 2', 'Gen 3'), 5), 4),
+#                       Gunner = rep(c(rep('A', 3), rep('B', 3), rep('C', 3), rep('D', 3), rep('E', 3)), 4)
+#                       )
+# 
+# set.seed(3)
+# gunnery$Error <- rnorm(nrow(gunnery), 0, .1)
+# 
+# gunnery <- gunnery %>%
+#   mutate(Sensor.Effect = case_when(Sensor == 'Gen 1' ~ -.2, Sensor == 'Gen 2' ~ 0, Sensor == 'Gen 3' ~ .2)) %>%
+#   mutate(Gunner.Sensor.Effect = ifelse(Gunner == 'B' & Sensor == 'Gen 3', .2, 0)) %>%
+#   mutate(Gunner.Sensor.Effect = ifelse(Gunner == 'C' & Sensor == 'Gen 1', .2, Gunner.Sensor.Effect)) %>% 
+#   mutate(Percent.Kills = round(.5 + Sensor.Effect + Gunner.Sensor.Effect + Error, 3)) %>% 
+#   mutate(Percent.Kills = ifelse(Percent.Kills > 1, 1, Percent.Kills))
+# 
+# write.csv(select(gunnery, Sensor, Gunner, Percent.Kills), './gunnery.csv', row.names = F)
+```
+
+```{r}
+# Read the csv and format as factors
+gunnery <- read.csv('./gunnery.csv')
+gunnery$Sensor <- as.factor(gunnery$Sensor)
+gunnery$Gunner <- as.factor(gunnery$Gunner)
+head(gunnery)
+```
+
+## Visualize the Data with Trace Plots
+
+Produce trace plots for each factor.  Interpret your results.
+
+```{r}
+ggplot(data = gunnery, aes(x = Sensor, y = Percent.Kills, color = Gunner, group = Gunner)) + 
+  stat_summary(fun = 'mean') + 
+  stat_summary(fun = 'mean', geom = 'line')
+
+# Based on this it looks as though the choice of sensor has a clear effect.  
+# It's hard to say if the actual gunner matters that much, except perhaps 
+# there is a significant interaction between gunner B and sensor 3 and 
+# between gunner C and sensor 1
+
+ggplot(data = gunnery, aes(x = Gunner, y = Percent.Kills, color = Sensor, group = Sensor)) + 
+  stat_summary(fun = 'mean') + 
+  stat_summary(fun = 'mean', geom = 'line')
+
+# This plot mirrors the analysis seen in the other plots
+```
+
+## ANOVA
+
+Conduct the ANOVA, check your assumptions, and analyze your results.
+
+```{r}
+gunnery.aov <- aov(Percent.Kills ~ . + .:., data = gunnery)
+summary(gunnery.aov)
+# We see that both the sensor and interaction are signifcant at alpha = .05
+
+plot(gunnery.aov)
+# The plots do not give us any indication that our data 
+# is not normally distributed, heteroskedatic, or dependent
+
+# Normality
+shapiro.test(gunnery.aov$residuals)
+# Our residuals are normally distributed by a shaprio wilk test
+
+# Homoskedasticity
+bartlett.test(gunnery.aov$residuals, gunnery$Sensor)
+bartlett.test(gunnery.aov$residuals, gunnery$Gunner)
+# We may have some deaprtures from heoskedasticity, but its not clear...
+```
+

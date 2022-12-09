@@ -1,0 +1,9 @@
+body { font-family: Arial, 'Calibri', sans-serif; }
+h1, h2, h3 {
+  font-family: Arial, 'Calibri', sans-serif;
+  font-weight: normal;
+}
+.remark-code, .remark-inline-code { 
+  font-family: 'Lucida Console', Monaco, monospace; 
+  font-size: 12px;
+}

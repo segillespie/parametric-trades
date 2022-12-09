@@ -1,0 +1,85 @@
+---
+title: "Introduction to Factorial Designs Problem Set - 2^K Designs"
+output: 
+    html_document:
+      number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+# Half Fractional Question
+
+*Note, this problem is adapted from Montgomery 2017, Question 8.10*
+
+You have an experiment with five factors, A, B, C, D, and E.  You ran three replicates of each of 16 treatment combinations.  Your results are contained in <a href = '/_Chapter4_ProblemSets/montgomery_8_10.csv'> montgomery_8_10.csv </a>.  
+
+## Read and Format the Data as Required
+
+```{r}
+#Answer here
+```
+
+## Understand the Design
+
+1. Write out the alias structure of this design.
+
+```{r}
+#Answer here
+```
+
+```
+#Answer here
+```
+
+2. What is the design generator?  What is the defining relation?  Is this a principal or alternate fraction?
+
+```
+#Answer here
+```
+
+## Analyze the Results
+
+1. Visualize the main effects and interpret your results
+
+```{r}
+#Answer here
+```
+
+2. Visualize 2nd order interaction effects.
+
+```{r}
+#Answer here
+```
+
+3. Calculate the effect for each main and second order effect:
+
+```{r}
+#Answer here
+```
+
+4. Plot the effects on a normal probability plot.
+
+```{r}
+#Answer here
+```
+
+5. Based on your visualization and effects analysis, what do you conclude?
+
+```
+#Answer here
+```
+
+# Conceptual Question
+
+If you are in a scenario in which you have many factors, each at two levels, but only a fixed number of possible runs, does it make more sense to:
+
+* Do a full factorial experiment with only a single replicate of each treatment combination?
+* Do a fractional factorial experiment with multiple replicates of the tested treatment combinations?
+
+```
+#Answer here
+```

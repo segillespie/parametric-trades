@@ -1,0 +1,306 @@
+---
+title: "Chapter 2: Descriptive Statistics - Problem Set"
+author: "Your Name Here"
+date: "Your Date Here"
+output: 
+  html_document:
+    number_sections: true
+    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This tutorial is intended to allow people to practice producing and interpreting descriptive statistics and figures.  We use the Ames, Iowa data set as described in: http://jse.amstat.org/v19n3/decock.pdf.  The actual data set is contained in this folder for your convenience.
+
+This tutorial assumes some base familiarity with ggplot and the tidyverse.  If you do not have that, please see previous lessons or google.
+For building nice plots, the *R Graphics Cookbook* by Winston Chang is a useful reference: https://r-graphics.org/
+More generally, if I don't know how to plot something, I google it and find the answer on someone's stackexchange or something like that.
+
+For this tutorial, we will use the following packages:
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+# Step 1: Read the Data
+
+We want to take the data from its source (in this case, a .csv) and convert it into an *R* object.
+
+
+```{r}
+# One useful way to do this is with the rio package
+ames <- rio::import('./ames.csv')
+
+# One can also use read.csv or read.csv2 to read ames data
+ames.read.csv <- read.csv2('./ames.csv', sep = ',', stringsAsFactors = F)
+
+# Both results are valid, note that there are differing defaults in how strings are read with differing commands.  For convenience, I'm going to remove ames.read.csv
+rm(ames.read.csv)
+```
+
+## Get an Understanding of the Data:
+
+1. Look at the top several rows of the data (hint head()).
+
+
+```{r}
+# head() is a nice way to look at the top several rows of a data set.  It gives you a quick idea as to what you're looking at
+head(ames)
+```
+
+2. Find out how many fields (columns) and records (rows) exist in the data. (Note, there are many ways to do this).
+
+
+```{r}
+# Number of records (rows)
+nrow(ames)
+
+# Number of fields (columns)
+ncol(ames)
+
+# Alternative; you just have to know that dim produces rows then columns when the object passed is a data.frame
+dim(ames)
+```
+
+3. Identify what the fields are and learn something about them.
+
+
+```{r}
+# One way to do this is to look at the columnnames
+colnames(ames)
+
+# Another way to do this is to use the str() command.  It shows you both the columns and their datatypes
+str(ames)
+
+# Finally, summary is useful, particularly when you have numeric data.
+summary(ames)
+```
+
+4. Determine the number of rows that are missing at least one data record (i.e., the number of rows with an NA).
+
+
+```{r}
+# First, consider what it means for a data point to be an NA
+head(is.na(ames)) # we only want to look at the first few rows of this output, so we wrap the query in head().  We can also change the global  option: options(max.print = N) where N is the number of rows you want to print
+
+# Second you can sum this by rows (recall if you sum boolean values, T is given the value 1 and false is given the value 0, NA is given the value NA)
+# the rowSums function is a nice one
+head(rowSums(is.na(ames)))
+
+# This does not tell you the total number of rows that have NAs, so we can summarize it:
+# one way is to do a boolean test against the above set of numbers and then sum that test
+sum(rowSums(is.na(ames)) > 0)
+
+# A nice alternative is the summary function which tells us something about how the number of NAs are distributed across the rows
+summary(rowSums(is.na(ames)))
+
+# We can do a similar set of analysis with colSums()
+colSums(is.na(ames))
+```
+
+At this point, you have to make some decision about your data (e.g., drop incomplete records, provide a standard fill to incomplete records, or something else).  We're not going to do that however.
+
+## Select the appropriate data
+
+Select the columns: "SalePrice" and "House.Style" and remove the rest.  We're only going to look at these for the rest of this section.
+
+
+```{r}
+# Option 1: Indexing
+ames.base <- ames[,c('SalePrice', 'House.Style')]
+
+# Option 2: dplyr
+ames.dplyr <- dplyr::select(ames, SalePrice, House.Style)
+
+# Option 3: dplyr with piping
+library(dplyr)
+ames.dplyr2 <- ames %>% select(SalePrice, House.Style)
+
+# Since we only need one of these, I'll delete them all and just save over the ames data with only the two selected columns
+rm(ames.base, ames.dplyr, ames.dplyr2)
+ames <- dplyr::select(ames, SalePrice, House.Style)
+```
+
+Ensure that SalePrice is numeric and House.Style is a factor
+
+
+```{r}
+# We see SalePrice is an integer which is fine, but House.Style is a character, which we want to convert to a factor
+str(ames)
+
+# Convert ames$House.Style to a factor
+ames$House.Style <- as.factor(ames$House.Style)
+
+# Check out the difference
+str(ames)
+```
+
+# Step 2. Continuous Data Descriptions
+
+Find the maximum, minimum, median, mean, and standard deviation of the sale prices.
+
+
+```{r}
+# Maximum:
+max(ames$SalePrice)
+
+# Minimum
+min(ames$SalePrice)
+
+# Median
+median(ames$SalePrice)
+
+# Mean
+mean(ames$SalePrice)
+
+# Alternatively, one can get all of this very quickly using the summary function
+summary(ames$SalePrice)
+
+# Get the standard deviation of the data
+sd(ames$SalePrice)
+```
+
+Build & plot a probability distribution (pdf) of the ames data.
+
+
+```{r}
+# The density function provides an approximation to the probability distribution function:
+ames.density <- density(ames$SalePrice)
+
+# The density function outputs an x value (in this case, the Sale Price)
+head(ames.density$x)
+
+# The density functino outputs a y value (in this case, the probability)
+head(ames.density$y)
+
+# You can plot this:
+ggplot() + 
+    geom_line(aes(x = ames.density$x, y = ames.density$y)) + 
+    xlab('Housing Price ($)') + 
+    ylab('Probability') + 
+    ggtitle('Probability Distribution Function for Ames Sale Prices') 
+```
+
+Build an empirical cumulative density function, plot it, and find the probability that a house costs between $100,000 and $150,000
+
+
+```{r}
+ames.cdf <- ecdf(ames$SalePrice)
+
+# Create a vector of costs
+cost <- seq(0, 750000, by = 10000)
+# Calculate their cumulative probability (percentile)
+cum.prob <- ames.cdf(cost)
+# Plot it
+ggplot() + 
+    geom_line(aes(x = cost, y = cum.prob)) + 
+    ggtitle('CDF for Ames, Iowa House Sales') + 
+    xlab('Cost ($)') + ylab('Percentile')
+
+# You can assess the probability that a house will cost in a range by calculating the difference of the percentiles of the two numbers:
+ames.cdf(150000) - ames.cdf(100000)
+# It's about 35%
+```
+
+Find what the sale prices are for the 0, 10, 20, ... percentiles (i.e. the quantiles)
+
+
+```{r}
+# The quantile function is very useful.  You can pass it an arbitrary vector
+quantile(ames$SalePrice, c(0, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1))
+
+
+# Note that ecdf and quantile are effectively inverses of each other (up to rounding errors)
+quantile(ames$SalePrice, ecdf(ames$SalePrice)(100000))
+```
+
+Visualize the data using a boxplot, density plot, histogram
+
+
+```{r}
+# Box plot, note we are not varying by any other data type
+ggplot(data = ames) + geom_boxplot(aes(x = '', y = SalePrice))
+
+# Density plot (note this is the same as what we saw when we plotted the results of Density)
+ggplot(data = ames) + geom_density(aes(x = SalePrice))
+
+# Histogram
+ggplot(data = ames) + geom_histogram(aes(x = SalePrice))
+```
+
+# Step 3. Categorical Data Description
+For this section, note that House.Style is a categorical (in R, it is called a factor) variable.
+
+What are the number of categories (levels) of the factor.  How many records are in each level
+
+
+```{r}
+# You can find the names of the levels for the variable with levels()
+levels(ames$House.Style)
+
+# Note that the summary function treats a factor different than a numeric data type.  It returns the levels and the number 
+# of observations for each level
+summary(ames$House.Style)
+```
+
+Plot the number of instances of each level in as a bar chart
+
+
+```{r}
+# Plot as a bar chart 
+ggplot(data = ames) + geom_bar(aes(x = House.Style))
+```
+
+Plot the levels as a pie chart (this can be a bit tricky, I always end up googling how to do it)
+
+
+```{r}
+# It's helpful to turn this into a single data frame where the number of records for each level is recorded
+ames.levels <- ames %>% group_by(House.Style) %>% summarize(N = n())
+ggplot(data = ames.levels) + # we are using the ames.levels data we just created
+    geom_bar(aes(x='', y = N, fill = House.Style), stat = 'identity') + # we're building a bar chart that: 
+                                                                        # 1) has no x axis (everything on top of everything else), 
+                                                                        # 2) uses the N column for its y axis, and 
+                                                                        # 3) colors the fill of values based on the house style
+    coord_polar('y', start = 0) # This changes the y coordinates from your normal linear to a polar type
+
+
+ames.levels
+```
+
+# Step 4. Describe a mix of continuous and categorical data
+
+Produce a boxplot chart where the x axis is the type of house
+
+
+```{r}
+ggplot(data = ames) + 
+    geom_boxplot(aes(x = House.Style, y = SalePrice))
+```
+
+Produce multiple histograms where each chart is for a distinct house style
+
+
+```{r}
+ggplot(data = ames) + 
+    geom_histogram(aes(x = SalePrice)) + 
+    facet_wrap(~House.Style)
+```
+
+Produce a density plot where each house type is colored differently and overlayed on top of the other
+
+
+```{r}
+ggplot(data = ames) + 
+    geom_density(aes(x = SalePrice, color = House.Style), fill = NA)
+```
+
+# Conclusion
+
+At the end of this lesson you should be able to describe continuous and categorical data numerically and graphically.  There are many, many ways to describe data, this tutorial only covered a small sample.  I recommend you practice plotting in different ways using ggplot (or your other favorite plotting package, e.g., plotly, bokeh, or even base R).  If you

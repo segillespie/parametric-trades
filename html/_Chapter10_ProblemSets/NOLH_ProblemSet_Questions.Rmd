@@ -1,0 +1,152 @@
+---
+title: "NOLH Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the chapter on advanced designs in the course https://doe.dscoe.org. The solutions for this problem set use the following packages; however, you may use whatever packages you prefer.
+
+```{r, warning = F, message = F}
+library(tidyverse)
+library(GGally)
+library(readr)
+#library(readxl)
+#library(scales)
+#library(faraway)
+```
+
+# NOLH Design
+
+<a href = "https://nps.edu/web/seed/software-downloads">Download</a> the Excel file to create Cioppa's nearly orthogonal Latin hypercube (NOLH) designs and read the readme tab. Then, create a 17-point design for the following factors and ranges of values (note the decimal places):
+
+* speed: 20.0 to 50.0 KPH
+* range: 200 to 300 km
+* weight: 45.00 to 50.00 tons
+
+Save your design, read the file into a dataframe, and display the dataframe.
+
+```{r}
+# Answer here.
+```
+
+## Pairs Plot
+
+Produce a pairs plot.
+
+```{r}
+# Answer here.
+```
+
+## Integers
+
+Treat the weight factor as an integer and re-generate and re-plot the design. What did you notice? 
+
+```{r}
+# Answer here.
+```
+
+## Factor Codings
+
+On the third tab, `OLH for up to 7 factors`, look at the formula in one of the yellow cells. The formula is pointing to factor codings on a hidden sheet. Right-click on the third tab and unhide the `coded OLH for 7 or fewer` tab. Read the information in the text box to see how the coding works and how the columns are chosen based on the number of factors in your design. Ingest these codings any way you can (you can just type them in an *R* session, but it would be best to use *R* to read the file to reduce the chance of typos). Then, refer to the formula in the yellow cells on the third tab, and re-create your design based on the factor codings and the formula.
+
+```{r}
+# Answer here.
+```
+
+# 2nd Order NOLH
+
+Download the tool to create MacCalman's designs. Go through the user's manual to learn how to use the tool. Then, create a design with the following factors and levels (note this will likely not work on a government-issued NIPR computer, but it will work on a TRAC MCN-S computer):
+
+* speed: 0.0 to 30.0 KPH
+* range: 200 to 300 km
+* sensor: EO/IR, 2G, 3G
+* manned: 0, 1
+
+Read the file into a dataframe, and display the dataframe.
+
+```{r}
+# Answer here.
+```
+
+## Multicollinearity
+
+The .csv file has some rows we don't need. Get rid of those rows, and then check for multicollinearity. What variance inflation factors (VIF) do you get for you design?
+
+```{r}
+# Answer here.
+```
+
+## Pairs Plot
+
+If you haven't already, re-scale the factors to their specified ranges, and then produce a pairs plot.
+
+```{r}
+# Answer here.
+```
+
+## Design Characteristics
+
+How many design points did you select? If you want to evaluate all first order effects and two-way interactions, how many degrees of freedom does your design have?
+
+```{r}
+# Answer here.
+```
+
+## Hyperparameter Tuning
+
+Latin hypercube-based designs are a good choice for studies like Army modernization program requirements analysis and for use in response surface methodology. Since we covered that ground in the previous problem set using central composite designs, we'll instead apply a NOLH design to a hyperparameter tuning problem. 
+
+Many machine learning methods require the analyst to select initial values for various hyperparameters prior to implemeting the machine learning algorithm. The performance of the resulting machine learning model is sometimes highly sensitive to the choice of hyperparameter values. Often there are only rough rules of thumb for selecting hyperparameter values, and so analysts must rely on experience, instinct, and perhaps a bit of luck. Techniques have been developed for exploring the impacts of choices in hyperparameter values, and this process is known as hyperparameter tuning. One such technique is called a grid search where ranges of values are selected for each hyperparameter, values are selected at regular intervals between the minimums and maximums, and each combination is tested. This should sound familiar because the technique is a gridded design, which by now should cause you to cringe. 
+
+For this next problem, we'll use an NOLH design to efficiently tune five notional hyperparameters: $\alpha$, $\beta$, $\delta$, $\eta$, and $\gamma$ (because machine learning practitioners love Greek letters as much as everyone else). For simplicity, we'll say that each hyperparameters is a continuous number between 0 and 1. 
+
+### Pairs Plot
+
+Since the machine learning algorithms can be sensitive to our choice of hyperparameter value, create an NOLH design for these five hyperparameters with at least 1,000 design points. Ensure your columns are named alpha, beta, delta, eta, and gamma. Produce a pairs plot of your design.
+
+```{r message=FALSE, warning=FALSE}
+# Answer here.
+```
+
+### Get Results
+
+Save your design as a .csv file, and upload it to the <a href="https://cxxidemo.shinyapps.io/AWARSLite/">Combat Simulator</a> Shiny app. Instead of running a combat simulation for this design matrix, the Shiny app will calculate the machine learning model error and return those errors as the response variable. In the app, navigate to the tab titled "NOLH Problem Set", upload your .csv file, and then download the results. 
+
+Next, read the data into *R*, and plot a histogram of the error. How does the error distribution look? For this to be a useful technique, we'd like to see a reasonable proportion of the error terms near zero.
+
+```{r}
+# Answer here.
+```
+
+### Lowest Error
+
+What was the lowest error you measured, and what were the associated hyperparameter values?
+
+```{r}
+# Answer here.
+```
+
+### Ground Truth
+
+The hyperparameter values that will actually produce the lowest error are:
+
+* $\alpha$: 0.2016819
+* $\beta$: 0.8983897
+* $\delta$: 0.9446753
+* $\eta$: 0.6607978
+* $\gamma$: 0.6291140
+
+How close were your results to these values? 
+
+```{r}
+# Answer here.
+```
+

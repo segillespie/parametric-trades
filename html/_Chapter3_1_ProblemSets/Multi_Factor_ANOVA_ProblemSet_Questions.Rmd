@@ -1,0 +1,83 @@
+---
+title: "Multi Factor ANOVA Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the section on multi factor ANOVA in the course https://doe.dscoe.org.  
+
+For this problem set, we will use the following packages:
+
+```{r, warning = F, message = F}
+library(tidyverse)
+library(ggpubr) # Note, we haven't used it yet in the course, but its a convenient package for combining multiple plots
+```
+
+
+# Simulation
+
+You are an analyst working on a top secret program and are given the file <a href = '/_Chapter3_1_ProblemSets/multi_factor.csv'> multi_factor.csv </a> to analyze.^[The reality is, this was data from an industrial application of silicon wafers, but who cares about that?]  The data shows the results for a simulation where four factors, A, B, C, and D are measured at a "low" (represented as -1) and "high" (represented as 1) level and their response is as indicated.  There was only one replicate for each treatment combination^[We have not yet introduced this term, but this is the combination of the levels of each factor for an experiment / simulation run.  For example, Factor A, Factor B, Factor C, Factor D all set to "-1" is one treatment combination.]
+
+## Input the Data
+
+Read the data and clean it as necessary.
+
+```{r}
+# Answer here
+```
+
+## Visualize the Data
+
+Plot the data in a way that allows you to understand something about the effects (main or interaction) of the factors.  Interpret your results.
+
+Note - we are dealing with five dimensional data (the Response and factors A, B, C, and D); there will be many ways to view this.
+
+```{r}
+# Answer here
+```
+
+## Conduct ANOVA
+
+Conduct an four ANOVAs on this data:
+
+* One where you only consider the main effects.
+* One where you consider the main effects and all two-way interactions.
+* One where you consider the above plus all three-way interactions.
+* One where you consider the above plus the four-way interaction.
+
+For each ANOVA, identify the factors you would consider significant.  Use $\alpha = .05$ for your analysis.
+
+```{r}
+# Answer here
+```
+
+What did you notice about:
+
+* The p-values for the factors you initially considered significant.
+* The degrees of freedom available for the residuals.
+
+```{}
+# Answer here
+```
+
+Why might there be a change?  (No need to explain this mathematically precisely, just conceptually).
+
+```{}
+# Answer here
+```
+
+## Pick a Model
+
+Choose one model, explain why you chose this, and check its assumptions.
+
+```{r}
+# Answer here
+```

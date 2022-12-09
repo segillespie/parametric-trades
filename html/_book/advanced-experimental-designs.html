@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>10 Advanced Experimental Designs | Design of Experiments for Modeling and Simulation</title>
+  <meta name="description" content="10 Advanced Experimental Designs | Design of Experiments for Modeling and Simulation" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="10 Advanced Experimental Designs | Design of Experiments for Modeling and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="10 Advanced Experimental Designs | Design of Experiments for Modeling and Simulation" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="application-of-doe-to-the-advanced-warfighting-simulation.html"/>
+<link rel="next" href="non-parametric-regression.html"/>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.17/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="https://doe.dscoe.org/">DoE for M&S</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction to DOE for M&amp;S</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#background."><i class="fa fa-check"></i><b>1.1</b> Background.</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#mission."><i class="fa fa-check"></i><b>1.2</b> Mission.</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#simulation-analysis."><i class="fa fa-check"></i><b>1.2.1</b> Simulation Analysis.</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#enduring-resource."><i class="fa fa-check"></i><b>1.2.2</b> Enduring Resource.</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#community."><i class="fa fa-check"></i><b>1.2.3</b> Community.</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#concept."><i class="fa fa-check"></i><b>1.3</b> Concept.</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#training-concept"><i class="fa fa-check"></i><b>1.4</b> Training Concept</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="index.html"><a href="index.html#lessons."><i class="fa fa-check"></i><b>1.4.1</b> Lessons.</a></li>
+<li class="chapter" data-level="1.4.2" data-path="index.html"><a href="index.html#projects."><i class="fa fa-check"></i><b>1.4.2</b> Projects.</a></li>
+<li class="chapter" data-level="1.4.3" data-path="index.html"><a href="index.html#assessments."><i class="fa fa-check"></i><b>1.4.3</b> Assessments.</a></li>
+<li class="chapter" data-level="1.4.4" data-path="index.html"><a href="index.html#curriculum."><i class="fa fa-check"></i><b>1.4.4</b> Curriculum.</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#community-concept"><i class="fa fa-check"></i><b>1.5</b> Community Concept</a></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#admin"><i class="fa fa-check"></i><b>1.6</b> Admin</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#contact"><i class="fa fa-check"></i><b>1.6.1</b> Contact</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#errors"><i class="fa fa-check"></i><b>1.6.2</b> Errors</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#resources"><i class="fa fa-check"></i><b>1.6.3</b> Resources</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a><ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#introduction-to-r---part-i"><i class="fa fa-check"></i><b>2.1</b> Introduction to R - Part I</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#objectives-1"><i class="fa fa-check"></i><b>2.1.1</b> Objectives</a></li>
+<li class="chapter" data-level="2.1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#task-1---read-chapter-1-and-install-tidyverse"><i class="fa fa-check"></i><b>2.1.2</b> Task 1 - Read Chapter 1 and Install Tidyverse</a></li>
+<li class="chapter" data-level="2.1.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-operations"><i class="fa fa-check"></i><b>2.1.3</b> Basic Operations</a></li>
+<li class="chapter" data-level="2.1.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#variable-types"><i class="fa fa-check"></i><b>2.1.4</b> Variable Types</a></li>
+<li class="chapter" data-level="2.1.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-structures"><i class="fa fa-check"></i><b>2.1.5</b> Data Structures</a></li>
+<li class="chapter" data-level="2.1.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#relational-and-logical-operators"><i class="fa fa-check"></i><b>2.1.6</b> Relational and Logical Operators</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#introduction-to-r---part-ii"><i class="fa fa-check"></i><b>2.2</b> Introduction to R - Part II</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#reading-tasks"><i class="fa fa-check"></i><b>2.2.1</b> Reading Tasks</a></li>
+<li class="chapter" data-level="2.2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#problem-set"><i class="fa fa-check"></i><b>2.2.2</b> Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="statistics-review.html"><a href="statistics-review.html"><i class="fa fa-check"></i><b>3</b> Statistics Review</a><ul>
+<li class="chapter" data-level="3.1" data-path="statistics-review.html"><a href="statistics-review.html#introduction"><i class="fa fa-check"></i><b>3.1</b> Introduction</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="statistics-review.html"><a href="statistics-review.html#resources-1"><i class="fa fa-check"></i><b>3.1.1</b> Resources</a></li>
+<li class="chapter" data-level="3.1.2" data-path="statistics-review.html"><a href="statistics-review.html#organization"><i class="fa fa-check"></i><b>3.1.2</b> Organization</a></li>
+<li class="chapter" data-level="3.1.3" data-path="statistics-review.html"><a href="statistics-review.html#poc"><i class="fa fa-check"></i><b>3.1.3</b> POC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics"><i class="fa fa-check"></i><b>3.2</b> Descriptive Statistics</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---description"><i class="fa fa-check"></i><b>3.2.1</b> Descriptive Statistics - Description</a></li>
+<li class="chapter" data-level="3.2.2" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---tutorial"><i class="fa fa-check"></i><b>3.2.2</b> Descriptive Statistics - Tutorial</a></li>
+<li class="chapter" data-level="3.2.3" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---problem-set"><i class="fa fa-check"></i><b>3.2.3</b> Descriptive Statistics - Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts"><i class="fa fa-check"></i><b>3.3</b> Statistical Concepts</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---description"><i class="fa fa-check"></i><b>3.3.1</b> Statistical Concepts - Description</a></li>
+<li class="chapter" data-level="3.3.2" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---tutorial"><i class="fa fa-check"></i><b>3.3.2</b> Statistical Concepts - Tutorial</a></li>
+<li class="chapter" data-level="3.3.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---problem-set"><i class="fa fa-check"></i><b>3.3.3</b> Statistical Concepts - Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference"><i class="fa fa-check"></i><b>3.4</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---description"><i class="fa fa-check"></i><b>3.4.1</b> Statistical Inference - Description</a></li>
+<li class="chapter" data-level="3.4.2" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---tutorial"><i class="fa fa-check"></i><b>3.4.2</b> Statistical Inference - Tutorial</a></li>
+<li class="chapter" data-level="3.4.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---conclusion"><i class="fa fa-check"></i><b>3.4.3</b> Statistical Inference - Conclusion</a></li>
+<li class="chapter" data-level="3.4.4" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---problem-set"><i class="fa fa-check"></i><b>3.4.4</b> Statistical Inference - Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html"><i class="fa fa-check"></i><b>4</b> Analysis of Variance (ANOVA)</a><ul>
+<li class="chapter" data-level="4.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#introduction-1"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-overview"><i class="fa fa-check"></i><b>4.2</b> ANOVA Overview</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#motivation"><i class="fa fa-check"></i><b>4.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#broad-concept"><i class="fa fa-check"></i><b>4.2.2</b> Broad Concept</a></li>
+<li class="chapter" data-level="4.2.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#terminology"><i class="fa fa-check"></i><b>4.2.3</b> Terminology</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.3</b> Single Factor, Fixed Effects ANOVA</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#example"><i class="fa fa-check"></i><b>4.3.1</b> Example</a></li>
+<li class="chapter" data-level="4.3.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#model"><i class="fa fa-check"></i><b>4.3.2</b> Model</a></li>
+<li class="chapter" data-level="4.3.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-anova-assumptions"><i class="fa fa-check"></i><b>4.3.3</b> Single Factor ANOVA Assumptions</a></li>
+<li class="chapter" data-level="4.3.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#conducting-single-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.3.4</b> Conducting Single Factor (Fixed Effects) ANOVA</a></li>
+<li class="chapter" data-level="4.3.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-fixed-effects-anova-problem-set"><i class="fa fa-check"></i><b>4.3.5</b> Single Factor, Fixed Effects ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-random-effects-model"><i class="fa fa-check"></i><b>4.4</b> Single Factor, Random Effects Model</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-random-effects-problem-set"><i class="fa fa-check"></i><b>4.4.1</b> Single Factor, Random Effects Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#two-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.5</b> Two Factor, Fixed Effects ANOVA</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#including-interaction-effects"><i class="fa fa-check"></i><b>4.5.1</b> Including Interaction Effects</a></li>
+<li class="chapter" data-level="4.5.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#two-factor-anova-problem-set"><i class="fa fa-check"></i><b>4.5.2</b> Two Factor ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-for-more-than-two-factors"><i class="fa fa-check"></i><b>4.6</b> ANOVA For More Than Two Factors</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multi-factor-anova-problem-set"><i class="fa fa-check"></i><b>4.6.1</b> Multi-Factor ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons"><i class="fa fa-check"></i><b>4.7</b> Multiple Comparisons</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-example"><i class="fa fa-check"></i><b>4.7.1</b> Tukey Test Example</a></li>
+<li class="chapter" data-level="4.7.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-in-r"><i class="fa fa-check"></i><b>4.7.2</b> Tukey Test in R</a></li>
+<li class="chapter" data-level="4.7.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-multiple-factors"><i class="fa fa-check"></i><b>4.7.3</b> Tukey Test, Multiple Factors</a></li>
+<li class="chapter" data-level="4.7.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons-problem-set"><i class="fa fa-check"></i><b>4.7.4</b> Multiple Comparisons Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-summary"><i class="fa fa-check"></i><b>4.8</b> ANOVA Summary</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#how-to-calculate-anova"><i class="fa fa-check"></i><b>4.8.1</b> How to Calculate ANOVA</a></li>
+<li class="chapter" data-level="4.8.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-hypothesis-tests"><i class="fa fa-check"></i><b>4.8.2</b> ANOVA Hypothesis Test(s)</a></li>
+<li class="chapter" data-level="4.8.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-assumptions"><i class="fa fa-check"></i><b>4.8.3</b> ANOVA Assumptions</a></li>
+<li class="chapter" data-level="4.8.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons-1"><i class="fa fa-check"></i><b>4.8.4</b> Multiple Comparisons</a></li>
+<li class="chapter" data-level="4.8.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#further-extensions-of-anova"><i class="fa fa-check"></i><b>4.8.5</b> Further Extensions of ANOVA</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html"><i class="fa fa-check"></i><b>5</b> Fundamentals of Design of Experiments</a><ul>
+<li class="chapter" data-level="5.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-2"><i class="fa fa-check"></i><b>5.1</b> Introduction</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#admin-1"><i class="fa fa-check"></i><b>5.1.1</b> Admin</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#doe-overview"><i class="fa fa-check"></i><b>5.2</b> DOE Overview</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#what-is-design-of-experiments"><i class="fa fa-check"></i><b>5.2.1</b> What is Design of Experiments?</a></li>
+<li class="chapter" data-level="5.2.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#why-design-experiments"><i class="fa fa-check"></i><b>5.2.2</b> Why Design Experiments?</a></li>
+<li class="chapter" data-level="5.2.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#strategies-for-experimental-design"><i class="fa fa-check"></i><b>5.2.3</b> Strategies for Experimental Design</a></li>
+<li class="chapter" data-level="5.2.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#history-and-applications-of-experimental-design"><i class="fa fa-check"></i><b>5.2.4</b> History and Applications of Experimental Design</a></li>
+<li class="chapter" data-level="5.2.5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#principles"><i class="fa fa-check"></i><b>5.2.5</b> Principles</a></li>
+<li class="chapter" data-level="5.2.6" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#guidelines"><i class="fa fa-check"></i><b>5.2.6</b> Guidelines</a></li>
+<li class="chapter" data-level="5.2.7" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-1"><i class="fa fa-check"></i><b>5.2.7</b> Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#factorial-designs"><i class="fa fa-check"></i><b>5.3</b> Factorial Designs</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-3"><i class="fa fa-check"></i><b>5.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.3.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#assessing-and-estimating-effects"><i class="fa fa-check"></i><b>5.3.2</b> Assessing and Estimating Effects</a></li>
+<li class="chapter" data-level="5.3.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#blocking"><i class="fa fa-check"></i><b>5.3.3</b> Blocking</a></li>
+<li class="chapter" data-level="5.3.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-2"><i class="fa fa-check"></i><b>5.3.4</b> Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#k-factorial-design"><i class="fa fa-check"></i><b>5.4</b> <span class="math inline">\(2^K\)</span> Factorial Design</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-4"><i class="fa fa-check"></i><b>5.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.4.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#coding-variables-and-effects-signs"><i class="fa fa-check"></i><b>5.4.2</b> Coding Variables and Effects Signs</a></li>
+<li class="chapter" data-level="5.4.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#estimating-effects-and-contrasts"><i class="fa fa-check"></i><b>5.4.3</b> Estimating Effects and Contrasts</a></li>
+<li class="chapter" data-level="5.4.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#unreplicated-2k-designs"><i class="fa fa-check"></i><b>5.4.4</b> Unreplicated <span class="math inline">\(2^K\)</span> Designs</a></li>
+<li class="chapter" data-level="5.4.5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-3"><i class="fa fa-check"></i><b>5.4.5</b> Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html"><i class="fa fa-check"></i><b>6</b> Fractional Factorial Designs</a><ul>
+<li class="chapter" data-level="6.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#introduction-5"><i class="fa fa-check"></i><b>6.1</b> Introduction</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#admin-2"><i class="fa fa-check"></i><b>6.1.1</b> Admin</a></li>
+<li class="chapter" data-level="6.1.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#overview"><i class="fa fa-check"></i><b>6.1.2</b> Overview</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#frac12-fractional-factorial-design-2k-1"><i class="fa fa-check"></i><b>6.2</b> <span class="math inline">\(\frac{1}{2}\)</span> Fractional Factorial Design (<span class="math inline">\(2^{K-1}\)</span>)</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#motivation-and-example"><i class="fa fa-check"></i><b>6.2.1</b> Motivation and Example</a></li>
+<li class="chapter" data-level="6.2.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#design-generator"><i class="fa fa-check"></i><b>6.2.2</b> Design Generator</a></li>
+<li class="chapter" data-level="6.2.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#estimating-effects"><i class="fa fa-check"></i><b>6.2.3</b> Estimating Effects</a></li>
+<li class="chapter" data-level="6.2.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#geometric-view"><i class="fa fa-check"></i><b>6.2.4</b> Geometric View</a></li>
+<li class="chapter" data-level="6.2.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#example-24-1-design"><i class="fa fa-check"></i><b>6.2.5</b> Example <span class="math inline">\(2^{4-1}\)</span> Design</a></li>
+<li class="chapter" data-level="6.2.6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#frac12-fractional-factorial-design-2k-1-problem-set"><i class="fa fa-check"></i><b>6.2.6</b> <span class="math inline">\(\frac{1}{2}\)</span> Fractional Factorial Design (<span class="math inline">\(2^{K-1}\)</span>) Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-designs"><i class="fa fa-check"></i><b>6.3</b> General <span class="math inline">\(2^{K-P}\)</span> Designs</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#introduction-6"><i class="fa fa-check"></i><b>6.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.3.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#quarter-fractional-design"><i class="fa fa-check"></i><b>6.3.2</b> Quarter Fractional Design</a></li>
+<li class="chapter" data-level="6.3.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-design"><i class="fa fa-check"></i><b>6.3.3</b> General <span class="math inline">\(2^{K-P}\)</span> Design</a></li>
+<li class="chapter" data-level="6.3.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#resolution"><i class="fa fa-check"></i><b>6.3.4</b> Resolution</a></li>
+<li class="chapter" data-level="6.3.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-designs-problem-set"><i class="fa fa-check"></i><b>6.3.5</b> General <span class="math inline">\(2^{K-P}\)</span> Designs Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#additional-notes-on-2k-p-designs"><i class="fa fa-check"></i><b>6.4</b> Additional Notes on <span class="math inline">\(2^{K-P}\)</span> Designs</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#additional-topics"><i class="fa fa-check"></i><b>6.4.1</b> Additional Topics</a></li>
+<li class="chapter" data-level="6.4.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#sequencing-experiments"><i class="fa fa-check"></i><b>6.4.2</b> Sequencing Experiments</a></li>
+<li class="chapter" data-level="6.4.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#fractional-factorial-design-simulation-problem-set"><i class="fa fa-check"></i><b>6.4.3</b> Fractional Factorial Design Simulation Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#screening-experiments-and-selecting-factors"><i class="fa fa-check"></i><b>6.5</b> Screening Experiments and Selecting Factors</a></li>
+<li class="chapter" data-level="6.6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#conclusion"><i class="fa fa-check"></i><b>6.6</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html"><i class="fa fa-check"></i><b>7</b> Fundamentals of Regression</a><ul>
+<li class="chapter" data-level="7.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#admin-3"><i class="fa fa-check"></i><b>7.1</b> Admin</a></li>
+<li class="chapter" data-level="7.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>7.2</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#least-squares-method-manually"><i class="fa fa-check"></i><b>7.2.1</b> Least Squares Method Manually</a></li>
+<li class="chapter" data-level="7.2.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#goodness-of-fit"><i class="fa fa-check"></i><b>7.2.2</b> Goodness of Fit</a></li>
+<li class="chapter" data-level="7.2.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#least-squares-method-in-r"><i class="fa fa-check"></i><b>7.2.3</b> Least Squares Method In <em>R</em></a></li>
+<li class="chapter" data-level="7.2.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#simple-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.2.4</b> Simple Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#assumptions-and-diagnostics"><i class="fa fa-check"></i><b>7.3</b> Assumptions and Diagnostics</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#linearity"><i class="fa fa-check"></i><b>7.3.1</b> Linearity</a></li>
+<li class="chapter" data-level="7.3.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#homoscedasticity"><i class="fa fa-check"></i><b>7.3.2</b> Homoscedasticity</a></li>
+<li class="chapter" data-level="7.3.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#independence"><i class="fa fa-check"></i><b>7.3.3</b> Independence</a></li>
+<li class="chapter" data-level="7.3.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#normality"><i class="fa fa-check"></i><b>7.3.4</b> Normality</a></li>
+<li class="chapter" data-level="7.3.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#unusual-observations"><i class="fa fa-check"></i><b>7.3.5</b> Unusual Observations</a></li>
+<li class="chapter" data-level="7.3.6" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#linear-regression-assumptions-and-diagnostics-problem-set"><i class="fa fa-check"></i><b>7.3.6</b> Linear Regression Assumptions and Diagnostics Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#multiple-linear-regression"><i class="fa fa-check"></i><b>7.4</b> Multiple Linear Regression</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#r-example"><i class="fa fa-check"></i><b>7.4.1</b> <em>R</em> Example</a></li>
+<li class="chapter" data-level="7.4.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#multiple-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.4.2</b> Multiple Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#categorical-variables"><i class="fa fa-check"></i><b>7.5</b> Categorical Variables</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#categorical-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.5.1</b> Categorical Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#transformation"><i class="fa fa-check"></i><b>7.6</b> Transformation</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#identifying-non-linear-relationships"><i class="fa fa-check"></i><b>7.6.1</b> Identifying Non-Linear Relationships</a></li>
+<li class="chapter" data-level="7.6.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#checking-model-structure"><i class="fa fa-check"></i><b>7.6.2</b> Checking Model Structure</a></li>
+<li class="chapter" data-level="7.6.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#how-to-transform-variables-in-r"><i class="fa fa-check"></i><b>7.6.3</b> How To Transform Variables In <em>R</em></a></li>
+<li class="chapter" data-level="7.6.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#transformed-regression-problem-set"><i class="fa fa-check"></i><b>7.6.4</b> Transformed Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression"><i class="fa fa-check"></i><b>7.7</b> Logistic Regression</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#motivating-example"><i class="fa fa-check"></i><b>7.7.1</b> Motivating Example</a></li>
+<li class="chapter" data-level="7.7.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logit-function"><i class="fa fa-check"></i><b>7.7.2</b> Logit Function</a></li>
+<li class="chapter" data-level="7.7.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-in-r"><i class="fa fa-check"></i><b>7.7.3</b> Logistic Regression in <em>R</em></a></li>
+<li class="chapter" data-level="7.7.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-diagnostics"><i class="fa fa-check"></i><b>7.7.4</b> Logistic Regression Diagnostics</a></li>
+<li class="chapter" data-level="7.7.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-problem-set"><i class="fa fa-check"></i><b>7.7.5</b> Logistic Regression Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>8</b> Model Selection</a><ul>
+<li class="chapter" data-level="8.1" data-path="model-selection.html"><a href="model-selection.html#admin-4"><i class="fa fa-check"></i><b>8.1</b> Admin</a></li>
+<li class="chapter" data-level="8.2" data-path="model-selection.html"><a href="model-selection.html#introduction-7"><i class="fa fa-check"></i><b>8.2</b> Introduction</a></li>
+<li class="chapter" data-level="8.3" data-path="model-selection.html"><a href="model-selection.html#testing-based-methods"><i class="fa fa-check"></i><b>8.3</b> Testing-Based Methods</a></li>
+<li class="chapter" data-level="8.4" data-path="model-selection.html"><a href="model-selection.html#criterion-based-methods"><i class="fa fa-check"></i><b>8.4</b> Criterion-Based Methods</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="model-selection.html"><a href="model-selection.html#criterion-problem-set"><i class="fa fa-check"></i><b>8.4.1</b> Criterion Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="model-selection.html"><a href="model-selection.html#cross-validation"><i class="fa fa-check"></i><b>8.5</b> Cross Validation</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="model-selection.html"><a href="model-selection.html#what-about-the-test-set"><i class="fa fa-check"></i><b>8.5.1</b> What About The Test Set?</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="model-selection.html"><a href="model-selection.html#lasso-regression"><i class="fa fa-check"></i><b>8.6</b> Lasso Regression</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="model-selection.html"><a href="model-selection.html#background-reading"><i class="fa fa-check"></i><b>8.6.1</b> Background Reading</a></li>
+<li class="chapter" data-level="8.6.2" data-path="model-selection.html"><a href="model-selection.html#lasso-regression-in-r"><i class="fa fa-check"></i><b>8.6.2</b> Lasso Regression In R</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="model-selection.html"><a href="model-selection.html#parting-thought"><i class="fa fa-check"></i><b>8.7</b> Parting Thought</a></li>
+<li class="chapter" data-level="8.8" data-path="model-selection.html"><a href="model-selection.html#lasso-regression-problem-set"><i class="fa fa-check"></i><b>8.8</b> Lasso Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="application-of-doe-to-the-advanced-warfighting-simulation.html"><a href="application-of-doe-to-the-advanced-warfighting-simulation.html"><i class="fa fa-check"></i><b>9</b> Application of DoE to the Advanced Warfighting Simulation</a></li>
+<li class="chapter" data-level="10" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html"><i class="fa fa-check"></i><b>10</b> Advanced Experimental Designs</a><ul>
+<li class="chapter" data-level="10.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#admin-5"><i class="fa fa-check"></i><b>10.1</b> Admin</a></li>
+<li class="chapter" data-level="10.2" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#introduction-and-background"><i class="fa fa-check"></i><b>10.2</b> Introduction and Background</a></li>
+<li class="chapter" data-level="10.3" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#central-composite-designs"><i class="fa fa-check"></i><b>10.3</b> Central Composite Designs</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#augmented-central-composite-designs"><i class="fa fa-check"></i><b>10.3.1</b> Augmented Central Composite Designs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#response-surface-methodology"><i class="fa fa-check"></i><b>10.4</b> Response Surface Methodology</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#ccd-problem-set"><i class="fa fa-check"></i><b>10.4.1</b> CCD Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#nearly-orthogonal-latin-hypercube-designs"><i class="fa fa-check"></i><b>10.5</b> Nearly Orthogonal Latin Hypercube Designs</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#factor-codings"><i class="fa fa-check"></i><b>10.5.1</b> Factor Codings</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#orthogonality-and-variance-inflation-factors"><i class="fa fa-check"></i><b>10.6</b> Orthogonality and Variance Inflation Factors</a></li>
+<li class="chapter" data-level="10.7" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#shifting-and-stacking"><i class="fa fa-check"></i><b>10.7</b> Shifting and Stacking</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#nolh-problem-set"><i class="fa fa-check"></i><b>10.7.1</b> NOLH Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html"><i class="fa fa-check"></i><b>11</b> Non-Parametric Regression</a><ul>
+<li class="chapter" data-level="11.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#admin-6"><i class="fa fa-check"></i><b>11.1</b> Admin</a></li>
+<li class="chapter" data-level="11.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#non-parametric-anova"><i class="fa fa-check"></i><b>11.2</b> Non-Parametric ANOVA</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#multiple-comparisons-2"><i class="fa fa-check"></i><b>11.2.1</b> Multiple Comparisons</a></li>
+<li class="chapter" data-level="11.2.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#non-parametric-anova-problem-set"><i class="fa fa-check"></i><b>11.2.2</b> Non-Parametric ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#generalized-additive-models"><i class="fa fa-check"></i><b>11.3</b> Generalized Additive Models</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#loess"><i class="fa fa-check"></i><b>11.3.1</b> Loess</a></li>
+<li class="chapter" data-level="11.3.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#splines"><i class="fa fa-check"></i><b>11.3.2</b> Splines</a></li>
+<li class="chapter" data-level="11.3.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#cross-validation-1"><i class="fa fa-check"></i><b>11.3.3</b> Cross Validation</a></li>
+<li class="chapter" data-level="11.3.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#gam-problem-set"><i class="fa fa-check"></i><b>11.3.4</b> GAM Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-machines"><i class="fa fa-check"></i><b>11.4</b> Support Vector Machines</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-regression"><i class="fa fa-check"></i><b>11.4.1</b> Support Vector Regression</a></li>
+<li class="chapter" data-level="11.4.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-classification"><i class="fa fa-check"></i><b>11.4.2</b> Support Vector Classification</a></li>
+<li class="chapter" data-level="11.4.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#svm-problem-set"><i class="fa fa-check"></i><b>11.4.3</b> SVM Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#classification-and-regression-trees"><i class="fa fa-check"></i><b>11.5</b> Classification and Regression Trees</a><ul>
+<li class="chapter" data-level="11.5.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#regression-trees"><i class="fa fa-check"></i><b>11.5.1</b> Regression Trees</a></li>
+<li class="chapter" data-level="11.5.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#random-forest-regression"><i class="fa fa-check"></i><b>11.5.2</b> Random Forest Regression</a></li>
+<li class="chapter" data-level="11.5.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#random-forest-classification"><i class="fa fa-check"></i><b>11.5.3</b> Random Forest Classification</a></li>
+<li class="chapter" data-level="11.5.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#cart-problem-set"><i class="fa fa-check"></i><b>11.5.4</b> CART Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html"><i class="fa fa-check"></i><b>12</b> Optional Advanced DOE Topics</a><ul>
+<li class="chapter" data-level="12.1" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#robust-design"><i class="fa fa-check"></i><b>12.1</b> Robust Design</a></li>
+<li class="chapter" data-level="12.2" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#sequential-designs"><i class="fa fa-check"></i><b>12.2</b> Sequential Designs</a></li>
+<li class="chapter" data-level="12.3" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#ridge-regression"><i class="fa fa-check"></i><b>12.3</b> Ridge Regression</a></li>
+<li class="chapter" data-level="12.4" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#neural-network-regression"><i class="fa fa-check"></i><b>12.4</b> Neural Network Regression</a><ul>
+<li class="chapter" data-level="12.4.1" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#simple-neural-network-model"><i class="fa fa-check"></i><b>12.4.1</b> Simple Neural Network Model</a></li>
+<li class="chapter" data-level="12.4.2" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#gradient-descent"><i class="fa fa-check"></i><b>12.4.2</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.4.3" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#multiple-linear-regression-1"><i class="fa fa-check"></i><b>12.4.3</b> Multiple Linear Regression</a></li>
+<li class="chapter" data-level="12.4.4" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#hidden-layer"><i class="fa fa-check"></i><b>12.4.4</b> Hidden Layer</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#neural-network-classification"><i class="fa fa-check"></i><b>12.5</b> Neural Network Classification</a></li>
+<li class="chapter" data-level="12.6" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#multivariate-adaptive-regression-splines"><i class="fa fa-check"></i><b>12.6</b> Multivariate Adaptive Regression Splines</a></li>
+<li class="chapter" data-level="12.7" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#non-parametric-statistics"><i class="fa fa-check"></i><b>12.7</b> Non-Parametric Statistics</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown">
+Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Design of Experiments for Modeling and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="advanced-experimental-designs" class="section level1">
+<h1><span class="header-section-number">10</span> Advanced Experimental Designs</h1>
+<p>So far, we have considered designs with just two levels per factor, which is fine for inherently binary factors. However, if our study requires us to include a factor that can take on more than two values, or even a continuous range of values, or if we suspect that the relationship between a predictor and a response is non-linear, we need a different experimental design.</p>
+<div id="admin-5" class="section level2">
+<h2><span class="header-section-number">10.1</span> Admin</h2>
+<p>For any errors associated with this section, please contact <a href="mailto:john.f.king1.mil@mail.mil">John King</a>.</p>
+<p>This chapter was published using the following software:</p>
+<ul>
+<li>R version 3.6.0 (2019-04-26).</li>
+<li>On x86_64-pc-linux-gnu (64-bit) running Ubuntu 18.04.2 LTS.</li>
+<li>Packages are explicitly shown in the code snippets with the exception of the <code>tidyverse</code> version 1.3.0.</li>
+</ul>
+</div>
+<div id="introduction-and-background" class="section level2">
+<h2><span class="header-section-number">10.2</span> Introduction and Background</h2>
+<p>In this chapter, we will design experiments that can accommodate factors with three or more levels (up to continuous). The designs presented in this chapter belong to two broad categories: central composite designs (CCD) and nearly orthogonal Latin hypercube (NOLH) designs. These designs are particularly useful if we find ourselves in one (or both) of the following situations:</p>
+<ol style="list-style-type: decimal">
+<li><p>We suspect there may be non-linear relationships between one or more predictors and the response variable.</p></li>
+<li><p>The levels of one or more predictors are not well known or clearly defined. This is often the case when developing requirements for a future system. For example, perhaps the Army is considering developing a new helicopter, and the developers are interested in identifying the optimal combination of speed, fuel capacity, range, and various weapon and sensor systems.</p></li>
+</ol>
+<p>For background, please read the following:</p>
+<ul>
+<li><p>From <a href = "https://www.informs-sim.org/wsc15papers/187.pdf"> Work Smarter, Not Harder: A Tutorial On Designing And Conducting Simulation Experiments</a>, skim Sections 1 and 2, and then carefully read Sections 3, 4, and 5.</p></li>
+<li><p>From <a href = "https://nps.edu/documents/106696734/108129281/UserGuideSimExpts.pdf/6bf10d35-b507-4554-b77a-6f4a443e4025?t=1475088085000"> A User’s Guide to the Brave New World of Designing Simulation Experiments</a>, read Sections 2.2 - 2.4, and all of Sections 3 and 4. Figure 1 is a nice visual guide for design selection. Note that the authors prefer designs towards the top of the figure.</p></li>
+</ul>
+<p>From the readings, you can see that there is an entire field of study regarding design generation and that the properties of the various designs make them well or poorly suited for a given study. The authors of both articles discussed gridded designs, which are simple to construct and allow for the evaluation of non-linear relationships. The main drawback of gridded designs, especially when it comes to applying them to combat simulations, is that they are very inefficient. For example, a gridded design for 10 factors at 4 levels each requires <span class="math inline">\(4^{10} = 1,048,576\)</span> design points, and due to this property we will not consider them further for AWARS applications. Instead, we’ll focus on CCDs and NOLH-based designs.</p>
+</div>
+<div id="central-composite-designs" class="section level2">
+<h2><span class="header-section-number">10.3</span> Central Composite Designs</h2>
+<p>To detect non-linearity in the response, at a minimum, we need to add a center point to a factorial design. One option is to add a single center point that is shared by multiple factors to minimize the number of runs. Using <code>plotly</code> to plot in three dimensions, this design is visualized as follows (this is an interactive plot, so click and drag the plot to rotate the points):</p>
+<div class="sourceCode" id="cb738"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb738-1" data-line-number="1"><span class="kw">library</span>(plotly)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;plotly&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     last_plot</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre><code>## The following object is masked from &#39;package:graphics&#39;:
+## 
+##     layout</code></pre>
+<div class="sourceCode" id="cb743"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb743-1" data-line-number="1">centerPoint =<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb743-2" data-line-number="2">  <span class="dt">x1 =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="dv">4</span>), <span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb743-3" data-line-number="3">  <span class="dt">x2 =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="dv">2</span>), <span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb743-4" data-line-number="4">  <span class="dt">x3 =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">each=</span><span class="dv">4</span>), <span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb743-5" data-line-number="5">  <span class="dt">center =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;y&quot;</span>, <span class="dv">8</span>), <span class="st">&quot;n&quot;</span>)</a>
+<a class="sourceLine" id="cb743-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb743-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb743-8" data-line-number="8"><span class="kw">plot_ly</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb743-9" data-line-number="9"><span class="st">  </span><span class="kw">add_trace</span>(<span class="dt">data =</span> centerPoint, <span class="dt">x =</span> <span class="op">~</span>x1, <span class="dt">y =</span> <span class="op">~</span>x2, <span class="dt">z =</span> <span class="op">~</span>x3,</a>
+<a class="sourceLine" id="cb743-10" data-line-number="10">            <span class="dt">color=</span><span class="op">~</span>center, </a>
+<a class="sourceLine" id="cb743-11" data-line-number="11">            <span class="dt">colors =</span> <span class="kw">c</span>(<span class="st">&#39;#0C4B8E&#39;</span>, <span class="st">&#39;#BF382A&#39;</span>), </a>
+<a class="sourceLine" id="cb743-12" data-line-number="12">            <span class="dt">type=</span><span class="st">&#39;scatter3d&#39;</span>, <span class="dt">mode=</span><span class="st">&#39;markers&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb743-13" data-line-number="13"><span class="st">  </span><span class="kw">layout</span>(<span class="dt">title =</span> <span class="st">&#39;CCD With Center Point&#39;</span>, <span class="dt">showlegend =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb743-14" data-line-number="14">         <span class="dt">scene =</span> <span class="kw">list</span>(<span class="dt">camera =</span> <span class="kw">list</span>(<span class="dt">eye =</span> <span class="kw">list</span>(<span class="dt">x =</span> <span class="fl">-1.0</span>, <span class="dt">y =</span> <span class="fl">1.25</span>, <span class="dt">z =</span> <span class="fl">0.3</span>))))</a></code></pre></div>
+<div id="htmlwidget-0396d5a2ef659f4d6c6a" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0396d5a2ef659f4d6c6a">{"x":{"visdat":{"f7923daaeb3":["function () ","plotlyVisDat"],"f7962ff77f6":["function () ","data"]},"cur_data":"f7962ff77f6","attrs":{"f7962ff77f6":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"z":{},"color":{},"colors":["#0C4B8E","#BF382A"],"type":"scatter3d","mode":"markers","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"CCD With Center Point","showlegend":false,"scene":{"camera":{"eye":{"x":-1,"y":1.25,"z":0.3}},"xaxis":{"title":"x1"},"yaxis":{"title":"x2"},"zaxis":{"title":"x3"}},"hovermode":"closest"},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[0],"y":[0],"z":[0],"type":"scatter3d","mode":"markers","name":"n","marker":{"color":"rgba(12,75,142,1)","line":{"color":"rgba(12,75,142,1)"}},"textfont":{"color":"rgba(12,75,142,1)"},"error_y":{"color":"rgba(12,75,142,1)"},"error_x":{"color":"rgba(12,75,142,1)"},"line":{"color":"rgba(12,75,142,1)"},"frame":null},{"x":[-1,1,-1,1,-1,1,-1,1],"y":[-1,-1,1,1,-1,-1,1,1],"z":[-1,-1,-1,-1,1,1,1,1],"type":"scatter3d","mode":"markers","name":"y","marker":{"color":"rgba(191,56,42,1)","line":{"color":"rgba(191,56,42,1)"}},"textfont":{"color":"rgba(191,56,42,1)"},"error_y":{"color":"rgba(191,56,42,1)"},"error_x":{"color":"rgba(191,56,42,1)"},"line":{"color":"rgba(191,56,42,1)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>This design projected on to any of the 2D faces of the cube appears as:</p>
+<div class="sourceCode" id="cb744"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb744-1" data-line-number="1"><span class="kw">plot_ly</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb744-2" data-line-number="2"><span class="st">  </span><span class="kw">add_trace</span>(<span class="dt">data =</span> centerPoint, <span class="dt">x =</span> <span class="op">~</span>x1, <span class="dt">y =</span> <span class="op">~</span>x2,</a>
+<a class="sourceLine" id="cb744-3" data-line-number="3">            <span class="dt">color=</span><span class="op">~</span>center, </a>
+<a class="sourceLine" id="cb744-4" data-line-number="4">            <span class="dt">colors =</span> <span class="kw">c</span>(<span class="st">&#39;#0C4B8E&#39;</span>, <span class="st">&#39;#BF382A&#39;</span>), </a>
+<a class="sourceLine" id="cb744-5" data-line-number="5">            <span class="dt">type=</span><span class="st">&#39;scatter&#39;</span>, <span class="dt">mode=</span><span class="st">&#39;markers&#39;</span>, <span class="dt">size=</span><span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb744-6" data-line-number="6"><span class="st">  </span><span class="kw">layout</span>(<span class="dt">title =</span> <span class="st">&#39;CCD With Center Point&#39;</span>, <span class="dt">showlegend =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb744-7" data-line-number="7">         <span class="dt">xaxis=</span><span class="kw">list</span>(<span class="dt">zeroline=</span>F), <span class="dt">yaxis=</span><span class="kw">list</span>(<span class="dt">zeroline=</span>F))</a></code></pre></div>
+<div id="htmlwidget-69adfa54e6e5b17af64b" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-69adfa54e6e5b17af64b">{"x":{"visdat":{"f796dd7a3ab":["function () ","plotlyVisDat"],"f794e20b95e":["function () ","data"]},"cur_data":"f794e20b95e","attrs":{"f794e20b95e":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"color":{},"colors":["#0C4B8E","#BF382A"],"type":"scatter","mode":"markers","size":10,"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"CCD With Center Point","showlegend":false,"xaxis":{"domain":[0,1],"automargin":true,"zeroline":false,"title":"x1"},"yaxis":{"domain":[0,1],"automargin":true,"zeroline":false,"title":"x2"},"hovermode":"closest"},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[0],"y":[0],"type":"scatter","mode":"markers","name":"n","marker":{"color":"rgba(12,75,142,1)","size":[55],"sizemode":"area","line":{"color":"rgba(12,75,142,1)"}},"textfont":{"color":"rgba(12,75,142,1)","size":55},"error_y":{"color":"rgba(12,75,142,1)","width":55},"error_x":{"color":"rgba(12,75,142,1)","width":55},"line":{"color":"rgba(12,75,142,1)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[-1,1,-1,1,-1,1,-1,1],"y":[-1,-1,1,1,-1,-1,1,1],"type":"scatter","mode":"markers","name":"y","marker":{"color":"rgba(191,56,42,1)","size":[55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(191,56,42,1)"}},"textfont":{"color":"rgba(191,56,42,1)","size":55},"error_y":{"color":"rgba(191,56,42,1)","width":55},"error_x":{"color":"rgba(191,56,42,1)","width":55},"line":{"color":"rgba(191,56,42,1)","width":55},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb745"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb745-1" data-line-number="1"><span class="kw">rm</span>(centerPoint)</a></code></pre></div>
+<p>Two considerations with this design:</p>
+<ol style="list-style-type: decimal">
+<li><p>This design contains the minimum number of design points to identify non-linear relationships. If no non-linear relationships exist, we simply continue with the modeling methods presented earlier in this tutorial.</p></li>
+<li><p>If one or more non-linear relationships exist, this design does not allow you to determine which factors are non-linear.</p></li>
+</ol>
+<p>To address #2, we need to add a point to each face of the cube, which are collectively referred to as <strong>star points</strong>. You can also think of this design as starting with a gridded design and removing unnecessary design points to make it more efficient. For comparison, a 3-factor, 3-level gridded design has <span class="math inline">\(3^{3} = 27\)</span> design points compared to 15 design points for a CCD (8 for the corners and 7 for the star). Below is the CCD with star points shown in blue and connected with black lines.</p>
+<div class="sourceCode" id="cb746"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb746-1" data-line-number="1">ccdGrid =<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb746-2" data-line-number="2">  <span class="dt">x1 =</span> <span class="kw">c</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="kw">rep</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="dv">4</span>)),</a>
+<a class="sourceLine" id="cb746-3" data-line-number="3">  <span class="dt">x2 =</span> <span class="kw">c</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="kw">rep</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">each =</span> <span class="dv">2</span>)),</a>
+<a class="sourceLine" id="cb746-4" data-line-number="4">  <span class="dt">x3 =</span> <span class="kw">c</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">4</span>)),</a>
+<a class="sourceLine" id="cb746-5" data-line-number="5">  <span class="dt">star =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&#39;y&#39;</span>, <span class="dv">7</span>), <span class="kw">rep</span>(<span class="st">&#39;n&#39;</span>,<span class="dv">8</span>)),</a>
+<a class="sourceLine" id="cb746-6" data-line-number="6">  <span class="dt">line =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&#39;line1&#39;</span>,<span class="dv">2</span>), <span class="kw">rep</span>(<span class="st">&#39;line2&#39;</span>,<span class="dv">2</span>), <span class="kw">rep</span>(<span class="st">&#39;line3&#39;</span>,<span class="dv">2</span>), <span class="kw">rep</span>(<span class="st">&#39;none&#39;</span>,<span class="dv">9</span>))</a>
+<a class="sourceLine" id="cb746-7" data-line-number="7">)</a>
+<a class="sourceLine" id="cb746-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb746-9" data-line-number="9"><span class="kw">plot_ly</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb746-10" data-line-number="10"><span class="st">  </span><span class="kw">add_trace</span>(<span class="dt">data =</span> ccdGrid, <span class="dt">x =</span> <span class="op">~</span>x1, <span class="dt">y =</span> <span class="op">~</span>x2, <span class="dt">z =</span> <span class="op">~</span>x3,</a>
+<a class="sourceLine" id="cb746-11" data-line-number="11">            <span class="dt">color=</span><span class="op">~</span>star, </a>
+<a class="sourceLine" id="cb746-12" data-line-number="12">            <span class="dt">colors =</span> <span class="kw">c</span>(<span class="st">&#39;#BF382A&#39;</span>, <span class="st">&#39;#0C4B8E&#39;</span>), </a>
+<a class="sourceLine" id="cb746-13" data-line-number="13">            <span class="dt">type=</span><span class="st">&#39;scatter3d&#39;</span>, <span class="dt">mode=</span><span class="st">&#39;markers&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb746-14" data-line-number="14"><span class="st">  </span><span class="kw">add_trace</span>(<span class="dt">data =</span> ccdGrid <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(line<span class="op">==</span><span class="st">&#39;line1&#39;</span>), </a>
+<a class="sourceLine" id="cb746-15" data-line-number="15">            <span class="dt">x =</span> <span class="op">~</span>x1, <span class="dt">y =</span> <span class="op">~</span>x2, <span class="dt">z =</span> <span class="op">~</span>x3,</a>
+<a class="sourceLine" id="cb746-16" data-line-number="16">            <span class="dt">line =</span> <span class="kw">list</span>(<span class="dt">color =</span> <span class="st">&#39;black&#39;</span>, <span class="dt">width =</span> <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb746-17" data-line-number="17">            <span class="dt">type =</span> <span class="st">&#39;scatter3d&#39;</span>, <span class="dt">mode=</span><span class="st">&#39;lines&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb746-18" data-line-number="18"><span class="st">  </span><span class="kw">add_trace</span>(<span class="dt">data =</span> ccdGrid <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(line<span class="op">==</span><span class="st">&#39;line2&#39;</span>), </a>
+<a class="sourceLine" id="cb746-19" data-line-number="19">            <span class="dt">x =</span> <span class="op">~</span>x1, <span class="dt">y =</span> <span class="op">~</span>x2, <span class="dt">z =</span> <span class="op">~</span>x3,</a>
+<a class="sourceLine" id="cb746-20" data-line-number="20">            <span class="dt">line =</span> <span class="kw">list</span>(<span class="dt">color =</span> <span class="st">&#39;black&#39;</span>, <span class="dt">width =</span> <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb746-21" data-line-number="21">            <span class="dt">type =</span> <span class="st">&#39;scatter3d&#39;</span>, <span class="dt">mode=</span><span class="st">&#39;lines&#39;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb746-22" data-line-number="22"><span class="st">  </span><span class="kw">add_trace</span>(<span class="dt">data =</span> ccdGrid <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(line<span class="op">==</span><span class="st">&#39;line3&#39;</span>), </a>
+<a class="sourceLine" id="cb746-23" data-line-number="23">            <span class="dt">x =</span> <span class="op">~</span>x1, <span class="dt">y =</span> <span class="op">~</span>x2, <span class="dt">z =</span> <span class="op">~</span>x3,</a>
+<a class="sourceLine" id="cb746-24" data-line-number="24">            <span class="dt">line =</span> <span class="kw">list</span>(<span class="dt">color =</span> <span class="st">&#39;black&#39;</span>, <span class="dt">width =</span> <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb746-25" data-line-number="25">            <span class="dt">type =</span> <span class="st">&#39;scatter3d&#39;</span>, <span class="dt">mode=</span><span class="st">&#39;lines&#39;</span>)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb746-26" data-line-number="26"><span class="st">  </span><span class="kw">layout</span>(<span class="dt">title =</span> <span class="st">&#39;Central Composite Design&#39;</span>, <span class="dt">showlegend =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb746-27" data-line-number="27">         <span class="dt">scene =</span> <span class="kw">list</span>(<span class="dt">camera =</span> <span class="kw">list</span>(<span class="dt">eye =</span> <span class="kw">list</span>(<span class="dt">x =</span> <span class="fl">-1.0</span>, <span class="dt">y =</span> <span class="fl">1.25</span>, <span class="dt">z =</span> <span class="fl">0.3</span>))))</a></code></pre></div>
+<div id="htmlwidget-4cabf776db5509b04440" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4cabf776db5509b04440">{"x":{"visdat":{"f794ba8ed39":["function () ","plotlyVisDat"],"f79221c06b1":["function () ","data"],"f792795fe9f":["function () ","data"],"f795a676c1c":["function () ","data"],"f794c17b008":["function () ","data"]},"cur_data":"f794c17b008","attrs":{"f79221c06b1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"z":{},"color":{},"colors":["#BF382A","#0C4B8E"],"type":"scatter3d","mode":"markers","inherit":true},"f792795fe9f":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"z":{},"line":{"color":"black","width":2},"type":"scatter3d","mode":"lines","inherit":true},"f795a676c1c":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"z":{},"line":{"color":"black","width":2},"type":"scatter3d","mode":"lines","inherit":true},"f794c17b008":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"z":{},"line":{"color":"black","width":2},"type":"scatter3d","mode":"lines","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Central Composite Design","showlegend":false,"scene":{"camera":{"eye":{"x":-1,"y":1.25,"z":0.3}},"xaxis":{"title":"x1"},"yaxis":{"title":"x2"},"zaxis":{"title":"x3"}},"hovermode":"closest"},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[-1,1,-1,1,-1,1,-1,1],"y":[-1,-1,1,1,-1,-1,1,1],"z":[-1,-1,-1,-1,1,1,1,1],"type":"scatter3d","mode":"markers","name":"n","marker":{"color":"rgba(191,56,42,1)","line":{"color":"rgba(191,56,42,1)"}},"textfont":{"color":"rgba(191,56,42,1)"},"error_y":{"color":"rgba(191,56,42,1)"},"error_x":{"color":"rgba(191,56,42,1)"},"line":{"color":"rgba(191,56,42,1)"},"frame":null},{"x":[-1,1,0,0,0,0,0],"y":[0,0,-1,1,0,0,0],"z":[0,0,0,0,-1,1,0],"type":"scatter3d","mode":"markers","name":"y","marker":{"color":"rgba(12,75,142,1)","line":{"color":"rgba(12,75,142,1)"}},"textfont":{"color":"rgba(12,75,142,1)"},"error_y":{"color":"rgba(12,75,142,1)"},"error_x":{"color":"rgba(12,75,142,1)"},"line":{"color":"rgba(12,75,142,1)"},"frame":null},{"x":[-1,1],"y":[0,0],"z":[0,0],"line":{"color":"black","width":2},"type":"scatter3d","mode":"lines","marker":{"color":"rgba(44,160,44,1)","line":{"color":"rgba(44,160,44,1)"}},"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"frame":null},{"x":[0,0],"y":[-1,1],"z":[0,0],"line":{"color":"black","width":2},"type":"scatter3d","mode":"lines","marker":{"color":"rgba(214,39,40,1)","line":{"color":"rgba(214,39,40,1)"}},"error_y":{"color":"rgba(214,39,40,1)"},"error_x":{"color":"rgba(214,39,40,1)"},"frame":null},{"x":[0,0],"y":[0,0],"z":[-1,1],"line":{"color":"black","width":2},"type":"scatter3d","mode":"lines","marker":{"color":"rgba(148,103,189,1)","line":{"color":"rgba(148,103,189,1)"}},"error_y":{"color":"rgba(148,103,189,1)"},"error_x":{"color":"rgba(148,103,189,1)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="augmented-central-composite-designs" class="section level3">
+<h3><span class="header-section-number">10.3.1</span> Augmented Central Composite Designs</h3>
+<p>The design generated above can be used to identify several kinds of non-linear relationships, <span class="math inline">\(log(x)\)</span>, <span class="math inline">\(e^x\)</span>, <span class="math inline">\(1/x\)</span>, and <span class="math inline">\(x^2\)</span>. It can not, however, be used to identify trends with more than one bend in the curve (e.g., <span class="math inline">\(x^3\)</span>). The CCD generated above can be further augmented with additional design points to either capture higher order relationships or to obtain additional data for use in response surface methodology (presented later in this section). Additionally, since these designs are increasing in complexity, we will make use of the <code>rsm</code> package to generate them.</p>
+<p>To get a feel for the <code>rsm</code> package, we’ll re-generate the CCD with the star points as in the previous section. According to the documentation, the preferred method for generating this design is to follow a two-step process. First, we generate the corner points with <code>cube()</code>.</p>
+<div class="sourceCode" id="cb747"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb747-1" data-line-number="1"><span class="kw">library</span>(rsm)</a>
+<a class="sourceLine" id="cb747-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb747-3" data-line-number="3">cu =<span class="st"> </span><span class="kw">cube</span>(<span class="dv">3</span>, <span class="dt">n0=</span><span class="dv">0</span>) <span class="co"># 3 factors and 0 center points</span></a>
+<a class="sourceLine" id="cb747-4" data-line-number="4">cu</a></code></pre></div>
+<pre><code>##   run.order std.order x1.as.is x2.as.is x3.as.is
+## 1         1         1       -1       -1       -1
+## 2         2         2        1       -1       -1
+## 3         3         3       -1        1       -1
+## 4         4         5       -1       -1        1
+## 5         5         8        1        1        1
+## 6         6         6        1       -1        1
+## 7         7         4        1        1       -1
+## 8         8         7       -1        1        1
+## 
+## Data are stored in coded form using these coding formulas ...
+## x1 ~ x1.as.is
+## x2 ~ x2.as.is
+## x3 ~ x3.as.is</code></pre>
+<p>Then we combine the cube points using <code>djoin()</code> with the star points using <code>star()</code></p>
+<div class="sourceCode" id="cb749"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb749-1" data-line-number="1"><span class="co"># alpha = 1 generates the &quot;face&quot; points, n0 gives the central point</span></a>
+<a class="sourceLine" id="cb749-2" data-line-number="2">ccd =<span class="st"> </span><span class="kw">djoin</span>(cu, <span class="kw">star</span>(<span class="dt">alpha=</span><span class="dv">1</span>, <span class="dt">n0=</span><span class="dv">1</span>)) </a>
+<a class="sourceLine" id="cb749-3" data-line-number="3">ccd</a></code></pre></div>
+<pre><code>##    run.order std.order x1.as.is x2.as.is x3.as.is Block
+## 1          1         1       -1       -1       -1     1
+## 2          2         2        1       -1       -1     1
+## 3          3         3       -1        1       -1     1
+## 4          4         5       -1       -1        1     1
+## 5          5         8        1        1        1     1
+## 6          6         6        1       -1        1     1
+## 7          7         4        1        1       -1     1
+## 8          8         7       -1        1        1     1
+## 9          1         3        0       -1        0     2
+## 10         2         7        0        0        0     2
+## 11         3         1       -1        0        0     2
+## 12         4         2        1        0        0     2
+## 13         5         5        0        0       -1     2
+## 14         6         4        0        1        0     2
+## 15         7         6        0        0        1     2
+## 
+## Data are stored in coded form using these coding formulas ...
+## x1 ~ x1.as.is
+## x2 ~ x2.as.is
+## x3 ~ x3.as.is</code></pre>
+<p>Plotting this design demonstrates that it’s equivalent to what we produced manually.</p>
+<div class="sourceCode" id="cb751"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb751-1" data-line-number="1"><span class="kw">plot_ly</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb751-2" data-line-number="2"><span class="st">  </span><span class="kw">add_trace</span>(<span class="dt">data =</span> ccd, <span class="dt">x =</span> <span class="op">~</span>x1, <span class="dt">y =</span> <span class="op">~</span>x2, <span class="dt">z =</span> <span class="op">~</span>x3, </a>
+<a class="sourceLine" id="cb751-3" data-line-number="3">            <span class="dt">color=</span><span class="op">~</span>Block, <span class="dt">colors =</span> <span class="kw">c</span>(<span class="st">&#39;#BF382A&#39;</span>, <span class="st">&#39;#0C4B8E&#39;</span>), </a>
+<a class="sourceLine" id="cb751-4" data-line-number="4">            <span class="dt">type=</span><span class="st">&#39;scatter3d&#39;</span>, <span class="dt">mode=</span><span class="st">&#39;markers&#39;</span>)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb751-5" data-line-number="5"><span class="st">  </span><span class="kw">layout</span>(<span class="dt">title =</span> <span class="st">&#39;rsm Central Composite Design&#39;</span>, <span class="dt">showlegend =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb751-6" data-line-number="6">         <span class="dt">scene =</span> <span class="kw">list</span>(<span class="dt">camera =</span> <span class="kw">list</span>(<span class="dt">eye =</span> <span class="kw">list</span>(<span class="dt">x =</span> <span class="fl">-1.0</span>, <span class="dt">y =</span> <span class="fl">1.25</span>, <span class="dt">z =</span> <span class="fl">0.3</span>))))</a></code></pre></div>
+<div id="htmlwidget-8cb65f1b2f9d3547d122" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8cb65f1b2f9d3547d122">{"x":{"visdat":{"f79166895b5":["function () ","plotlyVisDat"],"f7939f2bf9f":["function () ","data"]},"cur_data":"f7939f2bf9f","attrs":{"f7939f2bf9f":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"z":{},"color":{},"colors":["#BF382A","#0C4B8E"],"type":"scatter3d","mode":"markers","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"rsm Central Composite Design","showlegend":false,"scene":{"camera":{"eye":{"x":-1,"y":1.25,"z":0.3}},"xaxis":{"title":"x1"},"yaxis":{"title":"x2"},"zaxis":{"title":"x3"}},"hovermode":"closest"},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[-1,1,-1,-1,1,1,1,-1],"y":[-1,-1,1,-1,1,-1,1,1],"z":[-1,-1,-1,1,1,1,-1,1],"type":"scatter3d","mode":"markers","name":"1","marker":{"color":"rgba(191,56,42,1)","line":{"color":"rgba(191,56,42,1)"}},"textfont":{"color":"rgba(191,56,42,1)"},"error_y":{"color":"rgba(191,56,42,1)"},"error_x":{"color":"rgba(191,56,42,1)"},"line":{"color":"rgba(191,56,42,1)"},"frame":null},{"x":[0,0,-1,1,0,0,0],"y":[-1,0,0,0,0,1,0],"z":[0,0,0,0,-1,0,1],"type":"scatter3d","mode":"markers","name":"2","marker":{"color":"rgba(12,75,142,1)","line":{"color":"rgba(12,75,142,1)"}},"textfont":{"color":"rgba(12,75,142,1)"},"error_y":{"color":"rgba(12,75,142,1)"},"error_x":{"color":"rgba(12,75,142,1)"},"line":{"color":"rgba(12,75,142,1)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>An interesting feature of the CCD we just generated is that we can modify it slightly to accommodate additional factor levels without increasing the number of design points. We can do this by moving the corner points closer to the central point. In a <strong>spherical design</strong> as shown below, the corner point at <span class="math inline">\((1 ,1)\)</span> moves to <span class="math inline">\((1/\sqrt{k}, 1/\sqrt{k})\)</span> where <span class="math inline">\(k\)</span> is the number of factors in the design. Since <span class="math inline">\(1/\sqrt{3} = 0.577\)</span>, the new point becomes <span class="math inline">\((0.577, 0.577)\)</span>.</p>
+<div class="sourceCode" id="cb752"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb752-1" data-line-number="1">cu2 =<span class="st"> </span><span class="kw">cube</span>(<span class="dv">3</span>, <span class="dt">n0=</span><span class="dv">0</span>, <span class="dt">inscribed =</span> <span class="ot">TRUE</span>)  <span class="co"># inscribed limits the axis points to +/- 1</span></a>
+<a class="sourceLine" id="cb752-2" data-line-number="2">ccd_s =<span class="st"> </span><span class="kw">djoin</span>(cu2, <span class="kw">star</span>(<span class="dt">alpha=</span><span class="st">&quot;spherical&quot;</span>, <span class="dt">n0=</span><span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb752-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb752-4" data-line-number="4">pt &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span><span class="fl">0.6</span>, <span class="dt">y =</span> <span class="fl">0.6</span>)</a>
+<a class="sourceLine" id="cb752-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb752-6" data-line-number="6"><span class="kw">plot_ly</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb752-7" data-line-number="7"><span class="st">  </span><span class="kw">add_trace</span>(<span class="dt">data =</span> ccd_s, <span class="dt">x =</span> <span class="op">~</span>x1, <span class="dt">y =</span> <span class="op">~</span>x2,</a>
+<a class="sourceLine" id="cb752-8" data-line-number="8">            <span class="dt">color=</span><span class="op">~</span>Block, <span class="dt">colors =</span> <span class="kw">c</span>(<span class="st">&#39;#BF382A&#39;</span>, <span class="st">&#39;#0C4B8E&#39;</span>), </a>
+<a class="sourceLine" id="cb752-9" data-line-number="9">            <span class="dt">type=</span><span class="st">&#39;scatter&#39;</span>, <span class="dt">mode=</span><span class="st">&#39;markers&#39;</span>, <span class="dt">size =</span><span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb752-10" data-line-number="10"><span class="st">  </span><span class="kw">add_annotations</span>(<span class="dt">data=</span>pt, <span class="dt">ax=</span><span class="dv">1</span>, <span class="dt">ay=</span><span class="dv">1</span>, <span class="dt">axref=</span><span class="st">&quot;x&quot;</span>, <span class="dt">ayref=</span><span class="st">&quot;y&quot;</span>, <span class="dt">x=</span>pt<span class="op">$</span>x, <span class="dt">y=</span>pt<span class="op">$</span>y, <span class="dt">text=</span><span class="st">&quot;Moved Point&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb752-11" data-line-number="11"><span class="st">  </span><span class="kw">layout</span>(<span class="dt">title =</span> <span class="st">&#39;Spherical Design&#39;</span>, <span class="dt">showlegend =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb752-12" data-line-number="12">    <span class="dt">xaxis=</span><span class="kw">list</span>(<span class="dt">zeroline=</span>F), <span class="dt">yaxis=</span><span class="kw">list</span>(<span class="dt">zeroline=</span>F))</a></code></pre></div>
+<div id="htmlwidget-7e700a4a92fd88027084" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7e700a4a92fd88027084">{"x":{"visdat":{"f797a2eb180":["function () ","plotlyVisDat"],"f79758615ac":["function () ","data"],"f791f72e8bb":["function () ","data"]},"cur_data":"f791f72e8bb","attrs":{"f79758615ac":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"color":{},"colors":["#BF382A","#0C4B8E"],"type":"scatter","mode":"markers","size":10,"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"annotations":[{"text":"Moved Point","ax":1,"ay":1,"axref":"x","ayref":"y","x":0.6,"y":0.6}],"title":"Spherical Design","showlegend":false,"xaxis":{"domain":[0,1],"automargin":true,"zeroline":false,"title":"x1"},"yaxis":{"domain":[0,1],"automargin":true,"zeroline":false,"title":"x2"},"hovermode":"closest"},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[0.577350269189626,-0.577350269189626,0.577350269189626,-0.577350269189626,-0.577350269189626,-0.577350269189626,0.577350269189626,0.577350269189626],"y":[0.577350269189626,-0.577350269189626,-0.577350269189626,-0.577350269189626,0.577350269189626,0.577350269189626,-0.577350269189626,0.577350269189626],"type":"scatter","mode":"markers","name":"1","marker":{"color":"rgba(191,56,42,1)","size":[55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(191,56,42,1)"}},"textfont":{"color":"rgba(191,56,42,1)","size":55},"error_y":{"color":"rgba(191,56,42,1)","width":55},"error_x":{"color":"rgba(191,56,42,1)","width":55},"line":{"color":"rgba(191,56,42,1)","width":55},"xaxis":"x","yaxis":"y","frame":null},{"x":[-1,0,0,0,0,0,1],"y":[0,0,1,-1,0,0,0],"type":"scatter","mode":"markers","name":"2","marker":{"color":"rgba(12,75,142,1)","size":[55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(12,75,142,1)"}},"textfont":{"color":"rgba(12,75,142,1)","size":55},"error_y":{"color":"rgba(12,75,142,1)","width":55},"error_x":{"color":"rgba(12,75,142,1)","width":55},"line":{"color":"rgba(12,75,142,1)","width":55},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Below, we see that the design still consists of 15 design points, and each factor has levels of -1.0, -0.58, 0, 0.58, and 1.0. Clearly, this is much more efficient than a gridded design, which would have <span class="math inline">\(5^3 = 125\)</span> design points.</p>
+<div class="sourceCode" id="cb753"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb753-1" data-line-number="1">ccd_s</a></code></pre></div>
+<pre><code>##    run.order std.order   x1.as.is   x2.as.is   x3.as.is Block
+## 1          1         8  0.5773503  0.5773503  0.5773503     1
+## 2          2         5 -0.5773503 -0.5773503  0.5773503     1
+## 3          3         6  0.5773503 -0.5773503  0.5773503     1
+## 4          4         1 -0.5773503 -0.5773503 -0.5773503     1
+## 5          5         7 -0.5773503  0.5773503  0.5773503     1
+## 6          6         3 -0.5773503  0.5773503 -0.5773503     1
+## 7          7         2  0.5773503 -0.5773503 -0.5773503     1
+## 8          8         4  0.5773503  0.5773503 -0.5773503     1
+## 9          1         1 -1.0000000  0.0000000  0.0000000     2
+## 10         2         7  0.0000000  0.0000000  0.0000000     2
+## 11         3         4  0.0000000  1.0000000  0.0000000     2
+## 12         4         3  0.0000000 -1.0000000  0.0000000     2
+## 13         5         5  0.0000000  0.0000000 -1.0000000     2
+## 14         6         6  0.0000000  0.0000000  1.0000000     2
+## 15         7         2  1.0000000  0.0000000  0.0000000     2
+## 
+## Data are stored in coded form using these coding formulas ...
+## x1 ~ x1.as.is
+## x2 ~ x2.as.is
+## x3 ~ x3.as.is</code></pre>
+<p>Notice that although the design consists of five levels for each factor, the number of design points at each level varies. For example, <code>x1</code> at levels -1 and 1 are only represented once each in the design matrix, whereas <code>x1</code> at level 0 is represented 5 times. Therefore, if multiple measurements at the extreme high and low ranges of the factor ranges is important, a standard CCD is a better choice than a spherical design. Alternatively, the spherical design can be replicated using the <code>dupe()</code> function to provide an additional design point at the extreme high and low factor levels.</p>
+<div class="sourceCode" id="cb755"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb755-1" data-line-number="1"><span class="kw">djoin</span>(ccd_s, <span class="kw">dupe</span>(ccd_s))</a></code></pre></div>
+<pre><code>##    run.order std.order   x1.as.is   x2.as.is   x3.as.is Block
+## 1          1         8  0.5773503  0.5773503  0.5773503     1
+## 2          2         5 -0.5773503 -0.5773503  0.5773503     1
+## 3          3         6  0.5773503 -0.5773503  0.5773503     1
+## 4          4         1 -0.5773503 -0.5773503 -0.5773503     1
+## 5          5         7 -0.5773503  0.5773503  0.5773503     1
+## 6          6         3 -0.5773503  0.5773503 -0.5773503     1
+## 7          7         2  0.5773503 -0.5773503 -0.5773503     1
+## 8          8         4  0.5773503  0.5773503 -0.5773503     1
+## 9          1         1 -1.0000000  0.0000000  0.0000000     2
+## 10         2         7  0.0000000  0.0000000  0.0000000     2
+## 11         3         4  0.0000000  1.0000000  0.0000000     2
+## 12         4         3  0.0000000 -1.0000000  0.0000000     2
+## 13         5         5  0.0000000  0.0000000 -1.0000000     2
+## 14         6         6  0.0000000  0.0000000  1.0000000     2
+## 15         7         2  1.0000000  0.0000000  0.0000000     2
+## 16         1         4  0.5773503  0.5773503 -0.5773503     3
+## 17         2         7 -0.5773503  0.5773503  0.5773503     3
+## 18         3         5 -0.5773503 -0.5773503  0.5773503     3
+## 19         4         3 -0.5773503  0.5773503 -0.5773503     3
+## 20         5         8  0.5773503  0.5773503  0.5773503     3
+## 21         6         2  0.5773503 -0.5773503 -0.5773503     3
+## 22         7         6  0.5773503 -0.5773503  0.5773503     3
+## 23         8         1 -0.5773503 -0.5773503 -0.5773503     3
+## 24         1         7  0.0000000  0.0000000  0.0000000     4
+## 25         2         2  1.0000000  0.0000000  0.0000000     4
+## 26         3         5  0.0000000  0.0000000 -1.0000000     4
+## 27         4         3  0.0000000 -1.0000000  0.0000000     4
+## 28         5         1 -1.0000000  0.0000000  0.0000000     4
+## 29         6         6  0.0000000  0.0000000  1.0000000     4
+## 30         7         4  0.0000000  1.0000000  0.0000000     4
+## 
+## Data are stored in coded form using these coding formulas ...
+## x1 ~ x1.as.is
+## x2 ~ x2.as.is
+## x3 ~ x3.as.is</code></pre>
+</div>
+</div>
+<div id="response-surface-methodology" class="section level2">
+<h2><span class="header-section-number">10.4</span> Response Surface Methodology</h2>
+<p>As mentioned in the introduction, suppose we are interested in assisting with developing requirements for a future Army helicopter. For simplicity, say we’re only interested in determining how speed, stealth, and sensor range contribute to lethality (measured in the number of kills achieved by the helicopter). One can imagine that a low amount of stealth might result in few kills. As stealth increases, we would expect the number of kills to increase, but it may also be that increasing stealth beyond some threshold might begin to reduce the number of kills - perhaps the pilot spends so much effort remaining stealthy, that it becomes difficult to detect and engage targets. In this case, there is some optimal combination stealth, speed and sensor range that produces the greatest number of kills, and this optimal combination is not the maximum levels of each factor. Response surface methodology in conjunction with efficient experimental design can be applied in a situation like this to identify the optimal combination of factor levels.</p>
+<p>For our example, we will consider the following ranges of predictor values:</p>
+<ul>
+<li>Speed ranges from 100 to 300 km/hr.</li>
+<li>Stealth ranges from 0, which represents no stealth, to 1, which represents full ninja.</li>
+<li>Sensor detection ranges from 5 to 15 km.</li>
+</ul>
+<p>Response surface methodology involves plotting pairs of factors on the x and y axes and the response on the z axis. We can accomplish this using either a contour or a 3D plot. Since we don’t know what the optimal factor values are, ideally, we’d like to evaluate as many factor value combinations as possible. One consideration when choosing a design for this purpose is the design’s <strong>space-filling properties</strong>, which is demonstrated in the following plots using just speed and stealth. From left to right, the space-filling properties of the designs improve, which means that if the optimal values for speed and stealth are 261 and 0.81 (shown in red on the plots), respectively, then the design on the right will most accurately identify these optimal values.</p>
+<div class="sourceCode" id="cb757"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb757-1" data-line-number="1">ss3 =<span class="st"> </span><span class="kw">expand_grid</span>(<span class="dt">speed=</span><span class="kw">seq</span>(<span class="dv">100</span>, <span class="dv">300</span>, <span class="dv">100</span>), <span class="dt">stealth=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.5</span>))</a>
+<a class="sourceLine" id="cb757-2" data-line-number="2">ss5 =<span class="st"> </span><span class="kw">expand_grid</span>(<span class="dt">speed=</span><span class="kw">seq</span>(<span class="dv">100</span>, <span class="dv">300</span>, <span class="dv">50</span>), <span class="dt">stealth=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.25</span>))</a>
+<a class="sourceLine" id="cb757-3" data-line-number="3">ss10=<span class="st"> </span><span class="kw">expand_grid</span>(<span class="dt">speed=</span><span class="kw">seq</span>(<span class="dv">100</span>, <span class="dv">300</span>, <span class="dv">20</span>), <span class="dt">stealth=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.1</span>))</a>
+<a class="sourceLine" id="cb757-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb757-5" data-line-number="5">get_plot =<span class="st"> </span><span class="cf">function</span>(df){</a>
+<a class="sourceLine" id="cb757-6" data-line-number="6">  <span class="kw">plot_ly</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb757-7" data-line-number="7"><span class="st">  </span><span class="kw">add_trace</span>(<span class="dt">data =</span> df, <span class="dt">x=</span><span class="op">~</span>speed, <span class="dt">y=</span><span class="op">~</span>stealth, <span class="dt">type=</span><span class="st">&#39;scatter&#39;</span>, <span class="dt">mode=</span><span class="st">&#39;markers&#39;</span>, </a>
+<a class="sourceLine" id="cb757-8" data-line-number="8">            <span class="dt">marker=</span><span class="kw">list</span>(<span class="dt">color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">size=</span><span class="dv">5</span>), <span class="dt">showlegend=</span><span class="ot">FALSE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb757-9" data-line-number="9"><span class="st">  </span><span class="kw">add_trace</span>(<span class="dt">x=</span><span class="dv">261</span>, <span class="dt">y=</span><span class="fl">0.81</span>, <span class="dt">type=</span><span class="st">&#39;scatter&#39;</span>, <span class="dt">mode=</span><span class="st">&#39;markers&#39;</span>, </a>
+<a class="sourceLine" id="cb757-10" data-line-number="10">            <span class="dt">marker=</span><span class="kw">list</span>(<span class="dt">color=</span><span class="st">&#39;red&#39;</span>, <span class="dt">size=</span><span class="dv">5</span>), <span class="dt">showlegend=</span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb757-11" data-line-number="11">}</a>
+<a class="sourceLine" id="cb757-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb757-13" data-line-number="13">f1 =<span class="st"> </span><span class="kw">get_plot</span>(ss3)</a>
+<a class="sourceLine" id="cb757-14" data-line-number="14">f2 =<span class="st"> </span><span class="kw">get_plot</span>(ss5)</a>
+<a class="sourceLine" id="cb757-15" data-line-number="15">f3 =<span class="st"> </span><span class="kw">get_plot</span>(ss10)</a>
+<a class="sourceLine" id="cb757-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb757-17" data-line-number="17"><span class="kw">subplot</span>(f1, f2, f3, <span class="dt">heights=</span><span class="fl">0.5</span>, <span class="dt">shareY =</span> <span class="ot">TRUE</span>, <span class="dt">shareX=</span><span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb757-18" data-line-number="18"><span class="st">  </span><span class="kw">layout</span>(<span class="dt">xaxis=</span><span class="kw">list</span>(<span class="dt">zeroline=</span>F), <span class="dt">yaxis=</span><span class="kw">list</span>(<span class="dt">zeroline=</span>F))</a></code></pre></div>
+<div id="htmlwidget-d992f712cacd4db9c9d5" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d992f712cacd4db9c9d5">{"x":{"data":[{"x":[100,100,100,200,200,200,300,300,300],"y":[0,0.5,1,0,0.5,1,0,0.5,1],"type":"scatter","mode":"markers","marker":{"color":"black","size":5,"line":{"color":"rgba(31,119,180,1)"}},"showlegend":false,"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[261],"y":[0.81],"type":"scatter","mode":"markers","marker":{"color":"red","size":5,"line":{"color":"rgba(255,127,14,1)"}},"showlegend":false,"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"line":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[100,100,100,100,100,150,150,150,150,150,200,200,200,200,200,250,250,250,250,250,300,300,300,300,300],"y":[0,0.25,0.5,0.75,1,0,0.25,0.5,0.75,1,0,0.25,0.5,0.75,1,0,0.25,0.5,0.75,1,0,0.25,0.5,0.75,1],"type":"scatter","mode":"markers","marker":{"color":"black","size":5,"line":{"color":"rgba(44,160,44,1)"}},"showlegend":false,"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"line":{"color":"rgba(44,160,44,1)"},"xaxis":"x2","yaxis":"y","frame":null},{"x":[261],"y":[0.81],"type":"scatter","mode":"markers","marker":{"color":"red","size":5,"line":{"color":"rgba(214,39,40,1)"}},"showlegend":false,"error_y":{"color":"rgba(214,39,40,1)"},"error_x":{"color":"rgba(214,39,40,1)"},"line":{"color":"rgba(214,39,40,1)"},"xaxis":"x2","yaxis":"y","frame":null},{"x":[100,100,100,100,100,100,100,100,100,100,100,120,120,120,120,120,120,120,120,120,120,120,140,140,140,140,140,140,140,140,140,140,140,160,160,160,160,160,160,160,160,160,160,160,180,180,180,180,180,180,180,180,180,180,180,200,200,200,200,200,200,200,200,200,200,200,220,220,220,220,220,220,220,220,220,220,220,240,240,240,240,240,240,240,240,240,240,240,260,260,260,260,260,260,260,260,260,260,260,280,280,280,280,280,280,280,280,280,280,280,300,300,300,300,300,300,300,300,300,300,300],"y":[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],"type":"scatter","mode":"markers","marker":{"color":"black","size":5,"line":{"color":"rgba(148,103,189,1)"}},"showlegend":false,"error_y":{"color":"rgba(148,103,189,1)"},"error_x":{"color":"rgba(148,103,189,1)"},"line":{"color":"rgba(148,103,189,1)"},"xaxis":"x3","yaxis":"y","frame":null},{"x":[261],"y":[0.81],"type":"scatter","mode":"markers","marker":{"color":"red","size":5,"line":{"color":"rgba(140,86,75,1)"}},"showlegend":false,"error_y":{"color":"rgba(140,86,75,1)"},"error_x":{"color":"rgba(140,86,75,1)"},"line":{"color":"rgba(140,86,75,1)"},"xaxis":"x3","yaxis":"y","frame":null}],"layout":{"xaxis":{"domain":[0,0.313333333333333],"automargin":true,"title":"speed","anchor":"y","zeroline":false},"xaxis2":{"domain":[0.353333333333333,0.646666666666667],"automargin":true,"title":"speed","anchor":"y"},"xaxis3":{"domain":[0.686666666666667,1],"automargin":true,"title":"speed","anchor":"y"},"yaxis":{"domain":[0.25,0.75],"automargin":true,"title":"stealth","anchor":"x","zeroline":false},"annotations":[],"shapes":[],"images":[],"margin":{"b":40,"l":60,"t":25,"r":10},"hovermode":"closest","showlegend":false},"attrs":{"f7955973c3":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","marker":{"color":"black","size":5},"showlegend":false,"inherit":true},"f7955973c3.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":261,"y":0.81,"type":"scatter","mode":"markers","marker":{"color":"red","size":5},"showlegend":false,"inherit":true},"f7956269407":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","marker":{"color":"black","size":5},"showlegend":false,"inherit":true},"f7956269407.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":261,"y":0.81,"type":"scatter","mode":"markers","marker":{"color":"red","size":5},"showlegend":false,"inherit":true},"f7919dc3279":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","marker":{"color":"black","size":5},"showlegend":false,"inherit":true},"f7919dc3279.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":261,"y":0.81,"type":"scatter","mode":"markers","marker":{"color":"red","size":5},"showlegend":false,"inherit":true}},"source":"A","config":{"showSendToCloud":false},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"subplot":true,"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>If we were to use the designs that generated for the above three plots in a simulation, then we could measure the response variable for each factor value combination to produce the following three response surfaces.</p>
+<div class="sourceCode" id="cb758"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb758-1" data-line-number="1">get_kills =<span class="st"> </span><span class="cf">function</span>(df){</a>
+<a class="sourceLine" id="cb758-2" data-line-number="2">  df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">kills =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb758-3" data-line-number="3">  stealth<span class="op">&lt;=</span><span class="fl">0.81</span> <span class="op">&amp;</span><span class="st"> </span>speed<span class="op">&lt;=</span><span class="dv">261</span> <span class="op">~</span><span class="st"> </span><span class="dv">3</span><span class="op">*</span>stealth <span class="op">+</span><span class="st"> </span>speed<span class="op">/</span><span class="dv">100</span>, </a>
+<a class="sourceLine" id="cb758-4" data-line-number="4">  stealth<span class="op">&lt;=</span><span class="fl">0.81</span> <span class="op">&amp;</span><span class="st"> </span>speed<span class="op">&gt;</span><span class="dv">261</span> <span class="op">~</span><span class="dv">600</span><span class="op">/</span>speed,</a>
+<a class="sourceLine" id="cb758-5" data-line-number="5">  stealth<span class="op">&gt;</span><span class="fl">0.81</span> <span class="op">&amp;</span><span class="st"> </span>speed<span class="op">&gt;</span><span class="dv">261</span> <span class="op">~</span><span class="st"> </span>stealth<span class="op">/</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="dv">400</span><span class="op">/</span>speed,</a>
+<a class="sourceLine" id="cb758-6" data-line-number="6">  stealth<span class="op">&gt;</span><span class="fl">0.81</span> <span class="op">&amp;</span><span class="st"> </span>speed<span class="op">&lt;</span><span class="dv">261</span> <span class="op">~</span><span class="st"> </span>stealth<span class="op">/</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>speed<span class="op">/</span><span class="dv">100</span>))</a>
+<a class="sourceLine" id="cb758-7" data-line-number="7">}</a>
+<a class="sourceLine" id="cb758-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb758-9" data-line-number="9">ss3 =<span class="st"> </span><span class="kw">get_kills</span>(ss3)</a>
+<a class="sourceLine" id="cb758-10" data-line-number="10">ss5 =<span class="st"> </span><span class="kw">get_kills</span>(ss5)</a>
+<a class="sourceLine" id="cb758-11" data-line-number="11">ss10 =<span class="st"> </span><span class="kw">get_kills</span>(ss10)</a>
+<a class="sourceLine" id="cb758-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb758-13" data-line-number="13">get_contours =<span class="st"> </span><span class="cf">function</span>(df){</a>
+<a class="sourceLine" id="cb758-14" data-line-number="14">  <span class="kw">plot_ly</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb758-15" data-line-number="15"><span class="st">  </span><span class="kw">add_trace</span>(<span class="dt">data =</span> df, <span class="dt">x=</span><span class="op">~</span>speed, <span class="dt">y=</span><span class="op">~</span>stealth, <span class="dt">z=</span><span class="op">~</span>kills, <span class="dt">type =</span> <span class="st">&quot;contour&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb758-16" data-line-number="16"><span class="st">  </span><span class="kw">add_trace</span>(<span class="dt">data =</span> df, <span class="dt">x=</span><span class="op">~</span>speed, <span class="dt">y=</span><span class="op">~</span>stealth, <span class="dt">type=</span><span class="st">&#39;scatter&#39;</span>, <span class="dt">mode=</span><span class="st">&#39;markers&#39;</span>, </a>
+<a class="sourceLine" id="cb758-17" data-line-number="17">            <span class="dt">marker=</span><span class="kw">list</span>(<span class="dt">color=</span><span class="st">&#39;black&#39;</span>, <span class="dt">size=</span><span class="dv">5</span>), <span class="dt">showlegend=</span><span class="ot">FALSE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb758-18" data-line-number="18"><span class="st">  </span><span class="kw">add_trace</span>(<span class="dt">x=</span><span class="dv">261</span>, <span class="dt">y=</span><span class="fl">0.81</span>, <span class="dt">type=</span><span class="st">&#39;scatter&#39;</span>, <span class="dt">mode=</span><span class="st">&#39;markers&#39;</span>, </a>
+<a class="sourceLine" id="cb758-19" data-line-number="19">            <span class="dt">marker=</span><span class="kw">list</span>(<span class="dt">color=</span><span class="st">&#39;red&#39;</span>, <span class="dt">size=</span><span class="dv">5</span>), <span class="dt">showlegend=</span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb758-20" data-line-number="20">}</a>
+<a class="sourceLine" id="cb758-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb758-22" data-line-number="22">f1 =<span class="st"> </span><span class="kw">get_contours</span>(ss3)</a>
+<a class="sourceLine" id="cb758-23" data-line-number="23">f2 =<span class="st"> </span><span class="kw">get_contours</span>(ss5)</a>
+<a class="sourceLine" id="cb758-24" data-line-number="24">f3 =<span class="st"> </span><span class="kw">get_contours</span>(ss10)</a>
+<a class="sourceLine" id="cb758-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb758-26" data-line-number="26"><span class="kw">subplot</span>(f1, f2, f3, <span class="dt">heights=</span><span class="fl">0.5</span>, <span class="dt">shareY =</span> <span class="ot">TRUE</span>, <span class="dt">shareX=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<div id="htmlwidget-40b836fb5fb29df583fa" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-40b836fb5fb29df583fa">{"x":{"data":[{"colorbar":{"title":"kills","ticklen":2,"len":0.25,"lenmode":"fraction","y":1,"yanchor":"top"},"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"x":[100,100,100,200,200,200,300,300,300],"y":[0,0.5,1,0,0.5,1,0,0.5,1],"z":[1,2.5,1.5,2,3.5,2.5,2,2,1.83333333333333],"type":"contour","line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[100,100,100,200,200,200,300,300,300],"y":[0,0.5,1,0,0.5,1,0,0.5,1],"type":"scatter","mode":"markers","marker":{"color":"black","size":5,"line":{"color":"rgba(255,127,14,1)"}},"showlegend":false,"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"line":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[261],"y":[0.81],"type":"scatter","mode":"markers","marker":{"color":"red","size":5,"line":{"color":"rgba(44,160,44,1)"}},"showlegend":false,"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"line":{"color":"rgba(44,160,44,1)"},"xaxis":"x","yaxis":"y","frame":null},{"colorbar":{"title":"kills","ticklen":2,"len":0.25,"lenmode":"fraction","y":0.75,"yanchor":"top"},"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"x":[100,100,100,100,100,150,150,150,150,150,200,200,200,200,200,250,250,250,250,250,300,300,300,300,300],"y":[0,0.25,0.5,0.75,1,0,0.25,0.5,0.75,1,0,0.25,0.5,0.75,1,0,0.25,0.5,0.75,1,0,0.25,0.5,0.75,1],"z":[1,1.75,2.5,3.25,1.5,1.5,2.25,3,3.75,2,2,2.75,3.5,4.25,2.5,2.5,3.25,4,4.75,3,2,2,2,2,1.83333333333333],"type":"contour","line":{"color":"rgba(214,39,40,1)"},"xaxis":"x2","yaxis":"y","frame":null},{"x":[100,100,100,100,100,150,150,150,150,150,200,200,200,200,200,250,250,250,250,250,300,300,300,300,300],"y":[0,0.25,0.5,0.75,1,0,0.25,0.5,0.75,1,0,0.25,0.5,0.75,1,0,0.25,0.5,0.75,1,0,0.25,0.5,0.75,1],"type":"scatter","mode":"markers","marker":{"color":"black","size":5,"line":{"color":"rgba(148,103,189,1)"}},"showlegend":false,"error_y":{"color":"rgba(148,103,189,1)"},"error_x":{"color":"rgba(148,103,189,1)"},"line":{"color":"rgba(148,103,189,1)"},"xaxis":"x2","yaxis":"y","frame":null},{"x":[261],"y":[0.81],"type":"scatter","mode":"markers","marker":{"color":"red","size":5,"line":{"color":"rgba(140,86,75,1)"}},"showlegend":false,"error_y":{"color":"rgba(140,86,75,1)"},"error_x":{"color":"rgba(140,86,75,1)"},"line":{"color":"rgba(140,86,75,1)"},"xaxis":"x2","yaxis":"y","frame":null},{"colorbar":{"title":"kills","ticklen":2,"len":0.25,"lenmode":"fraction","y":0.5,"yanchor":"top"},"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"x":[100,100,100,100,100,100,100,100,100,100,100,120,120,120,120,120,120,120,120,120,120,120,140,140,140,140,140,140,140,140,140,140,140,160,160,160,160,160,160,160,160,160,160,160,180,180,180,180,180,180,180,180,180,180,180,200,200,200,200,200,200,200,200,200,200,200,220,220,220,220,220,220,220,220,220,220,220,240,240,240,240,240,240,240,240,240,240,240,260,260,260,260,260,260,260,260,260,260,260,280,280,280,280,280,280,280,280,280,280,280,300,300,300,300,300,300,300,300,300,300,300],"y":[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],"z":[1,1.3,1.6,1.9,2.2,2.5,2.8,3.1,3.4,1.45,1.5,1.2,1.5,1.8,2.1,2.4,2.7,3,3.3,3.6,1.65,1.7,1.4,1.7,2,2.3,2.6,2.9,3.2,3.5,3.8,1.85,1.9,1.6,1.9,2.2,2.5,2.8,3.1,3.4,3.7,4,2.05,2.1,1.8,2.1,2.4,2.7,3,3.3,3.6,3.9,4.2,2.25,2.3,2,2.3,2.6,2.9,3.2,3.5,3.8,4.1,4.4,2.45,2.5,2.2,2.5,2.8,3.1,3.4,3.7,4,4.3,4.6,2.65,2.7,2.4,2.7,3,3.3,3.6,3.9,4.2,4.5,4.8,2.85,2.9,2.6,2.9,3.2,3.5,3.8,4.1,4.4,4.7,5,3.05,3.1,2.14285714285714,2.14285714285714,2.14285714285714,2.14285714285714,2.14285714285714,2.14285714285714,2.14285714285714,2.14285714285714,2.14285714285714,1.87857142857143,1.92857142857143,2,2,2,2,2,2,2,2,2,1.78333333333333,1.83333333333333],"type":"contour","line":{"color":"rgba(227,119,194,1)"},"xaxis":"x3","yaxis":"y","frame":null},{"x":[100,100,100,100,100,100,100,100,100,100,100,120,120,120,120,120,120,120,120,120,120,120,140,140,140,140,140,140,140,140,140,140,140,160,160,160,160,160,160,160,160,160,160,160,180,180,180,180,180,180,180,180,180,180,180,200,200,200,200,200,200,200,200,200,200,200,220,220,220,220,220,220,220,220,220,220,220,240,240,240,240,240,240,240,240,240,240,240,260,260,260,260,260,260,260,260,260,260,260,280,280,280,280,280,280,280,280,280,280,280,300,300,300,300,300,300,300,300,300,300,300],"y":[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],"type":"scatter","mode":"markers","marker":{"color":"black","size":5,"line":{"color":"rgba(127,127,127,1)"}},"showlegend":false,"error_y":{"color":"rgba(127,127,127,1)"},"error_x":{"color":"rgba(127,127,127,1)"},"line":{"color":"rgba(127,127,127,1)"},"xaxis":"x3","yaxis":"y","frame":null},{"x":[261],"y":[0.81],"type":"scatter","mode":"markers","marker":{"color":"red","size":5,"line":{"color":"rgba(188,189,34,1)"}},"showlegend":false,"error_y":{"color":"rgba(188,189,34,1)"},"error_x":{"color":"rgba(188,189,34,1)"},"line":{"color":"rgba(188,189,34,1)"},"xaxis":"x3","yaxis":"y","frame":null}],"layout":{"xaxis":{"domain":[0,0.313333333333333],"automargin":true,"title":"speed","anchor":"y"},"xaxis2":{"domain":[0.353333333333333,0.646666666666667],"automargin":true,"title":"speed","anchor":"y"},"xaxis3":{"domain":[0.686666666666667,1],"automargin":true,"title":"speed","anchor":"y"},"yaxis":{"domain":[0.25,0.75],"automargin":true,"title":"stealth","anchor":"x"},"annotations":[],"shapes":[],"images":[],"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"zaxis":{"title":"kills"}},"hovermode":"closest","showlegend":true,"legend":{"yanchor":"top","y":0.25}},"attrs":{"f793db6e12c":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"z":{},"type":"contour","inherit":true},"f79230566be":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","marker":{"color":"black","size":5},"showlegend":false,"inherit":true},"f79230566be.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":261,"y":0.81,"type":"scatter","mode":"markers","marker":{"color":"red","size":5},"showlegend":false,"inherit":true},"f792b8e84d7":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"z":{},"type":"contour","inherit":true},"f797126201d":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","marker":{"color":"black","size":5},"showlegend":false,"inherit":true},"f797126201d.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":261,"y":0.81,"type":"scatter","mode":"markers","marker":{"color":"red","size":5},"showlegend":false,"inherit":true},"f7977377211":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"z":{},"type":"contour","inherit":true},"f79134226ce":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","marker":{"color":"black","size":5},"showlegend":false,"inherit":true},"f79134226ce.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":261,"y":0.81,"type":"scatter","mode":"markers","marker":{"color":"red","size":5},"showlegend":false,"inherit":true}},"source":"A","config":{"showSendToCloud":false},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"subplot":true,"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Given the above three plots, if you didn’t know the true optimal values for speed and stealth, clearly the plot on the right with the best space-filling properties provides the best estimates. To determine the optimal values from the plot, we simply find the speed and stealth values that result in the maximum number of kills, which appears to be approximately speed = 220 and stealth = 0.70. The 2D contour plot on the right can also be plotted as a 3D surface, as shown below.</p>
+<div class="sourceCode" id="cb759"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb759-1" data-line-number="1">killz =<span class="st"> </span><span class="kw">as.matrix</span>(ss10 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> speed, <span class="dt">values_from =</span> kills))</a>
+<a class="sourceLine" id="cb759-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb759-3" data-line-number="3"><span class="kw">plot_ly</span>(<span class="dt">z=</span><span class="op">~</span>killz) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb759-4" data-line-number="4"><span class="st">  </span><span class="kw">add_surface</span>(<span class="dt">contours =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb759-5" data-line-number="5">    <span class="dt">z =</span> <span class="kw">list</span>(<span class="dt">show =</span> <span class="ot">TRUE</span>)), <span class="dt">z =</span> <span class="op">~</span>killz) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb759-6" data-line-number="6"><span class="st">  </span><span class="kw">layout</span>(</a>
+<a class="sourceLine" id="cb759-7" data-line-number="7">    <span class="dt">title =</span> <span class="st">&quot;3D Response Surface&quot;</span>,</a>
+<a class="sourceLine" id="cb759-8" data-line-number="8">    <span class="dt">scene =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb759-9" data-line-number="9">      <span class="dt">xaxis =</span> <span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;Speed&quot;</span>),</a>
+<a class="sourceLine" id="cb759-10" data-line-number="10">      <span class="dt">yaxis =</span> <span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;Stealth&quot;</span>),</a>
+<a class="sourceLine" id="cb759-11" data-line-number="11">      <span class="dt">zaxis =</span> <span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;Kills&quot;</span>, <span class="dt">nticks=</span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb759-12" data-line-number="12">    ))</a></code></pre></div>
+<div id="htmlwidget-68ed461f4ed1537e2844" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-68ed461f4ed1537e2844">{"x":{"visdat":{"f79519ede2d":["function () ","plotlyVisDat"]},"cur_data":"f79519ede2d","attrs":{"f79519ede2d":{"z":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"surface","contours":{"z":{"show":true}},"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"3D Response Surface","scene":{"xaxis":{"title":"Speed"},"yaxis":{"title":"Stealth"},"zaxis":{"title":"Kills","nticks":10}},"hovermode":"closest","showlegend":false,"legend":{"yanchor":"top","y":0.5}},"source":"A","config":{"showSendToCloud":false},"data":[{"colorbar":{"title":"killz","ticklen":2,"len":0.5,"lenmode":"fraction","y":1,"yanchor":"top"},"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"z":[[0,1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.14285714285714,2],[0.1,1.3,1.5,1.7,1.9,2.1,2.3,2.5,2.7,2.9,2.14285714285714,2],[0.2,1.6,1.8,2,2.2,2.4,2.6,2.8,3,3.2,2.14285714285714,2],[0.3,1.9,2.1,2.3,2.5,2.7,2.9,3.1,3.3,3.5,2.14285714285714,2],[0.4,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,2.14285714285714,2],[0.5,2.5,2.7,2.9,3.1,3.3,3.5,3.7,3.9,4.1,2.14285714285714,2],[0.6,2.8,3,3.2,3.4,3.6,3.8,4,4.2,4.4,2.14285714285714,2],[0.7,3.1,3.3,3.5,3.7,3.9,4.1,4.3,4.5,4.7,2.14285714285714,2],[0.8,3.4,3.6,3.8,4,4.2,4.4,4.6,4.8,5,2.14285714285714,2],[0.9,1.45,1.65,1.85,2.05,2.25,2.45,2.65,2.85,3.05,1.87857142857143,1.78333333333333],[1,1.5,1.7,1.9,2.1,2.3,2.5,2.7,2.9,3.1,1.92857142857143,1.83333333333333]],"type":"surface","contours":{"z":{"show":true}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>The designs for the plots above are gridded designs, which we’ve demonstrated to be inefficient. Therefore, we’ll replace the gridded design with a spherical CCD.</p>
+<p>When creating the design matrix with the <code>rsm</code> functions, we can convert the default factor codings into the ranges we’re interested in using the formulas shown in the following code chunk. We set the ranges of the factor levels using the <code>coding</code> parameter. The formula <code>(speed-200)/100</code> centers the <code>speed</code> factor on 200 and varies it by +/- 100.</p>
+<div class="sourceCode" id="cb760"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb760-1" data-line-number="1">helo =<span class="st"> </span><span class="kw">cube</span>(<span class="dv">3</span>,                        <span class="co"># 3 factors</span></a>
+<a class="sourceLine" id="cb760-2" data-line-number="2">            <span class="dt">n0=</span><span class="dv">0</span>,                     <span class="co"># no center point to the cube</span></a>
+<a class="sourceLine" id="cb760-3" data-line-number="3">            <span class="dt">inscribed=</span><span class="ot">TRUE</span>,           <span class="co"># required when using alpha=&quot;spherical&quot;</span></a>
+<a class="sourceLine" id="cb760-4" data-line-number="4">            <span class="dt">coding =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb760-5" data-line-number="5">              x1<span class="op">~</span>(speed<span class="dv">-200</span>)<span class="op">/</span><span class="dv">100</span>,     <span class="co"># center on 200 and vary by 100</span></a>
+<a class="sourceLine" id="cb760-6" data-line-number="6">              x2<span class="op">~</span>(stealth<span class="fl">-0.5</span>)<span class="op">/</span><span class="fl">0.5</span>,   <span class="co"># center on 0.5 and vary by 0.5</span></a>
+<a class="sourceLine" id="cb760-7" data-line-number="7">              x3<span class="op">~</span>(sensor<span class="dv">-10</span>)<span class="op">/</span><span class="dv">5</span>))      <span class="co"># center on 10 and vary by 5</span></a>
+<a class="sourceLine" id="cb760-8" data-line-number="8">helo =<span class="st"> </span><span class="kw">djoin</span>(helo,                    <span class="co"># join the cube with the star points</span></a>
+<a class="sourceLine" id="cb760-9" data-line-number="9">             <span class="kw">star</span>(<span class="dt">alpha=</span><span class="st">&quot;spherical&quot;</span>,  <span class="co"># brings corner points in</span></a>
+<a class="sourceLine" id="cb760-10" data-line-number="10">                  <span class="dt">n0=</span><span class="dv">1</span>))              <span class="co"># add a center point to the star</span></a>
+<a class="sourceLine" id="cb760-11" data-line-number="11">helo</a></code></pre></div>
+<pre><code>##    run.order std.order   speed   stealth    sensor Block
+## 1          1         8 257.735 0.7886751 12.886751     1
+## 2          2         4 257.735 0.7886751  7.113249     1
+## 3          3         6 257.735 0.2113249 12.886751     1
+## 4          4         5 142.265 0.2113249 12.886751     1
+## 5          5         2 257.735 0.2113249  7.113249     1
+## 6          6         3 142.265 0.7886751  7.113249     1
+## 7          7         7 142.265 0.7886751 12.886751     1
+## 8          8         1 142.265 0.2113249  7.113249     1
+## 9          1         7 200.000 0.5000000 10.000000     2
+## 10         2         1 100.000 0.5000000 10.000000     2
+## 11         3         6 200.000 0.5000000 15.000000     2
+## 12         4         5 200.000 0.5000000  5.000000     2
+## 13         5         2 300.000 0.5000000 10.000000     2
+## 14         6         3 200.000 0.0000000 10.000000     2
+## 15         7         4 200.000 1.0000000 10.000000     2
+## 
+## Data are stored in coded form using these coding formulas ...
+## x1 ~ (speed - 200)/100
+## x2 ~ (stealth - 0.5)/0.5
+## x3 ~ (sensor - 10)/5</code></pre>
+<p>Oddly (to me, anyway), this doesn’t preserve the factor names and coded values as shown above. For example, <code>helo$speed</code> doesn’t exist.</p>
+<div class="sourceCode" id="cb762"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb762-1" data-line-number="1">helo<span class="op">$</span>speed    <span class="co"># doesn&#39;t exist</span></a></code></pre></div>
+<pre><code>## NULL</code></pre>
+<div class="sourceCode" id="cb764"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb764-1" data-line-number="1"><span class="kw">names</span>(helo)   <span class="co"># what does exist?</span></a></code></pre></div>
+<pre><code>## [1] &quot;run.order&quot; &quot;std.order&quot; &quot;x1&quot;        &quot;x2&quot;        &quot;x3&quot;        &quot;Block&quot;</code></pre>
+<p>To get the factor names and coded values, we must use <code>decode.data()</code> as shown.</p>
+<div class="sourceCode" id="cb766"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb766-1" data-line-number="1">helo_coded =<span class="st"> </span><span class="kw">decode.data</span>(helo)</a>
+<a class="sourceLine" id="cb766-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb766-3" data-line-number="3"><span class="kw">names</span>(helo_coded)</a></code></pre></div>
+<pre><code>## [1] &quot;run.order&quot; &quot;std.order&quot; &quot;speed&quot;     &quot;stealth&quot;   &quot;sensor&quot;    &quot;Block&quot;</code></pre>
+<p>Now we get the number of kills based on our design and plot it.</p>
+<div class="sourceCode" id="cb768"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb768-1" data-line-number="1">ccd_results =<span class="st"> </span><span class="kw">get_kills</span>(helo_coded)</a>
+<a class="sourceLine" id="cb768-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb768-3" data-line-number="3"><span class="kw">get_contours</span>(ccd_results) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">layout</span>(<span class="dt">title =</span> <span class="st">&quot;CCD Response Surface&quot;</span>)</a></code></pre></div>
+<div id="htmlwidget-de38266b02b1af35071f" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-de38266b02b1af35071f">{"x":{"visdat":{"f794b98f4cc":["function () ","plotlyVisDat"],"f7932e8a53f":["function () ","data"],"f797fad823":["function () ","data"]},"cur_data":"f797fad823","attrs":{"f7932e8a53f":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"z":{},"type":"contour","inherit":true},"f797fad823":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":{},"y":{},"type":"scatter","mode":"markers","marker":{"color":"black","size":5},"showlegend":false,"inherit":true},"f797fad823.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":261,"y":0.81,"type":"scatter","mode":"markers","marker":{"color":"red","size":5},"showlegend":false,"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"CCD Response Surface","xaxis":{"domain":[0,1],"automargin":true,"title":"speed"},"yaxis":{"domain":[0,1],"automargin":true,"title":"stealth"},"scene":{"zaxis":{"title":"kills"}},"hovermode":"closest","showlegend":false,"legend":{"yanchor":"top","y":0.5}},"source":"A","config":{"showSendToCloud":false},"data":[{"colorbar":{"title":"kills","ticklen":2,"len":0.5,"lenmode":"fraction","y":1,"yanchor":"top"},"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333334","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"x":[257.735026918963,257.735026918963,257.735026918963,142.264973081037,257.735026918963,142.264973081037,142.264973081037,142.264973081037,200,100,200,200,300,200,200],"y":[0.788675134594813,0.788675134594813,0.211324865405187,0.211324865405187,0.211324865405187,0.788675134594813,0.788675134594813,0.211324865405187,0.5,0.5,0.5,0.5,0.5,0,1],"z":[4.94337567297406,4.94337567297406,3.21132486540519,2.05662432702594,3.21132486540519,3.78867513459481,3.78867513459481,2.05662432702594,3.5,2.5,3.5,3.5,2,2,2.5],"type":"contour","line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[257.735026918963,257.735026918963,257.735026918963,142.264973081037,257.735026918963,142.264973081037,142.264973081037,142.264973081037,200,100,200,200,300,200,200],"y":[0.788675134594813,0.788675134594813,0.211324865405187,0.211324865405187,0.211324865405187,0.788675134594813,0.788675134594813,0.211324865405187,0.5,0.5,0.5,0.5,0.5,0,1],"type":"scatter","mode":"markers","marker":{"color":"black","size":5,"line":{"color":"rgba(255,127,14,1)"}},"showlegend":false,"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"line":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[261],"y":[0.81],"type":"scatter","mode":"markers","marker":{"color":"red","size":5,"line":{"color":"rgba(44,160,44,1)"}},"showlegend":false,"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"line":{"color":"rgba(44,160,44,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="ccd-problem-set" class="section level3">
+<h3><span class="header-section-number">10.4.1</span> CCD Problem Set</h3>
+<p>The problem set for this section is located <a href = "/_Chapter10_ProblemSets/CCD_ProblemSet_Questions.html">here</a>.</p>
+<p>For your convenience, the problem set as an R markdown is located <a href = "/_Chapter10_ProblemSets/CCD_ProblemSet_Questions.Rmd">here</a>.</p>
+<p>The solutions for this problem set is located <a href = "/_Chapter10_ProblemSets/CCD_ProblemSet_Solutions.html">here</a>.</p>
+</div>
+</div>
+<div id="nearly-orthogonal-latin-hypercube-designs" class="section level2">
+<h2><span class="header-section-number">10.5</span> Nearly Orthogonal Latin Hypercube Designs</h2>
+<p>In the CCD section, we saw the benefit of the good space filling properties of gridded designs when using response surface methodology. A benefit of CCDs is that they are much more efficient than gridded designs; however, their space-filling properties are not as good. Latin hypercube-based designs combine the efficiency of CCDs with the space-filling properties of gridded designs. As such, they are well-suited for response surface methodology.</p>
+<p>If we take a step back for a moment, how might we construct a design matrix that uniformly covers the range of the predictor variables? Why not just select randomly from uniform distributions? This is referred to as a <strong>random Latin hypercube</strong>.</p>
+<div class="sourceCode" id="cb769"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb769-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb769-2" data-line-number="2">dm =<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb769-3" data-line-number="3">  <span class="dt">x1 =</span> <span class="kw">runif</span>(<span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb769-4" data-line-number="4">  <span class="dt">x2 =</span> <span class="kw">runif</span>(<span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb769-5" data-line-number="5">  <span class="dt">x3 =</span> <span class="kw">runif</span>(<span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb769-6" data-line-number="6">  <span class="dt">x4 =</span> <span class="kw">runif</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb769-7" data-line-number="7">)</a>
+<a class="sourceLine" id="cb769-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb769-9" data-line-number="9"><span class="kw">pairs</span>(dm)</a></code></pre></div>
+<p><img src="08-Advanced_Designs_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>That’s not bad. We have a design matrix for 4 factors at 10 levels each, and we only needed 10 design points! However, if we take a closer look, we discover a significant issue.</p>
+<div class="sourceCode" id="cb770"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb770-1" data-line-number="1"><span class="kw">library</span>(GGally)</a>
+<a class="sourceLine" id="cb770-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb770-3" data-line-number="3">smooth_fn &lt;-<span class="st"> </span><span class="cf">function</span>(data, mapping, ...){</a>
+<a class="sourceLine" id="cb770-4" data-line-number="4">  <span class="kw">ggplot</span>(<span class="dt">data =</span> data, <span class="dt">mapping =</span> mapping) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb770-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb770-6" data-line-number="6"><span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">formula =</span> y<span class="op">~</span>x, <span class="dt">method=</span>lm, <span class="dt">fill=</span><span class="st">&quot;red&quot;</span>, <span class="dt">color=</span><span class="st">&quot;red&quot;</span>, <span class="dt">se=</span><span class="ot">FALSE</span>, ...)</a>
+<a class="sourceLine" id="cb770-7" data-line-number="7">}</a>
+<a class="sourceLine" id="cb770-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb770-9" data-line-number="9">GGally<span class="op">::</span><span class="kw">ggpairs</span>(dm, <span class="dt">lower=</span><span class="kw">list</span>(<span class="dt">continuous=</span>smooth_fn), <span class="dt">progress=</span><span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb770-10" data-line-number="10"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Random Latin Hypercube&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb770-11" data-line-number="11"><span class="st">  </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<p><img src="08-Advanced_Designs_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>Even though we randomly selected the values, some factor combinations have a significant amount of correlation. <code>x2</code> and <code>x3</code> have a correlation of -0.411, for example. Also notice that factor combination doesn’t have any design points in the upper right corner. Orthogonal and nearly-orthogonal Latin hypercubes were developed to overcome this issue using optimization techniques that minimize correlations and maximize space-filling properties.</p>
+<p>In this section, we’ll focus on the nearly orthogonal Latin hypercube (NOLH) designs developed by <a href = "http://hdl.handle.net/10945/9808">Cioppa</a> and <a href = "https://link.springer.com/article/10.1057/jos.2016.8">MacCalman</a>. Since NOLH designs efficiently accommodate a large number of factors, they are particularly useful for screening purposes. Excel-based tools for generating Cioppa’s and MacCalman’s designs are available to <a href = "https://nps.edu/web/seed/software-downloads">download</a> from the Naval Postgraduate School’s Simulation Experiments and Efficient Designs (SEED) center.</p>
+<p>A few things to be aware of when considering these designs:</p>
+<ul>
+<li>Cioppa’s designs are <i>for continuous factors only</i>, although discrete factors can be included if the number of discrete values is at least nine or ten.</li>
+<li>Each of Cioppa’s designs can accommodate <i>up to</i> the number of stated factors, so you can use fewer factors if needed. (e.g., the 17-point design can accommodate anywhere from 1 to 7 factors). However, <i>you cannot remove design points</i>.</li>
+<li>Cioppa’s designs are not intended to be used to study quadratic effects or interactions. If you need to include these terms, use MacCalman’s designs instead.</li>
+<li>MacCalman’s designs <i>can accommodate continuous, discrete, binary, and categorical variables</i>.</li>
+<li>With MacCalman’s designs, you <i>can specify the number of design points</i>.</li>
+<li>MacCalman’s designs <i>nearly guarantee that all first and second order terms are not confounded with others</i>. Second order effects include both two-way interactions and quadratic effects.</li>
+</ul>
+<div id="factor-codings" class="section level3">
+<h3><span class="header-section-number">10.5.1</span> Factor Codings</h3>
+<p>The tools for generating Cioppa’s and MacCalman’s designs provide a user interface for naming factors, setting minimum and maximum factor values, and specifying the number of decimal places. The Excel tools both generate the resulting design as a .csv file, which you can then read into <em>R</em> for further use. In my experience, generating a design matrix for a study can sometimes be an iterative process. This requires switching back and forth between Excel and <em>R</em> and generating a new .csv file for each change to the design, which can be somewhat time consuming. When creating designs using the Excel tool for MacCalman’s design, there’s no getting around this because of the stochastic processes contained within the tool. With Cioppa’s Excel file, however, the entire iterative process can be conducted in <em>R</em> by using the underlying factor codings.</p>
+<p>Cioppa’s designs are the result of a Mixed Integer Program and therefore produce integer values (aka, factor codings) for each design point. The Excel tool then converts these integers into the ranges and significant figures specified by the user to generate a .csv file. This is a straight forward conversion that we can perform in an <em>R</em> script, so all we really need are the factor codings themselves to do everything in an <em>R</em> session.</p>
+<p>Factor codings for Cioppa’s 17-point design are as follows:</p>
+<div id="htmlwidget-ed0f3e52000f25921bd2" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ed0f3e52000f25921bd2">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17"],[6,2,3,4,13,17,11,10,9,12,16,15,14,5,1,7,8],[17,5,8,11,16,6,4,15,9,1,13,10,7,2,12,14,3],[14,15,2,6,8,7,17,13,9,4,3,16,12,10,11,1,5],[7,10,5,17,3,14,6,16,9,11,8,13,1,15,4,12,2],[5,1,11,10,6,2,15,14,9,13,17,7,8,12,16,3,4],[16,6,14,3,1,13,8,11,9,2,12,4,15,17,5,10,7],[10,11,17,13,14,15,16,12,9,8,7,1,5,4,3,2,6]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>f4<\/th>\n      <th>f5<\/th>\n      <th>f7<\/th>\n      <th>f2<\/th>\n      <th>f3<\/th>\n      <th>f6<\/th>\n      <th>f1<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":17,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,17,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<p>A pairs plot of factor codings for Cioppa’s 17-point design is shown below. Compare this plot with the pairs plot for the random Latin hypercube design.</p>
+<div class="sourceCode" id="cb771"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb771-1" data-line-number="1">GGally<span class="op">::</span><span class="kw">ggpairs</span>(dm17, <span class="dt">lower =</span> <span class="kw">list</span>(<span class="dt">continuous =</span> <span class="kw">wrap</span>(<span class="st">&quot;points&quot;</span>, <span class="dt">size=</span><span class="fl">0.1</span>)), <span class="dt">progress=</span><span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb771-2" data-line-number="2"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;OLH With 17 Design Points&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb771-3" data-line-number="3"><span class="st">  </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<p><img src="08-Advanced_Designs_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>Next is Cioppa’s 257-point design. To reduce the size of the plot, just the first 7 of the possible 29 factors are shown. Note the improved space-filling properties compared to the 17-point design.</p>
+<div class="sourceCode" id="cb772"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb772-1" data-line-number="1"><span class="kw">ggpairs</span>(dm257 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>), <span class="dt">lower =</span> <span class="kw">list</span>(<span class="dt">continuous =</span> <span class="kw">wrap</span>(<span class="st">&quot;points&quot;</span>, <span class="dt">size=</span><span class="fl">0.1</span>)), <span class="dt">progress=</span><span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb772-2" data-line-number="2"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;NOLH With 257 Design Points&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb772-3" data-line-number="3"><span class="st">  </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<p><img src="08-Advanced_Designs_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+</div>
+</div>
+<div id="orthogonality-and-variance-inflation-factors" class="section level2">
+<h2><span class="header-section-number">10.6</span> Orthogonality and Variance Inflation Factors</h2>
+<p>Cioppa’s 17-point design is, in fact, strictly orthogonal, which we can confirm by calculating the dot product of each factor pair.</p>
+<div class="sourceCode" id="cb773"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb773-1" data-line-number="1"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>){</a>
+<a class="sourceLine" id="cb773-2" data-line-number="2">  <span class="cf">for</span> (j <span class="cf">in</span> (i<span class="op">+</span><span class="dv">1</span>)<span class="op">:</span><span class="dv">7</span>){</a>
+<a class="sourceLine" id="cb773-3" data-line-number="3">    <span class="kw">print</span>(dm17[[i]] <span class="op">%*%</span><span class="st"> </span>dm17[[j]])</a>
+<a class="sourceLine" id="cb773-4" data-line-number="4">  }</a>
+<a class="sourceLine" id="cb773-5" data-line-number="5">}</a></code></pre></div>
+<pre><code>##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377
+##      [,1]
+## [1,] 1377</code></pre>
+<p>We can also see that the pair-wise correlation coefficients are all zero.</p>
+<div class="sourceCode" id="cb775"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb775-1" data-line-number="1"><span class="kw">cor</span>(dm17)</a></code></pre></div>
+<pre><code>##    f4 f5 f7 f2 f3 f6 f1
+## f4  1  0  0  0  0  0  0
+## f5  0  1  0  0  0  0  0
+## f7  0  0  1  0  0  0  0
+## f2  0  0  0  1  0  0  0
+## f3  0  0  0  0  1  0  0
+## f6  0  0  0  0  0  1  0
+## f1  0  0  0  0  0  0  1</code></pre>
+<p>A common method to check for multicollinearity in a design is to calculate the variance inflation factor (VIF) for each predictor. Penn State has a good <a href='https://online.stat.psu.edu/stat462/node/180/'> online resource </a> that describes VIF, which I’ll paraphrase. When multicollinearity exists, the standard errors of the estimated coefficients are inflated, which means the variances are also inflated. The VIF for the estimated regression coefficient <span class="math inline">\(\beta_i\)</span> is the amount the variance of <span class="math inline">\(\beta_i\)</span> is “inflated” by the existence of correlation among the predictor variables in the model. The VIF for the ith predictor is:</p>
+<p><span class="math display">\[VIF_i = \frac{1}{1-R^{2}_{i}}\]</span></p>
+<p>where <span class="math inline">\(R^{2}_{i}\)</span> is the <span class="math inline">\(R^2\)</span> obtained by regressing the ith predictor on the remaining predictors. If no multicollinearity exists, then each predictor’s VIF will equal 1. A rule of thumb is that a VIF above about 5 should be investigated, and a VIF above 10 indicates strong multicollinearity that should be corrected. In <em>R</em>, we can use the <code>vif()</code> function from the <code>faraway</code> package. With the 17-point design, we see that no multicollinearity exists.</p>
+<div class="sourceCode" id="cb777"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb777-1" data-line-number="1">faraway<span class="op">::</span><span class="kw">vif</span>(dm17)</a></code></pre></div>
+<pre><code>## f4 f5 f7 f2 f3 f6 f1 
+##  1  1  1  1  1  1  1</code></pre>
+<p>Repeating the tests on the 257-point design, we see that not every column is exactly orthogonal. For example, these two dot products are not equal.</p>
+<div class="sourceCode" id="cb779"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb779-1" data-line-number="1">dm257<span class="op">$</span>f1 <span class="op">%*%</span><span class="st"> </span>dm257<span class="op">$</span>f17</a></code></pre></div>
+<pre><code>##         [,1]
+## [1,] 4274287</code></pre>
+<div class="sourceCode" id="cb781"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb781-1" data-line-number="1">dm257<span class="op">$</span>f2 <span class="op">%*%</span><span class="st"> </span>dm257<span class="op">$</span>f23</a></code></pre></div>
+<pre><code>##         [,1]
+## [1,] 4275511</code></pre>
+<p>We also see that the correlation coefficients are slightly greater than zero. For example, the first four columns:</p>
+<div class="sourceCode" id="cb783"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb783-1" data-line-number="1"><span class="kw">cor</span>(dm257)[, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre></div>
+<pre><code>##                f1            f2            f3            f4
+## f1   1.000000e+00  0.0000000000  0.000000e+00  0.000000e+00
+## f2   0.000000e+00  1.0000000000  0.000000e+00  0.000000e+00
+## f3   0.000000e+00  0.0000000000  1.000000e+00  0.000000e+00
+## f4   0.000000e+00  0.0000000000  0.000000e+00  1.000000e+00
+## f5   0.000000e+00  0.0000000000  0.000000e+00  0.000000e+00
+## f6   0.000000e+00  0.0000000000  0.000000e+00  0.000000e+00
+## f7   0.000000e+00  0.0000000000  0.000000e+00  0.000000e+00
+## f8   0.000000e+00  0.0000000000  0.000000e+00  0.000000e+00
+## f9  -1.269681e-03  0.0010575966 -2.209924e-03  4.496199e-04
+## f10 -1.384207e-03  0.0014831803  1.411071e-03 -1.272509e-05
+## f11  1.286648e-04 -0.0009416569  1.286648e-04 -2.324450e-03
+## f12 -3.152995e-04 -0.0016302258  1.969562e-03 -4.510338e-04
+## f13 -8.638924e-04 -0.0005994933 -7.126052e-04 -1.852208e-03
+## f14  1.573670e-03 -0.0012908900 -1.979459e-04  3.017261e-03
+## f15  7.196747e-04 -0.0003124717  1.894625e-03 -8.780314e-04
+## f16  1.823930e-04  0.0022141661  5.132454e-04 -2.323036e-03
+## f17 -1.732027e-03  0.0010830468  7.210886e-05 -8.200615e-04
+## f18 -8.907565e-04  0.0016061895 -5.980794e-04 -6.263573e-04
+## f19 -9.063094e-04  0.0002757103  5.160732e-04  2.465840e-03
+## f20 -2.813659e-04 -0.0007055357  8.214754e-04 -9.770043e-04
+## f21 -7.069496e-06 -0.0005500068 -5.273844e-04  2.573297e-04
+## f22  8.356144e-04  0.0011452583  1.531253e-03 -3.492331e-04
+## f23 -3.803389e-04 -0.0008667202 -1.979459e-04 -5.528346e-04
+## f24  6.207017e-04  0.0004086169 -5.655597e-04  4.001335e-04
+## f25  1.241403e-03  0.0002403629  7.635056e-05 -6.150461e-04
+## f26  1.173536e-04 -0.0003916501 -1.428038e-03 -5.245566e-04
+## f27  1.320582e-03 -0.0001399760  1.172122e-03 -1.905936e-03
+## f28  5.316261e-04 -0.0016443648  1.148086e-03  1.324824e-03
+## f29  5.104176e-04 -0.0006207017 -1.527011e-04  5.217288e-04</code></pre>
+<p>The VIF for each predictor is also slightly greater than one. Notice that the VIFs are nowhere near our rule of thumb values.</p>
+<div class="sourceCode" id="cb785"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb785-1" data-line-number="1">faraway<span class="op">::</span><span class="kw">vif</span>(dm257)</a></code></pre></div>
+<pre><code>##       f1       f2       f3       f4       f5       f6       f7       f8 
+## 1.000017 1.000024 1.000024 1.000040 1.000013 1.000033 1.000028 1.000017 
+##       f9      f10      f11      f12      f13      f14      f15      f16 
+## 1.000064 1.000049 1.000030 1.000033 1.000038 1.000039 1.000026 1.000060 
+##      f17      f18      f19      f20      f21      f22      f23      f24 
+## 1.000062 1.000056 1.000037 1.000039 1.000027 1.000040 1.000029 1.000027 
+##      f25      f26      f27      f28      f29 
+## 1.000024 1.000034 1.000050 1.000030 1.000042</code></pre>
+<p>Of Cioppa’s designs, only the 17-point design is strictly orthogonal. Why is that? The short answer is that he needed to slightly relax the orthogonality requirement in the mixed integer program that generated the larger designs, hence the term “nearly orthogonal”. For the long answer, read his Ph.D. dissertation at the link provided earlier. MacCalman took the same approach, so designs from his Excel tool are also nearly orthogonal.</p>
+</div>
+<div id="shifting-and-stacking" class="section level2">
+<h2><span class="header-section-number">10.7</span> Shifting and Stacking</h2>
+<p>Say we have a design matrix with a relatively small number of factors, in this case four. A 17-point OLH could easily accommodate just four factors, but what if we have the time and resources available for more than 17 runs? We wouldn’t want to just replicate the 17-point design as is because if we’re going to do more runs, we might as well improve the space-filling properties of the design. There are two common approaches in this situation. First, we can select a design that accommodates more factors than necessary and just keep the four factors that we need. For example, the 17-point design:</p>
+<div class="sourceCode" id="cb787"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb787-1" data-line-number="1"><span class="kw">ggpairs</span>(dm17 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="dt">lower =</span> <span class="kw">list</span>(<span class="dt">continuous =</span> <span class="kw">wrap</span>(<span class="st">&quot;points&quot;</span>, <span class="dt">size=</span><span class="fl">0.1</span>)), <span class="dt">progress=</span><span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb787-2" data-line-number="2"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;NOLH With 17 Design Points&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb787-3" data-line-number="3"><span class="st">  </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<p><img src="08-Advanced_Designs_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>Compare that to four factors from the 257-point design.</p>
+<div class="sourceCode" id="cb788"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb788-1" data-line-number="1"><span class="kw">ggpairs</span>(dm257 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="dt">lower =</span> <span class="kw">list</span>(<span class="dt">continuous =</span> <span class="kw">wrap</span>(<span class="st">&quot;points&quot;</span>, <span class="dt">size=</span><span class="fl">0.1</span>)), <span class="dt">progress=</span><span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb788-2" data-line-number="2"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;NOLH With 257 Design Points&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb788-3" data-line-number="3"><span class="st">  </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<p><img src="08-Advanced_Designs_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>Another technique is to apply shifting and stacking to a base design. Starting with the 17-point design, we make a copy of the design, move the last column to the first column and <strong>shift</strong> the other columns to the right. Then we <strong>stack</strong> the original design on top of the shifted design.</p>
+<div class="sourceCode" id="cb789"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb789-1" data-line-number="1">original_dm =<span class="st"> </span>dm17 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(f1, f2, f3, f4) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">design=</span><span class="st">&quot;original&quot;</span>)</a>
+<a class="sourceLine" id="cb789-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb789-3" data-line-number="3">shifted_dm =<span class="st"> </span>dm17 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(f4, f1, f2, f3) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">design=</span><span class="st">&quot;shifted&quot;</span>)</a>
+<a class="sourceLine" id="cb789-4" data-line-number="4"><span class="kw">colnames</span>(shifted_dm) =<span class="st"> </span><span class="kw">colnames</span>(original_dm)</a>
+<a class="sourceLine" id="cb789-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb789-6" data-line-number="6">stacked_dm =<span class="st"> </span><span class="kw">bind_rows</span>(original_dm, shifted_dm)</a>
+<a class="sourceLine" id="cb789-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb789-8" data-line-number="8"><span class="kw">ggpairs</span>(stacked_dm, <span class="dt">mapping =</span> ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">color =</span> design),</a>
+<a class="sourceLine" id="cb789-9" data-line-number="9">        <span class="dt">lower =</span> <span class="kw">list</span>(<span class="dt">continuous =</span> <span class="kw">wrap</span>(<span class="st">&quot;points&quot;</span>, <span class="dt">size=</span><span class="dv">1</span>)), <span class="dt">progress=</span><span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb789-10" data-line-number="10"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Shifted and Stacked Design Matrix&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb789-11" data-line-number="11"><span class="st">  </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<p><img src="08-Advanced_Designs_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<div id="nolh-problem-set" class="section level3">
+<h3><span class="header-section-number">10.7.1</span> NOLH Problem Set</h3>
+<p>The problem set for this section is located <a href = "/_Chapter10_ProblemSets/NOLH_ProblemSet_Questions.html">here</a>.</p>
+<p>For your convenience, the problem set as an R markdown is located <a href = "/_Chapter10_ProblemSets/NOLH_ProblemSet_Questions.Rmd">here</a>.</p>
+<p>The solutions for this problem set is located <a href = "/_Chapter10_ProblemSets/NOLH_ProblemSet_Solutions.html">here</a>.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="application-of-doe-to-the-advanced-warfighting-simulation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="non-parametric-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "chapter"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

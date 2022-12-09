@@ -1,0 +1,210 @@
+---
+title: "Chapter 2: Descriptive Statistics - Problem Set"
+author: "Your Name Here"
+date: "Your Date Here"
+output: 
+  html_document:
+    number_sections: true
+    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+```
+
+
+# Introduction
+This tutorial is intended to allow people to practice producing and interpreting descriptive statistics and figures.  We use the Ames, Iowa data set as described in: http://jse.amstat.org/v19n3/decock.pdf.  The actual data set is contained in this folder for your convenience.
+
+This tutorial assumes some base familiarity with ggplot and the tidyverse.  If you do not have that, please see previous lessons or google.
+For building nice plots, the *R Graphics Cookbook* by Winston Chang is a useful reference: https://r-graphics.org/
+More generally, if I don't know how to plot something, I google it and find the answer on someone's stackexchange or something like that.
+
+For this tutorial, we will use the following packages:
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+# Step 1: Read the Data
+
+We want to take the data from its source (in this case, a .csv) and convert it into an *R* object.
+
+
+```{r}
+#Answer here
+
+```
+
+## Get an Understanding of the Data:
+
+1. Look at the top several rows of the data (hint head()).
+
+
+```{r}
+#Answer here
+
+
+```
+
+2. Find out how many fields (columns) and records (rows) exist in the data. (Note, there are many ways to do this).
+
+
+```{r}
+#Answer here
+
+
+```
+
+3. Identify what the fields are and learn something about them.
+
+
+```{r}
+#Answer here
+
+
+```
+
+4. Determine the number of rows that are missing at least one data record (i.e., the number of rows with an NA).
+
+
+```{r}
+#Answer here
+
+
+```
+
+At this point, you have to make some decision about your data (e.g., drop incomplete records, provide a standard fill to incomplete records, or something else).  We're not going to do that however.
+
+### Select the appropriate data
+
+Select the columns: "SalePrice" and "House.Style" and remove the rest.  We're only going to look at these for the rest of this section.
+
+
+```{r}
+#Answer here
+
+
+```
+
+Ensure that SalePrice is numeric and House.Style is a factor
+
+
+```{r}
+#Answer here
+
+
+```
+
+# Step 2. Continuous Data Descriptions
+
+Find the maximum, minimum, median, mean, and standard deviation of the sale prices.
+
+
+```{r}
+#Answer here
+
+
+```
+
+Build & plot a probability distribution (pdf) of the ames data.
+
+
+```{r}
+#Answer here
+
+
+```
+
+Build an empirical cumulative density function, plot it, and find the probability that a house costs between $100,000 and $150,000
+
+
+```{r}
+#Answer here
+
+
+```
+
+Find what the sale prices are for the 0, 10, 20, ... percentiles (i.e. the quantiles)
+
+
+```{r}
+#Answer here
+
+
+```
+
+Visualize the data using a boxplot, density plot, histogram
+
+
+```{r}
+#Answer here
+
+
+```
+
+# Step 3. Categorical Data Description
+
+For this section, note that House.Style is a categorical (in R, it is called a factor) variable.
+
+What are the number of categories (levels) of the factor?  How many records are in each level?
+
+
+```{r}
+#Answer here
+
+
+```
+
+Plot the number of instances of each level in as a bar chart.
+
+
+```{r}
+#Answer here
+
+
+```
+
+Plot the levels as a pie chart (this can be a bit tricky, I always end up googling how to do it).
+
+
+```{r}
+#Answer here
+
+
+```
+
+# Step 4. Describe a mix of continuous and categorical data
+
+Produce a boxplot chart where the x axis is the type of house.
+
+
+```{r}
+#Answer here
+
+
+```
+
+Produce multiple histograms where each chart is for a distinct house style.
+
+
+```{r}
+#Answer here
+
+
+```
+
+Produce a density plot where each house type is colored differently and overlayed on top of the other.
+
+
+```{r}
+#Answer here
+
+
+```
+
+# Conclusion
+
+At the end of this lesson you should be able to describe continuous and categorical data numerically and graphically.  There are many, many ways to describe data, this tutorial only covered a small sample.  I recommend you practice plotting in different ways using ggplot (or your other favorite plotting package, e.g., plotly, or even base R).  

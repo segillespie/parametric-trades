@@ -1,0 +1,63 @@
+<!-- Include this right before the /body tag after rendering the presentation 
+Taken from:  https://stackoverflow.com/questions/34706859/set-header-and-footer-reveal-js-presentation/37518822  -->
+<style type="text/css">
+    /* 1. Style header/footer <div> so they are positioned as desired. */
+    #header-left {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 3%;
+    }
+    #header-right {
+        position: absolute;
+        top: 0%;
+        right: 0%;
+    }
+    #header-center {
+        position: absolute;
+        top: 0%;
+        right: 0%;
+        left: 0%;
+        text-align: center;
+        background: #00008B;
+        color: #fff;
+        padding: 10px;
+    }
+    #footer-center {
+        position: absolute;
+        bottom: 1%;
+        right: 0%;
+        left: 0%;
+        text-align: center;
+    }
+    #footer-left {
+        position: absolute;
+        bottom: 1%;
+        left: 0%;
+    }
+</style>
+
+<!-- 2. Create hidden header/footer <div> -->
+<div id="hidden" style="display:none;">
+    <div id="header">
+        <div id="header-center">Design & Analysis of Experiments for Simulation Course Overview</div>
+        <div id="header-left"><img src="/20190425_TRAC_Logo.png" style = 'height: 100%; width: 100%; object-fit: contain;'></div>
+        <div id="header-right">  </div>
+        <div id="footer-left">As of: 27 Feb. 2020</div>
+                <div id="footer-center"><p style = "font-size: 12px;">Disclaimer: This presentation is the authors' work only and does not reflect the policy of any US Government Agency.</p></div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script type="text/javascript">
+    // 3. On Reveal.js ready event, copy header/footer <div> into each `.slide-background` <div>
+    var header = $('#header').html();
+    if ( window.location.search.match( /print-pdf/gi ) ) {
+        Reveal.addEventListener( 'ready', function( event ) {
+            $('.slide-background').append(header);
+        });
+    }
+    else {
+        $('div.reveal').append(header);
+   }
+</script>

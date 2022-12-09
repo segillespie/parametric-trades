@@ -1,0 +1,110 @@
+---
+title: "Logistic Regression Problem Set"
+output: 
+  html_document:
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# NFL Wins
+
+<a href = '/_Chapter6_ProblemSets/nfl_points_wins.csv'> This csv </a> contains points earned by every team in the NFL and whether or not they won (a 1 is a win and a 0 is a loss) from 1984-2014.^[Much thanks to Ian Kloo for scraping this data.]  We want to build a model to see if we can predict the likelihood a team won its game based solely on the number of points it earned.
+
+## Read and Visualize the Data
+
+```{r}
+# Answer here
+```
+
+## Model
+
+1. Use a logistic regression to model your data.  Interpret your summary results.
+
+```{r}
+# Answer here
+```
+
+2. Write out the mathematical model.
+
+``` 
+# Answer here
+```
+
+
+3. What does a one point increase indicate in terms of increasing the odds for winning?
+
+```
+# Answer here
+```
+
+4. Plot your model with the data.
+
+```{r}
+# Answer here
+```
+
+## Check Assumptions
+
+```{r}
+# Answer here
+```
+
+## Assess the Fit
+
+1. Calculate the $R^2$ for the model in the two ways provided in the lesson.
+
+$R^2 = \frac{D_{Null} - D}{D_{Null}}$
+
+```{r}
+# Answer here
+```
+
+$R^{2}=\frac{1 - exp\left\{ (D-D_{NULL})/N \right\}} {1 - exp\left\{-D_{NULL}/N \right\}}$
+
+```{r}
+# Answer here
+```
+
+2. Check the goodness of fit using a Hosmer-Lemeshow test.
+
+```{r}
+# Answer here
+```
+
+3. Check the goodness of fit using a <a href = 'https://en.wikipedia.org/wiki/Pearson's_chi-squared_test'> Chi Squared test </a>.  You can group by the points earned and calculate your observed values based on those groupings (e.g., if you won 10 times out fo the 20 times you earned five points, your observed value would be .5).  
+
+
+```{r}
+# Answer here
+```
+
+4. Explain why there may be a difference between the Hosmer Test and the Pearson Chi Squared test.
+
+```
+# Answer here
+```
+
+# Regression with Multiple Variables
+
+In the tutorial, we modeled coronary heart disease as a function of age using the data set `SAheart` from the package `bestglm`.  This data set actually has nine possible regressors: systolic blood pressure, tobacco use, etc...
+
+Note, for this question, we are not going to do the full modeling, simply a few exercises to practice logsitic regression with multiple variables.  You are welcome to build the full model, however.
+
+## Assess the Data
+
+Can you use all of this data to conduct a logistic regression?  Why or why not? (Hint, do a visual check with `pairs`)
+
+```{r}
+# Answer here
+```
+
+## Assess Regressors
+
+Conduct a logistic regression to predict coronary heart disease as a function of all the possible regressors (without interactions) (understanding that we may need to actually drop any non-independent regressors).  What regressors are significant at $\alpha = .05$?  Of these, what has the greatest impact on predicting heart disease?
+
+```{r}
+# Answer here
+```

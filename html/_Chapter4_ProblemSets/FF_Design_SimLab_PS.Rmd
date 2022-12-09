@@ -1,0 +1,44 @@
+---
+title: "Fractional Factorial Simulation Lab"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Intro
+
+For this lab, you will use the simulation available <a href = 'https://jacobshermansd.shinyapps.io/combatsimulator/'> here </a>.  The instructions for using the simulation are available at that website. **Use the tab: "Fractional Factorial Problem Set."**
+
+<a href = '/_Chapter4_ProblemSets/sample_sim_input_format.csv'> This csv </a> is formatted in the manner appropriate for input to the simulation for your convenience.
+
+## For the lab you will do two experiments:
+
+1. An initial experiment to identify relevant factors in the simulation.  You can run at most 16 tests for this experiment.
+2. A subsequent experiment at a higher resolution than your first to expand your understanding of the problem space.  You can run at most 32 tests for this experiment.  If you find it appropriate, you may also use the results of your first 16 tests in addition to your 32 tests.  Explain why this is appropriate.
+
+*Note - by a test, we mean a single run of the simulation.  For example, two tests could be two replicates of one treatment combination or a single replicate of two treatment combinations.*
+
+## For each experiment:
+
+* Clearly identify your factors, the associated levels, and the coding for each factor / level (e.g., you may say a factor is the caliber of a gun that has a low level of 105mm and a high level of 120mm that corresponds to A at -1, +1 respectively).
+* Clearly identify your experiment.  Specifically include:
+    * The design generator(s) you used.
+    * The resolution of the design.
+    * The alias structure.
+    * Your reason for choosing this design.
+    * Your run matrix, i.e., the table of treatment combinations you are testing (to include the names of the treatment combinations).
+    * The number of replicates you are doing per treatment combination.
+* Include the results you recieved from the simulation (as a csv).
+* Show all code used to clean and manipulate your data.
+* Estimate the significance and effects of the results of your experiment.  Do this:
+    * Graphically.
+    * Estimate your effects via contrasts.
+    * Using either ANOVA or a normal probability plot.
+
+## Findings
+
+Finally, interpret your results in plain language.
+
+Produce all of your results in a markdown document that could be read by a reader who is technical and generally understands DOE (e.g., you would not have to explain what an alias is), but is not overly familiar with your specific problem.

@@ -1,0 +1,12 @@
+// Often there will be multiple lines of text containing comments
+// that might describe the contents of the text file, the date
+// it was created, etc. If we're trying to change the unit starting
+// locations in this file, we want to skip these lines and get to 
+// the data we care about.
+
+Unit         X             Y
+Unit1        1.284         2.843
+Unit2        2.092         4.173
+Unit3        10.771        6.294
+
+// And there may be more text at the end of the file.

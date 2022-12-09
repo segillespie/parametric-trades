@@ -1,0 +1,131 @@
+---
+title: "Single Factor, Random Effects Problem Set"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set is associated with the section "Single Factor, Random Effects ANOVA" on doe.dscoe.org.  It also refers to the problem set from "Single Factor, Fixed Effects ANOVA" on the same site.  
+
+This problem set requires the following packages:
+
+```{r, message = F, warning = F}
+library(tidyverse)
+```
+
+# Conceptual
+
+In <a href = '/_Chapter3_1_ProblemSets/Single_Factor_ANOVA_ProblemSet_Questions.html'> the Single Factor, Fixed Effects Problem Set </a>, there were two simulations assessed with a single factor, fixed effects ANOVA:
+
+* A tank simulation where the maximum range of the main gun could take the values of 1km, 2km, 3km, 4km, 5km.
+* A soldier load experiment where soldiers' load could be 'unloaded', 'fighting' or 'full' loads.
+
+If, instead of prescribing the levels, the experimenter had randomly selected levels from a given range, i.e.:
+
+* Choose a maximum range randomly in [1km, 5km].
+* Choose a soldier load randomly in [0lb, 100lb].
+
+how would the subsequent analysis have changed?  Specifically address:
+
+* Under these conditions, what is your hypothesis test?
+* What can you conclude from these analyses?
+* Why might an experimenter opt for the choice of random effects vs. fixed effects?
+
+```{}
+# Answer here
+```
+
+# Communications Study
+
+An analyst is working for the Future User Communications Cross Functional Team (CFT)^[Clearly this is made up.] and has been asked to see if a new soldier communications device (SCD) has any effect on the operational outcome of a corps fight.  The CFT has proposed that the SCD has many properties, including:
+
+* Weight that can vary between 0.5kg and 2kg.
+* Range that can vary between 2km and 10km.
+* Bandwidth that can vary between 1Mbps and 10 Mbps.
+* Error rate that can vary between 0.1% and 1.0%.
+* Usage time that can vary between 8 hours and 24 hours.
+
+You know^[In this course, we'll learn this when we discuss factorial experiments.] that with five factors at only two levels each, you would have to test $2^5 = 32$ different treatment combinations^[We have not yet introduced this term.  The point is, you do not have a chance to check all combinations.] at a minimum to check all of the possible low and high combinations.  You also know that you do not have time to do this yet; the CFT commander simply wants to know if the communications device has any bearing on the fight.  You have sufficient time to run 15 simulations. You therefore randomly define five systems with random values chosen from each of the above ranges.  You further identify two measures by which to express an effect - the kills achieved and the kills received.  Given the data set <a href = '/_Chapter3_1_ProblemSets/commo.csv'> commo.csv </a>, answer the following questions:
+
+
+## Read the Data and Format as Required
+
+```{r}
+# Answer here
+```
+
+## Visualize the Data 
+
+Show the data in some manner, to include the mean response.  What do you observe about the data initially?
+
+```{r, warning = F}
+# Answer here
+```
+ 
+
+## Conduct an ANOVA: Kills Achieved
+
+For the response `kills.achieved` conduct an ANOVA to determine if the choice of communications system has an effect.  Ensure to:
+
+* Identify the type of ANOVA / hypothesis test.
+
+```{}
+# Answer here
+```
+
+* Interpret your results
+
+```{r}
+# Answer here
+```
+
+* Check your assumptions.
+
+```{r}
+# Answer here
+```
+
+
+
+## Conduct an ANOVA: Kills Received
+
+For the response `kills.received` conduct an ANOVA to determine if the choice of communications system has an effect.  Ensure to:
+
+* Identify the type of ANOVA / hypothesis test.
+
+```{}
+# Answer here
+```
+
+* Interpret your results
+
+```{r}
+# Answer here
+
+```
+
+* Check your assumptions.
+
+```{r}
+# Answer here
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

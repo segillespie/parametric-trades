@@ -1,0 +1,287 @@
+---
+title: "Chapter 2: Statistical Inference - Problem Set"
+author: "Your Name Here"
+date: "Your Date Here"
+output: 
+  html_document:
+    number_sections: true
+    
+---
+
+<!-- Don't change this -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+```
+
+# Introduction
+
+For this tutorial we are using the Ames, IA data set as used in the previous problem set.
+
+For this tutorial, we will use the following packages:
+
+
+```{r}
+library(tidyverse)
+```
+
+# Problem 1. Read the ames.csv data set.
+
+
+```{r}
+ames <- read.csv('./ames.csv', header = T, stringsAsFactors = F, sep = ',')
+```
+
+
+Take three random samples of the ames data set of the following size and seeds (we'll use a set seed for each so we can compare results):
+
+- Sample 1: N = 10, seed = 2489
+- Sample 2: N = 20, seed = 571
+- Sample 3: N = 30, seed = 2979
+
+Recall that you set the seed by the command `set.seed(SeedNumber)` right before employing a random number.
+
+<font color = 'red'> Amendment, 7 April 2020: We did not discuss this in class, but we should sample **with** replacement in general to preserve independent, identically distributed distributions.  The results below show my error (sampling without replacement).  We noted this in a class discussion on 6 April, 2020 as discussed in this <a href = '/_Chapter3_ProblemSets/sampling_discussion.html'> document </a>.
+
+```{r}
+# We can sample using the dplyr command sample_n().
+
+set.seed(2489)
+sample.1 <- sample_n(ames, 10)
+
+set.seed(571)
+sample.2 <- sample_n(ames, 20)
+
+set.seed(2979)
+sample.3 <- sample_n(ames, 30)
+```
+
+# Confidence Intervals
+
+Find the 90% confidence interval for the mean sale price (i.e., `ames$SalePrice`) for each of the three samples.  Plot the results.  Assuming the entire data set is the population, plot the true mean.
+
+
+```{r}
+# Recall the function t.test produces the confidence interval, the default for this function is conf.level = .95, so we have to set it.
+sample.1.t.test <- t.test(sample.1$SalePrice, conf.level = .9)
+sample.2.t.test <- t.test(sample.2$SalePrice, conf.level = .9)
+sample.3.t.test <- t.test(sample.3$SalePrice, conf.level = .9)
+
+
+# We can plot these using a line segment - geom_segment.  We can plot the true mean as a vertical line
+ggplot() + 
+  # geom_segment requires an x, xend, y, and yend. 
+  geom_segment(aes(x = sample.1.t.test$conf.int[[1]], y = 1, xend = sample.1.t.test$conf.int[[2]], yend = 1), color = 'red') +  
+  geom_segment(aes(x = sample.2.t.test$conf.int[[1]], y = 2, xend = sample.2.t.test$conf.int[[2]], yend = 2), color = 'blue') + 
+  geom_segment(aes(x = sample.3.t.test$conf.int[[1]], y = 3, xend = sample.3.t.test$conf.int[[2]], yend = 3), color = 'green') + 
+  geom_vline(xintercept = mean(ames$SalePrice), lty = 2) + 
+  xlim(c(100000, 250000)) + ylim(c(-5, 5)) + # This just makes the graph look slightly nicer
+  xlab('Sale Price') + ylab('')
+
+```
+
+
+
+What can you conclude about the mean sale price from these confidence intervals?  How would you interpret any instances of the true mean falling outside of the confidence interval?
+
+```{}
+We see several things:  
+- First, though all of the intervals have the same level of significance, the trend is that the confidence interval gets larger with fewer observations.
+- Second, in this case we see that all of the CIs include the true mean, which we would expect 9 out of 10 times, but we can see how it is possible for the true mean to fall outside of a CI.
+```
+
+# Hypothesis Testing
+
+## Hypothesis Test 1: Test of Normality
+
+Based on Sample 3, is it likely that the distribution of house sale prices follows a normal curve?  Clearly articulate your null and alternative hypothesis, what your test is, what level of significance is, what your results are, and what you conclude (hint, this requires a test different from the very common t test, but the appropriate test was listed as a standard test in R in the tutorial).
+
+```{r}
+# - Our null hypothesis is that the data *is* normally distributed.  Our alternative is that it is not. 
+# - We will use the Shapiro Wilk Test, `shapiro.test()`.
+# - We will use a 95% (i.e., 1 - .05) level of significance.
+
+# We can test for normality using the shapiro wilk test with the command `shapiro.test()`
+shapiro.test(sample.3$SalePrice)
+
+# We see that the p-value is .01134 is less than .05, so we reject the null hypothesis and conclude that the distribution of sale prices of homes is not normally distributed.
+```
+
+Plot the distribution of sale prices of Sample 3 and see if this generally agrees with what you learned from your hypothesis test above.
+
+How does this compare to a presumed normal distribution (hint: you can check this with a qqplot or overlaying the observed distribution on a normal distribution)?
+
+
+```{r}
+# We can approximately plot the distribution using geom_density
+ggplot() + 
+    geom_density(aes(x = sample.3$SalePrice), color = 'black') + 
+    ggtitle('Density Plot of sale price in Ames, IA\nSample 3 in Black\n')
+
+# This looks clearly not normal, so it makes sense that we rejected the null hypothesis that the data was normally distributed.  We can see this even more clearly by plotting a normal distribution with the sample mean and standard deviation on top of this
+
+ggplot() + 
+  geom_line(aes(x = seq(min(sample.3$SalePrice), max(sample.3$SalePrice), by = 1000), 
+                y =  dnorm(seq(min(sample.3$SalePrice), max(sample.3$SalePrice), by = 1000), 
+                           mean = mean(sample.3$SalePrice), sd = sd(sample.3$SalePrice))), lty = 2) + 
+  geom_density(aes(x = sample.3$SalePrice), color = 'black') + 
+  xlab('Sale Price ($)') + ylab('Density') + 
+  ggtitle('Comparison of:\nObserved Distribution (Solid Line)\nTheoretic Normal Distribution (Dashed Line)')
+
+# We can also do this with a so called QQ Plot which is simply comparison between the observed values and the theoretical distribution (in our case a normal distribution).  If the data is perfectly normally distributed, the resulting observations will be plotted as a straight line
+
+ggplot() + 
+  geom_qq(aes(sample = sample.3$SalePrice)) + # Plots the points in a QQ manner
+  geom_qq_line(aes(sample = sample.3$SalePrice), color = 'blue')  # Plots the QQ line
+
+
+# Note that the observed distribution is clearly not normal by either measure.  That stated, qqplots and comparing the shape of the observed and theoretic distributions are rather imprecise ways of assessing normality.  A specific hypothesis test, like Shapiro Wilk is more precise and repeatable.
+
+```
+
+## Hypothesis Test 2: Test of distribution
+
+In the Ames, IA data set, there is a field called `Mo.Sold` which has integer values between 1 and 12 that correspond to the month the house was sold (i.e., 1 = Jan, 2 = Feb, etc.).  We want to know if the distribution of sales is even throughout the year.  Take a sample of 100 houses worth of data using seed 81 (i.e., `set.seed(81)` then `sample.4 <- sample_n(ames, 100)`), test the hypothesis that says (hint, 1) use `chisq.test()`, 2) you'll have to format the data in a useful way):
+
+$H_0:\ The\ probability\ a\ house\ is\ sold\ in\ a\ given\ month\ is\ equal\ across\ all\ months.$
+$H_A:\ The\ above\ statement\ is\ not\ true.$
+
+```{r}
+set.seed(81)
+sample.4 <- sample_n(ames, 100)
+
+# First, let's plot our sample
+ggplot() + 
+  geom_bar(aes(x = sample.4$Mo.Sold), color = 'black') + # Note that geom_bar has a number of options, notably one that is stat (i.e. the statistic you want to calculate), the default is 'count'
+  geom_hline(yintercept = 100/12, color = 'red') + geom_label(aes(x = 12, y = 100/12, label = 'Uniform\nDistribution')) + 
+  xlab('Month') + ylab('Number of Houses Sold') + ggtitle('Sample 4')
+
+# This doesn't look exactly like it's uniform, but its possible.
+
+#This looks like a chi squared test of goodness of fit.  Note, our expected number of houses sold each month is 100/12 = 8.33 > 5, so we should feel comfortable doing a chi squared test.
+# Recall the test statistic is the sum of the square of the difference of the observed vs. expected divided by the expected.  https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/chi-square/
+
+# Let's do this explicitly once and then with R afterwards.
+
+# We'll have to do some data transformations.  If you're not familiar with dplyr and piping, I recommend running this code one line at a time and seeing what occurs at each step.
+# One note, you do want to check that each 
+sample.4 %>% 
+  group_by(Mo.Sold) %>% # We are grouping each sale by the month it was sold.
+  summarise(Observed = n()) %>% # We then count the number of times we observed a sale in each month.
+  mutate(Expected = nrow(sample.4)*(1/12)) %>% # We can add in the expected value of 30*1/12 that we expect for an even distribution
+  mutate(chi.sq.index = ((Observed - Expected)^2)/Expected) %>%  # we can then calculate the chi square index for each month
+  summarise(sum(chi.sq.index)) -> sample.4.chi.sq.test.stat
+
+sample.4.chi.sq.test.stat <- sample.4.chi.sq.test.stat$`sum(chi.sq.index)` # Just choose the actual value, not the entire data frame
+# Our test statistic is therefore
+sample.4.chi.sq.test.stat
+
+# We then want our p-value, so we can look up our result using 
+pchisq(q = sample.4.chi.sq.test.stat, df = 11, lower.tail = F)
+
+# By any measure, a p-value of .6 is not significant, so we fail to reject the null hypothesis and can assume that it is plausible that sales of houses occur at even times throughout the year
+
+# We can also just do the chisq.test built into R
+temp <- sample.4 %>% group_by(Mo.Sold) %>% summarise(Count = n())
+
+chisq.test(temp$Count) #Note - chisq.test has a presumed even distribution across every category.  You can provide a different vector of probabilities, please look at the documentation
+
+```
+
+Assuming the Ames, IA set is the true population, compare the conclusion you made in the previous question to the true answer.  Did you make an error?  If so, what type of error was it?  What could you do differently to avoid this error?
+
+```{r}
+# First, let's simply look at the reality graphically:
+ggplot() + 
+  geom_bar(aes(x = ames$Mo.Sold)) + # Note that geom_bar has a number of options, notably one that is stat (i.e. the statistic you want to calculate), the default is 'count'
+  xlab('Month') + ylab('Number of Houses Sold') + ggtitle('Entire Ames IA Set of Sales')
+
+# Clearly the count of sales of houses is not uniformly distributed across months.  Sales are most heavily concentrated in the summer months.  More to the point, the true distribution by month is:
+
+ames %>% group_by(Mo.Sold) %>% summarise(count = n()) %>% mutate(Percent = 100 * (count / sum(count))) %>% print(n = 12)
+
+# In failing to reject the null, we made a Type II Error of failing to reject a false hypothesis.
+# To avoid error, we should have been a bit more careful in using the chi squared goodness of fit test
+# 1. The rule of thumb for chi squared tests is that your expected value should be at least 5.  Ours were only 2.5.  We could have achieved this by getting a sample of size 60 (i.e., 12*5) or larger.  Alternatively, we may have tried a different binning procedure (either by season or month couplets).  Or we could have tried a different test.
+
+# sample.3 %>% mutate(Season = ifelse(Mo.Sold %in% c(12, 1, 2), 'Winter', ifelse(Mo.Sold %in% c(3, 4, 5), 'Spring', ifelse(Mo.Sold %in% c(6, 7, 8), 'Summer', 'Fall')))) %>% 
+#   group_by(Season) %>% summarise(Count = n())
+# 
+# chisq.test(c(4, 11, 9, 6))
+           
+```
+
+## Hypothesis Test 3: Paired T-Test
+
+Assume we want to know if there is an effect of two settings (e.g., System A or System B) on the result (Y) of a simulation.  We want to test the results in a random variety of environmental conditions (e.g., starting positions), but know that these starting locations can have an effect on Y, therefore we decide to test each setting in each initial starting condition, so that we get results that look Chap2_DataSet.csv.
+
+Do the following:
+
+- Plot the data and make any general observations.
+- Conduct a paired T-Test and assess the results for confidence at the 90% confidence level.
+- Identify the assumptions / conditions you are using that make a paried t test appropriate.
+
+
+
+```{r}
+# First read the data
+myData <- read.csv('Chap2_DataSet.csv', header = T, sep = ',', stringsAsFactors = F)
+
+# second, its a good idea to look at the data
+ggplot(myData) + 
+  geom_point(aes(x = Condition, y = System.A), color = 'blue') + 
+  geom_point(aes(x = Condition, y = System.B), color = 'red') +
+  xlab('Observation #') + ylab('Outcome (i.e., Y)') + ggtitle('System A in Blue\nSystem B in Red')
+
+
+# We see at least two things:
+# 1) There may be a slight general trend upward with increasing sample size
+# 2) It looks like System B generally has a higher Y value, though 1) not always and 2) it is not clear
+
+# We have two sets of data that are approximately normal (we can see this graphically or through using a Shapiro Wilk Test
+ggplot(myData) + 
+  geom_density(aes(x = System.A), color = 'blue') + 
+  geom_density(aes(x = System.B), color = 'red') + 
+  xlab('System A in Blue\nSystem B in Red') + ylab('Density')
+
+# They are paired as described above, therefore it makes sense to do a paired T Test
+
+t.test(myData$System.A, myData$System.B, paired = T)
+
+# The paired T test has a p-value of ~0, so we reject the null that the two systems produce the same Y value (i.e., the difference in results is 0 for each pair).
+# We can say this as:
+# 1) we have a paired situation -- each of our two observations come from the same environmental considerations for each replicate.
+# 2) They do produce different means (i.e. the difference in their means is not 0), so the system choice has some effect, which is estimated to be ~ .8 on average.
+
+
+```
+
+
+## Hypothesis Test 4:  Learning Hypothesis Tests
+
+Look up **one** of the following tests and do the following:
+
+1.  Provide a brief description.
+2.  Clearly articulate the null and alternative hypothesis.
+3.  Explain any underlying assumptions, requirements, etc. for using the test.
+4.  Explain how to implement this test in *R*.
+5.  Provide a brief example.  You can use the Ames, IA data set, synthesize a data set using a random number generator, or include some other data set.
+6.  Include anything else you think is pertinent.
+
+
+Tests:
+
+1.  Either of the Wilcoxon Tests (Rank Sum, Signed Rank)
+2.  Z Test for Large Sample Proportions (1 or 2 proprotions)
+3.  Bartlett Test of Variances
+3.  Fisher Test of Independence
+5.  Poisson Test (comparison of rates from Poisson distributions)
+6.  Kolmogorov Smirnov Test of Distribution Fit
+7.  Your favorite hypothesis test that I didn't write here.
+
+
+```{r}
+# Answers here will vary significantly.  I'm working to build examples for all the tests, but this may take a while to build them all.
+```
+
+

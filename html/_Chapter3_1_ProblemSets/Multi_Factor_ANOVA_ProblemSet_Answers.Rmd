@@ -1,0 +1,227 @@
+---
+title: "Multi Factor ANOVA Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the section on multi factor ANOVA in the course https://doe.dscoe.org.  
+
+For this problem set, we will use the following packages:
+
+```{r, warning = F, message = F}
+library(tidyverse)
+library(ggpubr) # Note, we haven't used it yet in the course, but its a convenient package for combining multiple plots
+```
+
+
+# Simulation
+
+You are an analyst working on a top secret program and are given the file <a href = '/_Chapter3_1_ProblemSets/multi_factor.csv'> multi_factor.csv </a> to analyze.^[The reality is, this was data from an industrial application of silicon wafers, but who cares about that?]  The data shows the results for a simulation where four factors, A, B, C, and D are measured at a "low" (represented as -1) and "high" (represented as 1) level and their response is as indicated.  There was only one replicate for each treatment combination^[We have not yet introduced this term, but this is the combination of the levels of each factor for an experiment / simulation run.  For example, Factor A, Factor B, Factor C, Factor D all set to "-1" is one treatment combination.]
+
+## Input the Data
+
+Read the data and clean it as necessary.
+
+```{r}
+# Read the data using read.csv
+sim <- read.csv('./multi_factor.csv')
+# Each of the levels of A, B, C, and D are read as integers, but they really need to be 
+# understood as factors named "-1" and "1"
+sim$A <- as.factor(sim$A)
+sim$B <- as.factor(sim$B)
+sim$C <- as.factor(sim$C)
+sim$D <- as.factor(sim$D)
+
+head(sim)
+```
+
+## Visualize the Data
+
+Plot the data in a way that allows you to understand something about the effects (main or interaction) of the factors.  Interpret your results.
+
+Note - we are dealing with five dimensional data (the Response and factors A, B, C, and D); there will be many ways to view this.
+
+```{r}
+# There are many ways to do this!
+# Visualizing 5-D data is hard!
+# Here are some options:
+
+# Box plots
+# Note as we only have one replicate per treatment combination, we can really only view main effects:
+
+# Make a boxplot for each of the Factors
+Plot.A <- ggplot(sim) + geom_boxplot(aes(x = A, y = Response)) 
+Plot.B <- ggplot(sim) + geom_boxplot(aes(x = B, y = Response)) 
+Plot.C <- ggplot(sim) + geom_boxplot(aes(x = C, y = Response)) 
+Plot.D <- ggplot(sim) + geom_boxplot(aes(x = D, y = Response)) 
+
+# ggarrange (in ggpubr) allows you to combine multiple, disparate plots
+# you simply list them as desired
+ggarrange(Plot.A, Plot.B, Plot.C, Plot.D, 
+          # You can choose the number of columns and rows
+          ncol = 2, nrow = 2, 
+          # You can label the plots as desired (or title them when you make them)
+          labels = c('A', 'B', 'C', 'D')) %>% 
+  # You can use piping to pass the plot to other ggpubr functions, e.g. annotate_figure
+  # This provides a title for the entire plot
+  annotate_figure(top = 'Box Plots of Response by Factor')
+
+# You'll see something useful here: 
+# 1) Note that within each boxplot, there are 8 x points, each from the variosu treatment combinations
+#   that include the x axis factor at the indicated level
+# 2) We can get an idea of which factors likely have an effect
+#    For example, A almost assuredly has an effect; B might; C and D likely do not
+
+
+# Trace Plots
+# These are somewhat hard to do with many dimensions
+# We can really only view 2-way interactions
+# so we have to look at all the combinations
+# Here we plot each set of choosing 2 factors out of A, B, C, and D
+# We could also opt to look at the inverse version of these plots, but that is
+# left as an exercise to the reader
+
+# Produce trace plots, note that each group will have 4 x replicates from which to gather a mean
+Plot.AB <- ggplot(sim, aes(x = A, y = Response, color = B, group = B)) + 
+  stat_summary(fun = 'mean', geom = 'point') + 
+  stat_summary(fun = 'mean', geom = 'line') + 
+  ggtitle('Factors A & B')
+
+Plot.AC <- ggplot(sim, aes(x = A, y = Response, color = C, group = C)) + 
+  stat_summary(fun = 'mean', geom = 'point') + 
+  stat_summary(fun = 'mean', geom = 'line') + 
+  ggtitle('Factors A & C')
+
+Plot.AD <- ggplot(sim, aes(x = A, y = Response, color = D, group = D)) + 
+  stat_summary(fun = 'mean', geom = 'point') + 
+  stat_summary(fun = 'mean', geom = 'line') + 
+  ggtitle('Factors A & D')
+
+Plot.BC <- ggplot(sim, aes(x = B, y = Response, color = C, group = C)) + 
+  stat_summary(fun = 'mean', geom = 'point') + 
+  stat_summary(fun = 'mean', geom = 'line') + 
+  ggtitle('Factors B & C')
+
+Plot.BD <- ggplot(sim, aes(x = B, y = Response, color = D, group = D)) + 
+  stat_summary(fun = 'mean', geom = 'point') + 
+  stat_summary(fun = 'mean', geom = 'line') + 
+  ggtitle('Factors B & D')
+
+Plot.CD <- ggplot(sim, aes(x = C, y = Response, color = D, group = D)) + 
+  stat_summary(fun = 'mean', geom = 'point') + 
+  stat_summary(fun = 'mean', geom = 'line') + 
+  ggtitle('Factors C & D')
+
+# Arrange the plots into a 3x2 grid
+ggarrange(Plot.AB, Plot.AC, Plot.AD, Plot.BC, Plot.BD, Plot.CD, 
+          ncol = 2, nrow = 3, 
+          # Removed the legends as they take up much space
+          legend = 'none') %>% 
+  # Annotate what red and blue mean
+  annotate_figure(bottom = 'Note: the red line is the "-1" level of the second factor and blue the "1" level.')
+
+# We can use this to visualize something about the two way interactions and th effects of the factors
+# Note that if the two lines are on top of each other (for example the A &D plot) it indicates the 
+# second factor has almost no impact
+# Note that if the lines are approximately horizontal, it shows the first factor has almost no impact
+# We don't see that here, but if you used D as an x axis, you would likely see that
+# Finally, note that if the lines cross, it indicates a significant interaction between the two factors
+# We don't see that too significantly, but you do see it to some extent with A & B, as the distance between the lines
+# closes for the two levels of A.
+```
+
+## Conduct ANOVA
+
+Conduct an four ANOVAs on this data:
+
+* One where you only consider the main effects.
+* One where you consider the main effects and all two-way interactions.
+* One where you consider the above plus all three-way interactions.
+* One where you consider the above plus the four-way interaction.
+
+For each ANOVA, identify the factors you would consider significant.  Use $\alpha = .05$ for your analysis.
+
+```{r}
+# Main effects
+summary(aov(Response ~ . , data = sim))
+# If we just consider main effects, we can say factors A and B are statistically significant.
+
+# Main Effects + 2nd Order
+summary(aov(Response ~ . + .:., data = sim))
+# If we include 2nd order interactions, we say factors A and B are statistically significant
+# Also, the AB interaction is significant
+
+# Main Effects + 2nd order + 3rd order
+summary(aov(Response ~ . + .:. + .:.:. , data = sim))
+# If we include 3rd order interactions, we only can claim that factor A is statistically significant
+
+# Main Effects + 2nd order + 3rd order + 4th order
+summary(aov(Response ~ . + .:. + .:.:. + .:.:.:., data = sim))
+# If we attempt to include 4th order interactions we run into a problem:
+# We do not have enough degrees of freedom to estimate the residuals and therefore
+# We cannot get an F value and a corresponding p-value
+# We simply cannot do this analysis at this level of fidelity!
+```
+
+What did you notice about:
+
+* The p-values for the factors you initially considered significant.
+* The degrees of freedom available for the residuals.
+
+```{}
+The p-values generally went up for the factors we noted as significant.
+We had fewer and fewer degrees of freedom available for the resiudals (i.e. the epsilon term).  
+Eventually there were no degrees of freedom for the fourth order effect and we could not actually 
+calculate any p-values
+```
+
+Why might there be a change?  (No need to explain this mathematically precisely, just conceptually).
+
+```{}
+We became increasingly less certain if variation was caused by any one factor as 
+we increased the number of explanatory variables in our model (i.e., factors).
+This meant we had less degrees of freedom by which to model the residuals.
+
+As ANOVA relies on comparing the variance within groups to the variance of an entire sample, as
+the size of the groups shrank, we were less certain about the distinction between the variances, 
+until ultimately when the groups were of size 1, we could not assess the variance and therefore
+note assess the F stat and p-value
+
+More generally, if we try to do ANOVA to the fourth order, 
+we have perfectly explained our model, i.e. there is no error to assess and thus
+our error is not normally distributed, etc.  This is called overfitting
+```
+
+## Pick a Model
+
+Choose one model, explain why you chose this, and check its assumptions.
+
+```{r}
+# I chose the 2nd order model as it allows for a number of DF on the error
+# and corresponds to what we see visually with the data
+
+sim.aov.2 <- aov(Response ~ . + .:., data = sim)
+par(mfrow = c(2,2))
+plot(sim.aov.2)
+
+#Nothing in the plots indicates that we have failed assumptions, but we can check numerically
+
+# Normality
+shapiro.test(sim.aov.2$residuals)
+# We fail to reject that the residuals are normally distributed
+
+# Homoskedasticity
+bartlett.test(sim.aov.2$residuals, sim$A)
+bartlett.test(sim.aov.2$residuals, sim$B)
+bartlett.test(sim.aov.2$residuals, sim$C)
+bartlett.test(sim.aov.2$residuals, sim$D)
+# we fail to reject that the residuals do not have constant variance against the factors
+```

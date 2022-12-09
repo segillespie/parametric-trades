@@ -1,0 +1,13 @@
+name: AWARSLite
+title: AWARSLite
+username:
+account: cxxidemo
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2150043
+bundleId: 3326837
+url: https://cxxidemo.shinyapps.io/AWARSLite/
+when: 1593379250.91084
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: update_shiny_command.R

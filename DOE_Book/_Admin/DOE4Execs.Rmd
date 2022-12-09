@@ -1,0 +1,772 @@
+---
+title: "DoE Methodology Overview"
+author: "MAJ John King"
+institute: "TRAC-FLVN"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [trac.css, trac-fonts.css]
+    lib_dir: libs
+    seal: false
+    nature:
+      highlightLanguage: r
+      highlightStyle: sunburst
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class: center, middle
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+options(htmltools.dir.version = FALSE)
+library(tidyverse)
+library(kableExtra)
+library(plotly)
+```
+
+# DoE Methodology Overview
+
+<img src="20190425_TRAC_Logo.png" style="width:300px;height:300px;"/>
+
+### `r format(Sys.time(), '%d %B %Y')`
+
+### POC: <a href="mailto:john.f.king1.mil@mail.mil">MAJ John King</a>
+
+---
+## Outline
+
+Design of Experiments
+  - Design Options
+  - EUCOM Scenario Design 
+
+Regression
+  - Simple Linear Regression
+  - Assumptions and Diagnostics
+  - Multiple Linear Regression
+
+Machine Learning
+  - Regression Tree
+  - Random Forest
+
+Trades Tool Integration
+
+---
+## Full Factorial Designs
+
+.pull-left[
+Example Study
+- 3 OMFV systems (main gun, ATGM, and APS)
+- 2 levels each
+- $2^{3} = 8$ AWARS runs
+
+EUCOM Scenario
+- 15 modernization programs
+- 2 levels each (current vs. future system)
+- $2^{15} = 32,768$ AWARS runs
+  
+**We need a smaller design!**
+]
+
+--
+
+.pull-right[
+<center>Example Full Factorial Design</center>
+</br>
+
+| Design Point | Main Gun | ATGM | APS |
+|:---------:|:----------:|:-----:|:---:|
+| 1 | 25mm | TOW | Smoke |
+| 2 | 50mm | TOW | Smoke |
+| 3 | 25mm | JAGM | Smoke |
+| 4 | 50mm | JAGM | Smoke |
+| 5 | 25mm | TOW | Iron Fist |
+| 6 | 50mm | TOW | Iron Fist |
+| 7 | 25mm | JAGM | Iron Fist |
+| 8 | 50mm | JAGM | Iron Fist |
+
+]
+
+---
+## Fractional Factorial Designs
+
+Start with the full factorial design, re-code with -1 and 1, and show all interactions. Then delete lower half of design and remaining collinear columns.
+
+</br>
+
+```{r echo=FALSE}
+FFdesign2 = tibble(
+  DP = 1:8,
+  Y_Intercept = rep(1, 8),
+  X1 = rep(c(-1, 1), 4),
+  X2 = rep(c(-1,-1,1,1), 2),
+  X3 = rep(c(-1,1), each=4),
+  X1X2 = X1*X2,
+  X1X3 = X1*X3,
+  X2X3 = X2*X3,
+  X1X2X3 = X1*X2*X3
+)
+
+FFdesign2 %>% kbl(align='c') %>% kable_paper(full_width=F) %>%
+  row_spec(5:8, background='lightblue') %>%
+  column_spec(5:8, background='lightblue')
+```
+
+---
+## Resulting Design
+
+The resulting design loses higher order interactions<sup>1</sup>.
+
+```{r echo=FALSE}
+r5 = FFdesign2 %>% slice(1:4) %>% dplyr::select(DP, Y_Intercept, X1, X2, X1X2X3)
+colnames(r5) = c('DP', 'Y_Intercept', 'X1', 'X2', 'X3')
+knitr::kable(r5, layout='html')
+```
+
+The EUCOM design matrix is a **Resolution V** fractional factorial design which includes:
+- 128 design points.
+- The Intercept.
+- All Main effects.
+- All 2-way interactions.
+
+.footnote[
+[1] This design is technically a Resolution III fractional factorial design.
+]
+
+---
+## Simple Linear Regression
+
+Purpose: describe a relationship between a predictor variable (x) and a response variable (y).
+
+$$y = \beta_{0} + \beta_{1}x + \epsilon$$
+
+where,
+
+* $\beta_{0}$ is the y-intercept
+* $\beta_{1}$ is the slope
+* $\epsilon$ is the error in $y$ not explained by $\beta_{0}$ and $\beta_{1}$. 
+
+---
+## Least Squares Method Graphically
+
+Objective: Minimize the residual sum of squares (RSS).
+
+$RSS = \sum\limits_{i=1}^{n}{(y_{i} - \hat{y}_{i})^2} = \sum\limits_{i=1}^{n}{\hat\epsilon_{i}^{2}}$
+
+<center>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=8}
+df = tibble(
+  height = c(66, 54, 50, 74, 59, 53),
+  weight = c(141, 128, 123, 160, 136, 139)
+)
+
+pts = tibble(x=c(66,66), y=c(141, 146.5))
+
+plot_ly() %>%
+  add_trace(x=c(50,50), y=c(123,125.5), type='scatter', mode="lines", 
+            line=list(color='blue', width=3, dash='dash'), showlegend=FALSE) %>%
+  add_trace(x=c(53,53), y=c(139,129.5), type='scatter', mode="lines", 
+            line=list(color='blue', width=3, dash='dash'), showlegend=FALSE) %>%
+  add_trace(x=c(54,54), y=c(128,131.5), type='scatter', mode="lines", 
+            line=list(color='blue', width=3, dash='dash'), showlegend=FALSE) %>%
+  add_trace(x=c(59,59), y=c(136,137.5), type='scatter', mode="lines", 
+            line=list(color='blue', width=3, dash='dash'), showlegend=FALSE) %>%
+  add_trace(x=c(66,66), y=c(141,146.5), type='scatter', mode="lines", 
+            line=list(color='blue', width=3, dash='dash'), showlegend=FALSE) %>%
+  add_trace(x=c(74,74), y=c(160,156.5), type='scatter', mode="lines", 
+            line=list(color='blue', width=3, dash='dash'), showlegend=FALSE) %>%
+  add_trace(data = pts, x=~x, y=~y, type='scatter', mode="markers",
+            marker=list(color='black', size=24, opacity=0.3), showlegend=FALSE) %>%
+  add_trace(data = df, x=~height, y=~weight, type='scatter', mode="markers",
+            marker=list(color='black', size=10), showlegend=FALSE) %>%
+  add_trace(data=df, x=~height, y=~fitted(lm(weight~height, data=df)), type='scatter', 
+            mode="lines", line=list(color='red', width=3)) %>%
+  add_trace(x=55.5, y=136, mode="text", text='β<sub>1</sub>', 
+            inherit=FALSE, showlegend=FALSE, textfont = list(size = 20, color='red')) %>%
+  add_trace(x=66, y=149, mode="text", text='\u0177<sub>i</sub>', 
+            inherit=FALSE, showlegend=FALSE, textfont = list(size = 20, color='black')) %>%
+  add_trace(x=66, y=138, mode="text", text='y<sub>i</sub>', 
+            inherit=FALSE, showlegend=FALSE, textfont = list(size = 20, color='black')) %>%
+  add_trace(x=69, y=143.5, mode="text", text='Residuals', 
+            inherit=FALSE, showlegend=FALSE, textfont = list(size = 20, color='blue')) %>%
+  layout(
+      xaxis = list(title = "Height"),
+      yaxis = list(title = "Weight"))
+```
+
+</center>
+
+---
+## Least Squares Method Mathematically
+
+Rewrite expression interms of $\epsilon$:
+
+$\epsilon = y - \beta_{0} + \beta_{1}x$
+
+If $y= \begin{pmatrix} y_1 \\ \vdots \\ y_n \end{pmatrix}$ and $X= \begin{pmatrix} 1 & x_1 \\ \vdots & \vdots \\ 1 & x_n \end{pmatrix}$ and $\beta= \begin{pmatrix} \beta_0 \\ \beta_1 \end{pmatrix}$
+
+Then $\epsilon= \begin{pmatrix} \epsilon_1 \\ \vdots \\ \epsilon_n \end{pmatrix} = \begin{pmatrix} y_1-\beta_0-\beta_1x_1 \\ \vdots \\ y_n-\beta_0-\beta_1x_n \end{pmatrix} = y-X\beta$
+
+Once we solve for the coefficients, multiplying them by the predictors gives the estimated response, $\hat{y}$.
+
+$X\beta \equiv \hat{y}$
+
+Next step: linear algebra.
+
+---
+## QR Decomposition
+.center[
+$X\beta \equiv \hat{y}$
+
+$X^TX\beta = X^Ty$
+
+$\beta = (X^TX)^{-1}X^Ty$]
+
+Substitute QR for X and solve.
+.center[
+$\beta = ((QR)^T(QR))^{-1}(QR)^Ty$
+
+$\beta = (R^TQ^TQR)^{-1}R^TQ^Ty$
+
+$\beta = (R^TR)^{-1}R^TQ^Ty$
+
+$\beta = R^{-1}R^{-T}R^TQ^Ty$
+
+$\beta = R^{-1}Q^Ty$]
+
+For detailed discussion, refer to <http://www.seas.ucla.edu/~vandenbe/133A/lectures/ls.pdf>.
+---
+## QR Decomposition in *R*
+
+In *R*, use `qr(X)` to decompose $X$, and then use `solve.qr()` to calculate the $\beta$ vector.
+
+```{r echo=TRUE}
+intercept = rep(1, 6)
+
+QR = qr(cbind(intercept, df$height))
+
+solve.qr(QR, df$weight)
+```
+
+---
+## Linear Regression Assumptions
+
+There are four assumptions fundamental to linear regression:
+1. **Linearity:** The relationship between x and the mean of y is linear.
+2. **Homoscedasticity:** The variance of residual is the same for any value of x (i.e, constant variance).
+3. **Independence:** Independence of the prediction error from every one of the predictor variables.
+4. **Normality:** The prediction error is normally distributed.
+
+--
+
+If any of these assumptions are violated, then there are three options.
+- Change the structure of the model (transformation, use a different distribution, etc.).
+- Accept the violations and use the model anyway.
+- Use a non-parametric model (e.g., Random Forest).
+
+---
+## Multiple Linear Regression
+
+Expand equation to allow for more predictors:
+
+$y = \beta_{0} + \beta_{1}x_{1}+ \beta_{2}x_{2} + ... + \beta_{(p-1)}x_{(p-1)} + \epsilon$
+
+</br>
+
+In matrix form and in terms of $\epsilon$:
+
+$\epsilon= \begin{pmatrix} \epsilon_1 \\ \vdots \\ \epsilon_n \end{pmatrix} = \begin{pmatrix} y_1-\beta_0-\beta_1x_1 \\ \vdots \\ y_n-\beta_0-\beta_1x_n \end{pmatrix} = y-X\beta$
+
+</br>
+
+Note the final equation remains unchanged, so we still solve for the $\beta$ matrix using QR decomposition.
+
+$X\beta \equiv \hat{y}$
+
+---
+## QR Decomposition Example
+
+One-hot encode the categorical variables to generate X matrix. Then generate the response variable with the relationship: $y = 10 + 16x_{1}+ 22x_{2} + \epsilon$
+
+```{r echo=FALSE}
+set.seed(0)
+
+df = tibble(
+  DP = 1:12,
+  Program_1 = rep(c("AH-64E", "FARA"), 6),
+  Program_2 = rep(c("M2A4", "M2A4", "OMFV", "OMFV"), 3),
+  intercept = rep(1, 12),
+  program_1_rep = rep(0:1, 6),
+  program_2_rep = rep(c(0,0,1,1), 3),
+  kills = 10 + 16*program_1_rep + 22*program_2_rep + rnorm(12, sd=5)) # the true relationship
+
+df %>% kbl(align='c') %>% kable_paper(full_width=F) %>%
+  add_header_above(c(" "=3, "X Matrix"=3, "Y Matrix" = 1)) %>%
+  column_spec(4:6, background='lightblue') %>%           # the X matrix
+  column_spec(7, background='lightgreen')                # the y matrix
+```
+
+---
+## The Resulting Coefficients
+
+```{r echo=TRUE}
+X = as.matrix(df[, 4:6])
+Y = as.matrix(df[, 7])
+QR = qr(X)
+solve.qr(QR, Y)
+```
+
+### Mathematical Interpretation
+
+$\hat{y} = 12.7 + 14.2x_{1}+ 21.3x_{2}$
+
+### Compare To True Relationship
+
+$y = 10 + 16x_{1}+ 22x_{2} + \epsilon$
+---
+## Interpretation Continued
+
+Given: $\hat{y} = 12.7 + 14.2x_{1}+ 21.3x_{2}$
+
+Recall: $x_1 \begin{cases} & \text{0 if } x_1= AH-64E\\ & \text{1 if } x_1= FARA \end{cases} ~~~~~~~~~~ x_2 \begin{cases} & \text{0 if } x_2= M2A4\\ & \text{1 if } x_2= OMFV \end{cases}$
+
+</br>
+
+<style>
+	.demo {
+		border:1px solid #000000;
+		border-collapse:collapse;
+		padding:5px;
+	}
+	.demo th {
+		border:1px solid #000000;
+		padding:5px;
+		background:#F0F0F0;
+	}
+	.demo td {
+		border:1px solid #000000;
+		padding:5px;
+	}
+</style>
+<table class="demo">
+	<caption><b>Multiple Linear Regression Interpretation</b></caption>
+	<thead>
+	<tr>
+		<th>If</th>
+		<th>Resulting Equation</th>
+		<th>Interpretation</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>AH-64E present: x<sub>1</sub>=0<br>M2A4 present: x<sub>2</sub>=0</td>
+		<td>&#375; = 12.7 + 14.2(0) + 21.3(0)<br>&#375; = 12.7</td>
+		<td>The AH-64E and FARA kill 12.7 threat units.</td>
+	</tr>
+	<tr>
+		<td>FARA present: x<sub>1</sub>=1<br>M2A4 present: x<sub>2</sub>=0</td>
+		<td>&#375; = 12.7 + 14.2(1) + 21.3(0)<br>&#375; = 28.9</td>
+		<td>Upgrading from the AH-64E to the FARA<br>results in 14.2 additional kills.</td>
+	</tr>
+	<tr>
+		<td>AH-64E present: x<sub>1</sub>=0<br>OMFV present: x<sub>2</sub>=1</td>
+		<td>&#375; = 12.7 + 14.2(0) + 21.3(1)<br>&#375; = 34.0</td>
+		<td>Upgrading from the M2A4 to the OMFV<br>results in 21.3 additional kills.</td>
+	</tr>
+	<tr>
+		<td>FARA present: x<sub>1</sub>=1<br>OMFV present: x<sub>2</sub>=1</td>
+		<td>&#375; = 12.7 + 14.2(1) + 21.3(1)<br>&#375; = 48.2</td>
+		<td>Upgrading both systems<br>results in 35.5 additional kills.</td>
+	</tr>
+	</tbody>
+</table>
+
+---
+## The `lm()` Function In *R*
+
+```{r echo=TRUE}
+df.lm = summary(lm(kills~ program_1_rep + program_2_rep, data=df))
+coefficients(df.lm)
+```
+
+Because the system of equations is *over-determined* (more equations than unknowns), the `lm()` function also uses QR decomposition.
+
+---
+## 2D Graphical Interpretation
+
+The slopes of the lines on the bottom row are equal to the linear model coefficients.
+
+<center>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, fig.width=8}
+smooth_fn <- function(data, mapping, ...){
+  ggplot(data = data, mapping = mapping) + 
+    geom_point() + 
+    geom_smooth(formula = y~x, method=lm, fill="red", color="red", se=FALSE, ...)
+}
+
+ggplotly(GGally::ggpairs(df%>%dplyr::select(5:7), lower=list(continuous=smooth_fn), progress=FALSE) + 
+  theme_bw())
+```
+
+</center>
+
+---
+## 3D Graphical Interpretation
+
+<center>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, fig.width=6, fig.align='center'}
+z=c(coefficients(df.lm)[1], sum(coefficients(df.lm)[1:2]), sum(coefficients(df.lm)[c(1,3)]), sum(coefficients(df.lm)[1:3]))
+x=c(0,1,0,1)
+y=c(0,0,1,1)
+
+plot_ly() %>%
+  add_trace(data = df, x=~program_1_rep, y=~program_2_rep, z=~kills,
+            type="scatter3d", mode="markers",
+            marker=list(color='blue', size=5), showlegend=FALSE) %>%
+  add_mesh(x=~x, y=~y, z=~z, showlegend=FALSE, facecolor = c("red", "red"), opacity=0.5) %>%
+  add_trace(x=0, y=0, z=10, type="scatter3d", mode="text", text='β<sub>0</sub>', 
+            inherit=FALSE, showlegend=FALSE, textfont = list(size = 16)) %>%
+  add_trace(x=0.5, y=0, z=14.5, type="scatter3d", mode="text", text='β<sub>1</sub>', 
+            inherit=FALSE, showlegend=FALSE, textfont = list(size = 16)) %>%
+  add_trace(x=c(0,1), y=c(0,0), z=c(z[1], z[2]), type="scatter3d", mode="lines", 
+            line=list(color='black', width=5), showlegend=FALSE) %>%
+  add_trace(x=0, y=0.5, z=18, type="scatter3d", mode="text", text='β<sub>2</sub>', 
+            inherit=FALSE, showlegend=FALSE, textfont = list(size = 16)) %>%
+  add_trace(x=c(0,0), y=c(0,1), z=c(z[1], z[3]), type="scatter3d", mode="lines", 
+            line=list(color='black', width=5), showlegend=FALSE) %>%
+  layout(
+    title = "Best Fit Hyperplane (Without Interaction)",
+    scene = list(
+      xaxis = list(title = "Program 1"),
+      yaxis = list(title = "Program 2"),
+      zaxis = list(title = "Kills"),
+      camera = list(eye = list(x = -1.25, y = -1.25, z = 1)),
+      autosize = F, width = 500, height = 500
+    ))
+```
+
+</center>
+
+---
+## If Interaction Is Present
+
+Add "constructive" interaction to example data.
+
+```{r echo=TRUE}
+df2 = df %>% mutate(kills = ifelse(
+  program_1_rep==1 & program_2_rep==1, 
+  kills+20, #<<
+  kills))
+
+df2.lm = summary(lm(
+  kills ~ program_1_rep + program_2_rep + program_1_rep:program_2_rep, #<<
+  data=df2))
+coefficients(df2.lm)
+```
+
+**Without interaction**, upgrading both systems results in 14.2 + 21.3 = 35.5 additional kills.
+
+**With interaction**, upgrading both systems results in 14.1 + 21.2 + 20.2 = 55.7 additional kills.
+
+---
+## Interaction Visualization
+
+<center>
+
+```{r echo=FALSE, fig.height=6, fig.width=6, fig.align='center'}
+z2=c(coefficients(df2.lm)[1], sum(coefficients(df2.lm)[1:2]), sum(coefficients(df2.lm)[c(1,3)]), sum(coefficients(df2.lm)[1:4]))
+
+plot_ly() %>%
+  add_trace(data = df2, x=~program_1_rep, y=~program_2_rep, z=~kills,
+            type="scatter3d", mode="markers",
+            marker=list(color='black', size=5), showlegend=FALSE) %>%
+  add_trace(data = df, x=~program_1_rep, y=~program_2_rep, z=~kills,
+            type="scatter3d", mode="markers",
+            marker=list(color='blue', size=5), showlegend=FALSE) %>%
+  add_mesh(x=~x, y=~y, z=~z, showlegend=FALSE, facecolor = c("red"), opacity=0.5) %>%
+  add_mesh(x=~x, y=~y, z=~z2, showlegend=FALSE, facecolor = c("black", "red"), opacity=0.5) %>%
+  layout(
+    title = "Best Fit Hyperplane (With Interaction)",
+    scene = list(
+      xaxis = list(title = "Program 1"),
+      yaxis = list(title = "Program 2"),
+      zaxis = list(title = "Kills"),
+      camera = list(eye = list(x = 1.25, y = -1.25, z = 0.75)),
+      autosize = F, width = 500, height = 500
+    ))
+```
+
+</center>
+
+---
+## Machine Learning
+
+When normality assumptions cannot be met, an alternative is to apply non-parametric machine learning techniques to fit a model. The notional data below represents the number of friendly kills achieved as a function of the presence or absence of eight notional modernization programs. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+set.seed(42)
+Full = data.frame(DoE.base::fac.design(nlevels=2, factor.names = paste("P",1:8, sep=''))) %>% mutate_all(~as.numeric(as.character(.))) 
+Full = Full - 1
+Full = Full %>% mutate(kills = 5 + 5*P1 + 2*P3 + P4 + 10*P6 + 5*P7 + 15*P8 - 2*P3*P7 + 3*P1*P4)
+kbl(Full, align='c') %>%
+  kable_paper(full_width=FALSE) %>%
+  add_header_above(c("Notional Data" = 9)) %>%
+  scroll_box(height = "200px")
+```
+
+---
+## Linear Model
+
+For clarity, ease of interpretation, and comparison, no error was introduced to the response variable. The relationship between predictors and the response is:
+
+$$y = 5 + 5P_1 + 0P_2 + 2P_3 + P_4 + 0P_5 + 10P_6 + 5P_7 + 15P_8 - 2(P_3:P_7) + 3(P_1:P_4)$$
+
+**Linear Model Summary**
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, highlight.output=c(2,3,5,6,8,9,10,13)}
+full.lm = lm(kills~.^2, data=Full)
+coefficients(summary(full.lm))
+```
+
+---
+
+## Regression Tree For Binary Predictors
+
+Methodology
+
+- Starting with the full data set, iterate through each predictor, $k_i$, and split the data into two subsets corresponding to $k_i=0$ and $k_i=1$.
+- Choose the split that most decreases the total RSS (prediction error).
+- Repeat the process for each resulting subset.
+- Stop splitting the data using some pre-defined criteria (# observations in a node, tree depth, etc.)
+---
+## The First Split
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=5}
+library(rpart)
+library(rpart.plot)
+
+full.tree = rpart(kills ~ ., data=Full, cp=0.03)
+
+rpart.plot(full.tree, digits=3, type=4, extra=101)
+```
+
+</center>
+
+Node Contents:
+- Mean kills.
+- Number of observations in the node.
+- % of observations in the node.
+
+---
+### The Full Regression Tree
+
+```{r echo=FALSE, fig.align='center', fig.height=5}
+full.tree = rpart(kills ~ ., data=Full)
+rpart.plot(full.tree, digits=3, type=4, extra=101)
+```
+
+
+Notice the first split is on P8, the second set of splits on P6, and the third set on P1. These correspond to the three highest multipliers in the predictor-response equation.
+
+$$y = 5 + 5P_1 + 0P_2 + 2P_3 + P_4 + 0P_5 + 10P_6 + 5P_7 + 15P_8 - 2(P_3:P_7) + 3(P_1:P_4)$$
+
+---
+## Random Forests
+
+Regression trees are relatively weak learners, but they can be improved by growing many trees using **b**ootstrapping and then building an **agg**regated model (referred to as a **bagg**ed model.
+
+### Bootstrap Method
+
+Repeat 100s or 1000s of times:
+  - Randomly sample 2/3 of the data set *with replacement*.
+  - Fit a regression tree to the bootstrapped data and save the model.
+  
+Make predictions using the mean of the individual model predictions.
+
+---
+### Example
+
+<center>
+
+```{r echo=FALSE, warning=FALSE, fig.width=10, fig.height=4.5}
+set.seed(42)
+bigResults = 1:100 %>% map_dfr(function(x){
+  mask = sample(1:nrow(airquality), 0.8*nrow(airquality), replace=TRUE)
+  aq = rpart(Ozone ~ Temp, data=airquality[mask, ])
+  preds = predict(aq, airquality)
+
+  results = tibble(
+    Temp = airquality$Temp,
+    yHat = preds) %>%
+    arrange(Temp) %>%
+    mutate(idx = 1:nrow(airquality))
+
+  results = results %>%
+    bind_rows(results %>% mutate(nxt = ifelse(yHat==lead(yHat, 1), FALSE, TRUE)) %>%
+                filter(nxt) %>%
+                dplyr::select(idx, Temp, yHat) %>%
+                mutate(Temp = Temp + 1,
+                       idx = idx + 0.5)) %>%
+    arrange(idx) %>%
+    mutate(bootstrap=x)
+  return(results)}
+)
+
+fig1 = ggplotly(ggplot() +
+  geom_point(data=airquality, aes(x=Temp, y=Ozone), na.rm=TRUE) +
+  geom_line(data=bigResults %>% filter(bootstrap==1), aes(x=Temp, y=yHat), color='red', size=1.25) +
+  theme_bw())
+
+fig2 = bigResults %>%
+  filter(Temp != 60) %>%
+  group_by(Temp) %>%
+  summarize(meanY = mean(yHat), .groups="keep") %>%
+  ggplot() +
+  geom_point(data=airquality, aes(x=Temp, y=Ozone), na.rm=TRUE) +
+  geom_line(data=bigResults, aes(x=Temp, y=yHat, group=bootstrap), color='red', alpha=0.25, size=1.25) +
+  geom_line(aes(x=Temp, y=meanY), color='blue', size=1.25) +
+  theme_bw()
+
+plotly::subplot(fig1, fig2, shareY=TRUE) %>% layout(title='Bootstrap Aggregation Effect')
+```
+
+</center>
+
+---
+### Return To the 8-Program Data Set
+
+**Random Forest Model Summary**
+
+```{r message=FALSE, warning=FALSE}
+library(randomForest)
+full.rf = randomForest(kills ~ ., data=Full, importance=TRUE)
+full.rf
+```
+
+- Model with 500 trees.
+- 91% variance explained (due to stopping criteria to avoid overfitting).
+
+---
+## Model Error
+
+```{r echo=FALSE, fig.align='center', fig.height=4}
+plot(full.rf)
+```
+
+Consider:
+  - The error stabilized.
+  - A forest of trees has less error than a single tree.
+  - Really only need ~100 trees for this data.
+
+---
+### Variable Importance
+
+A measure of *how much* reduction in deviance each predictor contributes.
+
+```{r echo=FALSE, fig.align='center', fig.height=3.5}
+varImpPlot(full.rf)
+```
+
+Notice the order from top to bottom is the same as the magnitude of the multipliers in the original equation.
+
+$$y = 5 + 5P_1 + 0P_2 + 2P_3 + P_4 + 0P_5 + 10P_6 + 5P_7 + 15P_8 - 2(P_3:P_7) + 3(P_1:P_4)$$
+
+**Interpretation**: Program 8 contributed the most to kills, followed by Program 6, etc. However, we don't yet know whether it was a *positive* or *negative* contribution.
+
+---
+### Partial Dependence
+
+Shows whether the predictor variable *increased* or *decreased* the response. In this case, each program with a non-flat line increased the number of kills. 
+
+```{r echo=FALSE, fig.align='center', fig.height=5}
+predictor = iml::Predictor$new(full.rf, data = Full[, 1:8], y = Full$kills)
+
+PDP = iml::FeatureEffects$new(predictor, method='pdp')
+PDP$plot() & theme_bw()
+```
+
+---
+### Interaction
+
+Tree-based models automatically include interactions, which we can visualize with the following plot.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=4}
+interact = iml::Interaction$new(predictor)
+plot(interact) + theme_bw()
+```
+
+**Interpretation**: All predictors have less than 5% of their variation explained by an interaction.
+
+---
+### Interaction Strength
+
+We can also identify what a predictor is interacting with. For example, the plot below shows the strength of interaction with the P1 predictor. As expected, we see the strong interaction with the P4 predictor.
+
+```{r echo=FALSE, fig.align='center', fig.height=4}
+interact1 = iml::Interaction$new(predictor, feature='P1')
+plot(interact1) + theme_bw()
+```
+
+---
+## Trades Tool Integration Concept
+
+Trades tool functional area measure: $FA_1 = f(w_1m_1 + w_2m_2 + ...)$
+
+where, 
+- $w_i$ are user-supplied weights.
+- $m_i$ are AWARS-derived metrics.
+
+---
+## Trades Tool Integration Example (1 of 2)
+
+The following example represents ranked functional area "scores" based on two hypothetical AWARS metrics.
+
+```{r echo=TRUE}
+set.seed(42)
+
+# generate response
+Full_tool = Full %>% mutate(
+  m1 = kills + rnorm(nrow(df), mean=0, sd=1),
+  m2 = 2 + .01*P1 + 0.2*P2 + 0.2*P3 + 0.3*P4 + 0.05*P5 + 0.08*P6 + 0.4*P7 + 1.2*P8 + 
+    rnorm(nrow(df), mean=0, sd=1),
+)
+
+# first AWARS metric linear model predictions
+lm1 = lm(m1 ~ P1 + P3 + P4 + P6 + P7 + P8 + P1:P4 + P3:P7, data=Full_tool)
+lm1preds = predict(lm1, newdata=Full_tool %>% 
+                     dplyr::select(P1, P2, P3, P4, P5, P6, P7, P8))
+
+# second AWARS metric linear model predictions
+lm2 = lm(m2 ~ P1 + P2 + P3 + P4 + P5 + P6 + P7 + P8, data=Full_tool)
+lm2preds = predict(lm2, newdata=Full_tool %>% 
+                     dplyr::select(P1, P2, P3, P4, P5, P6, P7, P8))
+```
+
+---
+## Trades Tool Integration Example (2 of 2)
+
+Assume a decision-maker values Metric 2 twice as much as Metric 1 and displays the top 5% functional area score.
+
+```{r echo=TRUE}
+# re-scale predictions from 0-100
+results = Full_tool %>% mutate(
+  m1s = rescale(lm1preds, to=c(0,100)),
+  m2s = rescale(lm2preds, to=c(0,100))) %>% 
+  dplyr::select(-kills, -m1, -m2)
+
+# if a decision-maker values metric 2 twice as much as m1,
+# and chooses the top 5% scores
+results %>% mutate(
+  weighted_score = m1s + 2*m2s,
+  FA1_score = rescale(weighted_score, to=c(0,100))) %>%
+  filter(FA1_score>95) %>% 
+  dplyr::select(-m1s, -m2s, -weighted_score) %>% arrange(desc(FA1_score))
+
+```
+

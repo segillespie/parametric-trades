@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<!-- <html> -->
+<html lang="en-US">
+
+<style>
+    /* Add some padding on document's body to prevent the content
+    to go underneath the header and footer */
+    /*body{
+        padding-top: 60px;
+        padding-bottom: 40px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }*/
+    .content{
+      padding-top: 100px;
+      padding-bottom: 80px;
+      padding-left: 20px;
+      padding-right: 20px;
+      background:  #FFFFFF;
+      /*position:relative;
+      display: block;
+      top: 250px;*/
+    }
+    h2{
+      margin-top: 0;
+      margin-bottom:0;
+    }
+    .fixed-header, .fixed-footer{
+        width: 100%;
+        position: fixed;
+        background: #00008B;
+        padding: 10px 0;
+        color: #fff;
+    }
+    .fixed-header{
+        top: 0;
+    }
+    .fixed-footer{
+        bottom: 0;
+    }
+    .container{
+        width: 80%;
+        margin: 0 auto; /* Center the DIV horizontally */
+    }
+    nav a{
+        color: #fff;
+        text-decoration: none;
+        padding: 7px 25px;
+        display: inline-block;
+    }
+</style>
+
+<head>
+<title>DOE For Simulation</title>
+</head>
+
+
+<body>
+
+<div class="fixed-header">
+  <h1 style = 'text-align:center; margin-top:0; margin-bottom:0;'>Design and Analysis of Experiments for Simulation</h1>
+  <hr>
+  <p style = "margin: 0; text-align:center;">As of: 12 Mar 2020
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href = "#About" style = "color:white">About</a>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href = "#Course" style = "color:white">Course</a>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href = "#Community" style = "color:white">Community</a>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href = "#Resources" style = "color:white">Resources</a>
+</div>
+
+
+<div class = "content">
+
+<h1 style = 'text-align:center;'><a href="/_book/index.html"> Design and Analysis of Experiments for Simulation Course </a></h1>
+<hr>
+
+<a name = "About" style = "display: block; position: relative; top: -110px; visibility:hidden;"></a>
+<h2>About</h2>
+<h3 style = 'text-align:center;'><a href="/DOE_Overview_Presentation.html"> Course Overview Presentation </a></h3>
+<p>This course was developed by analysts at TRAC Fort Leavenworth with assistance
+from the <a href = 'https://www.dscoe.org'>Data Science Center of Education (DSCOE)</a>
+and friends and peers throughout the Army analytic community.  It is intended to
+serve as a practical foundation in the statistical field of the design and analysis
+of experiments, specifically focused on supporting simulation development and analysis.
+It assumes basic familiarity with statistics and introduces programming in
+<a href = "https://www.r-project.org/about.html"><i>R</i></a>.  It is intended to be self paced, though organizations
+can work through it on a set schedule as desired.</p>
+<p><b>Contact:</b> Please contact us with questions, comments, concerns, ideas,
+  or (analytic and intellectual) contributions.</p>
+<p><b>Note:</b> This site <i>should</i> work on most web browsers, though we have
+  found that your mileage may vary on many government computers. If the site or graphics
+  are not rendering, please try another browser (e.g., Firefox, Chrome, etc.).</p>
+<p><b>Credits:</b> Beyond the work of all individuals and organizations involved, we would
+  like to note that the site itself was developed using: </p>
+  <ul>
+    <li><a href = "https://www.matrixds.com">Matrix DS</a></li>
+    <li>The <i>R</i> package <a href = "https://bookdown.org/">Bookdown</a></li>
+  </ul>
+
+<hr>
+
+<a name = "Course" style = "display: block; position: relative; top: -110px; visibility:hidden;"></a>
+
+<h2><a href="/_book/index.html"> Design and Analysis of Experiments for Simulation Course </a></h2>
+    <p> <a href = "/flvn_schedule.html">TRAC-FLVN Schedule </a></p>
+    <p> This is the main course.  It is frequently updated, so please check back for updates.
+  As previously stated, please get involved with the community - if you have
+  suggestions, note errors, or want to contribute, please contact us. </p>
+
+<hr>
+
+<a name = "Community" style = "display: block; position: relative; top: -110px; visibility:hidden;"></a>
+
+<h2>Community</h2>
+<p>One of the goals of this project is to cultivate the analytic community focused
+on simulation and the design and analysis of experiments. At a future point, we
+will develop a means for posing questions, sharing ideas, and innovation.
+<font color = 'red'>This section is under development.</font></p>
+
+<hr>
+
+<a name = "Resources" style = "display: block; position: relative; top: -110px; visibility:hidden;"></a>
+
+<h2> Additional Resources </h2>
+<p> There are many resources available for support in statistics, simulation,
+  and programming.  Here are a few that you might not immediately find on google:
+  <ul>
+    <li> <a href = "https://www.dscoe.org">DSCOE</a></li>
+    <li> <a href = "https://my.nps.edu/web/seed">Naval Postgraduate School SEED Center</a> - Note this is a
+    highly useful resource for "data farming" - i.e., building and analyzing simulations.</li>
+    <li> <a href = "https://www.afit.edu/STAT/"></a>The Air Force Institute of Technology Scientific Test & Analysis Techniques (STAT) Center of Excellence</li> - Note, this center is focused primarily on test and evaluation, but has a great wealth of DOE resources. 
+    <li> <a href = "https://www.itl.nist.gov/div898/handbook/">NIST/SEMATECH e-Handbook of Statistical Methods</a></li> - This is a useful engineering statistics handbook produced by the National Institute of Standards and Technology (NIST), particularly, for this course, their <a href = "https://www.itl.nist.gov/div898/handbook/pri/pri.htm">Chapter 5 - Process Improvement</a>.
+    <li> <a href = "https://r4ds.had.co.nz/">R for Data Science</a> by Grolemund and Wickham</li>
+    <li> <a href = "https://bookdown.org">Bookdown</a> has a variety of free books related to R, data visualization, and statistics.</li>
+    <li> <a href = "http://www.biostathandbook.com/">Bio Stat Handbook</a> is a nice statistics resource.</li>
+    <li> <a href = "https://www.statisticshowto.datasciencecentral.com/">Statistics How To is a nice statistics resource.
+      
+    <!--<li> <a href = "/advancedR/_book/index.html"> Steve's Advanced R Notes </a></li> -->
+  </ul>
+
+<h2> Handy Cheat Sheets & References </h2>
+
+<ul>
+  <li><a href = "https://rstudio.com/resources/cheatsheets/">R Studio Cheat Sheets</a> is a wealth of handy quick references.</li>
+  <li><a href = "https://rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf">R Markdown Cheat Sheet (Courtesy of R Studio)</a> </li>
+  
+</ul>
+
+<p style = "margin-bottom:1000px;"></p>
+
+</div>
+
+
+
+<div class = 'fixed-footer'>
+  <p style = 'margin-top:0px; margin-bottom:0px; margin-left:20px; margin-right:20px;'>Disclaimer: Nothing contained on this website is the policy of the U.S. Government or any U.S. Government organization.
+  The information is provided to educate, inform, and serve as a reference for analysts only.</p>
+</div>
+
+
+</body>
+
+</html>

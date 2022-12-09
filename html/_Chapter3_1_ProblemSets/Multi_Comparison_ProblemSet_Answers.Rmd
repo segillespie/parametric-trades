@@ -1,0 +1,207 @@
+---
+title: "Multi Comparison Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the section on multi factor ANOVA in the course https://doe.dscoe.org.  
+
+For this problem set, we will use the following packages:
+
+```{r, warning = F, message = F}
+library(tidyverse)
+```
+
+
+# Active Protection System
+
+You are an analyst tasked with testing an Active Protection System (APS).  You have five variants of an APS, A, B, C, D, and E and are assessing the number of losses your system incurs in five runs of a simulation to determine which is the best APS.  Your data is contained in <a href = '/_Chapter3_1_ProblemSets/aps.csv'> aps.csv </a>.^[Note, your simulation is an aggregate one, so you can receive partial losses, e.g. 12.3]
+
+## Read the Data
+
+Read the data and clean / format it as necessary.
+
+```{r}
+# Read my data.
+aps <- read.csv('./aps.csv')
+# View the data
+head(aps)
+
+# Format Data into a usable format
+aps <- aps %>% 
+  pivot_longer(cols = c(A, B, C, D, E), names_to = 'APS.Type', values_to = 'Losses') %>% 
+  mutate(APS.Type = as.factor(APS.Type))
+
+# View the data
+head(aps)
+```
+
+## Tukey Test
+
+Assume that you have already done your ANOVA and identified that the choice of APS has a statistically significant effect.
+
+Conduct a Tukey HSD test to determine which levels are distinct at a 95% confidence level.  Visualize this result.  Interpret your results.
+
+
+```{r}
+# Conduct the Tukey HSD test.  Note 95% is the default confidence level
+aps.tukey <- TukeyHSD(aov(Losses ~ APS.Type, data = aps))
+
+# View the results:
+aps.tukey
+plot(aps.tukey, las = 1)
+
+# Using Alpha = .05: We cannot say the following pairs are distinct
+# A vs. C
+# A vs. E
+# B vs. D
+# E vs. C
+# Effectively, what we are saying is:
+# A, C, and E cannot be distinguished from each other
+# B and D cannot be distinguished from each other
+# So we have 2 x groups of APS
+
+# Sometimes it is useful to see this graphically by the means
+aps.summary <- aps %>% 
+  group_by(APS.Type) %>% summarise(mean = mean(Losses)) %>% arrange(mean)
+
+ggplot(aps.summary) + 
+  # Plot the mean values for each level of APS
+  geom_point(aes(x = mean, y = 1, color = APS.Type)) + 
+  # Label the mean values (also identified by color)
+  geom_text(aes(x = mean, y = 1.1, label = APS.Type)) + 
+  # Produce a line segement that identifies teh groups indicated above
+  # Note this is simply hard coded from the analysis above
+  geom_segment(aes(x = mean[APS.Type == 'B'], xend = mean[APS.Type == 'D'],
+                   y = .9, yend = .9)) + 
+  geom_segment(aes(x = mean[APS.Type == 'E'], xend = mean[APS.Type == 'C'],
+                   y = .9, yend = .9)) + 
+  # Label the two groups
+  geom_label(aes(x = mean(mean[APS.Type %in% c('B', 'D')]), y = .8, label = 'B-D Group')) + 
+  geom_label(aes(x = mean(mean[APS.Type %in% c('E', 'A', 'C')]), y = .8, label = 'E-A-C Group')) + 
+  # Vary the theme so the plot looks nice
+  theme_minimal() + theme(axis.text.y = element_blank(), plot.title = element_text(hjust = .5)) + 
+  # Label the axes and title
+  xlab('Mean Losses') + ylab('') + 
+  ggtitle('Visualization of APS Level "Groups" by Tukey HSD Test') + 
+  # Vary the scale so the plot looks nice
+  ylim(c(0, 2)) + xlim(c(25.5, 29))
+
+# Finally, you can tell a decision maker that it makes the most sense 
+# (all other things being equal) to focus efforts on APS system B or D as it preserves about
+# 2 more platforms than E, A, and C.  Further, one cannot really distinguish between 
+# APS system E and C even though their mean results do look different (for example).
+```
+
+
+
+
+# Multi Factor Data
+
+In the multi-factor comparison <a href = '/_Chapter3_1_ProblemSets/Multi_Factor_ANOVA_ProblemSet_Questions.html'> problem set </a> recall that we had a response with four factors (A, B, C, and D) that could each take on a low or high level (represented by '-1' and '1' respectively).  When we did the ANOVA that only showed main and 2-way interactions, we showed that the interaction between Factor A and Factor B was significant (i.e., at least one of the levels of 'A:B' had a mean that was statistically different from the others).  Use <a href = '/_Chapter3_1_ProblemSets/multi_factor.csv'> multi_factor.csv </a> and a Tukey HSD test to show which of the levels of 'A:B' are distinct.
+
+Conduct a Tukey HSD test and show your results graphically to show what levels of A:B can be considered distinct from the others (use a 99% confidence level).
+
+
+```{r}
+# Read the data
+mf <- read.csv('./multi_factor.csv')
+
+mf <- mf %>% 
+  # I did this after the fact.  The labels in the TukeyHSD became cryptic
+  # This simply renames any row in the A column valued as 1 as 'A.High'
+  # else it provides it the value of A.Low
+  # the ifelse(boolean, True Result, False Result) is a highly useful one
+  mutate(A = ifelse(A == 1, 'A.High', 'A.Low')) %>% 
+  mutate(B = ifelse(B == 1, 'B.High', 'B.Low')) %>% 
+  # Convert the factor levels to a factor data type
+  mutate(A = as.factor(A), B = as.factor(B), C = as.factor(C), D = as.factor(D)) 
+
+head(mf)  
+
+# Conduct the ANOVA
+mf.aov <- aov(Response ~ . + .:., data = mf)
+
+# Do a Tukey test on the A:B factor from the above ANOVA
+# The which tells you which factor to consider
+# the conf.level tells you which level to consider
+mf.tukey <- TukeyHSD(mf.aov, which = 'A:B', conf.level = .99)
+
+# We want to view the results
+mf.tukey
+# Recall what this says.  For each level, it gives us a comparison
+# between two levels of A:B.  Recall the levels of A:B will be something
+# like "A.level : B.level.  There are, accordingly 4 x levels of A:B
+# and 4 choose 2 = 6 combinations of the levels
+# This shows the confidence interval on the value of (Level 1) - (Level 2).  If 
+# 0 is included in this confidence interval, it is unlikely the two levels have different means.
+# From this we can say it appears that we cannot really say there is a distinction between 
+# (A Low : B Low) and (A Low : B High)
+# All of the rest appear to be distinct
+
+# View the results graphically
+# Set base R parameters; mar specifies the margin, make the left margin larger
+# to allow for the long level names (useful to read ?par)
+par(mar=c(5,12,4,2) + .1)
+# plot the TukeyHSD results, las = 1 rotates the y axis text
+plot(mf.tukey, las = 1)
+# We see the results above graphically
+
+
+# We can also show the same results in a different way using the w value:
+
+# calculate W (see tutorial section)
+alpha <- .01 # as identified in the problem
+a <- 4 # as there are 4 x levels for A:B
+n <- 4 # as each A:B level has 4 x observations
+mse <- .5 # as taken from the mf.aov table
+q <- qtukey(alpha, a, a*(n-1), lower.tail = F) # q value
+w <- q*sqrt(mse/n)
+
+# Summarize the data
+mf.summary <- mf %>% 
+  # First, I found it useful to create a new name for the levels
+  # I called 'AB' that is the combinatino of the name of A and B
+  # paste is a means to concatenate 2 or more strings
+  mutate(AB = paste(A, ':', B, sep = '')) %>% 
+  # Group the data by the AB value
+  group_by(AB) %>% 
+  # Get the means
+  summarise(sample.mean = mean(Response)) %>% 
+  # Order the data by the sample means
+  arrange(sample.mean)
+
+# Plot the data
+ggplot(data = mf.summary) + 
+  # This plots the mean of each point, colored by AB level
+  geom_point(aes(x = sample.mean, y = 1:nrow(mf.summary), color = AB), size = 2) + 
+  # This creates a line segment from the level's mean to mean + w
+  geom_segment(aes(x = sample.mean, xend = sample.mean + w, y = 1:nrow(mf.summary), 
+                   yend = 1:nrow(mf.summary), color = AB)) + 
+  # This creates a line segment from the level's mean to mean - w
+  geom_segment(aes(x = sample.mean, xend = sample.mean - w, 
+                   y = 1:nrow(mf.summary), yend = 1:nrow(mf.summary), color = AB)) + 
+  # This creates a vertical line to more easily see the means
+  geom_vline(aes(xintercept = sample.mean, color = AB), lty = 2) + 
+  # This adjusts the theme (note, the y axis is meaningless)
+  theme_minimal() + theme(axis.text.y = element_blank(), plot.title = element_text(hjust = .5)) + 
+  # This scales the y axis so the plot looks as I like it
+  ylim(c(0 - .5*nrow(mf.summary), nrow(mf.summary) + .5*nrow(mf.summary))) + 
+  ylab('') + xlab('Level Means') + 
+  ggtitle('Tukey HSD Visualization')
+
+# From this, we see the same thing as the previous analysis
+# It shows us the we cannot distinguish between (A Low : B Low) and (A Low : B High)
+
+# Note that the question is if two means fall within W, so the fact that the line segments
+# overlap for Purple (A Low : B Low) and Red (A High : B High) does not indicate that 
+# we cannot distinguish the means.
+```

@@ -1,0 +1,98 @@
+---
+title: "CCD Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the central composite design (CCD) section of the advanced designs chapter in the course https://doe.dscoe.org. For this problem set, we will develop requirements for a hypothetical future ground combat vehicle. The solutions to the problem set use the packages shown below; however, you may use whatever packages you prefer.
+
+```{r, warning = F, message = F}
+library(tidyverse)
+library(rsm)
+library(GGally)
+library(readr)
+library(bestglm)
+library(plotly)
+```
+
+## Design Creation
+
+Generate a CCD that consists of four factors at three levels each with the following names and ranges of values. We will eventually upload the design matrix to a Shiny app to obtain simulation results, so please ensure the column names match those below.
+
+| Factor | Low | High | Remarks |
+|--------|-----|------|---------|
+| Gun | 1.0 | 3.0 | Main gun range (km) |
+| ATGM | 1.0 | 8.0 | Anti-tank guided missile range (km) |
+| Sensor | 1.0 | 10.0 | Sensor range (km) |
+| APS | 0.0 | 1.0 | Level of protection provided by the active protection system (0.0 = no protection) |
+
+Display the resulting design matrix.
+
+```{r}
+# Answer here.
+```
+
+### Pairs Plot
+
+Produce a pairs plot of the four factors.
+
+```{r}
+# Answer here.
+```
+
+### Design Points
+
+How many design points does your design matrix have? How many design points does the equivalent gridded design have?
+
+```{r}
+# Answer here.
+```
+
+### Sensor Factor
+
+If one of our factors is `sensor = as.factor(c('2G', '3G', '4G'))`, should we include it in a CCD? Why or why not?
+
+```{r}
+# Answer here.
+```
+
+## Simulation
+
+Save your CCD design matrix as a .csv file. Then, upload it to the <a href="https://cxxidemo.shinyapps.io/AWARSLite/">Combat Simulator</a> Shiny app to run a simulation for each of your design points. Navigate to the tab titled "Central Composite Designs Problem Set", upload your .csv file, and then download the results. Next, read the data into *R*, and produce a pairs plot with a smoother.
+
+```{r}
+# Answer here.
+```
+
+## Model
+
+Check for potential two-way interactions and first-order effects. Then, using the model selection method of your choice, fit, summarize, and interpret your recommended linear model.
+
+```{r}
+# Answer here.
+```
+
+## Model Assumptions
+
+Check model assumptions and the need for transformations, and make any adjustments necessary to improve the model.
+
+```{r}
+# Answer here.
+```
+
+## Response Surface (optional)
+
+If you identified an interaction between two factors, plot the response surface for those two factors. Otherwise, plot the response surface for any two of your final model's significant factors. Interpret the plot.
+
+```{r}
+# Answer here.
+```
+

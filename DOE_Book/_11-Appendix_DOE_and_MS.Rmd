@@ -1,0 +1,20 @@
+---
+title: "DOE and Measurement Space"
+output: html_document
+---
+
+```{r setup-10, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# DOE and Measurement Space {-}
+
+## Problem
+
+## Measurement Space
+
+https://www.trac.army.mil
+
+
+## Combining the Two
+

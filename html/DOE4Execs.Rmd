@@ -1,0 +1,1386 @@
+---
+title: "DoE Methodology Overview"
+author: "MAJ John King"
+institute: "TRAC-FLVN"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [trac.css, trac-fonts.css]
+    lib_dir: libs
+    seal: false
+    nature:
+      highlightLanguage: r
+      highlightStyle: sunburst
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class: center, middle
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+options(htmltools.dir.version = FALSE)
+library(tidyverse)
+library(kableExtra)
+library(plotly)
+```
+
+# DoE Methodology Overview
+
+<img src="20190425_TRAC_Logo.png" style="width:300px;height:300px;"/>
+
+### `r format(Sys.time(), '%d %B %Y')`
+
+### POC: <a href="mailto:john.f.king1.mil@mail.mil">MAJ John King</a>
+
+<div class="my-footer">Press p For Presenter Mode</div>
+
+???
+Presentation Keyboard Shortcuts
+
+| Action         | Key                                  |
+|----------------|--------------------------------------|
+| Next Slide     | Right Arrow, Down Arrow, PageDown, Space |
+| Previous Slide | Up Arrow, Left Arrow, PageUp |
+| First Slide    | Home |
+| Last Slide     | End |
+| Specific Slide | Slide Number <Enter> |
+| Black Screen   | b |
+| Clone Screen   | c |
+| Presenter Mode | p |
+| Full Screen    | f |
+
+---
+
+<div class="my-header">Outline</div>
+
+#### 
+
+</br>
+
+Design of Experiments
+  - Design Options
+  - EUCOM Scenario Design 
+
+Regression
+  - Simple Linear Regression
+  - Assumptions and Diagnostics
+  - Multiple Linear Regression
+
+Trades Tool Integration
+
+Talking Points
+
+<div class="my-footer">DoE Methodology</div>
+---
+class: inverse, center, middle
+
+# Design of Experiments
+
+???
+The <a href="https://www.itl.nist.gov/div898/handbook/pmd/section3/pmd31.htm">National Institute of Science and Technology</a> definition of Design of Experiments:
+
+> A systematic, rigorous approach to problem-solving that applies principles and techniques at the data collection stage so as to ensure the generation of valid, defensible, and supportable conclusions. In addition, all of this is carried out under the constraint of a minimal expenditure of [simulation] runs, time, and money.
+
+---
+
+<div class="my-header">Full Factorial Designs</div>
+
+#### 
+
+</br>
+
+.pull-left[
+Example Study
+- 3 OMFV systems (main gun, ATGM, and APS)
+- 2 levels each
+- $2^{3} = 8$ AWARS runs
+
+<center>Example Full Factorial Design</center>
+</br>
+
+| Design Point | Main Gun | ATGM | APS |
+|:---------:|:----------:|:-----:|:---:|
+| 1 | 25mm | TOW | Smoke |
+| 2 | 50mm | TOW | Smoke |
+| 3 | 25mm | JAGM | Smoke |
+| 4 | 50mm | JAGM | Smoke |
+| 5 | 25mm | TOW | Iron Fist |
+| 6 | 50mm | TOW | Iron Fist |
+| 7 | 25mm | JAGM | Iron Fist |
+| 8 | 50mm | JAGM | Iron Fist |
+]
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+Consider a study in which we are asked to evaluate the relative contribution of three future systems under consideration for including on a optionally manned fighting vehicle. For each system, there are two options: the current system and the future system. Each unique combination of the three systems at both levels can be evaluated in eight simulation runs. This is referred to as a full factorial design and is shown on the table. 
+
+--
+
+.pull-right[
+EUCOM Scenario
+- 14 modernization programs
+- 2 levels each (current vs. future system)
+- $2^{14} = 16,384$ AWARS runs
+  
+**We need a smaller design!**
+
+]
+
+???
+Now consider a study in which there are 14 programs that we wish to evaluate at two levels each. Evaluating every unique combination would require 16,384 simulation runs. Although technically feasible, we can significantly reduce the number of simulation runs by choosing a different design.
+
+---
+<div class="my-header">Fractional Factorial Designs</div>
+
+#### 
+
+</br>
+
+Start with the full factorial design, re-code with -1 and 1, and show all interactions. Then delete lower half of the design matrix and the resulting collinear columns.
+
+</br>
+
+```{r echo=FALSE}
+FFdesign2 = tibble(
+  DP = 1:8,
+  Y_Intercept = rep(1, 8),
+  X1 = rep(c(-1, 1), 4),
+  X2 = rep(c(-1,-1,1,1), 2),
+  X3 = rep(c(-1,1), each=4),
+  X1X2 = X1*X2,
+  X1X3 = X1*X3,
+  X2X3 = X2*X3,
+  X1X2X3 = X1*X2*X3
+)
+
+FFdesign2 %>% kbl(align='c') %>% kable_paper(full_width=F) %>%
+  row_spec(5:8, background='lightblue') %>%
+  column_spec(5:8, background='lightblue')
+```
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+The full factorial design from the previous slide is represented here in numeric form. The first column is the design point (DP), or run number. The second column consists of all 1s to capture the y-intercept term that will later be used with regression. X1, X2, and X3 represent the three OMFV systems where a -1 represents the current system (e.g., 25mm main gun), and a 1 represents the future system. The next three columns represent all of the possible 2-way interaction terms. The values in these interaction columns are the product of the two respective individual columns (e.g., column X1X2 is the product of column X1 and X2). The farthest right column represents the 3-way interaction term.
+
+The number of design points in a full factorial design can be reduced by deleting the bottom half of the design matrix (shown in blue). However, doing so produces collinear columns in the upper half of the table. For example, the remaining column X1 is the inverse of column X1X3, and so the X1X3 column must be eliminated. The other columns shown in blue must also be eliminated due to collinearity. 
+
+---
+<div class="my-header">Resulting Design</div>
+
+#### 
+
+</br>
+
+The resulting design loses higher order interactions<sup>1</sup>.
+
+```{r echo=FALSE}
+r5 = FFdesign2 %>% slice(1:4) %>% dplyr::select(DP, Y_Intercept, X1, X2, X1X2X3)
+colnames(r5) = c('DP', 'Y_Intercept', 'X1', 'X2', 'X3')
+knitr::kable(r5, layout='html')
+```
+
+The EUCOM design matrix is a **Resolution V** fractional factorial design which includes:
+- 256 design points.
+- The Intercept.
+- All Main effects.
+- All 2-way interactions.
+
+.footnote[
+[1] This design is technically a Resolution III fractional factorial design.
+]
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+This table is what remains after eliminating the blue rows and columns shown on the previous slide and is known as a fractional factorial design. Although we were able to decrease the number of runs by half, we would only be able to evaluate main effects with this design. This means we would be able to determine the impact of upgrading just the main gun, and the impact of upgrading the ATGM (the main effects), but not the combined impact of upgrading both systems (the 2-way interaction). A similar methodology will be utilized for the AMA study that will reduce the number of runs from 32,768 to only 256. This design is referred to as a Resolution V fractional factorial design and, with it, we will be able to evaluate all main effects and all 2-way interactions (but not 3 or higher way interactions).
+
+Each row in the table represents a single AWARS run and defines the combination of systems that will be represented in that particular run. A unique set of AWARS output files will then be associated with each run. Using this output, we will establish various metrics to measure the effects associated with that particular combination of systems. Example metrics may include the total number of friendly kills or the end strength of a certain BCT. The relationship between the system levels and a metric may be understood using a variety of mathematical models. A commonly used, and easy to interpret model, is a linear regression model, which will be described in the next several slides.
+
+---
+class: inverse, center, middle
+
+# Regression
+
+---
+<div class="my-header">Simple Linear Regression</div>
+
+#### 
+
+</br>
+
+Purpose: describe a relationship between a predictor variable (x) and a response variable (y).
+
+$$y = \beta_{0} + \beta_{1}x + \epsilon$$
+
+where,
+
+- $\beta_{0}$ is the y-intercept
+- $\beta_{1}$ is the slope
+- $\epsilon$ is the error in $y$ not explained by $\beta_{0}$ and $\beta_{1}$. 
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+This slide shows the mathematical form of a simple linear regression model. Ultimately, the x's will represent the Army modernization programs, and the y will represent an AWARS output metric.
+
+---
+<div class="my-header">Least Squares Method Graphically</div>
+
+#### 
+
+</br>
+
+Objective: Minimize the residual sum of squares (RSS).
+
+$RSS = \sum\limits_{i=1}^{n}{(y_{i} - \hat{y}_{i})^2} = \sum\limits_{i=1}^{n}{\hat\epsilon_{i}^{2}}$
+
+<center>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=8}
+df = tibble(
+  height = c(66, 54, 50, 74, 59, 53),
+  weight = c(141, 128, 123, 160, 136, 139)
+)
+
+pts = tibble(x=c(66,66), y=c(141, 146.5))
+
+plot_ly() %>%
+  add_trace(x=c(50,50), y=c(123,125.5), type='scatter', mode="lines", 
+            line=list(color='blue', width=3, dash='dash'), showlegend=FALSE) %>%
+  add_trace(x=c(53,53), y=c(139,129.5), type='scatter', mode="lines", 
+            line=list(color='blue', width=3, dash='dash'), showlegend=FALSE) %>%
+  add_trace(x=c(54,54), y=c(128,131.5), type='scatter', mode="lines", 
+            line=list(color='blue', width=3, dash='dash'), showlegend=FALSE) %>%
+  add_trace(x=c(59,59), y=c(136,137.5), type='scatter', mode="lines", 
+            line=list(color='blue', width=3, dash='dash'), showlegend=FALSE) %>%
+  add_trace(x=c(66,66), y=c(141,146.5), type='scatter', mode="lines", 
+            line=list(color='blue', width=3, dash='dash'), showlegend=FALSE) %>%
+  add_trace(x=c(74,74), y=c(160,156.5), type='scatter', mode="lines", 
+            line=list(color='blue', width=3, dash='dash'), showlegend=FALSE) %>%
+  add_trace(data = pts, x=~x, y=~y, type='scatter', mode="markers",
+            marker=list(color='black', size=24, opacity=0.3), showlegend=FALSE) %>%
+  add_trace(data = df, x=~height, y=~weight, type='scatter', mode="markers",
+            marker=list(color='black', size=10), showlegend=FALSE) %>%
+  add_trace(data=df, x=~height, y=~fitted(lm(weight~height, data=df)), type='scatter', 
+            mode="lines", line=list(color='red', width=3)) %>%
+  add_trace(x=55.5, y=136, mode="text", text='β<sub>1</sub>', 
+            inherit=FALSE, showlegend=FALSE, textfont = list(size = 20, color='red')) %>%
+  add_trace(x=66, y=149, mode="text", text='\u0177<sub>i</sub>', 
+            inherit=FALSE, showlegend=FALSE, textfont = list(size = 20, color='black')) %>%
+  add_trace(x=66, y=138, mode="text", text='y<sub>i</sub>', 
+            inherit=FALSE, showlegend=FALSE, textfont = list(size = 20, color='black')) %>%
+  add_trace(x=69, y=143.5, mode="text", text='Residuals', 
+            inherit=FALSE, showlegend=FALSE, textfont = list(size = 20, color='blue')) %>%
+  layout(
+      xaxis = list(title = "Height"),
+      yaxis = list(title = "Weight"))
+```
+
+</center>
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+If we plot a data set consisting of 6 observations of height (the predictor, or x variable) and weight (the response, or y variable) shown with black circles and fit a linear model to these observations, we get the best fit regression line shown in red. The slope of the line, $\beta_1$, describes the nature of the relationship between height and weight as predicted by the linear model. Since the circles do not fall on the regression line, there is some error associated with this model that we can capture with the residuals (the difference between a predicted and actual weight value). Linear models identify the best fit regression line by minimizing the sum of the squared residuals (squared so that all errors are positive). In other words, it's finding the line that minimizes the combined lengths of the dashed blue lines, thus finding the line with the least amount of error. This is referred to as the "least squares" method.
+
+---
+<div class="my-header">Least Squares Mathematically</div>
+
+#### 
+
+</br>
+
+Rewrite expression in terms of $\epsilon$:
+
+$\epsilon = y - \beta_{0} - \beta_{1}x$
+
+If $y= \begin{pmatrix} y_1 \\ \vdots \\ y_n \end{pmatrix}$ and $X= \begin{pmatrix} 1 & x_1 \\ \vdots & \vdots \\ 1 & x_n \end{pmatrix}$ and $\beta= \begin{pmatrix} \beta_0 \\ \beta_1 \end{pmatrix}$
+
+Then $\epsilon= \begin{pmatrix} \epsilon_1 \\ \vdots \\ \epsilon_n \end{pmatrix} = \begin{pmatrix} y_1-\beta_0-\beta_1x_1 \\ \vdots \\ y_n-\beta_0-\beta_1x_n \end{pmatrix} = y-X\beta$
+
+Once we solve for the coefficients, multiplying them by the predictors gives the estimated response, $\hat{y}$.
+
+$X\beta \equiv \hat{y}$
+
+Next step: linear algebra.
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+After re-writing the simple linear regression formula in terms of the error, we define three matrices: one each for the $x$, $y$, and $\beta$ terms. The $X$ matrix is a combination of a column of 1s and a column of $x$ values where each value is a height observation from the data set. The $y$ matrix consists of each of the weight observations. The two coefficients we're attempting to determine are $\beta_0$ and $\beta_1$, which represent the regression line y-intercept and slope, respectively. Combining each of the 6 observations into a system of equations, we can use linear algebra techniques to solve for the $\beta$ vector.
+
+---
+<div class="my-header">QR Decomposition</div>
+
+#### 
+
+</br>
+
+.center[
+$X\beta \equiv \hat{y}$
+
+$X^TX\beta = X^Ty$
+
+$\beta = (X^TX)^{-1}X^Ty$]
+
+Substitute QR for X and solve.
+.center[
+$\beta = ((QR)^T(QR))^{-1}(QR)^Ty$
+
+$\beta = (R^TQ^TQR)^{-1}R^TQ^Ty$
+
+$\beta = (R^TR)^{-1}R^TQ^Ty$
+
+$\beta = R^{-1}R^{-T}R^TQ^Ty$
+
+$\beta = R^{-1}Q^Ty$]
+
+For a detailed discussion, refer to <a href="http://www.seas.ucla.edu/~vandenbe/133A/lectures/ls.pdf">these slides</a>.
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+We can solve for the $\beta$ vector using a technique called QR decomposition, where the $X$ matrix is "decomposed" into two separate matrices $Q$ and $R$, that multiplied together, equals the $X$ matrix. Solving for $\beta$ in terms of $Q$ and $R$ is more stable than solving for $\beta$ in terms of $X^TX$ because solving in terms of $X^TX$ can sometimes produce a singular matrix, which is non-invertible (i.e., $(X^TX)^{-1}$ fails). 
+
+---
+<div class="my-header">QR Decomposition in <i>R</i></div>
+
+#### 
+
+</br>
+
+In *R*, use `qr(X)` to decompose $X$, and then use `solve.qr()` to calculate the $\beta$ vector.
+
+```{r echo=TRUE}
+intercept = rep(1, 6)
+
+X = cbind(intercept, df$height)
+
+QR = qr(X)
+
+qr.Q(QR) # the Q matrix
+qr.R(QR) # the R matrix
+
+solve.qr(QR, df$weight)
+```
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+We can demonstrate QR decomposition explicitly in *R* using the built-in functions `qr()` and `solve.qr()` as shown. First, we define the y-intercept column as a matrix of six 1s. We combine that column with the height column to create our $X$ matrix. We then decompose $X$ into the $Q$ and $R$ matrices, and solve for $\beta$ by multiplying them by the weight matrix. As a result, we see that $\beta_0$ (the y-intercept) is 62.07 and $\beta_1$ (the slope) is 1.28.
+
+---
+<div class="my-header">The lm() Function in <i>R</i></div>
+
+#### 
+
+```{r echo=TRUE}
+coefficients(summary(lm(weight ~ height, data = df)))
+```
+
+Because the system of equations is *over-determined* (more equations than unknowns), the `lm()` function also uses QR decomposition.
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+In *R*, we fit a linear model with `lm()` using a formula notation of the form y ~ x. We can also get the model summary, from which we can extract the coefficients, which exactly match those calculated manually on the previous slide. Other terms include the standard error (or standard deviation) for each estimate, which can be used to calculate confidence intervals. The t-value is (Estimate / Std. Error). Pr(>|t|) is the probability of observing a value at least as extreme as the estimate using a t-distribution, with the null hypothesis that the estimate = 0. For both estimates, we reject the null hypothesis and conclude the estimates are statistically significant at the 95% confidence level.
+
+---
+<div class="my-header">Linear Regression Assumptions</div>
+
+#### 
+
+</br>
+
+Four assumptions fundamental to linear regression:
+
+- **Linearity:** $y$ must be a linear function of the $\beta$ coefficients.
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+When fitting a linear model to a data set, an analyst must always check for violations of the linear model assumptions. The diagnostic checks presented in the next few slides demonstrate the commonly accepted methods for checking for violations.
+
+--
+
+- **Homoscedasticity:** The prediction error has a constant variance.
+
+--
+
+- **Independence:** The prediction error is independent of the predictor variables.
+
+--
+
+- **Normality:** The prediction error is normally distributed.
+
+---
+<div class="my-header">Example Data</div>
+
+#### 
+
+<center>
+```{r echo=FALSE, fig.height=4, fig.width=6}
+set.seed(0)
+diag = tibble(
+  x = runif(100, 0, 7),
+  y = 1 / (1.2 + 0.7*x + rexp(100, 1))
+)
+
+ggplotly(ggplot(data=diag, aes(x=x,y=y)) + 
+  geom_point() +
+  geom_smooth(formula='y~x', method='lm', se=F, color='red') +
+  theme_bw())
+```
+
+</center>
+
+#### Linear Model Summary
+
+```{r echo=FALSE}
+diag.lm = lm(y~x, data=diag)
+coefficients(summary(diag.lm))
+```
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+The height and weight data used up until this point did not violate any of the linear model assumptions, so for demonstration purposes, I created a new set of data that violates three of the four assumptions. The linear regression line is shown on the chart and visually appears to be a reasonable fit. In the model summary, both coefficients have very low p-values indicating statistical significance.
+
+---
+<div class="my-header">Linearity</div>
+
+#### 
+
+.pull-left[
+A regression model is linear if $y$ is a linear function **of the $\beta$ coefficients**, not of $x$.
+
+Example linear models:
+- $\beta_{0} + \beta_{1}x$
+- $\beta_{0} + \beta_{1}x + \beta_{2}x^{2} + \beta_{3}x^{3}$
+- $\beta_{0} + \beta_{1}log(x) + \beta_{2}sin(x)$
+
+Example non-linear models:
+- $\beta_{0} + x^{\beta_{1}}$
+<p>&nbsp;</p>
+- $\frac{1}{\beta_{0} + \beta_{1}x}$
+
+]
+
+<div class="my-footer">DoE Methodology</div>
+--
+
+.pull-right[
+Example non-linear relationship.
+
+```{r echo=FALSE, dev="svg", fig.height=3, fig.width=4}
+ggplot() +
+  geom_point(aes(x=diag.lm$fitted.values, y=residuals(diag.lm))) +
+  geom_smooth(aes(x=diag.lm$fitted.values, y=residuals(diag.lm)), formula = 'y~x', method='loess', se=F, color='red') +
+  xlab("Fitted Values") +
+  ylab("Residuals") +
+  theme_bw()
+```
+
+]
+
+???
+It is important to note the distinction between y being a linear function of x as opposed to being a linear function of the $\beta$s. This allows linear models to accommodate non-linear relationships between x and y as along as the coefficients remain linear. We can visually identify non-linearity by plotting the fitted values (the estimated y values) versus the residuals. If we see a non-linear trend in the data as shown in the upper right, we may be able to change the structure of the model by transforming either the predictor or response and improve the fit.
+
+---
+<div class="my-header">Non-Constant Variance</div>
+
+#### 
+
+
+```{r echo=FALSE, dev="svg", fig.align='center', fig.height=4, fig.width=6}
+plot(diag.lm, which=3, pch=20, lwd=2)
+```
+
+#### Breusch-Pagan Test
+
+```{r}
+car::ncvTest(diag.lm)
+```
+
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+Plotting the fitted values against the square root of the standardized residuals provides a visual means of identifying non-constant variance. If the variance was constant, the red line would be horizontal and the vertical spread of the points from left to right across chart would also be constant. Instead, the red line curves, and the vertical spread increases from left to right.
+
+The Breusch-Pagan test is a statistical test for non-constant variance. The null hypothesis is that the residuals have constant variance, and the alternative is that the error variance changes with the level of the response or with a linear combination of predictors. For this fit, we clearly reject the null hypothesis.
+
+---
+<div class="my-header">Normality And Independence</div>
+
+#### 
+
+```{r, echo=FALSE, dev='svg', fig.align='center', fig.height=3, fig.width=5}
+ggplot(diag, aes(sample=scale(residuals(diag.lm)))) +
+  stat_qq() +
+  stat_qq_line(color='red', size=1.25, linetype=2) +
+  ggtitle("Normal Q-Q") +
+  xlab("Theoretical Quantiles") + ylab("Standardized Residuals") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+#### Shapiro-Wilk Test
+
+```{r echo=FALSE}
+shapiro.test(residuals(diag.lm))
+```
+
+#### No Formal Test For Independence
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+A quantile-quantile plot is a visual tool used to compare two distributions: here the theoretical quantiles of normally distributed data on the x axis versus the actual quantiles of the standardized residuals. If the residuals were normally distributed, they would fall on or very near the dashed red line. This plot indicates that the larger residuals depart significantly from a normal distribution. 
+
+The Shapiro-Wilk test is commonly used to test whether data are normally distributed. After applying the test to the linear model residuals, we reject the null hypothesis that the residuals are normally distributed.
+
+Evaluating independence can be accomplished by inspecting how the data were generated. An example of violating the independence assumption in combat model results is as follows. Say we wanted to compare the number of IDF missions prosecuted by two BCTs. If the model behavior is such that when one BCT is under fire, the other BCT will support it with its IDF, then the number of IDF missions for each BCT is not independent. If the first BCT is more active, then the second BCT will also tend to be more active. The remedy is to exclude these kinds of metrics from the analysis.
+
+---
+<div class="my-header">What To Do About Violations</div>
+
+#### 
+
+If any of the linear model assumptions are violated, then there are three options:
+
+- Change the structure of the model.
+  - Transform the predictor(s) and/or response.
+  - Use a non-Gaussian distribution.
+  
+<div class="my-footer">DoE Methodology</div>
+
+???
+No additional notes for this slide.
+
+--
+
+- Accept the violations and use the model anyway.
+
+--
+
+- Use a non-parametric model.
+  - Random forest.
+  - Support vector machine.
+  - Many others.
+
+---
+<div class="my-header">Multiple Linear Regression</div>
+
+#### 
+
+</br>
+
+Expand equation to allow for more predictors:
+
+$y = \beta_{0} + \beta_{1}x_{1}+ \beta_{2}x_{2} + ... + \beta_{(p-1)}x_{(p-1)} + \epsilon$
+
+</br>
+
+In matrix form and in terms of $\epsilon$:
+
+$\epsilon= \begin{pmatrix} \epsilon_1 \\ \vdots \\ \epsilon_n \end{pmatrix} = \begin{pmatrix} y_1-\beta_0-\beta_1x_1 - \beta_2x_2 - ... \\ \vdots \\ y_n-\beta_0-\beta_1x_n  - \beta_2x_n - ...  \end{pmatrix} = y-X\beta$
+
+</br>
+
+Note the final equation remains unchanged, so we still solve for the $\beta$ matrix using QR decomposition.
+
+$X\beta \equiv \hat{y}$
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+For a data set that has multiple predictors, we simply increase the size of the $X$ and $\beta$ matrices to account for the additional terms. In matrix notation, however, the final equation is identical to the equation for simple linear regression. We therefore proceed with the QR decomposition technique as before.
+
+---
+<div class="my-header">QR Decomposition Example</div>
+
+#### 
+
+</br>
+
+One-hot encode the categorical variables to generate X matrix. Then generate the response variable with the relationship: $y = 10 + 16x_{1}+ 22x_{2} + \epsilon$
+
+```{r echo=FALSE}
+set.seed(0)
+
+df = tibble(
+  DP = 1:12,
+  Program_1 = rep(c("AH-64E", "FARA"), 6),
+  Program_2 = rep(c("M2A4", "M2A4", "OMFV", "OMFV"), 3),
+  intercept = rep(1, 12),
+  program_1_rep = rep(0:1, 6),
+  program_2_rep = rep(c(0,0,1,1), 3),
+  kills = 10 + 16*program_1_rep + 22*program_2_rep + rnorm(12, sd=5)) # the true relationship
+
+df %>% kbl(align='c') %>% kable_paper(full_width=F) %>%
+  add_header_above(c(" "=3, "X Matrix"=3, "Y Matrix" = 1)) %>%
+  column_spec(4:6, background='lightblue') %>%           # the X matrix
+  column_spec(7, background='lightgreen')                # the y matrix
+```
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+In this example, we'll pull everything together using a simplified representation of the AMA analytic approach. In white, we have a full factorial design (rows 1-4) replicated three more times (rows 5-12) for a study that includes two modernization programs (FARA and OMFV) at two levels each (the current and future system). We then translate those system levels into 0s and 1s so they can be mathematically represented in a linear regression model, and we add a column of 1s for the y-intercept term to construct the $X$ matrix shown in blue. We then execute an AWARS run for each of the design points and extract our metric of interest - in this case the total number of friendly kills achieved in the run and shown in green. 
+
+Note that this is notional data generated based on the equation shown above the table. We should expect to calculate three $\beta$ coefficients similar to values of 10, 16, and 22 as shown in the equation (similar, and not exact, due to the error term).
+
+---
+<div class="my-header">The Resulting Coefficients</div>
+
+#### 
+
+</br>
+
+```{r echo=TRUE}
+df.lm = lm(kills ~ program_1_rep + program_2_rep, data=df)
+coefficients(df.lm)
+```
+
+#### Mathematical Interpretation
+
+$\hat{y} = 12.7 + 14.2x_{1}+ 21.3x_{2}$
+
+#### Compare To True Relationship
+
+$y = 10 + 16x_{1}+ 22x_{2} + \epsilon$
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+The $X$ matrix consists of columns 4-6 from the previous slide, and the y matrix is the 7th column. We extract the three $\beta$ coefficients generated by the `lm()` function as shown earlier. As expected, our estimated coefficients are similar to the actual coefficients. Next, we'll see how to interpret these coefficients.
+
+---
+<div class="my-header">Interpretation</div>
+
+#### 
+
+</br>
+
+Given: $\hat{y} = 12.7 + 14.2x_{1}+ 21.3x_{2}$
+
+Recall: $x_1 \begin{cases} & \text{0 if } x_1= AH-64E\\ & \text{1 if } x_1= FARA \end{cases} ~~~~~~~~~~ x_2 \begin{cases} & \text{0 if } x_2= M2A4\\ & \text{1 if } x_2= OMFV \end{cases}$
+
+</br>
+
+<style>
+	.demo {
+		border:1px solid #000000;
+		border-collapse:collapse;
+		padding:5px;
+	}
+	.demo th {
+		border:1px solid #000000;
+		padding:5px;
+		background:#F0F0F0;
+	}
+	.demo td {
+		border:1px solid #000000;
+		padding:5px;
+	}
+</style>
+<table class="demo">
+	<caption><h4>Multiple Linear Regression Interpretation</h4></caption>
+	<thead>
+	<tr>
+		<th>If</th>
+		<th>Resulting Equation</th>
+		<th>Interpretation</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>AH-64E present: x<sub>1</sub>=0<br>M2A4 present: x<sub>2</sub>=0</td>
+		<td>&#375; = 12.7 + 14.2(0) + 21.3(0)<br>&#375; = 12.7</td>
+		<td>The AH-64E and FARA kill 12.7 threat units.</td>
+	</tr>
+	<tr>
+		<td>FARA present: x<sub>1</sub>=1<br>M2A4 present: x<sub>2</sub>=0</td>
+		<td>&#375; = 12.7 + 14.2(1) + 21.3(0)<br>&#375; = 28.9</td>
+		<td>Upgrading from the AH-64E to the FARA<br>results in 14.2 additional kills.</td>
+	</tr>
+	<tr>
+		<td>AH-64E present: x<sub>1</sub>=0<br>OMFV present: x<sub>2</sub>=1</td>
+		<td>&#375; = 12.7 + 14.2(0) + 21.3(1)<br>&#375; = 34.0</td>
+		<td>Upgrading from the M2A4 to the OMFV<br>results in 21.3 additional kills.</td>
+	</tr>
+	<tr>
+		<td>FARA present: x<sub>1</sub>=1<br>OMFV present: x<sub>2</sub>=1</td>
+		<td>&#375; = 12.7 + 14.2(1) + 21.3(1)<br>&#375; = 48.2</td>
+		<td>Upgrading both systems<br>results in 35.5 additional kills.</td>
+	</tr>
+	</tbody>
+</table>
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+No notes needed for this slide.
+
+---
+<div class="my-header">2D Graphical Interpretation</div>
+
+#### 
+
+</br>
+
+The slopes of the lines are equal to the linear model coefficients.
+
+<center>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=4, fig.width=8}
+p1 = plot_ly() %>%
+  add_trace(data = df, x=~program_1_rep, y=~kills, type='scatter', mode="markers",
+            marker=list(color='black', size=10), showlegend=FALSE) %>%
+  add_trace(data=df, x=~program_1_rep, y=~fitted(lm(kills~program_1_rep, data=df)), type='scatter', 
+            mode="lines", line=list(color='red', width=3), showlegend=FALSE) %>%
+  add_trace(x=0.5, y=40, mode="text", text='β<sub>1</sub> = 14.2', 
+          inherit=FALSE, showlegend=FALSE, textfont = list(size = 20, color='red')) %>%
+  layout(
+      xaxis = list(title = "Program 1"),
+      yaxis = list(title = "Kills"))
+
+p2 = plot_ly() %>%
+  add_trace(data = df, x=~program_2_rep, y=~kills, type='scatter', mode="markers",
+            marker=list(color='black', size=10), showlegend=FALSE) %>%
+  add_trace(data=df, x=~program_2_rep, y=~fitted(lm(kills~program_2_rep, data=df)), type='scatter', 
+            mode="lines", line=list(color='red', width=3), showlegend=FALSE) %>%
+  add_trace(x=0.5, y=40, mode="text", text='β<sub>2</sub> = 21.3', 
+          inherit=FALSE, showlegend=FALSE, textfont = list(size = 20, color='red')) %>%
+  layout(
+      xaxis = list(title = "Program 2"),
+      yaxis = list(title = "Kills"))
+
+subplot(p1, p2, shareY=TRUE, titleX=TRUE)
+```
+
+</center>
+<div class="my-footer">DoE Methodology</div>
+
+???
+Since there are only two possible values for $x_1$ and $x_2$, the data points all fall at one of the two extremes. 
+
+---
+<div class="my-header">3D Graphical Interpretation</div>
+
+#### 
+
+</br>
+
+<center>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=6, fig.width=6, fig.align='center'}
+z=c(coefficients(df.lm)[1], sum(coefficients(df.lm)[1:2]), sum(coefficients(df.lm)[c(1,3)]), sum(coefficients(df.lm)[1:3]))
+x=c(0,1,0,1)
+y=c(0,0,1,1)
+
+plot_ly() %>%
+  add_trace(data = df, x=~program_1_rep, y=~program_2_rep, z=~kills,
+            type="scatter3d", mode="markers",
+            marker=list(color='blue', size=5), showlegend=FALSE) %>%
+  add_mesh(x=~x, y=~y, z=~z, showlegend=FALSE, facecolor = c("red", "red"), opacity=0.5) %>%
+  add_trace(x=0, y=0, z=10, type="scatter3d", mode="text", text='β<sub>0</sub>', 
+            inherit=FALSE, showlegend=FALSE, textfont = list(size = 16)) %>%
+  add_trace(x=0.5, y=0, z=14.5, type="scatter3d", mode="text", text='β<sub>1</sub>', 
+            inherit=FALSE, showlegend=FALSE, textfont = list(size = 16)) %>%
+  add_trace(x=c(0,1), y=c(0,0), z=c(z[1], z[2]), type="scatter3d", mode="lines", 
+            line=list(color='black', width=5), showlegend=FALSE) %>%
+  add_trace(x=0, y=0.5, z=18, type="scatter3d", mode="text", text='β<sub>2</sub>', 
+            inherit=FALSE, showlegend=FALSE, textfont = list(size = 16)) %>%
+  add_trace(x=c(0,0), y=c(0,1), z=c(z[1], z[3]), type="scatter3d", mode="lines", 
+            line=list(color='black', width=5), showlegend=FALSE) %>%
+  layout(
+    title = "Best Fit Hyperplane (Without Interaction)",
+    scene = list(
+      xaxis = list(title = "Program 1"),
+      yaxis = list(title = "Program 2"),
+      zaxis = list(title = "Kills"),
+      camera = list(eye = list(x = -1.25, y = -1.25, z = 1)),
+      autosize = F, width = 500, height = 500
+    ))
+```
+
+</center>
+<div class="my-footer">DoE Methodology</div>
+
+???
+Since we have two predictors, we get a best fit regression plane instead of a line, which is shown on the plot. $\beta_0$ is the number of kills at the vertical (0,0) axis. The $\beta_1$ coefficient is the slope of the line that results from the intersection of the plane with the Program 1 vertical plane. Similarly, the $\beta_2$ coefficient is the slope of the line that results from the intersection of the plane with the Program 2 vertical plane. With no interaction present between the two programs, the plane passes through the values on the (1,1) vertical axis. 
+
+This chart is interactive, so the mouse can be used to rotate the graphic, and tools are available in the upper left of the plot to interact with the graphic in other ways. 
+
+---
+<div class="my-header">If Interaction Is Present</div>
+
+#### 
+
+</br>
+
+Add "constructive" interaction to example data.
+
+```{r echo=TRUE}
+df2 = df %>% mutate(kills = ifelse(
+  program_1_rep==1 & program_2_rep==1, 
+  kills+20, #<<
+  kills))
+
+df2.lm = summary(lm(
+  kills ~ program_1_rep + program_2_rep + program_1_rep:program_2_rep, #<<
+  data=df2))
+coefficients(df2.lm)
+```
+
+**Without interaction**, upgrading both systems results in 14.1 + 21.2 = 35.3 additional kills.
+
+**With interaction**, upgrading both systems results in 14.1 + 21.2 + 20.2 = 55.7 additional kills.
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+This slide demonstrates the effect of "constructive" interaction between two programs. By constructive, I mean that the presence of both future programs in a simulation run results more kills than the sum of the two individual programs. The example on the slide shows that if no interaction is present between two programs, upgrading both systems results in 35.3 kills. With interaction, however, upgrading both systems results in 55.7 kills. A real world example of this phenomenon might be with an upgraded ISR platform and an upgraded IDF munition range. If the upgraded ISR platform is capable of providing more accurate targeting information at longer ranges, the upgraded IDF munition will benefit more from the presence of the upgraded ISR platform than without it. 
+
+Destruction interaction may also be present between two programs. If there was an upgraded IDF munition that greatly improves our ability to kill tanks and an upgraded attack helicopter with a missile that also improves its ability to kill tanks, these two program will compete for the same targets. Upgrading just the IDF munition might result in 15 additional kills, and upgrading just the helicopter might result in 18 additional kills. If a simulation run has both systems upgraded, then there may only be 20 additional kills (which is less than 15 + 18).
+
+---
+<div class="my-header">Interaction Visualization</div>
+
+#### 
+
+</br>
+
+<center>
+
+```{r echo=FALSE, fig.height=6, fig.width=6, fig.align='center'}
+z2=c(coefficients(df2.lm)[1], sum(coefficients(df2.lm)[1:2]), sum(coefficients(df2.lm)[c(1,3)]), sum(coefficients(df2.lm)[1:4]))
+
+plot_ly() %>%
+  add_trace(data = df2, x=~program_1_rep, y=~program_2_rep, z=~kills,
+            type="scatter3d", mode="markers",
+            marker=list(color='black', size=5), showlegend=FALSE) %>%
+  add_trace(data = df, x=~program_1_rep, y=~program_2_rep, z=~kills,
+            type="scatter3d", mode="markers",
+            marker=list(color='blue', size=5), showlegend=FALSE) %>%
+  add_mesh(x=~x, y=~y, z=~z, showlegend=FALSE, facecolor = c("red"), opacity=0.5) %>%
+  add_mesh(x=~x, y=~y, z=~z2, showlegend=FALSE, facecolor = c("black", "red"), opacity=0.5) %>%
+  layout(
+    title = "Best Fit Hyperplane (With Interaction)",
+    scene = list(
+      xaxis = list(title = "Program 1"),
+      yaxis = list(title = "Program 2"),
+      zaxis = list(title = "Kills"),
+      camera = list(eye = list(x = 1.25, y = -1.25, z = 0.75)),
+      autosize = F, width = 500, height = 500
+    ))
+```
+
+</center>
+<div class="my-footer">DoE Methodology</div>
+
+???
+This is the same base graphic as shown earlier with the red plane representing the best fit regression plane if no interaction is present. The effect of constructive interaction can be seen by the black points on the (1, 1) vertical axis. Notice that the black points are all greater than the blue points, which causes the plane (also shown in black) to bend in the middle.
+
+---
+class: inverse, center, middle
+
+# Trades Tool Integration
+
+---
+
+<div class="my-header">Trades Tool Integration Concept</div>
+
+#### 
+
+</br>
+
+Trades tool functional area measure: $FA_1 = f(w_1m_1 + w_2m_2 + ...)$
+
+where, 
+- $w_i$ are user-supplied weights.
+- $m_i$ are AWARS-derived metrics.
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+In previous briefings, we have discussed a possible approach to combine multiple AWARS-derived metrics into a functional area-level measure. The next few slides demonstrate one way this could be accomplished. The idea is to associate a user-supplied weight value to each of the AWARS metrics as shown on the slide.
+
+---
+<div class="my-header">Integration Example (1 of 2)</div>
+
+#### 
+
+</br>
+
+The following example represents ranked functional area "scores" based on two hypothetical AWARS metrics.
+
+```{r echo=FALSE}
+set.seed(42)
+Full = data.frame(DoE.base::fac.design(nlevels=2, factor.names = paste("P",1:8, sep=''))) %>% mutate_all(~as.numeric(as.character(.))) 
+Full = Full - 1
+Full = Full %>% mutate(kills = 5 + 5*P1 + 2*P3 + P4 + 10*P6 + 5*P7 + 15*P8 - 2*P3*P7 + 3*P1*P4)
+```
+
+
+```{r echo=TRUE}
+# generate response
+Full_tool = Full %>% mutate(
+  m1 = kills + rnorm(nrow(df), mean=0, sd=1),
+  m2 = 2 + .01*P1 + 0.2*P2 + 0.2*P3 + 0.3*P4 + 0.05*P5 + 0.08*P6 + 0.4*P7 + 1.2*P8 + 
+    rnorm(nrow(df), mean=0, sd=1),
+)
+
+# first AWARS metric linear model predictions
+lm1 = lm(m1 ~ P1 + P3 + P4 + P6 + P7 + P8 + P1:P4 + P3:P7, data=Full_tool)
+lm1preds = predict(lm1, newdata=Full_tool %>% 
+                     dplyr::select(P1, P2, P3, P4, P5, P6, P7, P8))
+
+# second AWARS metric linear model predictions
+lm2 = lm(m2 ~ P1 + P2 + P3 + P4 + P5 + P6 + P7 + P8, data=Full_tool)
+lm2preds = predict(lm2, newdata=Full_tool %>% 
+                     dplyr::select(P1, P2, P3, P4, P5, P6, P7, P8))
+```
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+First, I generate two notional AWARS metrics: m1 and m2. Then, I fit linear models to both metrics and get linear model predictions for each.
+
+---
+<div class="my-header">Integration Example (2 of 2)</div>
+
+#### 
+
+</br>
+
+Assume a decision-maker values Metric 2 twice as much as Metric 1 and displays the top 5% functional area score.
+
+```{r echo=TRUE}
+# re-scale predictions from 0-100
+results = Full_tool %>% mutate(
+  m1s = scales::rescale(lm1preds, to=c(0,100)),
+  m2s = scales::rescale(lm2preds, to=c(0,100))) %>% 
+  dplyr::select(-kills, -m1, -m2)
+
+# if a decision-maker values metric 2 twice as much as m1,
+# and chooses the top 5% scores
+results %>% mutate(
+  weighted_score = m1s + 2*m2s,
+  FA1_score = scales::rescale(weighted_score, to=c(0,100))) %>%
+  filter(FA1_score>95) %>% 
+  dplyr::select(-m1s, -m2s, -weighted_score) %>% arrange(desc(FA1_score))
+```
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+Next, I re-scale the predictions so they are on a common scale (this accounts for the difference between metrics such as total kills versus final end strength). Assuming a decision-maker values metric #2 twice as much as metric #1, I apply those weights to the metrics and return the top 5% of the combined functional area score. From the table, we learn that to achieve a score this high, Programs 1, 4, 6, 7, and 8 must be upgraded. Depending on how high of a score you desire (or how high the cost of a program might be), it may or may not be necessary to upgrade Programs 2, 3, or 5.
+
+---
+<div class="my-header">Talking Points</div>
+
+#### 
+
+</br>
+
+- A Design of Experiments approach using combat simulations will leverage hundreds of simulation runs to fully explore multiple force structure, capability, and capacity alternatives.
+
+<div class="my-footer">DoE Methodology</div>
+
+--
+
+- Analysis of these results will provide mathematical evidence to evaluate system-specific relative contributions to operational effectiveness.
+
+--
+
+- Systematically varying capability characteristics and performance inputs enables examination of dependencies between capabilities and their combined impact to operational effectiveness.
+
+--
+
+- Analysis of the simulation results leverages multiple well established and mathematically rigorous techniques to test and validate final results.
+
+--
+
+- Quantitative final results will underpin Army and Joint contribution findings and provide inputs into the greater AMA TRADES Tool to inform senior leader prioritization and budgetary decisions.
+
+<div class="my-footer">DoE Methodology</div>
+
+---
+class: inverse
+
+<center><h4>Acknowledgements</h4></center>
+
+This slide show was generated from RStudio using the **xaringan** package (Xie, <a href = "https://bookdown.org/yihui/rmarkdown/xaringan.html#ref-R-xaringan">2020</a>), which is an R Markdown extension based on the JavaScript library remark.js (<https://remarkjs.com>) to generate HTML5 presentations. 
+
+The following packages were also used to generate much of the content:
+
+- **tidyverse**: Data frame manipulation.
+- **kableExtra**: Table generation and display.
+- **plotly**: Interactive plots.
+- **rpart**: Regression trees.
+- **rpart.plot**: Regression tree plots.
+- **randomForest**: Random forest models.
+- **iml**: Tools for tnterpretable machine learning.
+
+---
+class: inverse, center, middle
+count:false
+
+# Machine Learning Back-Up
+
+---
+count:false
+<div class="my-header">Machine Learning</div>
+
+#### 
+
+</br>
+
+When normality assumptions cannot be met, an alternative is to apply non-parametric machine learning techniques to fit a model. The notional data below represents the number of friendly kills achieved as a function of the presence or absence of eight notional modernization programs. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+kbl(Full, align='c') %>%
+  kable_paper(full_width=FALSE) %>%
+  add_header_above(c("Notional Data" = 9)) %>%
+  scroll_box(height = "400px")
+```
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+Linear models are commonly used when the primary reason for creating the model is to understand the relationships between the predictors and the response (as opposed to making accurate predictions with new observations). In other words, linear models are highly interpretable once you understand what the coefficients represent. However, if any of the linear model assumptions are violated, an analyst should be prepared to replace the linear model with a non-parametric model. This family of models benefit by not having any underlying assumptions; however, they suffer from a loss in interpretability. Recent efforts machine learning field have improved the interpretability of some non-parametric models, and in the next several slides, I'll demonstrate the application of a random forest model to notional combat model results.
+
+---
+count:false
+<div class="my-header">Linear Model</div>
+
+#### 
+
+</br>
+
+For clarity, ease of interpretation, and comparison, no error was introduced to the response variable. The relationship between predictors and the response is:
+
+$$\small y = 5 + 5P_1 + 0P_2 + 2P_3 + P_4 + 0P_5 + 10P_6 + 5P_7 + 15P_8 - 2(P_3:P_7) + 3(P_1:P_4)$$
+
+**Linear Model Summary**
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, highlight.output=c(2,3,5,6,8,9,10,13,27)}
+full.lm = lm(kills~.^2, data=Full)
+coefficients(summary(full.lm))
+```
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+Before I fit a random forest model to the data, let's look at a linear model fit. The equation shows the true relationships between predictors and the response, and note the inclusion of two interaction terms (P3:P7 and P1:P4). In the model summary, the red lines show the linear model coefficients exactly match the equation terms (because no error was introduced).
+
+---
+count:false
+<div class="my-header">Regression Tree</div>
+
+#### 
+
+</br>
+
+Methodology
+
+- Starting with the full data set, iterate through each predictor, $k_i$, and split the data into two subsets corresponding to $k_i=0$ and $k_i=1$.
+- Choose the split that most decreases the total RSS (prediction error).
+- Repeat the process for each resulting subset.
+- Stop splitting the data using some pre-defined criteria (# observations in a node, tree depth, etc.)
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+A random forest model is classified as an ensemble model because it aggregates the results of many regression tree sub-models. So to understand the forest, we first need to understand each of the individual trees. The methodology for "growing" a tree is summarized on this slide.
+
+---
+count:false
+<div class="my-header">The First Split</div>
+
+#### 
+
+</br>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=2, fig.width=3, fig.align='center', dev="svg"}
+library(rpart)
+library(rpart.plot)
+
+set.seed(42)
+full.tree = rpart(kills ~ ., data=Full, cp=0.2)
+
+rpart.plot(full.tree, digits=3, type=4, extra=101)
+```
+
+</center>
+
+Node Contents:
+- Mean kills.
+- Number of observations in the node.
+- % of observations in the node.
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+Following the methodology shown on the previous slide, we see that the first split is on the P8 factor. Since the factor consists of only two levels with an equal number of observations at each level, the only option is to split the data set into two nodes with 128 observations in each. 
+
+---
+count:false
+<div class="my-header">The Full Regression Tree</div>
+
+#### 
+
+</br>
+
+```{r echo=FALSE, fig.align='center', fig.height=3, fig.width=7, dev="svg"}
+full.tree = rpart(kills ~ ., data=Full)
+rpart.plot(full.tree, digits=3, type=4, extra=101)
+```
+
+
+Notice the first split is on P8, the second set of splits on P6, and the third set on P1. These correspond to the three highest multipliers in the predictor-response equation.
+
+$$\small y = 5 + 5P_1 + 0P_2 + 2P_3 + P_4 + 0P_5 + 10P_6 + 5P_7 + 15P_8 - 2(P_3:P_7) + 3(P_1:P_4)$$
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+If we let the methodology continue to grow the full tree, we get the following set of splits. If we compare the hierarchy of the splits (first P8, then P6, and then P1) to the magnitude of the coefficients in the equation, we see a correlation. We'll explore this idea in more detail on a later slide when we discuss variable importance. 
+
+How do we interpret this model? We take an individual observation and follow the rules of the decision tree until we end up in a terminal node. For example, if Programs 8, 6, and 1 are all upgraded to the future system, then P8 = 1, P6 = 1, and P1 = 1. Starting at the top, we first split right, then right again, and then right again until we end up in a terminal node where the mean number of kills is 40. Note that 40 is the highest number of mean kills out of all of the terminal nodes, so we can conclude that upgrading these three programs will result in maximizing the number of kills.
+
+---
+count:false
+<div class="my-header">Random Forests</div>
+
+#### 
+
+</br>
+
+Regression trees are relatively weak learners, but they can be improved by growing many trees using **b**ootstrapping and then building an **agg**regated model (referred to as a **bagg**ed model.
+
+### Bootstrap Method
+
+Repeat 100s or 1000s of times:
+  - Randomly sample 2/3 of the data set *with replacement*.
+  - Fit a regression tree to the bootstrapped data and save the model.
+  
+Make predictions using the mean of the individual model predictions.
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+No additional notes for this slide.
+
+---
+count:false
+<div class="my-header">Example</div>
+
+#### 
+
+</br>
+
+<center>
+
+```{r echo=FALSE, warning=FALSE, fig.width=10, fig.height=4.5}
+set.seed(42)
+bigResults = 1:100 %>% map_dfr(function(x){
+  mask = sample(1:nrow(airquality), 0.8*nrow(airquality), replace=TRUE)
+  aq = rpart(Ozone ~ Temp, data=airquality[mask, ])
+  preds = predict(aq, airquality)
+
+  results = tibble(
+    Temp = airquality$Temp,
+    yHat = preds) %>%
+    arrange(Temp) %>%
+    mutate(idx = 1:nrow(airquality))
+
+  results = results %>%
+    bind_rows(results %>% mutate(nxt = ifelse(yHat==lead(yHat, 1), FALSE, TRUE)) %>%
+                filter(nxt) %>%
+                dplyr::select(idx, Temp, yHat) %>%
+                mutate(Temp = Temp + 1,
+                       idx = idx + 0.5)) %>%
+    arrange(idx) %>%
+    mutate(bootstrap=x)
+  return(results)}
+)
+
+fig1 = ggplotly(ggplot() +
+  geom_point(data=airquality, aes(x=Temp, y=Ozone), na.rm=TRUE) +
+  geom_line(data=bigResults %>% filter(bootstrap==1), aes(x=Temp, y=yHat), color='red', size=1.25) +
+  theme_bw())
+
+fig2 = bigResults %>%
+  filter(Temp != 60) %>%
+  group_by(Temp) %>%
+  summarize(meanY = mean(yHat), .groups="keep") %>%
+  ggplot() +
+  geom_point(data=airquality, aes(x=Temp, y=Ozone), na.rm=TRUE) +
+  geom_line(data=bigResults, aes(x=Temp, y=yHat, group=bootstrap), color='red', alpha=0.25, size=1.25) +
+  geom_line(aes(x=Temp, y=meanY), color='blue', size=1.25) +
+  theme_bw()
+
+plotly::subplot(fig1, fig2, shareY=TRUE, shareX=TRUE) %>% layout(title='Bootstrap Aggregation Effect')
+```
+
+</center>
+<div class="my-footer">DoE Methodology</div>
+
+???
+On the left, we see predictions made by a single regression tree on a set of observations of air temperature and ozone levels in New York City over a 5-month period. The relationship between Temp and Ozone is clearly non-linear, and the since tree generally pick up the trend. On the right, 100 bootstrapped trees were grown, and their individual predictions are shown with the red lines. The aggregated random forest model makes predictions based on the average prediction of the 100 individual trees, and that average prediction is shown by the blue line. We can see that the jagged, boxy trend lines are aggregated into a smoother line that visually appears to better capture the nature of the relationship.
+
+---
+count:false
+<div class="my-header">Return To the 8-Program Data Set</div>
+
+#### 
+
+</br>
+
+**Random Forest Model Summary**
+
+```{r message=FALSE, warning=FALSE}
+set.seed(42)
+library(randomForest)
+full.rf = randomForest(kills ~ ., data=Full, importance=TRUE)
+full.rf
+```
+
+- Model with 500 trees.
+- 91% variance explained (due to stopping criteria to avoid over-fitting).
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+Returning to the data set with 8 programs at two levels each, we fit a random forest model that consists of 500 trees. From the model summary, we see that the model explains 91% of the variance in the data set. We can think of this variance explained number in a similar way that we think about the r-squared associated with a linear model. 
+
+---
+count:false
+<div class="my-header">Model Error</div>
+
+#### 
+
+</br>
+
+```{r echo=FALSE, fig.align='center', fig.height=3, fig.width=6, dev="svg"}
+plot(full.rf, main="Random Forest Model Error")
+```
+
+Consider:
+  - The error stabilized.
+  - A forest of trees has less error than a single tree.
+  - Really only need ~100 trees for this data.
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+No additional notes for this slide.
+
+---
+count:false
+<div class="my-header">Variable Importance</div>
+
+#### 
+
+</br>
+
+A measure of *how much* reduction in deviance each predictor contributes.
+
+```{r echo=FALSE, fig.align='center', fig.height=3, fig.width=6, dev="svg"}
+#varImpPlot(full.rf, main="Variable Importance")
+
+vi = as_tibble(full.rf$importance) %>% mutate(Program=paste("P", 1:8, sep='')) %>% arrange(desc(IncNodePurity))
+
+ggplot() +
+  geom_col(aes(x=factor(vi$Program, levels=rev(vi$Program)), y=vi$IncNodePurity)) +
+  coord_flip() +
+  ylab("Node Purity Increase") +
+  xlab("Factor") +
+  ggtitle("Random Forest Model Variable Importance") +
+  theme_bw()
+```
+
+Notice the order from top to bottom is the same as the magnitude of the multipliers in the original equation.
+
+$$\small y = 5 + 5P_1 + 0P_2 + 2P_3 + P_4 + 0P_5 + 10P_6 + 5P_7 + 15P_8 - 2(P_3:P_7) + 3(P_1:P_4)$$
+
+**Interpretation**: Program 8 contributed the most to kills, followed by Program 6, etc. However, we don't yet know whether it was a *positive* or *negative* contribution.
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+No additional notes to this slide.
+
+---
+count:false
+<div class="my-header">Partial Dependence</div>
+
+#### 
+
+</br>
+
+Shows whether the predictor variable *increased* or *decreased* the response. In this case, each program with a non-flat line increased the number of kills. 
+
+```{r echo=FALSE, fig.align='center', fig.height=5, fig.width=8, dev="svg"}
+predictor = iml::Predictor$new(full.rf, data = Full[, 1:8], y = Full$kills)
+
+PDP = iml::FeatureEffects$new(predictor, method='pdp')
+PDP$plot() & theme_bw()
+```
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+We can roughly equate these plots to the linear model plots shown earlier that showed the regression lines and associated $\beta$ values.
+
+---
+count:false
+<div class="my-header">Interaction</div>
+
+#### 
+
+</br>
+
+Tree-based models **automatically include interactions**, which we can visualize with the following plot.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.height=4, fig.width=6, dev="svg"}
+interact = iml::Interaction$new(predictor)
+plot(interact) + theme_bw()
+```
+
+**Interpretation**: All predictors have less than 5% of their variation explained by an interaction.
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+The ability of random forest models to automatically include interactions is a great advantage over linear models. Recall the linear model summary on Slide 22. To identify statistically significant main effects and two-way interactions in a linear model with eight factors, we must sift through 37 potential terms, which can be a very challenging task. With random forest models, none of that is necessary. We simply plot the interaction strengths as shown and drill into the individual terms as shown on the next slide.
+
+---
+count:false
+<div class="my-header">Interaction Strength</div>
+
+#### 
+
+</br>
+
+We can also identify what a predictor is interacting with. For example, the plot below shows the strength of interaction with the P1 predictor. As expected, we see the strong interaction with the P4 predictor.
+
+```{r echo=FALSE, fig.align='center', fig.height=4, fig.width=6, dev="svg"}
+interact1 = iml::Interaction$new(predictor, feature='P1')
+plot(interact1) + theme_bw()
+```
+
+<div class="my-footer">DoE Methodology</div>
+
+???
+Recall from the mathematical equation, we defined an interaction between four programs: P1:P4 and P3:P7. Here we clearly see the interaction between P1 and P4 was picked up by the random forest model. If a linear model is our ultimate goal, we can return to the 37 terms being considered with some valuable information.  

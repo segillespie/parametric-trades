@@ -1,0 +1,288 @@
+---
+title: "Linear Regression Problem Set"
+output: 
+  html_document:
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Simple Linear Regresion - 
+
+For this problem, use the data set that relates the results of a simulation that predicts kills as a function ofweapon system caliber. It is available <a href = '/_Chapter6_ProblemSets/simple_regression_data.csv'> here </a>.
+
+## Initial Plotting
+
+Plot the observations and comment on the suitability of using linear regression for this data.
+
+```{r, echo = F}
+## Original Data Build
+# myDat <- data.frame(Caliber = c(seq(80, 120, by = 1), 200))
+# myDat$Kills <- .25*myDat$Caliber
+# myDat$Error <- rnorm(nrow(myDat), 0, 2)
+# myDat <- myDat %>% mutate(Kills = Kills + Error)
+# myDat$Kills[myDat$Caliber == 100] <- 40.2345123232
+# myDat$Kills[myDat$Caliber == 200] <- 35.431345642
+# write.csv(myDat %>% select(Caliber, Kills), './simple_regression_data.csv', row.names = F)
+```
+
+```{r, message = F}
+# We'll use the tidyverse throughout this problem set
+library(tidyverse)
+
+# Read the data
+p1 <- read.csv('./simple_regression_data.csv')
+
+# We can plot this as a pairs graph 
+pairs(p1, upper.panel = NULL)
+# The data looks approximately linear, though there's at least one clear outlier and point of high leverage
+```
+
+## Model
+
+Build a linear model, comment on the summary output.  Is this a good model (not including diagnostic checks)?
+
+```{r}
+p1.LM <- lm(Kills ~ Caliber, p1)
+summary(p1.LM)
+
+# The coefficients are clearly signific ant
+# The residuals are OK... but the R^2 appears to miss something causing significant variability in the model
+```
+
+Plot the model and compare it to the observations.
+
+```{r}
+ggplot(p1, aes(x = Caliber, y = Kills)) + 
+  geom_point() + 
+  stat_smooth(method ='lm')
+
+# We see two things, this model is clearly linear.  Though we get wide variance in our prediction as we move toward the high leverage point
+# We can also see how this is probably throwing off our model.
+```
+
+## Assumptions
+
+1. Does your model meet the assumptions of linearity, independence, normality and homoscedsticity of residuals?
+
+```{r}
+par(mfrow = c(2,2))
+plot(p1.LM)
+
+# We can see we appear to have constant variance and normality and independence.
+# We just have a couple points that appear to have very high leverage and are residuals
+# We can calculate normality and homoscedasticity quantiatively
+
+shapiro.test(p1.LM$residuals)
+car::ncvTest(p1.LM)
+# We fail normality, but do pass constant variance
+```
+
+2. Do you have outliers or points with high influence?
+
+```{r}
+# We see both points 21 and 42 from our graphs appear to be outliers and have high leverage respectively
+```
+
+3. If you have no problematic points, skip to the next question.  If you do, make a decision about what to do with them, justify it, and then produce a new model (if necessary).
+
+```{r}
+# Let's drop points 21 and 42.  They appear to significantly affect our results.
+# If we had the model and results, we could check those runs more closely
+
+# Drop these points
+p1.drop <- p1[-c(21, 42),]
+# build the model
+p1.drop.LM <- lm(Kills ~ Caliber, p1.drop)
+# check the model
+par(mfrow = c(2,2))
+plot(p1.drop.LM)
+# The new model appears to be much better
+shapiro.test(p1.drop.LM$residuals)
+car::ncvTest(p1.drop.LM)
+# We quantitatively have a better model
+```
+
+If you produced a new model, plot it and your observations here.  Compare this with your original model.
+
+```{r}
+# We can plot both on top of each other with the original in red and the corrected model in blue
+# The two outlier points we have are plotted in red
+ggplot() + 
+  # Original model
+  geom_point(data = p1, aes(x = Caliber, y = Kills), color = 'red') + 
+  stat_smooth(method = 'lm', data = p1, aes(x = Caliber, y = Kills), color = 'red')  + 
+  # Improved model
+  geom_point(data = p1.drop, aes(x = Caliber, y = Kills)) + 
+  stat_smooth(method = 'lm', data = p1.drop, aes(x = Caliber, y = Kills), color = 'blue') + 
+  ggtitle('Comparison of two linear models.\nOriginal in red.\nImproved in blue.')
+
+# We can see how our improved model is much truer to the majority of the data
+# this prevents us from extrapolating too much beyond based on a single data point
+```
+
+## Prediction
+
+1. Write down your model mathematically.
+
+$$ K = `r round(p1.drop.LM$coefficients[1], 2)` + `r round(p1.drop.LM$coefficients[2], 2)` \cdot C + \epsilon$$
+
+Where K is number of kills and C is the caliber.
+
+
+2. Use your best model to predict the number of kills associated with weapons with calibers of 81, 105, and 120mm.  Provide a confidence interval bound.  What does this tell us?
+
+```{r}
+predict(p1.drop.LM, list(Caliber = c(81, 105, 120)), interval = 'confidence')
+# This tells us that if we took repeated measurements of kills at these calibers, our mean result would fall in these bounds with 95% confidence
+```
+
+# Simple Linear Regression - Iris
+
+For this problem we are going to use the built in *R* data set, `iris`.  You can read about the data set in the help file (`?iris`).
+
+## Model
+
+Develop a simple linear regression for the relationship between Petal.Length and Sepal.Length using Petal.Length as the response.  Interpret the results.  Specifically comment on:
+
+* What coefficients are significant at $\alpha = .05$.  Interpret their meaning.
+* What the residual and coefficient standard errors are and how you interpret them.
+* What the coefficient of determination is and how you can interpret that.
+* What the resulting model is.
+
+```{r}
+# I don't want to write over any data, so we'll copy it and only take the data we need
+myData <- iris %>% select(Petal.Length, Sepal.Length)
+
+# Build the regression
+myModel <- lm(Petal.Length ~ Sepal.Length, data = myData)
+# View the summary
+summary(myModel)
+
+```
+
+* The intercept is -7.10cm. and is significant (p-value ~ 0).  This is simply the y intercept for our model.
+* The Sepal.Length coefficient is 1.9 and is significant (p-value ~0). This means for every additional cm of Sepal Length, you gain an additional 1.9cm of Petal Length.
+* The standard error on the intercept is .51, the standard error on sepal length is .086, and the residual standard error is .87.  These all show the variability in our estimates, specifically they show us how much confidence we can have in our model.
+* The coefficient of determination ($R^2$) is .76, which explains much of the variability in our model.  This, combined with relatively low standard errors indicates we have a reasonably useful model.
+* Our model is:
+
+$$Petal.Length = -7.10 + 1.86 \cdot Sepal.Length + \epsilon$$
+
+## Visualization
+
+Plot the data and the assessed model.  Interpret your visualization
+
+```{r}
+ggplot(myData, aes(x = Sepal.Length, y = Petal.Length)) + 
+  geom_point() + 
+  stat_smooth(method = 'lm')
+
+# We see that there is an approximately linear relationship in our data.
+# However, it appears as if there is something else going on.  For example
+# look in the bottom left of the plot and see how it appears as if we have 
+# a couple differnt groups in our data or something else going on
+# As we progress in this lesson we'll ID these and be able to plot categorical variables
+```
+
+## Prediction
+
+Calculate the 95% and 90% confidence intervals on your regression's coefficients.
+
+```{r}
+# 95%
+confint(myModel, level = .95)
+# 90%
+confint(myModel, level = .9)
+```
+
+Predict the petal length and confidence bounds on that prediction (for the mean response) for the sepal length associated with every 10th percentile of the sepal length data (i.e. the 10th percentile of the data is 4.80, etc..):
+
+```{r, echo = F}
+# Note we can use quantile to get our chosen input values
+# We use the interval 'confidence' for our CI on the mean response
+predict(myModel, list(Sepal.Length = quantile(myData$Sepal.Length, seq(.1, .9, by = .1))), interval = 'confidence')
+```
+
+## Check Assumptions
+
+1. Check the assumptions of independence, normality of residuals, and homoscedasticity.  Does this model meet the assumptions?  
+
+```{r}
+par(mfrow = c(2,2))
+plot(myModel)
+
+# Linearity & Independence
+# We see this model is not fully linear, we actually appear to have about 
+# two distinct lines as seen in the top left corner graph.
+
+# There appears to be some dependence on the fitted values.  
+# The reality is is that the dependence is a function of the flower species.
+
+# Normality
+# The QQ plot looks good.  We do pass this.  We can also check with a Shapiro-Wilk Test
+shapiro.test(myModel$residuals)
+# We fail to reject the null and can conclude our residuals are normal.
+
+# Homoscedasticity
+# From the graphs (scale-location) our variance does not appear to be constant 
+# We can also check using the Breusch-Pagan test
+car::ncvTest(myModel)
+# We would fail to reject this, but only with a relatively generous alpha = .1
+
+# We fail to meet our assumptions.  This is NOT a good linear model.
+```
+
+Check for unusual observations: outliers and influential.  Explain what you would do with any of either type.
+
+Outliers:
+
+```{r}
+# One way to visualize outliers is to ID residuals that are greater than two standard deviations from the mean
+# You can do this a number of ways.  Here is one
+
+# Take our data and join in the residuals from the model (note, there is a 1-1 parity between input data and model residuals)
+myData$Residual <- myModel$residuals
+# Make a new column that identifies data that have residuals >= 2 times the standard devaition of the residual distribution
+myData$outlier <- ifelse(abs(myData$Residual) >= 2*sd(myData$Residual), T, F)
+
+# This is our same initial graph
+ggplot(myData, aes(x = Sepal.Length, y = Petal.Length)) + 
+  geom_point(aes(color = outlier)) + # added color by if an observation is a potential outlier
+  stat_smooth(method = 'lm') + 
+  # clean up the graph
+  ggtitle('Identification of Potential Outliers\nPoints 2+ Standard Deviations Residual From the Prediction') + 
+  theme_classic()
+
+# We see five points that are outliers as colored in blue.  
+# If our model had passed our diagnostic checks or was close to it, we would potentially either check the 
+# data inputs and measurements for these outliers or drop them to improve the model depending on their 
+# number and such.  As our model has already failed assumptions we won't do anything.
+
+```
+
+Influential:
+
+```{r}
+# We can check with hat values:
+myModel.Hat <- influence(myModel)$hat
+
+# Look at data points that have a hat value > 2p/n
+myData[myModel.Hat > (2*2) / nrow(myData),]
+
+# We can also graph this
+faraway::halfnorm(myModel.Hat, ylab = 'Leverages')
+abline(h = 2*mean(myModel.Hat), col = 'red')
+
+# We see we have a number of points with high hat values and therefore signficant leverage
+
+# We can also check using cook's distance
+# The plot is generally sufficient
+plot(myModel, which = 4)
+
+# Again, in both cases, we may want to remove some of these high leverage points, but
+# there is no real reason to as we are not accepting the model.
+```
+

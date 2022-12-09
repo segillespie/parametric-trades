@@ -1,0 +1,184 @@
+---
+title: "Linear Regression Problem Set"
+output: 
+  html_document:
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Linear Regression with Categorical Variables - Iris
+
+For this problem we are going to use the built in *R* data set, `iris`.  You can read about the data set in the help file (`?iris`).  In the simple linear regression problem set, we used this same data set, but ran into a failure to meet our assumptions.  We'll correct this by adding a categorical variable.
+
+## Read and Visualize the Data
+
+For this problem set we will attempt to model Petal.Length as a function of Sepal.Length and Species.  Visualize this data.
+
+```{r, message = F}
+library(tidyverse)
+# Let's ensure we don't modify a built in data set
+myData <- iris %>% select(Petal.Length, Sepal.Length, Species)
+
+# We can plot this a number of ways.  
+#One way is to just do a points plot  and color by species.
+ggplot(myData, aes(x = Sepal.Length, y = Petal.Length, color = Species)) + 
+  geom_point()
+
+#Another option is to do a facet wrap to build a plot for each species
+ggplot(myData, aes(x = Sepal.Length, y = Petal.Length, color = Species)) + 
+  geom_point() + facet_wrap(~Species)
+
+# Finally, we can actually visualize a best fit line for each Species
+# These regressions (which we'll do more explicitly) look to be much better fits
+ggplot(myData, aes(x = Sepal.Length, y = Petal.Length, color = Species)) + 
+  geom_point() + 
+  stat_smooth(method = 'lm')
+```
+
+## Model
+
+1. Develop a linear regression for the relationship between Petal.Length, Sepal.Length, and Species using Petal.Length as the response.  Interpret the summary results.
+
+```{r}
+# Build the regression
+myModel <- lm(Petal.Length ~ Sepal.Length + Species, data = myData)
+# View the summary
+summary(myModel)
+
+# We interpret p-values, R^2, and standard errors in the usual way:
+# We have all very low p-values so all our regressors are significant
+# The R^2 is high (> .97) so we explain nearly all the variation in the model
+# We have relatively low standard errors, particularly relative to our response range
+# If this model meets assumptions, we appear to have a very strong model.
+```
+
+2. Write the mathematical model based on your results.  Explain what the coefficients mean.  Write the mathematical model that only describes the relationship between Petal Length and Sepal Length for the Setosa species.
+
+``` 
+Our model is: 
+```
+
+$$ Petal.Length = -1.7 + 0.63 \cdot Sepal.Length + 2.2 \cdot Versicolor + 3.1 \cdot Virginica + \epsilon$$
+
+```
+Where we gain an additional .63cm in Petal Length for every additional cm of Sepal Length. 
+If the species is Versicolor, add 2.2 cm to the Petal Length.
+If the species is Virginica, add 3.1 cm to the Petal Length.
+If the species is Setosa, do not add any cm to the Petal Length.
+The variables Versicolor and Virginica are dummy variables.  They have the value 0 if the species
+of flower is different from the variable name and one if it is the same.
+
+The model for the setosa only relationship is:
+```
+
+$$ Petal.Length = -1.7 + 0.63 \cdot Sepal.Length + \epsilon $$
+
+## Check Assumptions
+
+Check the assumptions necessary for linear regression in your model.
+
+```{r}
+par(mfrow = c(2,2))
+plot(myModel)
+
+# This model does not seem to indicate anhy patters (i.e. dependence)
+# It appears as if the residuals are normally distributed
+# It appears as if the residuals are homoscedatistic
+# From our initial view of the data, it appears normal
+
+# Check normality numerically
+shapiro.test(myModel$residuals)
+# We pass this test
+
+# Check homoscedasticity
+car::ncvTest(myModel)
+# We pass this test
+
+# We appear to have passed all assumptions
+```
+
+## Visualize and Predict
+
+1. When we plot this function, how many lines will we produce? Why?
+
+``` 
+We will produce three lines, one for each species of flower.
+This is because each dummy variable effectively adds a new line
+```
+
+2. Plot the data and the modeled results.
+
+```{r}
+# Get the minimum and maximum values of sepal Length
+min.sl <- min(myData$Sepal.Length)
+max.sl <- max(myData$Sepal.Length)
+# Get the species names
+mySpecies <- levels(myData$Species)
+
+# Build a grid of all combinations of the above
+myGrid <- expand_grid(Sepal.Length = seq(min.sl, max.sl, by = .1), Species = mySpecies)
+# Get the predicted results
+myGrid$Petal.Length <- predict(myModel, myGrid)
+
+# Plot results
+ggplot() + 
+  geom_point(data = myData, aes(x = Sepal.Length, y = Petal.Length, color = Species)) + 
+  geom_line(data = myGrid, (aes(x = Sepal.Length, y = Petal.Length, color = Species, group = Species))) 
+
+```
+
+3. Note any results from this visualization.
+
+```
+First, note that all the lines are parallel.  
+This is an obvious result based on the model, but it's useful to see it.
+Second, we might note that, while this is a good model, we might see a necessary distinction in 
+the slope associated with Sepal Length based on the species.  For example, Setosa appears to grow
+petal length much more slowly than the other two.  It might need to be modeled somewhat differently.
+```
+
+4.  Would it make sense to predict the petal length of a flower with a 6.5cm sepal length based on this model?
+
+```
+It would if the flower were versicolor or virginica.  It would not if the flower were setosa (or any other flower species).
+We really should restrict our predictions to the range of our observations
+```
+
+## Alternative Models
+
+1. Compare the visualization you made above with what is produced by `stat_smooth` (e.g. add: `stat_smooth(data = iris, method = 'lm', aes(x = Sepal.Length, y = Petal.Length, color = Species))` or similar to your graph).  Do they produce the same graphs?  What's the distinction? Why?
+
+```{r}
+# Original plot
+ggplot() + 
+  geom_point(data = myData, aes(x = Sepal.Length, y = Petal.Length, color = Species)) + 
+  geom_line(data = myGrid, (aes(x = Sepal.Length, y = Petal.Length, color = Species, group = Species))) +
+  # Added stat_smooth
+  stat_smooth(data = iris, method = 'lm', aes(x = Sepal.Length, y = Petal.Length, color = Species))
+
+# We see very similar graphs, except the slopes are somewhat distinct for each group of species.
+# This is particularly prominent for the setosa variety
+# This occurs b/c stat_smooth runs its regression by group - in this case we grouped by Species
+```
+
+2. Do we see an interaction between the Species and the Sepal Length?  How could we model this (no need to develop a full model, and check assumptions, etc.)?
+
+```{r}
+# It appears to be the case that there is a relationship.  
+# This makes sense as different flowers grow differently.
+
+# We can model this interaction in the same way as we do for ANOVA
+# For example:
+myModel2 <- lm(Petal.Length ~  (.)^2, data = myData)
+summary(myModel2)
+
+# Note with this model we get:
+# 1) Some insignificant regressors.
+# 2) We see the interaction effects, e.g. Sepal.Length:Speciesversicolor
+# 3) We would have to do some testing to build a legitimate model.  For example, only
+# attempt to model against the interaction
+```

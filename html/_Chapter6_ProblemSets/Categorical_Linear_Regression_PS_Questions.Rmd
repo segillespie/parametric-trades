@@ -1,0 +1,85 @@
+---
+title: "Linear Regression Problem Set"
+output: 
+  html_document:
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Linear Regression with Categorical Variables - Iris
+
+For this problem we are going to use the built in *R* data set, `iris`.  You can read about the data set in the help file (`?iris`).  In the simple linear regression problem set, we used this same data set, but ran into a failure to meet our assumptions.  We'll correct this by adding a categorical variable.
+
+## Read and Visualize the Data
+
+For this problem set we will attempt to model Petal.Length as a function of Sepal.Length and Species.  Visualize this data.
+
+```{r}
+# Answer Here
+```
+
+## Model
+
+1. Develop a linear regression for the relationship between Petal.Length, Sepal.Length, and Species using Petal.Length as the response.  Interpret the summary results.
+
+```{r}
+# Answer Here
+```
+
+2. Write the mathematical model based on your results.  Explain what the coefficients mean.  Write the mathematical model that only describes the relationship between Petal Length and Sepal Length for the Setosa species.
+
+``` 
+# Answer Here
+```
+
+## Check Assumptions
+
+Check the assumptions necessary for linear regression in your model.
+
+```{r}
+# Answer Here
+```
+
+## Visualize and Predict
+
+1. When we plot this function, how many lines will we produce? Why?
+
+``` 
+# Answer Here
+```
+
+2. Plot the data and the modeled results.
+
+```{r}
+# Answer Here
+```
+
+3. Note any results from this visualization.
+
+```
+# Answer Here
+```
+
+4.  Would it make sense to predict the petal length of a flower with a 6.5cm sepal length based on this model?
+
+```
+# Answer Here
+```
+
+## Alternative Models
+
+1. Compare the visualization you made above with what is produced by `stat_smooth` (e.g. add: `stat_smooth(data = iris, method = 'lm', aes(x = Sepal.Length, y = Petal.Length, color = Species))` or similar to your graph).  Do they produce the same graphs?  What's the distinction? Why?
+
+```{r}
+# Answer Here
+```
+
+2. Do we see an interaction between the Species and the Sepal Length?  How could we model this (no need to develop a full model, and check assumptions, etc.)?
+
+```{r}
+# Answer Here
+```

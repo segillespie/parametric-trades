@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4 Analysis of Variance (ANOVA) | Design of Experiments for Modeling and Simulation</title>
+  <meta name="description" content="4 Analysis of Variance (ANOVA) | Design of Experiments for Modeling and Simulation" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4 Analysis of Variance (ANOVA) | Design of Experiments for Modeling and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4 Analysis of Variance (ANOVA) | Design of Experiments for Modeling and Simulation" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="statistics-review.html"/>
+<link rel="next" href="fundamentals-of-design-of-experiments.html"/>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.17/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="https://doe.dscoe.org/">DoE for M&S</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction to DOE for M&amp;S</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#background."><i class="fa fa-check"></i><b>1.1</b> Background.</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#mission."><i class="fa fa-check"></i><b>1.2</b> Mission.</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#simulation-analysis."><i class="fa fa-check"></i><b>1.2.1</b> Simulation Analysis.</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#enduring-resource."><i class="fa fa-check"></i><b>1.2.2</b> Enduring Resource.</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#community."><i class="fa fa-check"></i><b>1.2.3</b> Community.</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#concept."><i class="fa fa-check"></i><b>1.3</b> Concept.</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#training-concept"><i class="fa fa-check"></i><b>1.4</b> Training Concept</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="index.html"><a href="index.html#lessons."><i class="fa fa-check"></i><b>1.4.1</b> Lessons.</a></li>
+<li class="chapter" data-level="1.4.2" data-path="index.html"><a href="index.html#projects."><i class="fa fa-check"></i><b>1.4.2</b> Projects.</a></li>
+<li class="chapter" data-level="1.4.3" data-path="index.html"><a href="index.html#assessments."><i class="fa fa-check"></i><b>1.4.3</b> Assessments.</a></li>
+<li class="chapter" data-level="1.4.4" data-path="index.html"><a href="index.html#curriculum."><i class="fa fa-check"></i><b>1.4.4</b> Curriculum.</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#community-concept"><i class="fa fa-check"></i><b>1.5</b> Community Concept</a></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#admin"><i class="fa fa-check"></i><b>1.6</b> Admin</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#contact"><i class="fa fa-check"></i><b>1.6.1</b> Contact</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#errors"><i class="fa fa-check"></i><b>1.6.2</b> Errors</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#resources"><i class="fa fa-check"></i><b>1.6.3</b> Resources</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a><ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#introduction-to-r---part-i"><i class="fa fa-check"></i><b>2.1</b> Introduction to R - Part I</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#objectives-1"><i class="fa fa-check"></i><b>2.1.1</b> Objectives</a></li>
+<li class="chapter" data-level="2.1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#task-1---read-chapter-1-and-install-tidyverse"><i class="fa fa-check"></i><b>2.1.2</b> Task 1 - Read Chapter 1 and Install Tidyverse</a></li>
+<li class="chapter" data-level="2.1.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-operations"><i class="fa fa-check"></i><b>2.1.3</b> Basic Operations</a></li>
+<li class="chapter" data-level="2.1.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#variable-types"><i class="fa fa-check"></i><b>2.1.4</b> Variable Types</a></li>
+<li class="chapter" data-level="2.1.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-structures"><i class="fa fa-check"></i><b>2.1.5</b> Data Structures</a></li>
+<li class="chapter" data-level="2.1.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#relational-and-logical-operators"><i class="fa fa-check"></i><b>2.1.6</b> Relational and Logical Operators</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#introduction-to-r---part-ii"><i class="fa fa-check"></i><b>2.2</b> Introduction to R - Part II</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#reading-tasks"><i class="fa fa-check"></i><b>2.2.1</b> Reading Tasks</a></li>
+<li class="chapter" data-level="2.2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#problem-set"><i class="fa fa-check"></i><b>2.2.2</b> Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="statistics-review.html"><a href="statistics-review.html"><i class="fa fa-check"></i><b>3</b> Statistics Review</a><ul>
+<li class="chapter" data-level="3.1" data-path="statistics-review.html"><a href="statistics-review.html#introduction"><i class="fa fa-check"></i><b>3.1</b> Introduction</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="statistics-review.html"><a href="statistics-review.html#resources-1"><i class="fa fa-check"></i><b>3.1.1</b> Resources</a></li>
+<li class="chapter" data-level="3.1.2" data-path="statistics-review.html"><a href="statistics-review.html#organization"><i class="fa fa-check"></i><b>3.1.2</b> Organization</a></li>
+<li class="chapter" data-level="3.1.3" data-path="statistics-review.html"><a href="statistics-review.html#poc"><i class="fa fa-check"></i><b>3.1.3</b> POC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics"><i class="fa fa-check"></i><b>3.2</b> Descriptive Statistics</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---description"><i class="fa fa-check"></i><b>3.2.1</b> Descriptive Statistics - Description</a></li>
+<li class="chapter" data-level="3.2.2" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---tutorial"><i class="fa fa-check"></i><b>3.2.2</b> Descriptive Statistics - Tutorial</a></li>
+<li class="chapter" data-level="3.2.3" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---problem-set"><i class="fa fa-check"></i><b>3.2.3</b> Descriptive Statistics - Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts"><i class="fa fa-check"></i><b>3.3</b> Statistical Concepts</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---description"><i class="fa fa-check"></i><b>3.3.1</b> Statistical Concepts - Description</a></li>
+<li class="chapter" data-level="3.3.2" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---tutorial"><i class="fa fa-check"></i><b>3.3.2</b> Statistical Concepts - Tutorial</a></li>
+<li class="chapter" data-level="3.3.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---problem-set"><i class="fa fa-check"></i><b>3.3.3</b> Statistical Concepts - Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference"><i class="fa fa-check"></i><b>3.4</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---description"><i class="fa fa-check"></i><b>3.4.1</b> Statistical Inference - Description</a></li>
+<li class="chapter" data-level="3.4.2" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---tutorial"><i class="fa fa-check"></i><b>3.4.2</b> Statistical Inference - Tutorial</a></li>
+<li class="chapter" data-level="3.4.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---conclusion"><i class="fa fa-check"></i><b>3.4.3</b> Statistical Inference - Conclusion</a></li>
+<li class="chapter" data-level="3.4.4" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---problem-set"><i class="fa fa-check"></i><b>3.4.4</b> Statistical Inference - Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html"><i class="fa fa-check"></i><b>4</b> Analysis of Variance (ANOVA)</a><ul>
+<li class="chapter" data-level="4.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#introduction-1"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-overview"><i class="fa fa-check"></i><b>4.2</b> ANOVA Overview</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#motivation"><i class="fa fa-check"></i><b>4.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#broad-concept"><i class="fa fa-check"></i><b>4.2.2</b> Broad Concept</a></li>
+<li class="chapter" data-level="4.2.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#terminology"><i class="fa fa-check"></i><b>4.2.3</b> Terminology</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.3</b> Single Factor, Fixed Effects ANOVA</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#example"><i class="fa fa-check"></i><b>4.3.1</b> Example</a></li>
+<li class="chapter" data-level="4.3.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#model"><i class="fa fa-check"></i><b>4.3.2</b> Model</a></li>
+<li class="chapter" data-level="4.3.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-anova-assumptions"><i class="fa fa-check"></i><b>4.3.3</b> Single Factor ANOVA Assumptions</a></li>
+<li class="chapter" data-level="4.3.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#conducting-single-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.3.4</b> Conducting Single Factor (Fixed Effects) ANOVA</a></li>
+<li class="chapter" data-level="4.3.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-fixed-effects-anova-problem-set"><i class="fa fa-check"></i><b>4.3.5</b> Single Factor, Fixed Effects ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-random-effects-model"><i class="fa fa-check"></i><b>4.4</b> Single Factor, Random Effects Model</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-random-effects-problem-set"><i class="fa fa-check"></i><b>4.4.1</b> Single Factor, Random Effects Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#two-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.5</b> Two Factor, Fixed Effects ANOVA</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#including-interaction-effects"><i class="fa fa-check"></i><b>4.5.1</b> Including Interaction Effects</a></li>
+<li class="chapter" data-level="4.5.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#two-factor-anova-problem-set"><i class="fa fa-check"></i><b>4.5.2</b> Two Factor ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-for-more-than-two-factors"><i class="fa fa-check"></i><b>4.6</b> ANOVA For More Than Two Factors</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multi-factor-anova-problem-set"><i class="fa fa-check"></i><b>4.6.1</b> Multi-Factor ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons"><i class="fa fa-check"></i><b>4.7</b> Multiple Comparisons</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-example"><i class="fa fa-check"></i><b>4.7.1</b> Tukey Test Example</a></li>
+<li class="chapter" data-level="4.7.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-in-r"><i class="fa fa-check"></i><b>4.7.2</b> Tukey Test in R</a></li>
+<li class="chapter" data-level="4.7.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-multiple-factors"><i class="fa fa-check"></i><b>4.7.3</b> Tukey Test, Multiple Factors</a></li>
+<li class="chapter" data-level="4.7.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons-problem-set"><i class="fa fa-check"></i><b>4.7.4</b> Multiple Comparisons Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-summary"><i class="fa fa-check"></i><b>4.8</b> ANOVA Summary</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#how-to-calculate-anova"><i class="fa fa-check"></i><b>4.8.1</b> How to Calculate ANOVA</a></li>
+<li class="chapter" data-level="4.8.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-hypothesis-tests"><i class="fa fa-check"></i><b>4.8.2</b> ANOVA Hypothesis Test(s)</a></li>
+<li class="chapter" data-level="4.8.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-assumptions"><i class="fa fa-check"></i><b>4.8.3</b> ANOVA Assumptions</a></li>
+<li class="chapter" data-level="4.8.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons-1"><i class="fa fa-check"></i><b>4.8.4</b> Multiple Comparisons</a></li>
+<li class="chapter" data-level="4.8.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#further-extensions-of-anova"><i class="fa fa-check"></i><b>4.8.5</b> Further Extensions of ANOVA</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html"><i class="fa fa-check"></i><b>5</b> Fundamentals of Design of Experiments</a><ul>
+<li class="chapter" data-level="5.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-2"><i class="fa fa-check"></i><b>5.1</b> Introduction</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#admin-1"><i class="fa fa-check"></i><b>5.1.1</b> Admin</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#doe-overview"><i class="fa fa-check"></i><b>5.2</b> DOE Overview</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#what-is-design-of-experiments"><i class="fa fa-check"></i><b>5.2.1</b> What is Design of Experiments?</a></li>
+<li class="chapter" data-level="5.2.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#why-design-experiments"><i class="fa fa-check"></i><b>5.2.2</b> Why Design Experiments?</a></li>
+<li class="chapter" data-level="5.2.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#strategies-for-experimental-design"><i class="fa fa-check"></i><b>5.2.3</b> Strategies for Experimental Design</a></li>
+<li class="chapter" data-level="5.2.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#history-and-applications-of-experimental-design"><i class="fa fa-check"></i><b>5.2.4</b> History and Applications of Experimental Design</a></li>
+<li class="chapter" data-level="5.2.5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#principles"><i class="fa fa-check"></i><b>5.2.5</b> Principles</a></li>
+<li class="chapter" data-level="5.2.6" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#guidelines"><i class="fa fa-check"></i><b>5.2.6</b> Guidelines</a></li>
+<li class="chapter" data-level="5.2.7" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-1"><i class="fa fa-check"></i><b>5.2.7</b> Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#factorial-designs"><i class="fa fa-check"></i><b>5.3</b> Factorial Designs</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-3"><i class="fa fa-check"></i><b>5.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.3.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#assessing-and-estimating-effects"><i class="fa fa-check"></i><b>5.3.2</b> Assessing and Estimating Effects</a></li>
+<li class="chapter" data-level="5.3.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#blocking"><i class="fa fa-check"></i><b>5.3.3</b> Blocking</a></li>
+<li class="chapter" data-level="5.3.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-2"><i class="fa fa-check"></i><b>5.3.4</b> Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#k-factorial-design"><i class="fa fa-check"></i><b>5.4</b> <span class="math inline">\(2^K\)</span> Factorial Design</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-4"><i class="fa fa-check"></i><b>5.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.4.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#coding-variables-and-effects-signs"><i class="fa fa-check"></i><b>5.4.2</b> Coding Variables and Effects Signs</a></li>
+<li class="chapter" data-level="5.4.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#estimating-effects-and-contrasts"><i class="fa fa-check"></i><b>5.4.3</b> Estimating Effects and Contrasts</a></li>
+<li class="chapter" data-level="5.4.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#unreplicated-2k-designs"><i class="fa fa-check"></i><b>5.4.4</b> Unreplicated <span class="math inline">\(2^K\)</span> Designs</a></li>
+<li class="chapter" data-level="5.4.5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-3"><i class="fa fa-check"></i><b>5.4.5</b> Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html"><i class="fa fa-check"></i><b>6</b> Fractional Factorial Designs</a><ul>
+<li class="chapter" data-level="6.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#introduction-5"><i class="fa fa-check"></i><b>6.1</b> Introduction</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#admin-2"><i class="fa fa-check"></i><b>6.1.1</b> Admin</a></li>
+<li class="chapter" data-level="6.1.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#overview"><i class="fa fa-check"></i><b>6.1.2</b> Overview</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#frac12-fractional-factorial-design-2k-1"><i class="fa fa-check"></i><b>6.2</b> <span class="math inline">\(\frac{1}{2}\)</span> Fractional Factorial Design (<span class="math inline">\(2^{K-1}\)</span>)</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#motivation-and-example"><i class="fa fa-check"></i><b>6.2.1</b> Motivation and Example</a></li>
+<li class="chapter" data-level="6.2.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#design-generator"><i class="fa fa-check"></i><b>6.2.2</b> Design Generator</a></li>
+<li class="chapter" data-level="6.2.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#estimating-effects"><i class="fa fa-check"></i><b>6.2.3</b> Estimating Effects</a></li>
+<li class="chapter" data-level="6.2.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#geometric-view"><i class="fa fa-check"></i><b>6.2.4</b> Geometric View</a></li>
+<li class="chapter" data-level="6.2.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#example-24-1-design"><i class="fa fa-check"></i><b>6.2.5</b> Example <span class="math inline">\(2^{4-1}\)</span> Design</a></li>
+<li class="chapter" data-level="6.2.6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#frac12-fractional-factorial-design-2k-1-problem-set"><i class="fa fa-check"></i><b>6.2.6</b> <span class="math inline">\(\frac{1}{2}\)</span> Fractional Factorial Design (<span class="math inline">\(2^{K-1}\)</span>) Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-designs"><i class="fa fa-check"></i><b>6.3</b> General <span class="math inline">\(2^{K-P}\)</span> Designs</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#introduction-6"><i class="fa fa-check"></i><b>6.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.3.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#quarter-fractional-design"><i class="fa fa-check"></i><b>6.3.2</b> Quarter Fractional Design</a></li>
+<li class="chapter" data-level="6.3.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-design"><i class="fa fa-check"></i><b>6.3.3</b> General <span class="math inline">\(2^{K-P}\)</span> Design</a></li>
+<li class="chapter" data-level="6.3.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#resolution"><i class="fa fa-check"></i><b>6.3.4</b> Resolution</a></li>
+<li class="chapter" data-level="6.3.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-designs-problem-set"><i class="fa fa-check"></i><b>6.3.5</b> General <span class="math inline">\(2^{K-P}\)</span> Designs Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#additional-notes-on-2k-p-designs"><i class="fa fa-check"></i><b>6.4</b> Additional Notes on <span class="math inline">\(2^{K-P}\)</span> Designs</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#additional-topics"><i class="fa fa-check"></i><b>6.4.1</b> Additional Topics</a></li>
+<li class="chapter" data-level="6.4.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#sequencing-experiments"><i class="fa fa-check"></i><b>6.4.2</b> Sequencing Experiments</a></li>
+<li class="chapter" data-level="6.4.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#fractional-factorial-design-simulation-problem-set"><i class="fa fa-check"></i><b>6.4.3</b> Fractional Factorial Design Simulation Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#screening-experiments-and-selecting-factors"><i class="fa fa-check"></i><b>6.5</b> Screening Experiments and Selecting Factors</a></li>
+<li class="chapter" data-level="6.6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#conclusion"><i class="fa fa-check"></i><b>6.6</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html"><i class="fa fa-check"></i><b>7</b> Fundamentals of Regression</a><ul>
+<li class="chapter" data-level="7.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#admin-3"><i class="fa fa-check"></i><b>7.1</b> Admin</a></li>
+<li class="chapter" data-level="7.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>7.2</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#least-squares-method-manually"><i class="fa fa-check"></i><b>7.2.1</b> Least Squares Method Manually</a></li>
+<li class="chapter" data-level="7.2.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#goodness-of-fit"><i class="fa fa-check"></i><b>7.2.2</b> Goodness of Fit</a></li>
+<li class="chapter" data-level="7.2.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#least-squares-method-in-r"><i class="fa fa-check"></i><b>7.2.3</b> Least Squares Method In <em>R</em></a></li>
+<li class="chapter" data-level="7.2.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#simple-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.2.4</b> Simple Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#assumptions-and-diagnostics"><i class="fa fa-check"></i><b>7.3</b> Assumptions and Diagnostics</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#linearity"><i class="fa fa-check"></i><b>7.3.1</b> Linearity</a></li>
+<li class="chapter" data-level="7.3.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#homoscedasticity"><i class="fa fa-check"></i><b>7.3.2</b> Homoscedasticity</a></li>
+<li class="chapter" data-level="7.3.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#independence"><i class="fa fa-check"></i><b>7.3.3</b> Independence</a></li>
+<li class="chapter" data-level="7.3.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#normality"><i class="fa fa-check"></i><b>7.3.4</b> Normality</a></li>
+<li class="chapter" data-level="7.3.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#unusual-observations"><i class="fa fa-check"></i><b>7.3.5</b> Unusual Observations</a></li>
+<li class="chapter" data-level="7.3.6" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#linear-regression-assumptions-and-diagnostics-problem-set"><i class="fa fa-check"></i><b>7.3.6</b> Linear Regression Assumptions and Diagnostics Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#multiple-linear-regression"><i class="fa fa-check"></i><b>7.4</b> Multiple Linear Regression</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#r-example"><i class="fa fa-check"></i><b>7.4.1</b> <em>R</em> Example</a></li>
+<li class="chapter" data-level="7.4.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#multiple-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.4.2</b> Multiple Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#categorical-variables"><i class="fa fa-check"></i><b>7.5</b> Categorical Variables</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#categorical-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.5.1</b> Categorical Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#transformation"><i class="fa fa-check"></i><b>7.6</b> Transformation</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#identifying-non-linear-relationships"><i class="fa fa-check"></i><b>7.6.1</b> Identifying Non-Linear Relationships</a></li>
+<li class="chapter" data-level="7.6.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#checking-model-structure"><i class="fa fa-check"></i><b>7.6.2</b> Checking Model Structure</a></li>
+<li class="chapter" data-level="7.6.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#how-to-transform-variables-in-r"><i class="fa fa-check"></i><b>7.6.3</b> How To Transform Variables In <em>R</em></a></li>
+<li class="chapter" data-level="7.6.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#transformed-regression-problem-set"><i class="fa fa-check"></i><b>7.6.4</b> Transformed Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression"><i class="fa fa-check"></i><b>7.7</b> Logistic Regression</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#motivating-example"><i class="fa fa-check"></i><b>7.7.1</b> Motivating Example</a></li>
+<li class="chapter" data-level="7.7.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logit-function"><i class="fa fa-check"></i><b>7.7.2</b> Logit Function</a></li>
+<li class="chapter" data-level="7.7.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-in-r"><i class="fa fa-check"></i><b>7.7.3</b> Logistic Regression in <em>R</em></a></li>
+<li class="chapter" data-level="7.7.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-diagnostics"><i class="fa fa-check"></i><b>7.7.4</b> Logistic Regression Diagnostics</a></li>
+<li class="chapter" data-level="7.7.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-problem-set"><i class="fa fa-check"></i><b>7.7.5</b> Logistic Regression Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>8</b> Model Selection</a><ul>
+<li class="chapter" data-level="8.1" data-path="model-selection.html"><a href="model-selection.html#admin-4"><i class="fa fa-check"></i><b>8.1</b> Admin</a></li>
+<li class="chapter" data-level="8.2" data-path="model-selection.html"><a href="model-selection.html#introduction-7"><i class="fa fa-check"></i><b>8.2</b> Introduction</a></li>
+<li class="chapter" data-level="8.3" data-path="model-selection.html"><a href="model-selection.html#testing-based-methods"><i class="fa fa-check"></i><b>8.3</b> Testing-Based Methods</a></li>
+<li class="chapter" data-level="8.4" data-path="model-selection.html"><a href="model-selection.html#criterion-based-methods"><i class="fa fa-check"></i><b>8.4</b> Criterion-Based Methods</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="model-selection.html"><a href="model-selection.html#criterion-problem-set"><i class="fa fa-check"></i><b>8.4.1</b> Criterion Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="model-selection.html"><a href="model-selection.html#cross-validation"><i class="fa fa-check"></i><b>8.5</b> Cross Validation</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="model-selection.html"><a href="model-selection.html#what-about-the-test-set"><i class="fa fa-check"></i><b>8.5.1</b> What About The Test Set?</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="model-selection.html"><a href="model-selection.html#lasso-regression"><i class="fa fa-check"></i><b>8.6</b> Lasso Regression</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="model-selection.html"><a href="model-selection.html#background-reading"><i class="fa fa-check"></i><b>8.6.1</b> Background Reading</a></li>
+<li class="chapter" data-level="8.6.2" data-path="model-selection.html"><a href="model-selection.html#lasso-regression-in-r"><i class="fa fa-check"></i><b>8.6.2</b> Lasso Regression In R</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="model-selection.html"><a href="model-selection.html#parting-thought"><i class="fa fa-check"></i><b>8.7</b> Parting Thought</a></li>
+<li class="chapter" data-level="8.8" data-path="model-selection.html"><a href="model-selection.html#lasso-regression-problem-set"><i class="fa fa-check"></i><b>8.8</b> Lasso Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="application-of-doe-to-the-advanced-warfighting-simulation.html"><a href="application-of-doe-to-the-advanced-warfighting-simulation.html"><i class="fa fa-check"></i><b>9</b> Application of DoE to the Advanced Warfighting Simulation</a></li>
+<li class="chapter" data-level="10" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html"><i class="fa fa-check"></i><b>10</b> Advanced Experimental Designs</a><ul>
+<li class="chapter" data-level="10.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#admin-5"><i class="fa fa-check"></i><b>10.1</b> Admin</a></li>
+<li class="chapter" data-level="10.2" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#introduction-and-background"><i class="fa fa-check"></i><b>10.2</b> Introduction and Background</a></li>
+<li class="chapter" data-level="10.3" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#central-composite-designs"><i class="fa fa-check"></i><b>10.3</b> Central Composite Designs</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#augmented-central-composite-designs"><i class="fa fa-check"></i><b>10.3.1</b> Augmented Central Composite Designs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#response-surface-methodology"><i class="fa fa-check"></i><b>10.4</b> Response Surface Methodology</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#ccd-problem-set"><i class="fa fa-check"></i><b>10.4.1</b> CCD Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#nearly-orthogonal-latin-hypercube-designs"><i class="fa fa-check"></i><b>10.5</b> Nearly Orthogonal Latin Hypercube Designs</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#factor-codings"><i class="fa fa-check"></i><b>10.5.1</b> Factor Codings</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#orthogonality-and-variance-inflation-factors"><i class="fa fa-check"></i><b>10.6</b> Orthogonality and Variance Inflation Factors</a></li>
+<li class="chapter" data-level="10.7" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#shifting-and-stacking"><i class="fa fa-check"></i><b>10.7</b> Shifting and Stacking</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#nolh-problem-set"><i class="fa fa-check"></i><b>10.7.1</b> NOLH Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html"><i class="fa fa-check"></i><b>11</b> Non-Parametric Regression</a><ul>
+<li class="chapter" data-level="11.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#admin-6"><i class="fa fa-check"></i><b>11.1</b> Admin</a></li>
+<li class="chapter" data-level="11.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#non-parametric-anova"><i class="fa fa-check"></i><b>11.2</b> Non-Parametric ANOVA</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#multiple-comparisons-2"><i class="fa fa-check"></i><b>11.2.1</b> Multiple Comparisons</a></li>
+<li class="chapter" data-level="11.2.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#non-parametric-anova-problem-set"><i class="fa fa-check"></i><b>11.2.2</b> Non-Parametric ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#generalized-additive-models"><i class="fa fa-check"></i><b>11.3</b> Generalized Additive Models</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#loess"><i class="fa fa-check"></i><b>11.3.1</b> Loess</a></li>
+<li class="chapter" data-level="11.3.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#splines"><i class="fa fa-check"></i><b>11.3.2</b> Splines</a></li>
+<li class="chapter" data-level="11.3.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#cross-validation-1"><i class="fa fa-check"></i><b>11.3.3</b> Cross Validation</a></li>
+<li class="chapter" data-level="11.3.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#gam-problem-set"><i class="fa fa-check"></i><b>11.3.4</b> GAM Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-machines"><i class="fa fa-check"></i><b>11.4</b> Support Vector Machines</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-regression"><i class="fa fa-check"></i><b>11.4.1</b> Support Vector Regression</a></li>
+<li class="chapter" data-level="11.4.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-classification"><i class="fa fa-check"></i><b>11.4.2</b> Support Vector Classification</a></li>
+<li class="chapter" data-level="11.4.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#svm-problem-set"><i class="fa fa-check"></i><b>11.4.3</b> SVM Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#classification-and-regression-trees"><i class="fa fa-check"></i><b>11.5</b> Classification and Regression Trees</a><ul>
+<li class="chapter" data-level="11.5.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#regression-trees"><i class="fa fa-check"></i><b>11.5.1</b> Regression Trees</a></li>
+<li class="chapter" data-level="11.5.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#random-forest-regression"><i class="fa fa-check"></i><b>11.5.2</b> Random Forest Regression</a></li>
+<li class="chapter" data-level="11.5.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#random-forest-classification"><i class="fa fa-check"></i><b>11.5.3</b> Random Forest Classification</a></li>
+<li class="chapter" data-level="11.5.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#cart-problem-set"><i class="fa fa-check"></i><b>11.5.4</b> CART Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html"><i class="fa fa-check"></i><b>12</b> Optional Advanced DOE Topics</a><ul>
+<li class="chapter" data-level="12.1" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#robust-design"><i class="fa fa-check"></i><b>12.1</b> Robust Design</a></li>
+<li class="chapter" data-level="12.2" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#sequential-designs"><i class="fa fa-check"></i><b>12.2</b> Sequential Designs</a></li>
+<li class="chapter" data-level="12.3" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#ridge-regression"><i class="fa fa-check"></i><b>12.3</b> Ridge Regression</a></li>
+<li class="chapter" data-level="12.4" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#neural-network-regression"><i class="fa fa-check"></i><b>12.4</b> Neural Network Regression</a><ul>
+<li class="chapter" data-level="12.4.1" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#simple-neural-network-model"><i class="fa fa-check"></i><b>12.4.1</b> Simple Neural Network Model</a></li>
+<li class="chapter" data-level="12.4.2" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#gradient-descent"><i class="fa fa-check"></i><b>12.4.2</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.4.3" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#multiple-linear-regression-1"><i class="fa fa-check"></i><b>12.4.3</b> Multiple Linear Regression</a></li>
+<li class="chapter" data-level="12.4.4" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#hidden-layer"><i class="fa fa-check"></i><b>12.4.4</b> Hidden Layer</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#neural-network-classification"><i class="fa fa-check"></i><b>12.5</b> Neural Network Classification</a></li>
+<li class="chapter" data-level="12.6" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#multivariate-adaptive-regression-splines"><i class="fa fa-check"></i><b>12.6</b> Multivariate Adaptive Regression Splines</a></li>
+<li class="chapter" data-level="12.7" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#non-parametric-statistics"><i class="fa fa-check"></i><b>12.7</b> Non-Parametric Statistics</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown">
+Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Design of Experiments for Modeling and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="analysis-of-variance-anova" class="section level1">
+<h1><span class="header-section-number">4</span> Analysis of Variance (ANOVA)</h1>
+<div id="introduction-1" class="section level2">
+<h2><span class="header-section-number">4.1</span> Introduction</h2>
+<p>This chapter introduces the idea of Analysis of Variance (ANOVA). ANOVA is a powerful analytic technique in its own right and important to understanding DOE.</p>
+<ul>
+<li><strong>POC:</strong> For any comments or identified errors, please contact Steve Gillespie at <a href="mailto:stephen.e.gillespie.mil@mail.mil" class="email">stephen.e.gillespie.mil@mail.mil</a> or Emma Schlagenhauff at <a href="mailto:emma.schlagenhauff.civ@mail.mil" class="email">emma.schlagenhauff.civ@mail.mil</a>.</li>
+<li>This section was rendered using R version 3.6.0 (2019-04-26) on 24 May 2021.</li>
+<li>The chapter is organized into 8 sections. Each section includes a description, a tutorial, and a problem set.</li>
+</ul>
+</div>
+<div id="anova-overview" class="section level2">
+<h2><span class="header-section-number">4.2</span> ANOVA Overview</h2>
+<div id="motivation" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Motivation</h3>
+<p>In the previous sections, we had done hypothesis tests to estimate parameters for either a single sample (e.g., estimating the mean of a population from a single sample) or compared two samples to see if they likely came from the same population (e.g., comparison of two means). Often we have more than two samples that we want to compare. In particular, we often know something distinguishing about these samples and want to see if that distinction makes a difference.</p>
+<p>For example, consider a simulation where we were testing to see if variations on a system had an effect on the simulation outcome. If we only had two systems, say A and B, we could do any number of hypothesis tests, e.g., a T-test for comparison on the means. If we have three systems: say A, B, and C, we run into a problem. We don’t have a three-way hypothesis test. We could do multiple hypothesis tests, say A vs. B, A vs. C, and B vs. C, but we run into a problem. Recall that each time we conduct a hypothesis test we have a probability of a Type I error, <span class="math inline">\(\alpha\)</span> for a test with a <span class="math inline">\(1-\alpha\)</span> confidence level. When we run multiple hypothesis tests for effectively the same question (i.e., does the system make a difference on our outcome), we start to see that our confidence level goes down rather rapidly. That is, if our <span class="math inline">\(\alpha\)</span> levels are: <span class="math inline">\(\alpha_{A vs. B}, \alpha_{A vs. C}, \alpha_{B vs. C}\)</span>, our confidence level is the product of our individual confidence levels, i.e. <span class="math inline">\((1-\alpha_{A vs. B})*(1-\alpha_{A vs. C})*(1-\alpha_{B vs. C})\)</span>. This number decreases rapidly. For example, if we have <span class="math inline">\(\alpha = .05\)</span> in our example, we would have a confidence of <span class="math inline">\((1-.05)*(1-.05)*(1-.05)\approx .86\)</span>. In fact, for a consistent <span class="math inline">\(\alpha\)</span>, this number scales by <span class="math inline">\(N \choose 2\)</span>, where N is the number of factors. For <span class="math inline">\(\alpha=.05\)</span> this scales down quickly.</p>
+<pre><code>## Warning: Continuous limits supplied to discrete scale.
+## Did you mean `limits = factor(...)` or `scale_*_continuous()`?</code></pre>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>This clearly won’t do as we need a test that can tell us if there is an effect caused by a change to a factor in a set of observations.</p>
+</div>
+<div id="broad-concept" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Broad Concept</h3>
+<p>Analysis of Variance (ANOVA) solves this exact problem. It does this by assessing the variance observed in the total population (i.e., all of the observations from all samples) and comparing this variance to the variance observed between the different groups and the variance internal to each group. This sounds somewhat esoteric, but <a href = 'https://www.khanacademy.org/math/statistics-probability/analysis-of-variance-anova-library'> this set of videos from Khan Academy explain it very clearly.</a></p>
+</div>
+<div id="terminology" class="section level3">
+<h3><span class="header-section-number">4.2.3</span> Terminology</h3>
+<p>There is a variety of terminology used in the ANOVA literature. To aid in communication, we’ll adopt the following definitions:</p>
+<ul>
+<li><strong>(Treatment) Effect</strong>: A change to the mean response based on a changing level of a factor.</li>
+<li><strong>Factor</strong>: An independent variable with two or more levels that may have an effect on the mean response.</li>
+<li><strong>Level</strong>: A value a factor may take.</li>
+<li><strong>Replicate</strong>: An observation for a given factor or set of factors in an experiment.</li>
+<li><strong>Response</strong>: A dependent variable whose mean we value we would like to measure.</li>
+</ul>
+<p>More concretely, consider a simple combat simulation that assesses an indirect fire (IDF) system. Assume the simulation has a variety of possible inputs, but we are only going to vary the the munition the system fires. Further, the simulation has multiple possible outputs, but we will only measure the number of armored vehicle kills achieved. In this situation:</p>
+<ul>
+<li>The munition the system fires is the <strong>factor</strong>.</li>
+<li>The various types of munitions (e.g., high explosive, hit-to-kill, etc.) are the <strong>levels</strong> for that factor (this is sometimes called a <strong>treatment</strong>).</li>
+<li>Each simulation run is a <strong>replicate</strong>.</li>
+<li>The output, the number of armored vehicle kills achieved is the <strong>response</strong>.</li>
+<li>The (treatment) effect is a change in the average number of kills based on the choice of munition.</li>
+</ul>
+</div>
+</div>
+<div id="single-factor-fixed-effects-anova" class="section level2">
+<h2><span class="header-section-number">4.3</span> Single Factor, Fixed Effects ANOVA</h2>
+<div id="example" class="section level3">
+<h3><span class="header-section-number">4.3.1</span> Example</h3>
+<p>Consider the IDF simulation described above and imagine you are an analyst charged with telling the Army what the best type of ammunition to buy for killing armored vehicles is. You have four possible munitions:</p>
+<ul>
+<li>Dual Purpose, Improved Conventional Munition (DPICM).</li>
+<li>High Explosive, Anti-Tank (HEAT).</li>
+<li>Hit to Kill (HTK).</li>
+<li>Precision Guided Munition (PGM).</li>
+</ul>
+<p>You ran your simulation using the data for each of these munitions five times and recorded the number of armored vehicle kills achieved and got the following results<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>:<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
+<div id="htmlwidget-4094207bda44d8502e79" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4094207bda44d8502e79">{"x":{"filter":"none","caption":"<caption>Armored Vehicle Kills For Each of Five Replicates for Each Munition<\/caption>","data":[["DPICM","HEAT","HTK","PGM"],[23,19,28,29],[10,17,28,32],[13,31,34,27],[27,15,38,26],[27,13,30,19]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Round<\/th>\n      <th>1<\/th>\n      <th>2<\/th>\n      <th>3<\/th>\n      <th>4<\/th>\n      <th>5<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Before analyzing this data, it is important to note a few things:</p>
+<ul>
+<li>Your <strong>factor</strong> is the munition.</li>
+<li>You have four <strong>levels</strong> (or treatments) for the munition factor are: DPICM, HEAT, HTK, PGM. The number of levels is typically represented as <span class="math inline">\(a\)</span>, so we say <span class="math inline">\(a = 4\)</span>.</li>
+<li>You had five <strong>replicates</strong> for each level (i.e., <span class="math inline">\(n = 5\)</span>). You had a total of 20 observations as you had four levels each with five observations.</li>
+<li>As each level has the same number of replicates, we say this is balanced.</li>
+<li>Your <strong>response</strong> was the number of armored vehicles killed. Each response is typically represented mathematically as <span class="math inline">\(y_{ij}\)</span> where <span class="math inline">\(i\)</span> is the level number and <span class="math inline">\(j\)</span> is the replicate number. For example, in the above table, <span class="math inline">\(y_{12}\)</span> is the value for the 2nd replicate of the first level (DPICM) and it has a value of 14 kills, so $y_{12} = $ 10.</li>
+</ul>
+<p>The first question we might have is, does the choice of round even make a difference? We will do this mathematically with ANOVA! Often time, however, it is also good to visualize the data. For these types of problems, boxplots are often useful:</p>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="model" class="section level3">
+<h3><span class="header-section-number">4.3.2</span> Model</h3>
+<p>Consider the following generic description of data for an experiment (i.e., a simulation) with a <strong>single factor</strong> with <span class="math inline">\(a\)</span> levels, and <span class="math inline">\(n\)</span> replicates at each level. The results for each observation can be described as <span class="math inline">\(y_{ij}\)</span> where <span class="math inline">\(i \in {1, 2, ... a}\)</span> and <span class="math inline">\(j \in {1, 2, ... n}\)</span> are the indices for the treatments and replicates respectively. This can be seen as a table such as this:</p>
+<br>
+<center>
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 16px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 16px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+.tg .tg-cly1{text-align:left;vertical-align:middle}
+.tg .tg-yla0{font-weight:bold;text-align:left;vertical-align:middle}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+</style>
+<table class="tg">
+<tr>
+<th class="tg-cly1">
+<span style="font-weight:bold">Level (Treatment)</span>
+</th>
+<th class="tg-yla0" colspan="4">
+Replicates (Observations)
+</th>
+</tr>
+<tr>
+<td class="tg-cly1">
+1
+</td>
+<td class="tg-cly1">
+<span class="math inline">\(y_{11}\)</span>
+</td>
+<td class="tg-cly1">
+<span class="math inline">\(y_{12}\)</span>
+</td>
+<td class="tg-cly1">
+…
+</td>
+<td class="tg-cly1">
+<span class="math inline">\(y_{1n}\)</span>
+</td>
+</tr>
+<tr>
+<td class="tg-cly1">
+2
+</td>
+<td class="tg-cly1">
+<span class="math inline">\(y_{21}\)</span>
+</td>
+<td class="tg-cly1">
+<span class="math inline">\(y_{22}\)</span>
+</td>
+<td class="tg-cly1">
+…
+</td>
+<td class="tg-cly1">
+<span class="math inline">\(y_{1n}\)</span>
+</td>
+</tr>
+<tr>
+<td class="tg-cly1">
+…
+</td>
+<td class="tg-cly1">
+…
+</td>
+<td class="tg-cly1">
+…
+</td>
+<td class="tg-cly1">
+…
+</td>
+<td class="tg-cly1">
+…
+</td>
+</tr>
+<tr>
+<td class="tg-0lax">
+a
+</td>
+<td class="tg-0lax">
+<span class="math inline">\(y_{a1}\)</span>
+</td>
+<td class="tg-0lax">
+<span class="math inline">\(y_{a2}\)</span>
+</td>
+<td class="tg-0lax">
+…
+</td>
+<td class="tg-0lax">
+<span class="math inline">\(y_{an}\)</span>
+</td>
+</tr>
+</table>
+</center>
+<p><br></p>
+<p>We want to be able to say something about the <strong>effect</strong> of the treatment. We can do that by <em>modeling</em> the data.</p>
+<p>One possible model is:</p>
+<center>
+<span class="math inline">\(y_{ij} = \mu + \tau_i + \epsilon_{ij}\)</span>
+</center>
+<p>In this model:</p>
+<ul>
+<li><span class="math inline">\(\mu\)</span> is the mean of all the observations from all of the treatments (In the IDF example above, the mean is (486/20)=24.3. Note that there are 20 <em>total</em> observations, 486 happens to be the sum of the kills of armored vehicles).</li>
+<li><span class="math inline">\(\tau_i\)</span> is the (treatment) effect<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> of the <span class="math inline">\(i^{th}\)</span> level.</li>
+<li><span class="math inline">\(\epsilon_{ij}\)</span> is the error associated with the <span class="math inline">\(ij^{th}\)</span> observation. Note that <span class="math inline">\(\epsilon_{ij} = y_{ij} - (\mu + \tau_i)\)</span> by the model above.</li>
+</ul>
+<p>The idea of the <strong>treatment effect</strong> is that by applying a specific level of a factor (i.e., a treatment), there is an overall change to the mean for observations where this treatment. More concretely, consider this toy example:</p>
+<p>Imagine you have selected two people each from two “treatments.”<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> The first treatment is that the person is a professional basketball player. The second treatment is that the person is an elite gymnast. You measure the height of each of the people and get the following heights:</p>
+<ul>
+<li>Basketball Player 1: 7’2&quot;</li>
+<li>Basketball Player 2: 6’10&quot;</li>
+<li>Gymnast 1: 5’2&quot;</li>
+<li>Gymnast 2: 4’10&quot;</li>
+</ul>
+<p>We can see the overall mean of these four people is 6’0“. The treatment effect of being a professional basketball player is to add an additional foot of height (i.e., <span class="math inline">\(\tau_{basketball} = +1&#39;\)</span>). The treatment effect of being an elite gymnast is to substract a foot of height (i.e., <span class="math inline">\(\tau_{gymnastics} = -1&#39;\)</span>). The errors associated for each athlete are +/- 2”. For example, for basketball player 1, we can say: <span class="math inline">\(\mu = 6&#39;0&quot;\)</span>, <span class="math inline">\(\tau_{basketball} = +1&#39;\)</span>, and <span class="math inline">\(\epsilon_{basketball,1}=+2&quot;\)</span>.</p>
+<p>The above example is a merely a toy problem and generally impractical to calculate by hand. However, it is the simply the result of a linear statistical model. For ANOVA, however, we are not attempting to calculate specific <span class="math inline">\(\tau_{i}\)</span>, rather the question is: <strong>Are any of the <span class="math inline">\(\tau_i\)</span> non-zero?</strong> That is, do any of the treatments have an effect?</p>
+<p>At this point, we have a hypothesis test, where:</p>
+<center>
+<p><span class="math inline">\(H_0: \tau_1=\tau_2=...=\tau_a=0\)</span></p>
+<p><span class="math inline">\(H_A: \tau_i\neq0\)</span> for at least one <span class="math inline">\(i\in{1, 2, ... a}\)</span></p>
+</center>
+<p>To do this, we must satisfy several assumptions:</p>
+</div>
+<div id="single-factor-anova-assumptions" class="section level3">
+<h3><span class="header-section-number">4.3.3</span> Single Factor ANOVA Assumptions</h3>
+<ol style="list-style-type: decimal">
+<li>You are only testing a single factor with <span class="math inline">\(a&gt;2\)</span> treatments. You <em>can</em> run an ANOVA with 2 factors, but you really should choose a more explicit hypothesis test (e.g., a t-test).</li>
+<li>The experiments were performed in a random order to minimize the effect of environmental factors. In simulation, this is largely a moot point as one can fix the environmental conditions and the stochasticity comes not from changing time (i.e., order) and associated changes to the environment, rather it comes from the selection of random variables. That stated, be aware of this requirement and ensure the simulation meets the intent. This is called a <strong>completely randomzied design</strong>.</li>
+<li>The model errors, <span class="math inline">\(\epsilon_{ij}\)</span> are assumed to be normally and independently distributed with a mean of 0 and constant variance.</li>
+<li>The observations are assumed to be mutually independent, i.e., there is no connection between the outcome of one simulation run and the next one.</li>
+<li>The levels are <strong>fixed</strong>. By this, we mean we (the researcher) have identified specific levels for the factor and are only attempting to make inferences on the observed levels. Using the IDF example, we are only making inferences about the four round types and not attempting to learn anything about an untested round. Similarly, with the athlete example, we are only attempting to hypothesize about being a basketball player or gymnast, not being an athlete in general. This is called the <strong>fixed effects model</strong>. In a future section, we’ll address the <strong>random effects model</strong> where we assess a random sample of levels from a larger population of levels.</li>
+</ol>
+</div>
+<div id="conducting-single-factor-fixed-effects-anova" class="section level3">
+<h3><span class="header-section-number">4.3.4</span> Conducting Single Factor (Fixed Effects) ANOVA</h3>
+<p>There is a significant amount of math and explanation as to exactly how the ANOVA test works. For a more detailed understanding, please see any of the following:</p>
+<ul>
+<li><a href = 'https://www.khanacademy.org/math/statistics-probability/analysis-of-variance-anova-library'> The set of Khan Academy videos (linked earlier in the chapter) provide a good overview.</a></li>
+<li><a href = 'https://en.wikipedia.org/wiki/One-way_analysis_of_variance'>The wikipedia article has a good overview and example of the actual math </a><a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>.</li>
+<li>Most standard statistics texts explain the calculations, e.g.:<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>
+<ul>
+<li>Montgomery’s <em>Design and Analysis of Experiments, 8th Edition</em> Section 3.3.</li>
+<li>Devore’s <em>Probability and Statistics for Engineering and the Sciences, 7th Edition</em> Section 10.1.</li>
+<li>Hayter’s <em>Probability and Statistics for Engineers and Scientists, 4th Edition</em> Section 11.1.</li>
+</ul></li>
+<li>Many <em>R</em> books will cover the discussion as well, e.g. Crawley’s <em>The R Book, 2nd Edition</em> Section 11.1.</li>
+</ul>
+<p>Given this wealth of resources, we will only discuss how to actually conduct and interpret the single factor, fixed effects ANOVA in <em>R</em> here.</p>
+<div id="single-factor-fixed-effects-anova-step-0---assumptions" class="section level4">
+<h4><span class="header-section-number">4.3.4.1</span> Single Factor, Fixed Effects ANOVA: Step 0 - Assumptions</h4>
+<p>Ensure you have met the required assumptions as listed above. At this point, we won’t worry about the normality and constant variance assumption, we’ll assess for it after the fact.</p>
+</div>
+<div id="single-factor-fixed-effects-anova-step-1---prepare-the-data." class="section level4">
+<h4><span class="header-section-number">4.3.4.2</span> Single Factor, Fixed Effects ANOVA: Step 1 - Prepare the data.</h4>
+<p>Often data is provided in a variety of formats, particularly the format seen in the tables above, where the levels are the rows and the columns are the replicates. <em>R</em>, however needs the data in the form of 2 vectors. This typically looks like a table (i.e., a data frame) where one column is the level and one column is the observation value. The data should look like:</p>
+<pre><code>##    Replicate Round Kills
+## 1          1 DPICM    23
+## 2          5   PGM    19
+## 3          5 DPICM    27
+## 4          2   PGM    32
+## 5          5   HTK    30
+## 6          5  HEAT    13
+## 7          3   PGM    27
+## 8          3   HTK    34
+## 9          2  HEAT    17
+## 10         4 DPICM    27</code></pre>
+<p>Note three things:</p>
+<ul>
+<li>This is only a sample of the data from our IDF example, obviously you need all of the data to actually conduct the ANOVA.</li>
+<li>We have three columns, the replicate number (not really necessary for this analysis, but maybe for good record keeping), the round (i.e., the level), and the kills (i.e., the response). In <em>R</em>, the levels can be identified as characters or numbers, but the response must be numeric.</li>
+<li>There is no requirement to order the data in some way. The analysis occurs the same regardless of order.</li>
+</ul>
+<p>If your data is formatted correctly, you can proceed to the next step. If not, you will have to do some data cleaning. This is a classic example of why the Tidyverse functions <code>pivot_wider()</code> and <code>pivot_longer()</code> (formerly <code>spread()</code> and <code>gather()</code>) exist. Please read about them in <a href = 'https://r4ds.had.co.nz/tidy-data.html'> <em>R For Data Scince Chapter 12, Tidy Data</em> </a>. Below is an example:</p>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb388-1" data-line-number="1"><span class="co"># Suppose your orignal data looks like this:</span></a>
+<a class="sourceLine" id="cb388-2" data-line-number="2">Original.Data</a></code></pre></div>
+<pre><code>##   Round  1  2  3  4  5
+## 1 DPICM 23 10 13 27 27
+## 2  HEAT 19 17 31 15 13
+## 3   HTK 28 28 34 38 30
+## 4   PGM 29 32 27 26 19</code></pre>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb390-1" data-line-number="1"><span class="co"># To convert this to a data frame in a manner you need, use pivot_longer()</span></a>
+<a class="sourceLine" id="cb390-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb390-3" data-line-number="3">Formatted.Data &lt;-<span class="st"> </span>Original.Data <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># We will save our new data in &#39;Formatted.Data&#39;</span></a>
+<a class="sourceLine" id="cb390-4" data-line-number="4"><span class="st">                                    </span><span class="co"># We sart with &#39;Original.Data&#39; and pipe it to &#39;pivot_longer&#39;</span></a>
+<a class="sourceLine" id="cb390-5" data-line-number="5"><span class="st">    </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&#39;1&#39;</span>, <span class="st">&#39;2&#39;</span>, <span class="st">&#39;3&#39;</span>, <span class="st">&#39;4&#39;</span>, <span class="st">&#39;5&#39;</span>), </a>
+<a class="sourceLine" id="cb390-6" data-line-number="6">                 <span class="co"># The first argument is what columns are you gathering together</span></a>
+<a class="sourceLine" id="cb390-7" data-line-number="7">                 <span class="co"># Note that the names of the columns are 1, 2, ..., but column names are characters</span></a>
+<a class="sourceLine" id="cb390-8" data-line-number="8">                 <span class="co"># so you have to put the names in quotes or else R will think you are referring to a </span></a>
+<a class="sourceLine" id="cb390-9" data-line-number="9">                 <span class="co"># column number</span></a>
+<a class="sourceLine" id="cb390-10" data-line-number="10">                 <span class="dt">names_to =</span> <span class="st">&#39;Replicate&#39;</span>, </a>
+<a class="sourceLine" id="cb390-11" data-line-number="11">                 <span class="co"># The second argument &#39;names_to&#39; is asking what do you want to call the column that</span></a>
+<a class="sourceLine" id="cb390-12" data-line-number="12">                 <span class="co"># will hold the names of the former columns.  We chose &#39;Replicate&#39;</span></a>
+<a class="sourceLine" id="cb390-13" data-line-number="13">                 <span class="dt">values_to =</span> <span class="st">&#39;Kills&#39;</span></a>
+<a class="sourceLine" id="cb390-14" data-line-number="14">                 <span class="co"># The third argument asks for the name of the new column that will hold the values</span></a>
+<a class="sourceLine" id="cb390-15" data-line-number="15">                 <span class="co"># We chose Kills as that is what the values are in each of columns 1, 2, ... 5</span></a>
+<a class="sourceLine" id="cb390-16" data-line-number="16">                 <span class="co"># Finally, there are more arguments in pivot_longer that are optional.  </span></a>
+<a class="sourceLine" id="cb390-17" data-line-number="17">                 <span class="co"># Please read the help `?pivot_longer` for more information</span></a>
+<a class="sourceLine" id="cb390-18" data-line-number="18">                 )</a>
+<a class="sourceLine" id="cb390-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb390-20" data-line-number="20"><span class="co"># View how our Formatted.Data turned out</span></a>
+<a class="sourceLine" id="cb390-21" data-line-number="21">Formatted.Data</a></code></pre></div>
+<pre><code>## # A tibble: 20 x 3
+##    Round Replicate Kills
+##    &lt;fct&gt; &lt;chr&gt;     &lt;dbl&gt;
+##  1 DPICM 1            23
+##  2 DPICM 2            10
+##  3 DPICM 3            13
+##  4 DPICM 4            27
+##  5 DPICM 5            27
+##  6 HEAT  1            19
+##  7 HEAT  2            17
+##  8 HEAT  3            31
+##  9 HEAT  4            15
+## 10 HEAT  5            13
+## 11 HTK   1            28
+## 12 HTK   2            28
+## 13 HTK   3            34
+## 14 HTK   4            38
+## 15 HTK   5            30
+## 16 PGM   1            29
+## 17 PGM   2            32
+## 18 PGM   3            27
+## 19 PGM   4            26
+## 20 PGM   5            19</code></pre>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb392-1" data-line-number="1"><span class="co"># This looks good, so we can progress to the next step.</span></a></code></pre></div>
+</div>
+<div id="single-factor-fixed-effects-anova-step-2---conduct-the-anova" class="section level4">
+<h4><span class="header-section-number">4.3.4.3</span> Single Factor, Fixed Effects ANOVA: Step 2 - Conduct the ANOVA</h4>
+<p>In <em>R</em>, the function <code>aov()</code> is built to calculate a wide variety of ANOVA situations. We’ll use it for our single factor, fixed effects model. In <code>aov()</code>, <em>R</em> uses a format the will become quite familiar to you as you progress through the course. This format is:</p>
+<center>
+<code>Response ~ Input</code>
+</center>
+<p>In this, we are saying we want to assess something about the response as a function of (or an effect of) the given input (in our case, levels). It’s best to see this with a concrete example:</p>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb393-1" data-line-number="1"><span class="co"># Using our IDF data, we want to conduct a single factor, fixed effects ANOVA.</span></a>
+<a class="sourceLine" id="cb393-2" data-line-number="2"><span class="co"># We have identified Kills as the response and Round as the factor.</span></a>
+<a class="sourceLine" id="cb393-3" data-line-number="3"><span class="co"># Round has 4 levels, DPICM, HEAT, HTK, PGM.</span></a>
+<a class="sourceLine" id="cb393-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb393-5" data-line-number="5"><span class="co"># R generally need the factor to be of type &#39;factor&#39;.  While on the surface a character string</span></a>
+<a class="sourceLine" id="cb393-6" data-line-number="6"><span class="co"># and factor look similar, R treats them differently.  Sometimes you will still get results</span></a>
+<a class="sourceLine" id="cb393-7" data-line-number="7"><span class="co"># if you don&#39;t change your variable to a factor, but sometimes they won&#39;t be fully accurate.</span></a>
+<a class="sourceLine" id="cb393-8" data-line-number="8"><span class="co"># You can change the variable type as follows:</span></a>
+<a class="sourceLine" id="cb393-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb393-10" data-line-number="10">Formatted.Data<span class="op">$</span>Round &lt;-<span class="st"> </span><span class="kw">as.factor</span>(Formatted.Data<span class="op">$</span>Round)</a>
+<a class="sourceLine" id="cb393-11" data-line-number="11"><span class="co"># This takes the column &#39;Round&#39; in the data frame Formatted.Data and stores the values for the </span></a>
+<a class="sourceLine" id="cb393-12" data-line-number="12"><span class="co"># vector as.factor(Formatted.Data$Round)</span></a>
+<a class="sourceLine" id="cb393-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb393-14" data-line-number="14"><span class="co"># We assess the ANOVA as:</span></a>
+<a class="sourceLine" id="cb393-15" data-line-number="15"><span class="kw">aov</span>(Kills <span class="op">~</span><span class="st"> </span>Round, <span class="dt">data =</span> Formatted.Data)</a></code></pre></div>
+<pre><code>## Call:
+##    aov(formula = Kills ~ Round, data = Formatted.Data)
+## 
+## Terms:
+##                 Round Residuals
+## Sum of Squares  525.8     624.4
+## Deg. of Freedom     3        16
+## 
+## Residual standard error: 6.246999
+## Estimated effects may be unbalanced</code></pre>
+<p>Note two things:</p>
+<ol style="list-style-type: decimal">
+<li>For convenience, we just use the column names in the formula, but then have to identify the data we want for the column names. We could have done the call <code>aov(Formatted.Data$Kills ~ Formatted.Data$Round)</code> but that becomes cumbersome.</li>
+<li>The output does not look that useful (yet).</li>
+</ol>
+<p>The reason the output is not that useful is because <code>aov()</code> actually outputs quite a bit of information, but you actually have to save the analysis to a new variable to access the information. We do this as follows:</p>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb395-1" data-line-number="1">myAOV &lt;-<span class="st"> </span><span class="kw">aov</span>(Kills <span class="op">~</span><span class="st"> </span>Round, <span class="dt">data =</span> Formatted.Data)</a></code></pre></div>
+<p>At this point, we’re done <em>doing</em> the ANOVA, we can move on to the analysis.</p>
+</div>
+<div id="single-factor-fixed-effects-anova-step-3---assess-the-ouput." class="section level4">
+<h4><span class="header-section-number">4.3.4.4</span> Single Factor, Fixed Effects ANOVA: Step 3 - Assess the Ouput.</h4>
+<p>The first thing we want to look at is something called the ANOVA table. We can access this with the <code>summary()</code> function.</p>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb396-1" data-line-number="1"><span class="kw">summary</span>(myAOV)</a></code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## Round        3  525.8  175.27   4.491 0.0181 *
+## Residuals   16  624.4   39.02                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>This table has six columns:</p>
+<ul>
+<li>The first column (unnamed in <em>R</em>) identifies the factor in the model. In our case we have <code>Round</code> as that is the factor we assessed, the residuals (i.e., the <span class="math inline">\(\epsilon_{ij}\)</span>) as there is always some error. In some texts, you may see an ANOVA table with <code>total</code> as the final row. <em>R</em> does not do this, but it is easy enough to calculate as the total in the DF, Sum Sq, and Mean Sq columns is just the sum of the other rows.</li>
+<li>The second column, <code>Df</code>, is the Degrees of Freedom column. It tells you how many degrees of freedom are associated with that factor.</li>
+<li>The third column, <code>Sum Sq</code>, is your “Sum of Squares”. See the Khan Academy videos or external text for an explanation.</li>
+<li>The fourth column, <code>Mean Sq</code>, is your “Mean Sum of Squares”. See the same resources for a more thorough explanation.</li>
+<li>The fifth column, <code>F value</code>, and the sixth column, <code>Pr(&gt;F)</code> is what we are ultimately after. These are your test statistic and p-value respectively.</li>
+<li>Finally note, there are relationships among the degrees of freedom, sum of squares, mean sum of squares, and F statistic. Please see any standard text if you care to calculate these by hand.</li>
+</ul>
+<p>Recall that, ultimately, ANOVA is conducting a special kind of hypothesis test that compares the ratio of variation seen in the data across the entire data set vs. internally to each level. If the assumptions are met, this can be modeled according to the F distribution with the appropriate parameters. Recall, then, our original hypothesis:</p>
+<center>
+<p><span class="math inline">\(H_0: \tau_1=\tau_2=...=\tau_a=0\)</span></p>
+<p><span class="math inline">\(H_A: \tau_i\neq0\)</span> for at least one <span class="math inline">\(i\in{1, 2, ... a}\)</span></p>
+</center>
+<p>If the F-value is below your chosen <span class="math inline">\(\alpha\)</span> (generally either .01 or .05), we can reject the null hypothesis and say that at least one of the effects is non-zero. That is, we can say that the factor actually matters in our outcomes. In our case, if we set <span class="math inline">\(\alpha = .05\)</span>, we reject <span class="math inline">\(H_0\)</span> and do say that the choice of round matters in the number of kills achieved.</p>
+<p>Before we get too excited, we want to check our assumptions. Fortunately, <code>aov()</code> helps us with that by enabling us to plot several things.</p>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb398-1" data-line-number="1"><span class="co"># Plot results of model to check ANOVA assumptions</span></a>
+<a class="sourceLine" id="cb398-2" data-line-number="2"><span class="co"># Set plotting parameters</span></a>
+<a class="sourceLine" id="cb398-3" data-line-number="3"><span class="co"># This is a plotting parameter that tells R to plot the next several plots on a 2 x 2 grid</span></a>
+<a class="sourceLine" id="cb398-4" data-line-number="4"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) </a>
+<a class="sourceLine" id="cb398-5" data-line-number="5"><span class="co"># Plot the standard ANOVA assessment graphs</span></a>
+<a class="sourceLine" id="cb398-6" data-line-number="6"><span class="kw">plot</span>(myAOV)</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>These four graphs will come up rather frequently both in ANOVA and linear regression. <a href = 'https://data.library.virginia.edu/diagnostic-plots/'> The University of Virginia has a good explanation of these graphs </a>. It is in the context of linear regression, but the assessment is the same.</p>
+<p>The first (top-left) is the “Residuals vs. Fitted” plot. It helps us check the assumption that our observations are <strong>independent</strong>.We should see no major pattern in the data and indeed we don’t.</p>
+<p>The second (top-right) is the “Normal Q-Q” plot. This plots the residuals (i.e., the <span class="math inline">\(\epsilon_{ij}\)</span>) against a normal curve (the residual values are normalized to the standard normal distribution). If the residuals were froma perfectly normal distribution, they would all fall exactly on the straight line indicated. Our data looks very well behaved in this case, so we can say we satisfy the assumption of <strong>normally distributed residuals</strong>.</p>
+<p>The third (bottom-left) is the “Scale-Location” plot. It is very similar to the first, except the y-axis is the square root of the standardized residuals (standardized to a normal distribution) vs. the actual residual values. This allows us to check for <strong>constant variance</strong> (homoskedasticity). We look to meet that assumption.</p>
+<p>The fourth (bottom-right) is the “Residuals vs. Levels Plot” that helps us identify influential points that significantly skew our analysis. We do not see any significant issues so we can continue.</p>
+<p>Finally, though this should not be a factor in most simulation experiments, it is often useful to plot the residuals vs. run order or time. This allows one to identify potential dependence among the runs (this often occurs with physical experiments where test subjects’ skills either improve or degrade) or violations to the requirements of constant variance. The plots above do not show this, but they are easy enough to produce. The vector <code>myAOV$residuals</code> is ordered in the same manner as the initial input. If one has the time or order in which each response was calculated, one can plot this. For example:</p>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb399-1" data-line-number="1"><span class="co"># In our example above, assume that the order of `Formatted.Data` is the order </span></a>
+<a class="sourceLine" id="cb399-2" data-line-number="2"><span class="co"># in which we collected the data.  I.e. Formatted.Data$Kills[1] was </span></a>
+<a class="sourceLine" id="cb399-3" data-line-number="3"><span class="co"># the first observation, Formatted.Data$Kills[2] was the second, etc...</span></a>
+<a class="sourceLine" id="cb399-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb399-5" data-line-number="5"><span class="co"># We then create a vector, run order that is simply 1, 2, 3.... 20 and plot that as &quot;time&quot;</span></a>
+<a class="sourceLine" id="cb399-6" data-line-number="6"><span class="co"># Against the residuals.</span></a>
+<a class="sourceLine" id="cb399-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb399-8" data-line-number="8"><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb399-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, <span class="dt">y =</span> myAOV<span class="op">$</span>residuals)) <span class="op">+</span><span class="st"> </span><span class="co"># Plot the residuals</span></a>
+<a class="sourceLine" id="cb399-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">lty =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="co"># Note that your residuals are centered on 0</span></a>
+<a class="sourceLine" id="cb399-11" data-line-number="11"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&#39;Observation Order&#39;&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&#39;Residual&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb399-12" data-line-number="12"><span class="st">  </span><span class="kw">theme_minimal</span>()</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>There does not appear to be any significant patter of residual vs. time, so this appears to meet our assumption.</p>
+<p>In addition to the graphic checks, we can check the assumptions mathematically:</p>
+<p><em>Normality of Residuals</em></p>
+<p>To assess if the residuals are normally distributed, we can use the Shapiro Wilk test:</p>
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb400-1" data-line-number="1"><span class="kw">shapiro.test</span>(myAOV<span class="op">$</span>residuals)</a></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  myAOV$residuals
+## W = 0.98153, p-value = 0.9523</code></pre>
+<p>Since our p-value is larger than 0.10, we fail-to-reject our null hypothesis that the residuals are normally distributed.</p>
+<p>To assess if the residuals have constant variance, we can use the <a href = 'https://www.itl.nist.gov/div898/handbook/eda/section3/eda357.htm'> Bartlett test </a>:<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a></p>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb402-1" data-line-number="1"><span class="co"># we use `bartlett.test()</span></a>
+<a class="sourceLine" id="cb402-2" data-line-number="2"><span class="co"># You can equivalently check the Kills as a function of Round from your</span></a>
+<a class="sourceLine" id="cb402-3" data-line-number="3"><span class="co"># original data as follows:</span></a>
+<a class="sourceLine" id="cb402-4" data-line-number="4"><span class="kw">bartlett.test</span>(Kills <span class="op">~</span><span class="st"> </span>Round, <span class="dt">data =</span> Formatted.Data)</a></code></pre></div>
+<pre><code>## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  Kills by Round
+## Bartlett&#39;s K-squared = 1.8243, df = 3, p-value = 0.6097</code></pre>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb404-1" data-line-number="1"><span class="co"># Or you can check the residuals vs. their associated level</span></a>
+<a class="sourceLine" id="cb404-2" data-line-number="2"><span class="kw">bartlett.test</span>(myAOV<span class="op">$</span>residuals, Formatted.Data<span class="op">$</span>Round)</a></code></pre></div>
+<pre><code>## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  myAOV$residuals and Formatted.Data$Round
+## Bartlett&#39;s K-squared = 1.8243, df = 3, p-value = 0.6097</code></pre>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb406-1" data-line-number="1"><span class="co"># Or check the residuals vs. their fitted values</span></a>
+<a class="sourceLine" id="cb406-2" data-line-number="2"><span class="kw">bartlett.test</span>(myAOV<span class="op">$</span>residuals, myAOV<span class="op">$</span>fitted.values)</a></code></pre></div>
+<pre><code>## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  myAOV$residuals and myAOV$fitted.values
+## Bartlett&#39;s K-squared = 1.8243, df = 3, p-value = 0.6097</code></pre>
+<p>The null hypothesis in the Bartlett test is that the variance among groups is constant. In the above case, we fail to reject the null and conclude that we have met our assumption.</p>
+<p>Finally, we can test for independence of the residuals from time or collection order in a number of ways. One way is to check for a correlation using <code>cor()</code>. Recall that <a href = 'https://en.wikipedia.org/wiki/Correlation_and_dependence'> correlation </a> measures vary between -1 and 1, where 1 means a perfect correlation and -1 means a completely inverse correlation. A correlation close to 0 means there is very little correlation. We can test this as follows:</p>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb408-1" data-line-number="1"><span class="co"># Recall we assumed that our data is listed in the order in which the observations were made</span></a>
+<a class="sourceLine" id="cb408-2" data-line-number="2"><span class="kw">cor</span>(myAOV<span class="op">$</span>residuals, <span class="dv">1</span><span class="op">:</span><span class="dv">20</span>)</a></code></pre></div>
+<pre><code>## [1] -0.001551879</code></pre>
+<p>It appears there is no order dependence.</p>
+<p>Having met our assumptions, we can safely conclude two things:</p>
+<ol style="list-style-type: decimal">
+<li>Single Factor, Fixed Effects ANOVA was the right sort of analysis for our data.</li>
+<li>We can reject the null hypothesis and say that the choice of round does have an effect on kills achieved.</li>
+</ol>
+<p>We cannot, at this point, say what the effect is, or which round type it was, etc.</p>
+</div>
+</div>
+<div id="single-factor-fixed-effects-anova-problem-set" class="section level3">
+<h3><span class="header-section-number">4.3.5</span> Single Factor, Fixed Effects ANOVA Problem Set</h3>
+<p>The problem set for this section is located <a href = '/_Chapter3_1_ProblemSets/Single_Factor_ANOVA_ProblemSet_Questions.html'> here </a>. Note that there are two data sets used in the problem set, tank.csv and soldier.csv. The links to the data set are in the problem set.</p>
+<p>For your convenience, the problem set as an R markdown is located <a href = '/_Chapter3_1_ProblemSets/Single_Factor_ANOVA_ProblemSet_Questions.Rmd'> here </a></p>
+<p>The answers for this problem set are <a href = '/_Chapter3_1_ProblemSets/Single_Factor_ANOVA_ProblemSet_Answers.html'> here </a>.</p>
+</div>
+</div>
+<div id="single-factor-random-effects-model" class="section level2">
+<h2><span class="header-section-number">4.4</span> Single Factor, Random Effects Model</h2>
+<p>In the previous section, we assumed that the experimenter had defined set levels for the factor of interest. For example, in the IDF example above, there were four fixed levels of round type: DPICM, HEAT, HTK, PGM. Accordingly, our model: <span class="math inline">\(y_{ij} = \mu + \tau_i + \epsilon_{ij}\)</span> only had one random variable, <span class="math inline">\(\epsilon_{ij}\)</span>. In some cases, we have too many possible levels to assess all of them, but we still want to know if the factor has an effect on our response. In this case, we use the single factor, <strong>random effects</strong> model.</p>
+<p>The random effects model looks the same as the fixed effects model:</p>
+<center>
+<span class="math inline">\(y_{ij} = \mu + \tau_i + \epsilon_{ij}\)</span>
+</center>
+<p>The difference here is that in the random effects model, we are taking both <span class="math inline">\(\epsilon_{ij}\)</span> <em>and</em> <span class="math inline">\(\tau_i\)</span> to be random variables (both normally and independently distributed with mean of 0 and constant variances <span class="math inline">\(\sigma_{\tau}^2\)</span> and <span class="math inline">\(\sigma_{\epsilon}^2\)</span> respectively). This has a few implications:</p>
+<ol style="list-style-type: decimal">
+<li>Unlike the fixed effects model, the sum of the effects is not necessarily zero.</li>
+<li>The distribution of the response <span class="math inline">\(y_{ij}\)</span> is normal as it is the sum of two normal distributions.<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a></li>
+<li>The observations are independent except when drawn from the same level as they have a covariance equal to the variance of <span class="math inline">\(\tau\)</span>. This largely doesn’t affect the analysis, however.</li>
+<li><strong>The hypothesis test you are conducting is different</strong> relative to the hypothesis test for single factor, fixed effect ANOVA.</li>
+</ol>
+<p>This last point is the most important. Recall that in a fixed effect model, recall your null hypothesis is: <span class="math inline">\(H_0: \tau_1 = \tau_2 = ... = \tau_a = 0\)</span>. We were looking to see if at least one of the levels had a (non-zero) effect. Our question now is, does the population of the levels have an effect. We address this with the following hypotheses:</p>
+<center>
+<p><span class="math inline">\(H_0: \sigma_{\tau}^2 = 0\)</span></p>
+<p><span class="math inline">\(H_A: \sigma_{\tau}^2 &gt; 0\)</span></p>
+</center>
+<p>Specifically, what we are asking is: are the treatment effects all the same (i.e., is there no variability)?<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a> Alternatively, is there some variation meaning that there is an effect from the treatment. Somewhat surprisingly, the computational procedures for the random effects model are the same as for the fixed effects model, but do not forget that the conclusions are different! Let’s do an example:</p>
+<p>Consider the IDF situation again as above, but this time, let’s consider what happens when we vary the range of the projectile (and fix the choice of munition and all other inputs to the simulation). Assume we have been told that the range of potential ranges is between 15km and 50km. Clearly, even if we fixed the levels at every kilometer we’d have 36 levels to check so <span class="math inline">\(36n\)</span> simulations to run if we did <span class="math inline">\(n\)</span> replicates per simulation. At some point, detailed analysis may be important, but if we simply want to know if range matters, it’s superior to randomly sample a few levels from the population of possible treatments. Let’s choose four random ranges in the 15km to 50km range:</p>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb410-1" data-line-number="1"><span class="co"># Randomly choose ranges from 15 to 50 using a uniform distribution.</span></a>
+<a class="sourceLine" id="cb410-2" data-line-number="2"><span class="co"># We can round these to an appropriate level of precision for our simulation</span></a>
+<a class="sourceLine" id="cb410-3" data-line-number="3"><span class="kw">set.seed</span>(<span class="dv">8474623</span>)</a>
+<a class="sourceLine" id="cb410-4" data-line-number="4">km.levels &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">runif</span>(<span class="dv">4</span>, <span class="dv">15</span>, <span class="dv">50</span>), <span class="dv">0</span>)  </a>
+<a class="sourceLine" id="cb410-5" data-line-number="5">km.levels</a></code></pre></div>
+<pre><code>## [1] 33 15 20 34</code></pre>
+<p>We can now simulate our results replicating each run five times and get output as follows:</p>
+<div id="htmlwidget-b4cf0cb6ab5bfc0325ee" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b4cf0cb6ab5bfc0325ee">{"x":{"filter":"none","data":[["1","2","3","4"],["15","20","33","34"],[23,25,26,21],[23,25,24,25],[23,25,27,25],[26,23,27,25],[22,23,27,25]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Range<\/th>\n      <th>1<\/th>\n      <th>2<\/th>\n      <th>3<\/th>\n      <th>4<\/th>\n      <th>5<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>We can then conduct our ANOVA as normal and get an ANOVA table:</p>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb412-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">aov</span>(Kills <span class="op">~</span><span class="st"> </span>Range, <span class="dt">data =</span> myDF))</a></code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## Range        3   21.4   7.133   3.397 0.0437 *
+## Residuals   16   33.6   2.100                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb414-1" data-line-number="1"><span class="co"># Note the data in myDF is formatted as the same way as seen in the previous section</span></a></code></pre></div>
+<p>From this, if we take <span class="math inline">\(\alpha = .05\)</span> we have a significant p-value and can reject our null hypothesis that says <span class="math inline">\(H_0: \sigma_{\tau}^2=0\)</span> meaning there is variation in the effects, meaning the factor of range does have an impact on kills.</p>
+<p>You can of course then check your assumptions as previously indicated.</p>
+<div id="single-factor-random-effects-problem-set" class="section level3">
+<h3><span class="header-section-number">4.4.1</span> Single Factor, Random Effects Problem Set</h3>
+<p>The problem set for this section is located <a href = '/_Chapter3_1_ProblemSets/Single_Factor_RE_ANOVA_ProblemSet_Questions.html'> here </a>. Note that there is one data set used in the problem set, commo.csv. The link to the data set is in the problem set.</p>
+<p>For your convenience, the problem set as an R markdown is located <a href = '/_Chapter3_1_ProblemSets/Single_Factor_RE_ANOVA_ProblemSet_Questions.Rmd'> here </a></p>
+<p>The answers for this problem set are <a href = '/_Chapter3_1_ProblemSets/Single_Factor_RE_ANOVA_ProblemSet_Answers.html'> here </a>.</p>
+</div>
+</div>
+<div id="two-factor-fixed-effects-anova" class="section level2">
+<h2><span class="header-section-number">4.5</span> Two Factor, Fixed Effects ANOVA</h2>
+<p>Having done one factor ANOVA, the natural question is, “What if I have multiple factors?” The answer is, we can still do ANOVA, we just extend our model for the additional factor.</p>
+<p>First, consider our original model:</p>
+<center>
+<span class="math inline">\(y_{ij} = \mu + \tau_i + \epsilon_{ij}\)</span>
+</center>
+<p>If we have two factors, A and B, we can extend this with an effect for each factor:</p>
+<center>
+<span class="math inline">\(y_{ijk} = \mu + \tau_i + \beta_j + \epsilon_{ijk}\)</span>
+</center>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(y_{ijk}\)</span> is the <span class="math inline">\(k^{th}\)</span> observation of <span class="math inline">\(y\)</span> at the <span class="math inline">\(i^{th}\)</span> level of Factor A and <span class="math inline">\(j^{th}\)</span> level of Factor B; <span class="math inline">\(\epsilon_{ijk}\)</span> is the corresponding error.</li>
+<li><span class="math inline">\(\mu\)</span> is the mean of all observations.</li>
+<li><span class="math inline">\(\tau_i\)</span> is the effect for the <span class="math inline">\(i^{th}\)</span> level of factor A, where <span class="math inline">\(i \in {1, 2, ...a}\)</span></li>
+<li><span class="math inline">\(\beta_j\)</span> is the effect for the <span class="math inline">\(j^{th}\)</span> level of factor B, where <span class="math inline">\(j \in {1, 2, ...b}\)</span></li>
+</ul>
+<p>We make a few assumptions about this model:</p>
+<ul>
+<li>The levels of the factors A and B are fixed.</li>
+<li><span class="math inline">\(\sum_1^a \tau_i = \sum_1^b \beta_j = 0\)</span>, that is, the sum of the effects is 0 in both cases.</li>
+<li><span class="math inline">\(\epsilon_{ijk}\)</span> are Normally, Independently Distributed with a <span class="math inline">\(\mu = 0\)</span> and a constant variance <span class="math inline">\(\sigma^2\)</span></li>
+</ul>
+<p>Let’s look at an example:</p>
+<p>Consider our IDF example where our response is the number of kills achieved, but now we have two factors: the round used and the maximum range. We will fix our levels as:</p>
+<ul>
+<li>Factor A: Round with levels DPICM, HEAT, HTK, and PGM as defined above. This implies that <span class="math inline">\(a = 4\)</span> as there are four levels.</li>
+<li>Factor B: Range with levels: 15km, 30km, 50km. This implies that <span class="math inline">\(b = 3\)</span>. Note, in this case we have fixed our levels.</li>
+</ul>
+<p>If we do <span class="math inline">\(n\)</span> replicates of each combination of level from Factor A and Factor B, we will have <span class="math inline">\(nab\)</span> observations. Assume we run 5 replicates of each combination of the two factors and have the following output:</p>
+<div id="htmlwidget-641ef5d5b1987d4affef" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-641ef5d5b1987d4affef">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60"],[1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5],["DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM"],["15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km","15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km","15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km","15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km"],[11.2498310504185,12.3388702305068,10.937973452787,12.3479235108331,10.3020485058983,17.7355724834345,20.8623851906931,16.5006195306228,18.1173174238173,16.7047033009391,20.5708050507923,21.3467407192447,21.217698937603,22.7111877612529,20.7794248022474,17.517123267771,17.1123136441704,16.4281569721494,16.3973929387166,20.0813525834617,23.762129945829,23.8729169302919,24.0585823143933,19.8033004938127,24.2608768340658,29.1679291995548,25.3255219620382,24.9456300422085,25.9575266676271,28.5683695770144,28.5568668507278,30.0321854733481,23.307478331644,25.1969272779923,29.9751458950028,29.1070290876244,31.2516305707782,31.8257850016469,30.5392087958854,33.0019639135205,36.7765394643518,40.8273460803057,38.6891972086192,34.0333643718062,34.4442316745893,24.8707946761486,22.2256565877545,24.5178249549474,26.5344821559483,27.2089850407569,29.5389849176253,31.8312241421203,30.4439355620982,28.4004208095696,26.4215126066059,32.4874183842888,34.2788119977981,33.1539940507536,33.1464524069625,29.7455324824877]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Replicate<\/th>\n      <th>Round<\/th>\n      <th>Range<\/th>\n      <th>Kills<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>First, let’s plot this. Note that we either have to look at these points three dimensionally (which gets confusing) or the values against a factor at a time.</p>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb415-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> IDF2) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb415-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Round, <span class="dt">y =</span> Kills)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb415-3" data-line-number="3"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Kills vs. Round Type in 2-Factor ANOVA&#39;</span>)</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb416-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> IDF2) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb416-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Range, <span class="dt">y =</span> Kills)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb416-3" data-line-number="3"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Kills vs. Range in 2-Factor ANOVA&#39;</span>)</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
+<p>With these box plots, we can clearly see that that there is some variation caused by each factor, but it’s not exactly clear how much variation is caused by the each factor. One way to view this is with trace plots (also called interaction plots). A trace plot is simply a line plot that has one factor on the X axis, the mean of the response on the Y axis, and a different line or color for each of the second factors. It looks like:</p>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb417-1" data-line-number="1"><span class="kw">ggplot</span>(</a>
+<a class="sourceLine" id="cb417-2" data-line-number="2">  <span class="co"># We mutate our data to give us a table of mean responses</span></a>
+<a class="sourceLine" id="cb417-3" data-line-number="3">  IDF2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(Round, Range) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Mean.Response =</span> <span class="kw">mean</span>(Kills)), </a>
+<a class="sourceLine" id="cb417-4" data-line-number="4">  <span class="co"># We then set our aesthetic for all plots.  </span></a>
+<a class="sourceLine" id="cb417-5" data-line-number="5">  <span class="co"># Note we have to use the aesthetic &#39;group&#39; with a value of range for geom_line to work</span></a>
+<a class="sourceLine" id="cb417-6" data-line-number="6">  <span class="kw">aes</span>(<span class="dt">x =</span> Round, <span class="dt">y =</span> Mean.Response, <span class="dt">color =</span> Range, <span class="dt">group =</span> Range)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb417-7" data-line-number="7"><span class="st">  </span><span class="co"># We can then plot the mean observations as points of size 3</span></a>
+<a class="sourceLine" id="cb417-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb417-9" data-line-number="9"><span class="st">  </span><span class="co"># We can plot lines between each observation to aid in understanding</span></a>
+<a class="sourceLine" id="cb417-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb417-11" data-line-number="11"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Two Factor ANOVA Trace Plot</span><span class="ch">\n</span><span class="st">Factor A on X Axis&#39;</span>)</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb418-1" data-line-number="1"><span class="co"># This plot is set up the same, except we are now using the Range on the x-axis</span></a>
+<a class="sourceLine" id="cb418-2" data-line-number="2"><span class="kw">ggplot</span>(IDF2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(Round, Range) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Mean.Response =</span> <span class="kw">mean</span>(Kills)), </a>
+<a class="sourceLine" id="cb418-3" data-line-number="3">       <span class="kw">aes</span>(<span class="dt">x =</span> Range, <span class="dt">y =</span> Mean.Response, <span class="dt">color =</span> Round, <span class="dt">group =</span> Round)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb418-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb418-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb418-6" data-line-number="6"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Two Factor ANOVA Trace Plot</span><span class="ch">\n</span><span class="st">Factor B on X Axis&#39;</span>)</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-19-2.png" width="672" /></p>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb419-1" data-line-number="1"><span class="co"># There are at least two other ways to produces these plots</span></a>
+<a class="sourceLine" id="cb419-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb419-3" data-line-number="3"><span class="co">## ggplot using stat_summary:</span></a>
+<a class="sourceLine" id="cb419-4" data-line-number="4"><span class="co"># ggplot(data = IDF2, aes(x = Round, y = Kills, color = Range, group = Range)) +</span></a>
+<a class="sourceLine" id="cb419-5" data-line-number="5"><span class="co">#   stat_summary(fun = &#39;mean&#39;, geom = &#39;point&#39;) +</span></a>
+<a class="sourceLine" id="cb419-6" data-line-number="6"><span class="co">#   stat_summary(fun = &#39;mean&#39;, geom = &#39;line&#39;)</span></a>
+<a class="sourceLine" id="cb419-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb419-8" data-line-number="8"><span class="co">## The stats package interaction.plot also does this</span></a>
+<a class="sourceLine" id="cb419-9" data-line-number="9"><span class="co"># stats::interaction.plot(x.factor = IDF2$Round, trace.factor = IDF2$Range, response = IDF2$Kills)</span></a></code></pre></div>
+<p>One thing you may immediately notice from these two plots is that the trace lines never cross. This is indicative of the fact that two factors are independent and do not interact. If the lines crossed (on either plot), it would indicate that you have an interaction.</p>
+<p>We can now compute the actual ANOVA table in the same way we did for single factor ANOVA. The actual computations are analogous to single factor ANOVA but will not be covered here. For more in depth treatment, please refer to any standard probability and statistics text (e.g., Devore’s <em>Probability and Statistics for Engineering and the Sciences</em> Chapter 11 (7th Edition) or the <a href = 'https://www.itl.nist.gov/div898/handbook/prc/section4/prc427.htm'><em>NIST Engineering Statistics Handbook</em> </a>).</p>
+<p>The <em>R</em> computations are as follows:</p>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb420-1" data-line-number="1"><span class="co"># Note the Response ~ FactorA + FactorB format.  </span></a>
+<a class="sourceLine" id="cb420-2" data-line-number="2"><span class="co"># This is a common format in ANOVA, Regression, and other statistical </span></a>
+<a class="sourceLine" id="cb420-3" data-line-number="3"><span class="co"># functions in R.  </span></a>
+<a class="sourceLine" id="cb420-4" data-line-number="4">my<span class="fl">.2</span>Factor.ANOVA &lt;-<span class="st"> </span><span class="kw">aov</span>(Kills <span class="op">~</span><span class="st"> </span>Round <span class="op">+</span><span class="st"> </span>Range, <span class="dt">data =</span> IDF2)</a>
+<a class="sourceLine" id="cb420-5" data-line-number="5"><span class="kw">summary</span>(my<span class="fl">.2</span>Factor.ANOVA)</a></code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)    
+## Round        3 2015.1   671.7   181.9 &lt;2e-16 ***
+## Range        2  822.9   411.5   111.4 &lt;2e-16 ***
+## Residuals   54  199.4     3.7                   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>You’ll note this looks very similar to the single factor, fixed effects ANOVA, and it is! The only major difference is we now have two factors listed as rows in the table, <code>Round</code> and <code>Range</code>. This is indicative of the fact that we now have two hypothesis tests occuring. They are:</p>
+<ul>
+<li>Factor A: <span class="math inline">\(H_{0-A}: \tau_1 = \tau_2 = ... \tau_a = 0\)</span> and its corresponding alternate.</li>
+<li>Factor B: <span class="math inline">\(H_{0-B}: \beta_1 = \beta_2 = ... \beta_b = 0\)</span> and its corresponding alternate.</li>
+</ul>
+<p>If we have p-values for either of these that are below our desired <span class="math inline">\(\alpha\)</span> generally <span class="math inline">\(&lt;.05\)</span> or <span class="math inline">\(&lt;.01\)</span>, we can reject the null and conclude that the relevant does have an effect. In our case, in the table above, we can safely reject the null for both factors and say that it is plausible that at least one level of each factor has an effect on the response.</p>
+<p>We still have to check our assumptions. We can do this in the same manner as single factor ANOVA:</p>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb422-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb422-2" data-line-number="2"><span class="kw">plot</span>(my<span class="fl">.2</span>Factor.ANOVA)</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>We can see that our residuals are normally and independently distributed with a mean of 0 and constant variance. We can further check the residuals vs. order to check for time dependence (assuming our data set is written in order of the observations we gathered).</p>
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb423-1" data-line-number="1"><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb423-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">60</span>, <span class="dt">y =</span> my<span class="fl">.2</span>Factor.ANOVA<span class="op">$</span>residuals)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb423-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">color =</span><span class="st">&#39;red&#39;</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>There does not appear to be any time dependence to our observations, so we further validate our independence assumption.</p>
+<div id="including-interaction-effects" class="section level3">
+<h3><span class="header-section-number">4.5.1</span> Including Interaction Effects</h3>
+<p>We can extend this sort of analysis arbitrarily, to include the potential for interaction effects. Let’s assume we have the same IDF simulation scenario, but now we’ve got a different set of data:</p>
+<div id="htmlwidget-06a61acfff7e31cd2d7a" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-06a61acfff7e31cd2d7a">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60"],[1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5],["DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM"],["15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km","15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km","15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km","15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km"],[12.065172352201,15.4086687821891,14.031165223692,13.5017676345999,14.3861301932103,21.0889533148801,17.5809496445142,15.7681592368449,13.682233652207,18.5292171397718,23.2972995742016,17.1674171778035,23.6704443848714,21.8487777188655,21.1681549339408,28.51830099383,26.7104551856315,28.9451704671343,25.4540125819574,28.0032056833544,19.4564995042399,17.7552970260509,21.113116517927,20.9471370387483,23.1270318097347,25.9700998717809,24.7125111759658,23.476345471269,26.6277080381931,23.8045096744245,27.5438550793865,26.1698773966678,26.9946787212988,27.3297742706436,23.7018323210466,28.94241095822,30.9877497624527,30.5607253158596,30.9057271507471,27.8402532988771,31.8577050660973,37.2942877919845,34.4776837624896,37.5496770165355,34.2615534574222,23.8099309990173,28.8308891752183,24.7768628676621,24.3832477945789,27.8359894278565,28.1017499460036,30.6134974458157,29.0321011398894,27.6514553992506,28.5698418474486,34.4306820822704,33.9270578257536,32.8674306286583,34.1887530868284,28.2261739239404]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Replicate<\/th>\n      <th>Round<\/th>\n      <th>Range<\/th>\n      <th>Kills<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>We can initially plot our data, first as boxplots, and then as trace plots as we did earlier:</p>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb424-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> IDF2.Interaction) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb424-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Round, <span class="dt">y =</span> Kills)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb424-3" data-line-number="3"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Kills vs. Round Type in 2-Factor ANOVA</span><span class="ch">\n</span><span class="st">Interaction Effect&#39;</span>)</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb425-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> IDF2.Interaction) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb425-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Range, <span class="dt">y =</span> Kills)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb425-3" data-line-number="3"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Kills vs. Range in 2-Factor ANOVA</span><span class="ch">\n</span><span class="st">Interaction Effect&#39;</span>)</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-24-2.png" width="672" /></p>
+<p>As you can see, it is challenging to identify an interaction effect with boxplots, but it becomes much more apparent in trace plots:</p>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb426-1" data-line-number="1"><span class="kw">ggplot</span>(IDF2.Interaction <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(Round, Range) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Mean.Response =</span> <span class="kw">mean</span>(Kills)), </a>
+<a class="sourceLine" id="cb426-2" data-line-number="2">       <span class="kw">aes</span>(<span class="dt">x =</span> Round, <span class="dt">y =</span> Mean.Response, <span class="dt">color =</span> Range, <span class="dt">group =</span> Range)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb426-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb426-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb426-5" data-line-number="5"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Two Factor ANOVA Trace Plot (Interaction)</span><span class="ch">\n</span><span class="st">Factor A on X Axis&#39;</span>)</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb427-1" data-line-number="1"><span class="kw">ggplot</span>(IDF2.Interaction <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(Round, Range) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Mean.Response =</span> <span class="kw">mean</span>(Kills)), </a>
+<a class="sourceLine" id="cb427-2" data-line-number="2">       <span class="kw">aes</span>(<span class="dt">x =</span> Range, <span class="dt">y =</span> Mean.Response, <span class="dt">color =</span> Round, <span class="dt">group =</span> Round)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb427-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb427-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb427-5" data-line-number="5"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Two Factor ANOVA Trace Plot (Interaction)</span><span class="ch">\n</span><span class="st">Factor B on X Axis&#39;</span>)</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-25-2.png" width="672" /></p>
+<p>The interaction effect is much more apparent as indicated by the crossing lines. This is because the shape of the traces is not solely dependent on the each individual Factor, but their interaction. Our model now becomes:</p>
+<center>
+<span class="math inline">\(y_{ijk} = \mu + \tau_i + \beta_j + (\tau \beta)_{ij} + \epsilon_{ijk}\)</span>
+</center>
+<p>In this case, all the terms have the same meanings and bounds as in the previous model and we have simply added a new term, <span class="math inline">\((\tau \beta)_{ij}\)</span>, that indicates the interaction of the <span class="math inline">\(i^{th}\)</span> level of Factor A with the <span class="math inline">\(j^{th}\)</span> level of Factor B. We calculate the ANOVA in <em>R</em> as follows:</p>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb428-1" data-line-number="1">my<span class="fl">.2</span>Factor.Interaction.ANOVA &lt;-<span class="st"> </span><span class="kw">aov</span>(Kills <span class="op">~</span><span class="st"> </span>Round <span class="op">+</span><span class="st"> </span>Range <span class="op">+</span><span class="st"> </span>Round<span class="op">:</span>Range, <span class="dt">data =</span> IDF2.Interaction)</a>
+<a class="sourceLine" id="cb428-2" data-line-number="2"><span class="kw">summary</span>(my<span class="fl">.2</span>Factor.Interaction.ANOVA)</a></code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## Round        3 1533.1   511.0  130.28  &lt; 2e-16 ***
+## Range        2  308.8   154.4   39.36 7.61e-11 ***
+## Round:Range  6  271.1    45.2   11.52 6.03e-08 ***
+## Residuals   48  188.3     3.9                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>You’ll note the formula format here is <code>Response ~ FactorA + FactorB + FactorA:FactorB</code>. The <code>A:B</code> format in R is how we indicate the interaction effect.</p>
+<p>We can interpret these results in the same way as before, noting that there are now three hypothesis tests, one for if Factor A has a non-zero effect, one for Factor B, and one for the interaction.</p>
+<p>As a helpful note, in <em>R</em>, if your data frame is set up such that you have a single column as the response, and the rest of the columns indicate factors (i.e., no extraneous columns), you can indicate you want to use all of the non-response columns as factors by indicating a single <code>.</code> and every pair of interactions by <code>.:.</code>. You can see this here (note it produces the same result as above):</p>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb430-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">aov</span>(Kills <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>.<span class="op">:</span>., <span class="dt">data =</span> <span class="kw">select</span>(IDF2.Interaction, <span class="kw">c</span>(Kills, Round, Range))))</a></code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## Round        3 1533.1   511.0  130.28  &lt; 2e-16 ***
+## Range        2  308.8   154.4   39.36 7.61e-11 ***
+## Round:Range  6  271.1    45.2   11.52 6.03e-08 ***
+## Residuals   48  188.3     3.9                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Finally, we still should do our standard tests to check our assumptions:</p>
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb432-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb432-2" data-line-number="2"><span class="kw">plot</span>(my<span class="fl">.2</span>Factor.Interaction.ANOVA)</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb433-1" data-line-number="1"><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb433-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">60</span>, <span class="dt">y =</span> my<span class="fl">.2</span>Factor.Interaction.ANOVA<span class="op">$</span>residuals)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb433-3" data-line-number="3"><span class="st">  </span><span class="co">#Recall here, we are making an assumption that the data order is </span></a>
+<a class="sourceLine" id="cb433-4" data-line-number="4"><span class="st">  </span><span class="co"># equivalent to the run order; really we should have some sort of time data</span></a>
+<a class="sourceLine" id="cb433-5" data-line-number="5"><span class="st">  </span><span class="co"># to plot this</span></a>
+<a class="sourceLine" id="cb433-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">color =</span> <span class="st">&#39;red&#39;</span>)</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-28-2.png" width="672" /></p>
+<p>As these plots look reasonable, we can safely use our analysis.</p>
+<p>In both the example with no interaction effects and the example with interaction effects, we assumed the levels for the factors were fixed. If, on the other hand, they were randomly selected from a larger population of possible levels, our hypothesis test would change in the same manner as indicated in single factor ANOVA. If all factors’ levels are chosen randomly, the ANVOA becomes a random-effects model. If some factors are fixed and some are random, we call the model a “mixed-effects” model.</p>
+</div>
+<div id="two-factor-anova-problem-set" class="section level3">
+<h3><span class="header-section-number">4.5.2</span> Two Factor ANOVA Problem Set</h3>
+<p>The problem set for this section is located <a href = '/_Chapter3_1_ProblemSets/Two_Factor_ANOVA_ProblemSet_Questions.html'> here </a>. Note that there is one data set used in the problem set, commo.csv. The link to the data set is in the problem set.</p>
+<p>For your convenience, the problem set as an R markdown is located <a href = '/_Chapter3_1_ProblemSets/Two_Factor_ANOVA_ProblemSet_Questions.Rmd'> here </a></p>
+<p>The answers for this problem set are <a href = '/_Chapter3_1_ProblemSets/Two_Factor_ANOVA_ProblemSet_Answers.html'> here </a>.</p>
+</div>
+</div>
+<div id="anova-for-more-than-two-factors" class="section level2">
+<h2><span class="header-section-number">4.6</span> ANOVA For More Than Two Factors</h2>
+<p>In some cases, we will have 3+ factors along with 2nd, 3rd, and even higher order interactions. We can continue to do ANOVA by simply extending our model and method in the same manner as before. For example, consider the same IDF experiment, but with a third factor: the color of the artillery piece with the levels ‘Blue’ or ‘Green’.</p>
+<p>Let’s assume our data is as follows:</p>
+<div id="htmlwidget-3122f64f8cc833451606" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3122f64f8cc833451606">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120"],[1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5],["DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","DPICM","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HEAT","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","HTK","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM","PGM"],["15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km","15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km","15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km","15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km","15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km","15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km","15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km","15km","15km","15km","15km","15km","30km","30km","30km","30km","30km","50km","50km","50km","50km","50km"],["Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green","Green"],[18.0400888682086,10.9321693295539,12.771624100876,17.135700725357,13.6134340070925,15.7913751272321,19.3993406998379,20.7552622608112,18.8656194875869,19.1181405477354,18.8214802310124,23.2374166649731,19.9223259134716,20.9694600855999,21.2502847684307,25.6907092206755,27.3931544652476,27.7427451028691,25.5644842457848,25.4876914035861,23.0225405263288,22.4772204784679,20.2278101179337,22.042088751365,22.7961449314354,27.7551173828703,27.3092422857369,24.5591742612497,29.7293460344765,22.672510543586,27.3033945948941,30.1493437770044,24.1390737014638,26.4782952319228,27.2890275070174,30.8878482220391,30.9694314245581,32.5177345289376,27.7316428852792,28.7189678292379,37.207174035437,35.3060460698254,35.0021139051508,33.1586689799146,35.9827182051436,24.8664455821285,24.5642143072314,24.9072185707075,26.8603659665849,23.7727139567354,31.549302291975,27.5574720246552,31.0755436605901,31.5082077319181,26.9616551004859,30.4542201873872,33.9307084500721,32.5965358894469,31.599800280085,32.3555773494279,15.0367542339109,13.8657225989763,12.9908848366612,13.3924779713584,14.6400556803559,17.5374717882624,16.5475629516219,19.4476301650973,17.0388944117453,18.874851332556,21.2022297867407,23.4018446205054,20.51420642927,22.4684099798784,19.2903390444723,26.6194401442624,25.1972731913554,25.3968452306724,26.8282294173712,23.5448763492077,21.4283687460895,20.2001850550509,19.8321523595346,17.3146095778349,20.396132733922,24.5811734127124,26.4064524199501,26.1379391925816,25.9084907024967,26.3806907449239,28.0374458381303,28.7909357535864,23.4366909398328,26.8913952759328,28.3407374130412,31.5994743582142,29.6745922220813,32.4756309097731,33.7881023660999,32.1105838703059,35.067497208716,30.1797635492003,34.0887642755835,33.2431272226458,38.0473404968734,24.9829869111056,23.234542462752,23.2910085649683,25.1774895376632,25.832235055029,30.9275575869849,26.157548083391,24.7303573095921,26.9136373841281,29.8454289853193,31.8887864259874,29.4261987000749,32.3912712828643,33.649992837802,33.0639457524627]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Replicate<\/th>\n      <th>Round<\/th>\n      <th>Range<\/th>\n      <th>Color<\/th>\n      <th>Kills<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,5]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>We can then do our analysis in the typical manner:</p>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb434-1" data-line-number="1">my<span class="fl">.3</span>Factor.ANOVA &lt;-<span class="st"> </span><span class="kw">aov</span>(Kills <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>.<span class="op">:</span>. <span class="op">+</span><span class="st"> </span>.<span class="op">:</span>.<span class="op">:</span>., <span class="dt">data =</span> <span class="kw">select</span>(IDF3, <span class="kw">c</span>(Kills, Round, Range, Color)))</a>
+<a class="sourceLine" id="cb434-2" data-line-number="2"><span class="kw">summary</span>(my<span class="fl">.3</span>Factor.ANOVA)</a></code></pre></div>
+<pre><code>##                   Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## Round              3 2942.4   980.8 297.318  &lt; 2e-16 ***
+## Range              2  636.6   318.3  96.494  &lt; 2e-16 ***
+## Color              1    9.0     9.0   2.716    0.103    
+## Round:Range        6  339.2    56.5  17.138 2.26e-13 ***
+## Round:Color        3    8.8     2.9   0.889    0.450    
+## Range:Color        2    1.5     0.8   0.232    0.793    
+## Round:Range:Color  6   21.8     3.6   1.102    0.367    
+## Residuals         96  316.7     3.3                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>From this we can see a few things:</p>
+<ol style="list-style-type: decimal">
+<li>We still see that Round and Range are significant. Color is not (as one would expect).</li>
+<li>We see the interaction between Round and Range is significant, but the interactions between Round and Color and Range and Color is not significant.</li>
+<li>The third order interaction is not significant.<br />
+</li>
+<li>With increasing numbers of factors, the number of interactions increases significantly.</li>
+</ol>
+<p>To this last point, the number of combinations of first and higher order interactions scales as <span class="math inline">\(2^K - 1\)</span> where <span class="math inline">\(K\)</span> is the number of factors. It is generally untenable to test this number of hypotheses and interpret that many. Fortunately, a common heuristic is that very high order interactions can generally be considered insignificant unless one has good reason to believe otherwise.<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a></p>
+<p>Of course, we need to check our assumptions, though for the sake of space, we will ignore that for this portion of the tutorial. We check our assumptions in the same manner as in previous sections.</p>
+<div id="multi-factor-anova-problem-set" class="section level3">
+<h3><span class="header-section-number">4.6.1</span> Multi-Factor ANOVA Problem Set</h3>
+<p>The problem set for this section is located <a href = '/_Chapter3_1_ProblemSets/Multi_Factor_ANOVA_ProblemSet_Questions.html'> here </a>. Note that there is one data set used in the problem set, commo.csv. The link to the data set is in the problem set.</p>
+<p>For your convenience, the problem set as an R markdown is located <a href = '/_Chapter3_1_ProblemSets/Multi_Factor_ANOVA_ProblemSet_Questions.Rmd'> here </a></p>
+<p>The answers for this problem set are <a href = '/_Chapter3_1_ProblemSets/Multi_Factor_ANOVA_ProblemSet_Answers.html'> here </a>.</p>
+</div>
+</div>
+<div id="multiple-comparisons" class="section level2">
+<h2><span class="header-section-number">4.7</span> Multiple Comparisons</h2>
+<p>We have now done ANOVA in many ways, and, if we have found at least one factor significant, we may want to understand which levels of that factor are different from each other.</p>
+<p>If we have just two levels, this problem simply resolves to a T-Test for the comparison of two means as previously done. If we have <span class="math inline">\(a &gt; 3\)</span> levels, however, we have <span class="math inline">\(a\choose{2}\)</span> possible pairings. Given that, for the T-Test, we have a <span class="math inline">\(1 - \alpha\)</span> confidence, if we do <span class="math inline">\(a\choose2\)</span> tests, our confidence in not making an error in all of these these tests scales like <span class="math inline">\((1 - \alpha)^{a\choose2}\)</span>, which decreases rather rapidly.</p>
+<p>To do avoid this problem, statisticians have come up with multiple methods depending on the situation. You can read more about this in some different situations <a href = 'http://www.biostathandbook.com/multiplecomparisons.html'> here </a>. For our current situation, we will use a test called “Tukey’s Test” You can read more about it <a href = 'https://en.wikipedia.org/wiki/Tukey%27s_range_test'> here </a>. A very nice thing about this test is that it holds the same assumptions as ANOVA, so if you’ve met those assumptions, you can use the test.</p>
+<div id="tukey-test-example" class="section level3">
+<h3><span class="header-section-number">4.7.1</span> Tukey Test Example</h3>
+<p>Let’s look at our original problem, the single factor, fixed effects ANOVA, where the factor was the Round and it had four levels:</p>
+<pre><code>##   Round  1  2  3  4  5
+## 1 DPICM 23 10 13 27 27
+## 2  HEAT 19 17 31 15 13
+## 3   HTK 28 28 34 38 30
+## 4   PGM 29 32 27 26 19</code></pre>
+<p>We did our ANOVA and got the following result:</p>
+<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb437-1" data-line-number="1"><span class="kw">summary</span>(myAOV)</a></code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## Round        3  525.8  175.27   4.491 0.0181 *
+## Residuals   16  624.4   39.02                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>From this, we concluded that at least one of the levels of Round has a non-zero effect.</p>
+<p>Let’s calculate this by hand, first to get an idea of what we are doing:</p>
+<p>First, let’s plot the mean of each level:</p>
+<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb439-1" data-line-number="1"><span class="co"># Note we&#39;re getting the means of the data and arranging it by the mean</span></a>
+<a class="sourceLine" id="cb439-2" data-line-number="2"><span class="kw">ggplot</span>(Formatted.Data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(Round) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mu =</span> <span class="kw">mean</span>(Kills)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(mu)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb439-3" data-line-number="3"><span class="st">  </span><span class="co"># The y = 1 is just for convenience to plot on a graph.  It has no meaning</span></a>
+<a class="sourceLine" id="cb439-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mu, <span class="dt">y =</span> <span class="dv">1</span>, <span class="dt">color =</span> Round)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb439-5" data-line-number="5"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;Mean Kills&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb439-6" data-line-number="6"><span class="st">  </span><span class="co"># There is no y value</span></a>
+<a class="sourceLine" id="cb439-7" data-line-number="7"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb439-8" data-line-number="8"><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb439-9" data-line-number="9"><span class="st">  </span><span class="co"># We remove the y axis text as it is not meaningful and leaving it could cause confusion</span></a>
+<a class="sourceLine" id="cb439-10" data-line-number="10"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>())</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p>Now we’ll want to find a range, <code>w</code> that is defined as: <span class="math inline">\(w = Q_{\alpha, a, a(n-1)}\sqrt{\frac{MS_E}{n}}\)</span> where:</p>
+<ul>
+<li><span class="math inline">\(Q_{\alpha, a, a(n-1)}\)</span> is the Studentized Range Distribution with <span class="math inline">\(alpha\)</span> as normal, <span class="math inline">\(a\)</span> indicating the number of levels, and <span class="math inline">\(n\)</span> indicating the number of replicates.</li>
+<li><span class="math inline">\(MS_E\)</span> is our Mean Square Error derived from our ANOVA table.</li>
+</ul>
+<p>We can calculate this w as follows:</p>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb440-1" data-line-number="1"><span class="co"># First, `qtukey()` is the command to look up the critical value</span></a>
+<a class="sourceLine" id="cb440-2" data-line-number="2"><span class="co"># It takes a probability, p as its first argument.  </span></a>
+<a class="sourceLine" id="cb440-3" data-line-number="3"><span class="co"># If you provide the alpha you will need to set lower.tail to F</span></a>
+<a class="sourceLine" id="cb440-4" data-line-number="4"><span class="co"># If you provide 1 - alpha you will need to set lower.tail to T (the default)</span></a>
+<a class="sourceLine" id="cb440-5" data-line-number="5"><span class="co"># nmeans is the number of levels you have (i.e., a)</span></a>
+<a class="sourceLine" id="cb440-6" data-line-number="6"><span class="co"># and df is the degrees of freedom, this is defined as a(n-1)</span></a>
+<a class="sourceLine" id="cb440-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb440-8" data-line-number="8"><span class="co"># our nmeans (a) is 4 as we have four levels:  DPICM, HEAT, HTK, PGM</span></a>
+<a class="sourceLine" id="cb440-9" data-line-number="9"><span class="co"># our df is 16 as we have a = 4 and n = 5, so 4*(5-1) = 16</span></a>
+<a class="sourceLine" id="cb440-10" data-line-number="10"><span class="co"># we&#39;ll choose alpha = .05</span></a>
+<a class="sourceLine" id="cb440-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb440-12" data-line-number="12">q<span class="fl">.1</span>Factor &lt;-<span class="st"> </span><span class="kw">qtukey</span>(.<span class="dv">05</span>, <span class="dv">4</span>, <span class="dv">16</span>, <span class="dt">lower.tail =</span> F)</a>
+<a class="sourceLine" id="cb440-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb440-14" data-line-number="14"><span class="co"># We can look at the ANOVA table above and find our MSE = 39.03</span></a>
+<a class="sourceLine" id="cb440-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb440-16" data-line-number="16">w<span class="fl">.1</span>Factor &lt;-<span class="st"> </span>q<span class="fl">.1</span>Factor <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="fl">39.03</span><span class="op">/</span><span class="dv">5</span>)</a></code></pre></div>
+<p>This gives us a range akin to a confidence interval. If the difference of any two means is less than this <span class="math inline">\(w\)</span>, we cannot, statistically, say that they are different (i.e., it is plausible they are drawn from the same population with the same true mean). We can see this graphically:</p>
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb441-1" data-line-number="1"><span class="co"># This first part is the same as the original plot</span></a>
+<a class="sourceLine" id="cb441-2" data-line-number="2"><span class="kw">ggplot</span>(Formatted.Data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(Round) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mu =</span> <span class="kw">mean</span>(Kills)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(mu)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb441-3" data-line-number="3"><span class="st">  </span><span class="co"># We plot each level on its own value so we can avoid overlaps</span></a>
+<a class="sourceLine" id="cb441-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mu, <span class="dt">y =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">color =</span> Round), <span class="dt">size =</span> <span class="dv">4</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb441-5" data-line-number="5"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;Mean Kills&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb441-6" data-line-number="6"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb441-7" data-line-number="7"><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb441-8" data-line-number="8"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>()) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb441-9" data-line-number="9"><span class="st">  </span><span class="co"># We now add a segment that extends from the mean observation to the mean +/- our W</span></a>
+<a class="sourceLine" id="cb441-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mu, <span class="dt">xend =</span> mu <span class="op">+</span><span class="st"> </span>w<span class="fl">.1</span>Factor, <span class="dt">y =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">yend =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">color =</span> Round)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb441-11" data-line-number="11"><span class="st">  </span><span class="kw">geom_segment</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mu, <span class="dt">xend =</span> mu <span class="op">-</span><span class="st"> </span>w<span class="fl">.1</span>Factor, <span class="dt">y =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">yend =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">color =</span> Round)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb441-12" data-line-number="12"><span class="st">  </span><span class="co"># The vertical lines help us clearly see the mean value for each level</span></a>
+<a class="sourceLine" id="cb441-13" data-line-number="13"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> mu, <span class="dt">color =</span> Round), <span class="dt">lty =</span> <span class="dv">2</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb441-14" data-line-number="14"><span class="st">  </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">7</span>)) </a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p>This is in initially a somewhat confusing graph, but it shows us a few things:</p>
+<ul>
+<li>The sample mean for each level is plotted with the large circle and its corresponding color.</li>
+<li>The dashed vertical lines are simply there for clearly seeing the sample mean of each round type.</li>
+<li>The solid horizontal lines are the mean of each level plus or minus the <span class="math inline">\(w\)</span> value we calculated.</li>
+</ul>
+<p>What the Tukey test tells us, is that if two means are within <span class="math inline">\(w\)</span> of each other (i.e. <span class="math inline">\(|\mu_i - \mu_j| &lt;= w\)</span>), we cannot tell if their difference is do to an effect of the level or simply due to random variation. We can see this graphically in the plot above. For example:</p>
+<p>The HEAT round (in green) cannot be said to have an effect different than the DPICM (in red) or PGM (in purple), but definitely is different than the HTK (in teal). Note that this is not a binary distinction, it’s not that all of HEAT, DPICM, and PGM are potentially the same, but HTK is different, rather its a grouping per level. For example, in our case above, PGM is utterly ambiguous as the mean of every other level falls within <span class="math inline">\(w\)</span> of it.</p>
+</div>
+<div id="tukey-test-in-r" class="section level3">
+<h3><span class="header-section-number">4.7.2</span> Tukey Test in R</h3>
+<p>While the above was certainly do-able, it was somewhat annoying. Fortunately, <em>R</em> has a built in Tukey test, <code>TukeyHSD()</code>. We can use it as follows:</p>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb442-1" data-line-number="1"><span class="co"># TukeyHSD has several arguments:</span></a>
+<a class="sourceLine" id="cb442-2" data-line-number="2"><span class="co"># x: this is your ANOVA model</span></a>
+<a class="sourceLine" id="cb442-3" data-line-number="3"><span class="co"># which: this is the factor you want to consider</span></a>
+<a class="sourceLine" id="cb442-4" data-line-number="4"><span class="co"># conf.level: this is the confidence level you want (1 - alpha)</span></a>
+<a class="sourceLine" id="cb442-5" data-line-number="5"><span class="co"># you can store it as a variable</span></a>
+<a class="sourceLine" id="cb442-6" data-line-number="6">tukey<span class="fl">.1</span>Factor &lt;-<span class="st"> </span><span class="kw">TukeyHSD</span>(myAOV, <span class="dt">which =</span> <span class="st">&#39;Round&#39;</span>, <span class="dt">conf.level =</span> <span class="fl">.95</span>)</a></code></pre></div>
+<p>The output of <code>TukeyHSD</code> is a little bit harder to interpret than as described above, but it is doable:</p>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb443-1" data-line-number="1">tukey<span class="fl">.1</span>Factor</a></code></pre></div>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = Kills ~ Round, data = Formatted.Data)
+## 
+## $Round
+##            diff         lwr       upr     p adj
+## HEAT-DPICM -1.0 -12.3037441 10.303744 0.9940787
+## HTK-DPICM  11.6   0.2962559 22.903744 0.0432762
+## PGM-DPICM   6.6  -4.7037441 17.903744 0.3701994
+## HTK-HEAT   12.6   1.2962559 23.903744 0.0263523
+## PGM-HEAT    7.6  -3.7037441 18.903744 0.2574848
+## PGM-HTK    -5.0 -16.3037441  6.303744 0.5965234</code></pre>
+<p>What we are saying here is:</p>
+<ul>
+<li><code>95% family-wise confidence level</code> just says you’re using a 95% confidence level.</li>
+<li><code>Fit: aov ...</code> just repeats what your original ANOVA calculated</li>
+<li><code>$Round</code> indicates we are looking at the Factor Round</li>
+<li>Each of the combinations in the left hand column are the various pairings between the different levels of the factor</li>
+<li>The <code>diff</code> column is the difference in means of the observed values of the two levels.</li>
+<li>The <code>lwr</code> and <code>upr</code> are the ranges for the possible value of the differences.</li>
+<li>The <code>p adj</code> is the p-value for the hypothesis: the difference in means is 0.</li>
+</ul>
+<p>For example, consider the first row (HEAT-DPICM):</p>
+<ul>
+<li>We are comparing the mean kills when the Round is HEAT vs. when the Round is DPICM.</li>
+<li>The mean kills are (not depicted in this) 19 and 20 respectively.</li>
+<li>The difference is 19-20 = -1.</li>
+<li>The 95% confidence interval on the difference of the means is -12.3 to 10.3; which includes 0.</li>
+<li>This has a p-value of .994, meaning we fail-to-reject the null that the difference of the means is 0 (for those two levels).</li>
+</ul>
+<p>Now consider the fourth row (HTK-HEAT):</p>
+<ul>
+<li>We are comparing the means when the Round is at HTK and when it is at HEAT.</li>
+<li>The mean kills are: 31.6 and 19 respectively (again, not shown).</li>
+<li>The difference is 31.6 - 19 = 12.6.</li>
+<li>The 95% confidence interval on this difference is 1.30 to 23.90; which does not include 0.</li>
+<li>This has a p-value of .026, meaning, for <span class="math inline">\(\alpha = .05\)</span>, we reject the null that the difference is 0, and conclude the treatment effect of the HTK and HEAT rounds is different.</li>
+</ul>
+<p>We can also plot these results:</p>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb445-1" data-line-number="1"><span class="co"># the par function sets parameters for a base R plot</span></a>
+<a class="sourceLine" id="cb445-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="fl">.1</span>)</a>
+<a class="sourceLine" id="cb445-3" data-line-number="3"><span class="co"># the las = 1 option ensures we plot the value for each level:level combination</span></a>
+<a class="sourceLine" id="cb445-4" data-line-number="4"><span class="kw">plot</span>(tukey<span class="fl">.1</span>Factor, <span class="dt">las =</span> <span class="dv">1</span>)</a></code></pre></div>
+<p><img src="031-ANOVA_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p>This says a very similar thing as the plot we made above, but in a slightly different way. It shows the difference between the means for each of the level:level pairs. Having a confidence interval that does not include 0 indicates that there is a difference between the effects of those two levels (at the provided confidence level).</p>
+</div>
+<div id="tukey-test-multiple-factors" class="section level3">
+<h3><span class="header-section-number">4.7.3</span> Tukey Test, Multiple Factors</h3>
+<p>If we have a problem with multiple factors, to include interactions, we can run the test in the same manner. Using the 2-Factor, with Interactions example from above, we can run the <code>TukeyHSD</code> test:</p>
+<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb446-1" data-line-number="1"><span class="kw">TukeyHSD</span>(my<span class="fl">.2</span>Factor.Interaction.ANOVA, <span class="dt">conf.level =</span> <span class="fl">.95</span>)</a></code></pre></div>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = Kills ~ Round + Range + Round:Range, data = IDF2.Interaction)
+## 
+## $Round
+##                 diff       lwr        upr     p adj
+## HEAT-DPICM  6.761793  4.837093  8.6864926 0.0000000
+## HTK-DPICM  12.881552 10.956852 14.8062519 0.0000000
+## PGM-DPICM  11.603410  9.678710 13.5281101 0.0000000
+## HTK-HEAT    6.119759  4.195059  8.0444593 0.0000000
+## PGM-HEAT    4.841618  2.916918  6.7663174 0.0000001
+## PGM-HTK    -1.278142 -3.202842  0.6465581 0.3014139
+## 
+## $Range
+##               diff        lwr      upr     p adj
+## 30km-15km 0.692656 -0.8220624 2.207374 0.5151298
+## 50km-15km 5.121164  3.6064459 6.635883 0.0000000
+## 50km-30km 4.428508  2.9137899 5.943227 0.0000000
+## 
+## $`Round:Range`
+##                              diff         lwr        upr     p adj
+## HEAT:15km-DPICM:15km   13.6476481   9.3465008 17.9487955 0.0000000
+## HTK:15km-DPICM:15km    12.4694227   8.1682753 16.7705701 0.0000000
+## PGM:15km-DPICM:15km    12.0488032   7.7476558 16.3499506 0.0000000
+## DPICM:30km-DPICM:15km   3.4513218  -0.8498256  7.7524692 0.2319147
+## HEAT:30km-DPICM:15km    6.6012355   2.3000882 10.9023829 0.0001861
+## HTK:30km-DPICM:15km    15.9687925  11.6676451 20.2699399 0.0000000
+## PGM:30km-DPICM:15km    14.9151483  10.6140009 19.2162957 0.0000000
+## DPICM:50km-DPICM:15km   7.5518379   3.2506905 11.8529853 0.0000138
+## HEAT:50km-DPICM:15km   11.0396540   6.7385066 15.3408014 0.0000000
+## HTK:50km-DPICM:15km    21.2096006  16.9084532 25.5107480 0.0000000
+## PGM:50km-DPICM:15km    18.8494387  14.5482913 23.1505861 0.0000000
+## HTK:15km-HEAT:15km     -1.1782254  -5.4793728  3.1229220 0.9982467
+## PGM:15km-HEAT:15km     -1.5988449  -5.8999923  2.7023025 0.9783288
+## DPICM:30km-HEAT:15km  -10.1963264 -14.4974738 -5.8951790 0.0000000
+## HEAT:30km-HEAT:15km    -7.0464126 -11.3475600 -2.7452652 0.0000556
+## HTK:30km-HEAT:15km      2.3211443  -1.9800031  6.6222917 0.7806976
+## PGM:30km-HEAT:15km      1.2675002  -3.0336472  5.5686476 0.9966740
+## DPICM:50km-HEAT:15km   -6.0958102 -10.3969576 -1.7946628 0.0007097
+## HEAT:50km-HEAT:15km    -2.6079941  -6.9091415  1.6931533 0.6371633
+## HTK:50km-HEAT:15km      7.5619524   3.2608050 11.8630998 0.0000134
+## PGM:50km-HEAT:15km      5.2017905   0.9006431  9.5029379 0.0066943
+## PGM:15km-HTK:15km      -0.4206195  -4.7217669  3.8805279 0.9999999
+## DPICM:30km-HTK:15km    -9.0181010 -13.3192484 -4.7169536 0.0000002
+## HEAT:30km-HTK:15km     -5.8681872 -10.1693346 -1.5670398 0.0012786
+## HTK:30km-HTK:15km       3.4993697  -0.8017777  7.8005171 0.2152565
+## PGM:30km-HTK:15km       2.4457256  -1.8554218  6.7468730 0.7212162
+## DPICM:50km-HTK:15km    -4.9175848  -9.2187322 -0.6164374 0.0130503
+## HEAT:50km-HTK:15km     -1.4297687  -5.7309161  2.8713787 0.9909058
+## HTK:50km-HTK:15km       8.7401779   4.4390305 13.0413253 0.0000005
+## PGM:50km-HTK:15km       6.3800160   2.0788686 10.6811633 0.0003359
+## DPICM:30km-PGM:15km    -8.5974815 -12.8986288 -4.2963341 0.0000007
+## HEAT:30km-PGM:15km     -5.4475677  -9.7487151 -1.1464203 0.0036839
+## HTK:30km-PGM:15km       3.9199892  -0.3811581  8.2211366 0.1049285
+## PGM:30km-PGM:15km       2.8663451  -1.4348023  7.1674925 0.4982802
+## DPICM:50km-PGM:15km    -4.4969653  -8.7981127 -0.1958179 0.0332096
+## HEAT:50km-PGM:15km     -1.0091492  -5.3102966  3.2919982 0.9995769
+## HTK:50km-PGM:15km       9.1607974   4.8596500 13.4619448 0.0000002
+## PGM:50km-PGM:15km       6.8006355   2.4994881 11.1017828 0.0001086
+## HEAT:30km-DPICM:30km    3.1499138  -1.1512336  7.4510612 0.3559315
+## HTK:30km-DPICM:30km    12.5174707   8.2163233 16.8186181 0.0000000
+## PGM:30km-DPICM:30km    11.4638266   7.1626792 15.7649739 0.0000000
+## DPICM:50km-DPICM:30km   4.1005162  -0.2006312  8.4016636 0.0745816
+## HEAT:50km-DPICM:30km    7.5883322   3.2871849 11.8894796 0.0000125
+## HTK:50km-DPICM:30km    17.7582788  13.4571314 22.0594262 0.0000000
+## PGM:50km-DPICM:30km    15.3981169  11.0969695 19.6992643 0.0000000
+## HTK:30km-HEAT:30km      9.3675569   5.0664095 13.6687043 0.0000001
+## PGM:30km-HEAT:30km      8.3139128   4.0127654 12.6150602 0.0000017
+## DPICM:50km-HEAT:30km    0.9506024  -3.3505450  5.2517498 0.9997603
+## HEAT:50km-HEAT:30km     4.4384185   0.1372711  8.7395659 0.0376009
+## HTK:50km-HEAT:30km     14.6083650  10.3072176 18.9095124 0.0000000
+## PGM:50km-HEAT:30km     12.2482031   7.9470557 16.5493505 0.0000000
+## PGM:30km-HTK:30km      -1.0536441  -5.3547915  3.2475032 0.9993664
+## DPICM:50km-HTK:30km    -8.4169545 -12.7181019 -4.1158071 0.0000012
+## HEAT:50km-HTK:30km     -4.9291385  -9.2302858 -0.6279911 0.0127076
+## HTK:50km-HTK:30km       5.2408081   0.9396607  9.5419555 0.0060958
+## PGM:50km-HTK:30km       2.8806462  -1.4205012  7.1817936 0.4906997
+## DPICM:50km-PGM:30km    -7.3633104 -11.6644578 -3.0621630 0.0000233
+## HEAT:50km-PGM:30km     -3.8754943  -8.1766417  0.4256531 0.1138126
+## HTK:50km-PGM:30km       6.2944523   1.9933049 10.5955997 0.0004213
+## PGM:50km-PGM:30km       3.9342904  -0.3668570  8.2354377 0.1021977
+## HEAT:50km-DPICM:50km    3.4878161  -0.8133313  7.7889635 0.2191824
+## HTK:50km-DPICM:50km    13.6577627   9.3566153 17.9589101 0.0000000
+## PGM:50km-DPICM:50km    11.2976008   6.9964534 15.5987481 0.0000000
+## HTK:50km-HEAT:50km     10.1699466   5.8687992 14.4710940 0.0000000
+## PGM:50km-HEAT:50km      7.8097847   3.5086373 12.1109321 0.0000068
+## PGM:50km-HTK:50km      -2.3601619  -6.6613093  1.9409855 0.7626748</code></pre>
+<p>You’ll note two things:</p>
+<ol style="list-style-type: decimal">
+<li>This does the test across all factors.</li>
+<li>This quickly becomes cumbersome as the numbers of levels increase, which is particularly true for interactions.</li>
+</ol>
+<p>If you have multiple factors, but only want to see the results for one or some smaller subset of the number of factors, you can use the argument <code>which</code> in <code>TukeyHSD</code> as follows:</p>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb448-1" data-line-number="1"><span class="co"># Note the argument which takes a string with the name of the factor.</span></a>
+<a class="sourceLine" id="cb448-2" data-line-number="2"><span class="co"># If you are looking for an interaction, the string is of the form: &#39;FactorA:FactorB&#39;</span></a>
+<a class="sourceLine" id="cb448-3" data-line-number="3"><span class="kw">TukeyHSD</span>(my<span class="fl">.2</span>Factor.Interaction.ANOVA, <span class="dt">which =</span> <span class="st">&#39;Range&#39;</span>, <span class="dt">conf.level =</span> <span class="fl">.95</span>)</a></code></pre></div>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = Kills ~ Round + Range + Round:Range, data = IDF2.Interaction)
+## 
+## $Range
+##               diff        lwr      upr     p adj
+## 30km-15km 0.692656 -0.8220624 2.207374 0.5151298
+## 50km-15km 5.121164  3.6064459 6.635883 0.0000000
+## 50km-30km 4.428508  2.9137899 5.943227 0.0000000</code></pre>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb450-1" data-line-number="1"><span class="co"># Alternatively, if you want multiple factors, but not all of them,</span></a>
+<a class="sourceLine" id="cb450-2" data-line-number="2"><span class="co"># you can pass a character vector with the selected Factors:</span></a>
+<a class="sourceLine" id="cb450-3" data-line-number="3"><span class="kw">TukeyHSD</span>(my<span class="fl">.2</span>Factor.Interaction.ANOVA, <span class="dt">which =</span> <span class="kw">c</span>(<span class="st">&#39;Range&#39;</span>, <span class="st">&#39;Round&#39;</span>), <span class="dt">conf.level =</span> <span class="fl">.95</span>)</a></code></pre></div>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = Kills ~ Round + Range + Round:Range, data = IDF2.Interaction)
+## 
+## $Range
+##               diff        lwr      upr     p adj
+## 30km-15km 0.692656 -0.8220624 2.207374 0.5151298
+## 50km-15km 5.121164  3.6064459 6.635883 0.0000000
+## 50km-30km 4.428508  2.9137899 5.943227 0.0000000
+## 
+## $Round
+##                 diff       lwr        upr     p adj
+## HEAT-DPICM  6.761793  4.837093  8.6864926 0.0000000
+## HTK-DPICM  12.881552 10.956852 14.8062519 0.0000000
+## PGM-DPICM  11.603410  9.678710 13.5281101 0.0000000
+## HTK-HEAT    6.119759  4.195059  8.0444593 0.0000000
+## PGM-HEAT    4.841618  2.916918  6.7663174 0.0000001
+## PGM-HTK    -1.278142 -3.202842  0.6465581 0.3014139</code></pre>
+</div>
+<div id="multiple-comparisons-problem-set" class="section level3">
+<h3><span class="header-section-number">4.7.4</span> Multiple Comparisons Problem Set</h3>
+<p>The problem set for this section is located <a href = '/_Chapter3_1_ProblemSets/Multi_Comparison_ProblemSet_Questions.html'> here </a>. Note that there is one data set used in the problem set, commo.csv. The link to the data set is in the problem set.</p>
+<p>For your convenience, the problem set as an R markdown is located <a href = '/_Chapter3_1_ProblemSets/Multi_Comparison_ProblemSet_Questions.Rmd'> here </a></p>
+<p>The answers for this problem set are <a href = '/_Chapter3_1_ProblemSets/Multi_Comparison_ProblemSet_Answers.html'> here </a>.</p>
+</div>
+</div>
+<div id="anova-summary" class="section level2">
+<h2><span class="header-section-number">4.8</span> ANOVA Summary</h2>
+<p>In this section we covered ANOVA. Recall that ANOVA is a means of assessing if there is a difference in means of observations where the observations are grouped together by their corresponding levels of a factor. ANOVA assesses this difference by comparing the variability within the groups relative to the total variability. We did not spend much time to understand the theoretical basis or manual methods of calculating an ANOVA table as, for simulation, it is most important to understand how to use a tool (e.g., <em>R</em>) to calculate the ANOVA, understand the assumptions we must check, and how to interpret the results.</p>
+<div id="how-to-calculate-anova" class="section level3">
+<h3><span class="header-section-number">4.8.1</span> How to Calculate ANOVA</h3>
+<p>We can calculate ANOVA using the <code>aov</code> function in <em>R</em>. This is a fairly robust function. It accounts for unbalanced observations (i.e., data where the various treatment combinations have differing numbers of replicates), and other similar challenges that become tricky when calculating and ANOVA by hand.</p>
+</div>
+<div id="anova-hypothesis-tests" class="section level3">
+<h3><span class="header-section-number">4.8.2</span> ANOVA Hypothesis Test(s)</h3>
+<p>In a fixed effects model, for any factor, or interaction, whose effect is represented as <span class="math inline">\(\tau_i\)</span>, where <span class="math inline">\(i \in {1, 2, ... a}\)</span> represents the level of the factor, the hypothesis test is:</p>
+<p><span class="math inline">\(H_0: \tau_1 = \tau_2 = ... = \tau_a = 0\)</span></p>
+<p><span class="math inline">\(H_A: \tau_i \neq 0\)</span> for at least one <span class="math inline">\(i \in {1, 2, ... a}\)</span></p>
+<p>In a random effects model, for any factor whose effect is represented by <span class="math inline">\(\tau_i\)</span>, where <span class="math inline">\(i \in A\)</span>, where A is some large population of levels (it may be continuous or discrete), we say the variance in the random variable <span class="math inline">\(\tau\)</span> is zero, i.e.:</p>
+<p><span class="math inline">\(H_0: \sigma^2(\tau) = 0\)</span></p>
+<p><span class="math inline">\(H_A: \sigma^2(\tau) &gt; 0\)</span></p>
+</div>
+<div id="anova-assumptions" class="section level3">
+<h3><span class="header-section-number">4.8.3</span> ANOVA Assumptions</h3>
+<p>For ANOVA, we must make the following assumption: The residuals in our model are normally, and independently distributed, with a mean of 0 and a constant variance. We check this by:</p>
+<ol style="list-style-type: decimal">
+<li>Assessing if the residuals are normally distributed (QQ Plots, Shapiro Wilk Test).</li>
+<li>Assessing if the residuals are homoscedastic (constant variance), we assess this with residuals vs. fitted values or residuals vs. levels plots. We can also check this with a hypothesis test such as the <a href = 'https://www.itl.nist.gov/div898/handbook/eda/section3/eda357.htm'> Bartlett Test </a> or <a href = 'https://www.itl.nist.gov/div898/handbook/eda/section3/eda35a.htm'> Levene Test </a>.</li>
+<li>Assessing the independence of the sample. We can see this graphically if we note patterns in our data on any of our standard plots. We can also plot our residuals vs. other potential explanatory variables, e.g., the time each observation was made or the collection order.</li>
+</ol>
+</div>
+<div id="multiple-comparisons-1" class="section level3">
+<h3><span class="header-section-number">4.8.4</span> Multiple Comparisons</h3>
+<p>Having done ANOVA, and identified significant factors, we can compare means using the Tukey Test. This helps us avoid the problem of increasing likelihood of making a Type-I error with multiple T-Tests.</p>
+</div>
+<div id="further-extensions-of-anova" class="section level3">
+<h3><span class="header-section-number">4.8.5</span> Further Extensions of ANOVA</h3>
+<p>This section did not cover non-parametric ANOVA (the Kruskal-Wallis Test), randomized, complete block designs, transforming variables, or estimating the effects. These are further extensions on ANOVA that will be discussed at a future point in the course as required.</p>
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="3">
+<li id="fn3"><p>Note: All numbers are notional. They were made using a random number generator.<a href="analysis-of-variance-anova.html#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p>Note - you will often see data for ANOVA problems written in this way, particularly in textbooks. This is perfectly accurate, but not how <em>R</em> needs to read the data. We’ll cover how to convert this into a useful manner.<a href="analysis-of-variance-anova.html#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>The terms “treatment effect” and “effect” are often used interchangeably<a href="analysis-of-variance-anova.html#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p>Note, it may sound odd to call this a treatment as you are not doing anything to the person. The treatment is that you are selecting from a specific population.<a href="analysis-of-variance-anova.html#fnref6" class="footnote-back">↩</a></p></li>
+<li id="fn7"><p>As of 27 March 2020<a href="analysis-of-variance-anova.html#fnref7" class="footnote-back">↩</a></p></li>
+<li id="fn8"><p>Note, these are simply examples, any reputable probability and statistics book will have this<a href="analysis-of-variance-anova.html#fnref8" class="footnote-back">↩</a></p></li>
+<li id="fn9"><p>Note, we have not used the Bartlett test for homoscedasticity yet. If you are unfamiliar, please read about it at the link provided.<a href="analysis-of-variance-anova.html#fnref9" class="footnote-back">↩</a></p></li>
+<li id="fn10"><p>Read more about this fact <a href = 'https://mathworld.wolfram.com/NormalSumDistribution.html'> here </a><a href="analysis-of-variance-anova.html#fnref10" class="footnote-back">↩</a></p></li>
+<li id="fn11"><p>Recall, the variance of a set of the same numbers is 0.<a href="analysis-of-variance-anova.html#fnref11" class="footnote-back">↩</a></p></li>
+<li id="fn12"><p>Recall, this is just a heuristic; there is no math to state this definitively<a href="analysis-of-variance-anova.html#fnref12" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="statistics-review.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="fundamentals-of-design-of-experiments.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "chapter"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

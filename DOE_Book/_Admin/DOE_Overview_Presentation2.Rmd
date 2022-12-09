@@ -1,0 +1,249 @@
+---
+title: "Design and Analysis of Experiments for Simulation"
+author: Steve Gillespie & John King
+date: As of 12 March 2020
+output: 
+  revealjs::revealjs_presentation:
+    theme: simple
+    reveal_options:
+      slideNumber: true
+    includes:
+      in_header: headerTest.html
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{r syllabus, results = 'hide', warning=F, message=F, echo=F}
+library(DT)
+library(tidyverse)
+
+sections <- rio::import('/home/rstudio/html/Lessons.xlsx')
+sections$Name <- as.factor(sections$Name)
+
+lessons <- rio::import('/home/rstudio/html/Lessons.xlsx', which = 'Lessons')
+lessons$`Section Name` <- as.factor(lessons$`Section Name`)
+lessons$Lesson_Name <- as.factor(lessons$Lesson_Name)
+
+objectives <- rio::import('/home/rstudio/html/Lessons.xlsx', which = 'Objectives')
+objectives$`Section Name` <- as.factor(objectives$`Section Name`)
+objectives$`Lesson Name` <- as.factor(objectives$`Lesson Name`)
+```
+
+## Introduction
+
+This is an information presentation on the course:
+
+<a href = '_book/index.html'>"Design and Analysis of Experiments for Simulation."</a> 
+
+At the end, viewers should be able to make an informed decision on committing time to taking the course.
+
+<p align='left'>     **Agenda:**</p>
+
+- About
+- Why Design of Experiments (DOE)
+- Course Information
+
+
+## About
+
+- The course was developed by TRAC Fort Leavenworth.
+    - MAJ Steve Gillespie & MAJ John King.
+    - Assistance and review from the <a href = 'https://dscoe.org'>Data Science Center of Education</a>. 
+- The course is intended to <font color = 'blue'> develop capable practioners </font> of DOE for simulation.
+- The course is built <font color = 'blue'> specifically for analysts at TRAC Fort Leavenworth </font>, Wargaming and Simulation Directorate; however, it is <font color = 'blue'>broadly applicable</font> to any analyst needing to understand and employ DOE.
+    
+## Why Design of Experiments? <!---{data-background="https://upload.wikimedia.org/wikipedia/commons/c/cc/Response_surface_metodology.jpg"}-->
+
+> "All experiments are designed experiments. The important issue is whether they are well designed or not."  
+
+<p align="right" style = 'font-size:smaller;'> Douglas C. Montgomery<br>*Design and Analysis of Experiments* </p>
+<p></p>
+
+<div style = 'left:-8.33%; top: 60%; text-align: left; float: left; width:50%; z-index:-10;'>
+<ul style='font-size:smaller;'>
+<li> DOE ensures <font color = 'blue'>efficient use of resources</font>. </li>
+<li> DOE (and associated analysis) is <font color = 'blue'>relevant to AFC missions</font> (e.g., requirements engineering, portfolio analysis). </li>
+<li> DOE is <font color = 'blue'>good statistical practice</font>. </li>
+</ul>
+</div>
+
+<div style = 'left:100%; top: 60%; float: right; text-align: center; z-index:-10; width:50%;'>
+
+<!-- ![Example Response Surface](KingResponseSurface2.png) -->
+
+![Example Response Surface](https://upload.wikimedia.org/wikipedia/commons/c/cc/Response_surface_metodology.jpg){width = 20%}
+<!--
+```{r, echo = F, warning=F, message=F, fig.height = 2.5, fig.cap='Central Composite Design', out.extra='style = "border:2px solid black;"'}
+
+# speed = c(c(1,3,2,2,2,2,2), rep(c(1,3), 4))
+# stealth = c(c(2,2,1,3,2,2,2), rep(c(1,3,1,3), each = 2))
+# surv = c(c(2,2,2,2,1,3,2), rep(1,4), rep(3,4))
+# 
+# ccd = tibble(speed, stealth, surv)
+# 
+# # first 6 are the faces
+# threejs::scatterplot3js(speed, stealth, surv, color=c(rep('blue', 7), rep('red', 8)), pch='o', grid=FALSE) %>% #, main = "Central Composite Design") %>%
+#   threejs::lines3d(c(1,3,5), c(2,4,6))
+``` 
+-->
+
+</div>
+
+
+## DOE: 
+
+
+## Course Information
+
+<p style = 'background-color: #F6E690;font-size:smaller;text-align:left;'><font color = 'blue'>At the end of the course, an analyst should be able to design and analyze simulation output to inform a large variety of study questions in a statistically valid manner.</font></p>
+
+<div style = 'left:-10%; text-align: left; float: left; width:48%; z-index:-10; font-size:smaller;'>
+
+- <font color = 'blue'>Course Sections </font>:
+    - R Fundamentals.
+    - Statistics Review.
+    - Foundations of DOE.
+    - Foundations of Regression and Modeling.
+    - Applications of DOE.
+    - Advanced Topics.
+    - Optional Advanced Topics.
+- Each of these sections is supported by a variety of resources.
+</div>
+
+<div style = 'left:31.25%; top: 75px; float: right; text-align: right; z-index:-10; width:50%; font-size:smaller;'>
+- The course can be completed individually or as a group.
+- TRAC Ft. Leavenworth will lead a local class.
+    - <font color = 'blue'>Start on 01APR2020 </font>.
+    - Meet every Wed. for a 3 x hour lab.
+    - <font color = 'blue'>The learning model is: Analysts work through the weekly assignment and use the lab to answer questions and collaborate.</font>
+</div>
+
+
+<!--
+<ul style = 'font-size:smaller;'>
+
+<li> The course is divided into `r nrow(sections)` sections: `r paste(sections$Name, collapse = ', ')`. </li>
+<li> Each section is composed of multiple lessons and objectives that have associated resources such as readings, videos, tutorials, and assignments. </li>
+<li> The course can be completed in multiple ways. </li>
+<li style = 'margin-left:2em'> As a group, facilitated by an instructor(s). </li>
+<li style = 'margin-left:2em'> Individually and self paced. </li>
+<li> The course is anticipated to take about 10 hours per week. </li>
+<li> TRAC Ft. Leavenworth will lead a local class. </li>
+<li style = 'margin-left:2em'> <font color = 'red'> Recommend starting the class O/A 23 March.</font></li>
+<li style = 'margin-left:2em'> <font color = 'red'> Recommend meeting once weekly at the McNair Lab for 3 x hours.</font></li>
+<li style = 'margin-left:2em'> <font color = 'red'> Recommend briefing offering course overview O/A 09 March.</font></li>
+</ul>
+-->
+
+
+## Course Requirements
+
+- <font color = 'blue'>Time </font>: 
+    - Approximately 10 hours per week.
+    - 6-9 months.
+- Knowledge: 
+    - <font color = 'blue'>Fundamental mathematics & statistics.</font>
+    - <font color = 'blue'>Desire to learn.</font>
+- Resources:
+    - Computer with internet connection.  The course is hosted at: <a href = 'https://doe.dscoe.org'>https://doe.dscoe.org</a>.
+    - R programming environment. We are using www.matrixds.com (free) as it largely eliminates challenges associated with government computer restrictions.
+
+
+# Additional Course Information 
+
+<!--{background-image="welchdodgeball.jpg"}-->
+
+<!--{data-background-iframe='https://youtu.be/Kg3syLVoTyc'}-->
+
+## DOE for Simulation Schedule (TRAC Ft. Leavenworth)
+
+<div style = "font-size:smaller; background-color: #F6E690;"> <font color ="blue"> This schedule is approximate. The goal is that analysts taking the course will be able to do a foundational design and analysis by mid-August. </font> </div>
+
+```{r schedule}
+schedule <- rio::import('/home/rstudio/html/Draft_Calendar.xlsx', which = 'Calendar')
+schedule$Day <- format.Date(schedule$Day, '%d %b %y')
+DT::datatable(schedule, rownames = F, fillContainer = F, #caption = 'DOE For Simulation Schedule',  
+                            options = list(scrollX = T, pagelength = 5,
+                               initComplete = JS(
+        "function(settings, json) {",
+        "$(this.api().table().container()).css({'font-size': '50%'});",
+        "}")))  
+```
+
+## DOE For Simulation Sections
+
+```{r sections}
+DT::datatable(sections, rownames = F, fillContainer = F, #caption = 'DOE For Simulation Sections',  
+                            options = list(scrollX = T, pagelength = 5,
+                               initComplete = JS(
+        "function(settings, json) {",
+        "$(this.api().table().container()).css({'font-size': '50%'});",
+        "}"))) 
+```
+
+## Lessons
+
+<p style = 'font-size: smaller;'><font color ="red"> Note that these are currently under development and will change. </font></p>
+
+```{r lessons}
+datatable(lessons, rownames = F, filter = 'top', # caption = 'DOE For Simulation Sections', filter = 'top',
+          fillContainer = FALSE,
+              options = list(scrollX = T,
+                             autoWidth = T,
+                             
+                             pageLength = 5, 
+                               initComplete = JS(
+        "function(settings, json) {",
+        "$(this.api().table().container()).css({'font-size': '50%'});",
+        "}"))) 
+
+# datatable(lessons, rownames = F, filter = 'top', fillContainer = F, # caption = 'DOE For Simulation Sections', filter = 'top', 
+#               options = list(scrollX = T, pagelength = 5, 
+#                                initComplete = JS(
+#         "function(settings, json) {",
+#         "$(this.api().table().container()).css({'font-size': '50%'});",
+#         "}"))) 
+```
+
+## Objectives
+
+<p style = 'font-size: smaller;'><font color ="red"> Note that these are currently under development and will change. </font></p>
+
+```{r objectives}
+
+temp.objectives <- objectives %>% select(`Section Name`, `Lesson #`, `Lesson Name`, `Objective Name`)
+
+datatable(temp.objectives, rownames = F, filter = 'top', # caption = 'DOE For Simulation Sections', filter = 'top',
+          fillContainer = FALSE,
+              options = list(scrollX = T,
+                             autoWidth = T,
+                             
+                             pageLength = 5, 
+                               initComplete = JS(
+        "function(settings, json) {",
+        "$(this.api().table().container()).css({'font-size': '50%'});",
+        "}"))) 
+
+#%>% 
+#  formatStyle(columns = 1:length(objectives), fontSize = '50%')
+```
+
+
+
+
+
+<!---
+## Two Columns
+
+<div style = 'left:-8.33%; text-align: left; float: left; width:50%; z-index:-10;'>
+Left Column here
+</div>
+
+<div style = 'left:31.25%; top: 75px; float: right; text-align: right; z-index:-10; width:50%;'>
+Right Column Here
+</div>
+-->

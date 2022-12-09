@@ -1,0 +1,112 @@
+---
+title: "Model Selection Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This problem set corresponds to the chapter on model selection in the course https://doe.dscoe.org. For this problem set, we will use the following packages:
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(bestglm)
+library(glmnet)
+```
+
+# Data Familiarization
+
+We will also use the `SAheart` dataset from the `bestglm` package. From the help documentation, we find that the data consists of 462 observations of 10 variables. The response is `chd`, which is a binary variable indicating the presence (1) or absence (0) of coronary heart disease. Familiarize yourself with the data first by displaying the top few rows and note the predictor variable types.
+
+```{r}
+# Your answer here.
+```
+
+## NAs
+
+Are there any missing values? 
+
+```{r}
+# Your answer here.
+```
+
+## Prep
+
+Do you need to do anything to clean or prepare the data before fitting a model?
+
+```{r}
+# Your answer here.
+```
+
+## Model Fit
+
+Fit a linear model that includes all predictors and main effects only (remember that the response is binary). 
+
+```{r}
+# Your answer here.
+```
+
+# Criterion-Based Model Selection
+
+The dataset has 9 predictors, so test-based methods to reduce model complexity should be avoided. Instead, we'll focus on criterion-based methods. We've seen that there are several factors with low p-values in the full model. 
+
+## AIC
+
+Find the best model using AIC. Are any p-values > 0.05? Are any predictors included in the best model that you didn't expect?
+
+```{r}
+# Your answer here.
+```
+
+## AIC Predictors
+
+Which predictor contributes most to the presence of coronary heart disease? Which contributes second most? Describe both predictor's contribution in plain English.
+
+```{r}
+# Your answer here.
+```
+
+## AIC Best Model
+
+Perform a liklihood-ratio test for the best model compared to the null model and comment on the significance of the test.
+
+```{r}
+# Your answer here.
+```
+
+## BIC
+
+Find the best model using BIC. Is there a difference?
+
+```{r}
+# Your answer here.
+```
+
+## Mallow's Cp
+
+Now find the best model using Mallow's Cp. `leaps` expects numeric predictors, so convert variable types as necessary. What predictors does the model contain?
+
+```{r}
+# Your answer here.
+```
+
+## Model Summary
+
+Fit and summarize a model based on the factors identified using Mallow's Cp.
+
+```{r}
+# Your answer here.
+```
+
+## Assessment
+
+If a new predictor is included in the above model, does it make sense to keep it? Why or why not?
+
+```{r}
+# Your answer here.
+```
+

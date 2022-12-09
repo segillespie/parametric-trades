@@ -1,0 +1,50 @@
+---
+title: "Resolution of Difference Sampling Without Replacement"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+On the 6 April 2020 meeting DOE class lab, we covered problem 4.2 Test of a Distribution from the Statistical Inference Problem Set.
+
+One analyst got a result that varied from the solution manual with no apparent error.  After looking closely at the two solutions, the discrepancy was in developing the underlying data.  In the provided solution, the sample was drawn "without replacement" and in the analyst's solution, the sample was drawn "with replacement."
+
+**Sampling without replacement changes the distribution and therefore violates the assumption that your sample came from an identically, independently distributed population.  That is, imagine one wants to test the probability of drawing a red ball out of a jar of 10 red balls and 10 green balls.  If we do not replace the ball we draw, we have altered the underlying population for our second draw.  In sufficiently large populations, this does not generally make an appreciable difference, but it can and sampling with replacement is a better solution in many cases.  *Mea culpa.* **
+
+Consider the following:
+
+```{r}
+
+ames <- read.csv('/cloud/project/html/_Chapter3_ProblemSets/ames.csv')
+
+# take two samples using the same seed, 
+# one without replacement (the default) and
+# one with replacement
+set.seed(81)
+sample.without.replacement <- sample_n(ames, 100, replace = F)
+set.seed(81)
+sample.with.replacement <- sample_n(ames, 100, replace = T)
+
+# compare the two results
+# Note this format is useful, when you sum a boolean, you get a count of the trues
+sum(sample.with.replacement$Mo.Sold == sample.without.replacement$Mo.Sold)
+# Note that only 82 of the 100 members of the two vectors are the same
+```
+
+So we know the underlying data was different.  When we do the chi squared test on each fo the two tests, we then see the same results as presented in the answer key and the analyst's solution, noting these are different:
+
+```{r}
+# Without replacement
+chisq.test(table(sample.without.replacement$Mo.Sold))
+# p value of .4948
+
+# With replacement
+chisq.test(table(sample.with.replacement$Mo.Sold))
+# p value of .1269
+```
+
+Clearly we get two different p values.  In both cases we fail to reject the null hypothesis (that the distribution of sales is uniform across the year); however, that is not guaranteed.  How you sample makes a difference and will lead to different results.  Ensure you sample correctly.
+

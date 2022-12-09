@@ -1,0 +1,497 @@
+---
+title: "Introduction to R Problem Set"
+author: "Your Name Here"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the Introduction to *R* chapter in the course https://doe.dscoe.org. The solutions to the problem set use the packages shown below.
+
+```{r}
+library(tidyverse)
+library(nycflights13)
+```
+
+# 3.1 Exercises
+
+There are no exercises associated with this section.
+
+# 3.2 Exercises
+
+Complete all exercises for this section.
+
+## 1
+
+Run ggplot(data = mpg). What do you see?
+
+```{r}
+# Answer here.
+```
+
+## 2 
+
+How many rows are in mpg? How many columns?
+
+```{r}
+# Answer here.
+```
+
+## 3
+
+What does the `drv` variable describe? Read the help for `?mpg` to find out.
+
+```{r}
+# Answer here.
+```
+
+## 4
+
+Make a scatter plot of `hwy` vs. `cyl`.
+
+```{r}
+# Answer here.
+```
+
+## 5
+
+What happens if you make a scatter plot of `class` vs `drv`? Why is the plot not useful?
+
+```{r}
+# Answer here.
+```
+
+# 3.3 Exercises
+
+Complete all exercises for this section.
+
+## 1
+
+What’s gone wrong with this code? Why are the points not blue? `ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))`
+
+```{r}
+# Answer here.
+```
+
+  
+## 2
+
+Which variables in mpg are categorical? Which variables are continuous? (Hint: type `?mpg` to read the documentation for the dataset). How can you see this information when you run `mpg`?
+
+```{r}
+# Answer here.
+```
+
+
+## 3
+
+Map a continuous variable to color, size, and shape. How do these aesthetics behave differently for categorical vs. continuous variables?
+
+```{r message=FALSE, warning=FALSE}
+# Answer here.
+```
+
+
+## 4
+
+What happens if you map the same variable to multiple aesthetics?
+
+```{r}
+# Answer here.
+```
+
+## 5
+
+What does the stroke aesthetic do? What shapes does it work with? (Hint: use `?geom_point`)
+
+```{r}
+# Answer here.
+```
+
+## 6
+
+What happens if you map an aesthetic to something other than a variable name, like `aes(colour = displ < 5)`? Note, you’ll also need to specify `x` and `y`.
+
+```{r}
+# Answer here.
+```
+
+# 3.4 Exercises
+
+There are no exercises for this section.
+
+# 3.5 Exercises
+
+Complete exercises 1-4.
+
+## 1
+
+What happens if you facet on a continuous variable?
+
+```{r}
+# Answer here.
+```
+
+## 2
+
+What do the empty cells in plot with `facet_grid(drv ~ cyl)` mean? How do they relate to this plot?
+
+```{r}
+# Answer here.
+```
+
+## 3
+
+What plots does the following code make? `ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy)) + facet_grid(drv ~ .)` What does `.` do?
+
+```{r}
+# Answer here.
+```
+
+```{r}
+# Answer here.
+```
+  
+## 4
+
+Take the first faceted plot in this section:
+
+`ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy)) + facet_wrap(~ class, nrow = 2)`
+
+What are the advantages to using faceting instead of the colour aesthetic? What are the disadvantages? How might the balance change if you had a larger dataset?
+
+```{r}
+# Answer here.
+```
+
+# 3.6 Exercises
+
+Complete all exercises for this section.
+
+## 1
+
+What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?
+
+```{r}
+# Answer here.
+```
+
+## 2
+
+Run this code in your head and predict what the output will look like. Then, run the code in *R* and check your predictions.
+
+`ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + geom_point() + geom_smooth(se = FALSE)`
+
+```{r}
+# Answer here.
+```
+
+## 3
+
+What does `show.legend = FALSE` do? What happens if you remove it? Why do you think I used it earlier in the chapter?
+
+```{r}
+# Answer here.
+```
+
+## 4
+
+What does the `se` argument to `geom_smooth()` do? Note: we will cover smoothers in detail in the non-parametric regression chapter of the DoE tutorial.
+
+```{r}
+# Answer here.
+```
+
+## 5
+
+Will these two graphs look different? Why/why not?
+
+`ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + geom_point() + geom_smooth()`
+
+`ggplot() + geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))`
+
+```{r}
+# Answer here.
+```
+
+## 6
+
+Recreate the *R* code necessary to generate the following graphs (see R graphs in **R for Data Science** book).
+
+```{r}
+# Answer here.
+```
+
+# 3.7 Exercises
+
+These exercises are optional, and no solutions are provided. 
+
+# 3.8 Exercises
+
+Complete exercises 1, 2, and 4 only. 
+
+## 1
+
+What is the problem with this plot? How could you improve it?
+
+`ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + geom_point()`
+
+```{r}
+# Answer here.
+```
+
+## 2
+
+What parameters to `geom_jitter()` control the amount of jittering?
+
+```{r}
+# Answer here.
+```
+
+## 4
+
+What’s the default position adjustment for `geom_boxplot()`? Create a visualisation of the `mpg` dataset that demonstrates it.
+
+```{r}
+# Answer here.
+```
+
+# 5.1
+
+There are no exercises for this section.
+
+# 5.2 Exercises
+
+Complete exercises 1-3.
+
+## 1 Find all flights that:
+
+1. Had an arrival delay of two or more hours.
+
+```{r}
+# Answer here.
+```
+
+2. Flew to Houston (IAH or HOU).
+
+```{r}
+# Answer here.
+```
+
+3. Were operated by United, American, or Delta.
+
+```{r}
+# Answer here.
+```
+
+4. Departed in summer (July, August, and September).
+
+```{r}
+# Answer here.
+```
+
+5. Arrived more than two hours late, but didn’t leave late.
+
+```{r}
+# Answer here.
+```
+
+6. Were delayed by at least an hour, but made up over 30 minutes in flight.
+
+```{r}
+# Answer here.
+```
+
+7. Departed between midnight and 6am (inclusive).
+
+```{r}
+# Answer here.
+```
+
+## 2
+
+Another useful dplyr filtering helper is `between()`. What does it do? Can you use it to simplify the code needed to answer the previous challenges?
+
+```{r}
+# Answer here.
+```
+
+## 3
+
+How many flights have a missing `dep_time`? What other variables are missing? What might these rows represent?
+
+```{r}
+# Answer here.
+```
+
+# 5.3 Exercises
+
+Complete all exercises.
+
+## 1
+
+How could you use `arrange()` to sort all missing values to the start? (Hint: use `is.na()`).
+
+```{r}
+# Answer here.
+```
+
+## 2
+
+Sort flights to find the most delayed flights. Find the flights that left earliest.
+
+```{r}
+# Answer here.
+```
+
+## 3
+
+Sort flights to find the fastest (highest speed) flights.
+
+```{r}
+# Answer here.
+```
+
+## 4
+
+Which flights travelled the farthest? Which travelled the shortest?
+
+```{r}
+# Answer here.
+```
+
+# 5.4 Exercises
+
+Complete exercises 2-4.
+
+## 2
+
+What happens if you include the name of a variable multiple times in a `select()` call?
+
+```{r}
+# Answer here.
+```
+
+## 3
+
+What does the `one_of()` function do? Why might it be helpful in conjunction with this vector?
+
+`vars <- c("year", "month", "day", "dep_delay", "arr_delay")`
+
+Note: the `tidyselect` documentation states:
+
+>`one_of()` is retired in favour of the more precise `any_of()` and `all_of()` selectors.
+
+```{r}
+# Answer here.
+```
+
+## 4
+
+Does the result of running the following code surprise you? How do the select helpers deal with case by default? How can you change that default?
+
+`select(flights, contains("TIME"))`
+
+```{r}
+# Answer here.
+```
+
+# 5.5 Exercises
+
+Complete exercises 1-3.
+
+## 1
+
+Currently `dep_time` and `sched_dep_time` are convenient to look at, but hard to compute with because they’re not really continuous numbers. Convert them to a more convenient representation of number of minutes since midnight.
+
+```{r}
+# Answer here.
+```
+
+## 2
+
+Compare `air_time` with `arr_time - dep_time`. What do you expect to see? What do you see? What do you need to do to fix it?
+
+```{r}
+# Answer here.
+```
+
+## 3
+
+Compare `dep_time`, `sched_dep_time`, and `dep_delay`. How would you expect those three numbers to be related?
+
+```{r}
+# Answer here.
+```
+
+# 5.6 Exercises
+
+Complete exercises 1, 2, and 4. 
+
+## 1
+
+For this exercise, just find one way of solving the problem.
+
+A flight is 15 minutes early 50% of the time, and 15 minutes late 50% of the time.
+
+```{r}
+# Answer here.
+```
+
+A flight is always 10 minutes late.
+
+```{r}
+# Answer here.
+```
+
+A flight is 30 minutes early 50% of the time, and 30 minutes late 50% of the time.
+
+```{r}
+# Answer here.
+```
+
+99% of the time a flight is on time. 1% of the time it’s 2 hours late.
+
+```{r}
+# Answer here.
+```
+
+## 2
+
+Come up with another approach that will give you the same output as `not_cancelled %>% count(dest)` and `not_cancelled %>% count(tailnum, wt = distance)` without using `count()`.
+
+```{r}
+# Answer here.
+```
+
+## 4
+
+Look at the number of cancelled flights per day. Is there a pattern? Is the proportion of cancelled flights related to the average delay?
+
+```{r}
+# Answer here.
+```
+
+# 5.7 Exercises
+
+Complete exercises 2 and 3.
+
+## 2
+
+Which plane (`tailnum`) has the worst on-time record?
+
+```{r}
+# Answer here.
+```
+
+## 3
+
+What time of day should you fly if you want to avoid delays as much as possible?
+
+```{r}
+# Answer here.
+```

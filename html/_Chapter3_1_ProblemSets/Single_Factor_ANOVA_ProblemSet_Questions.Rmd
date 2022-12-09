@@ -1,0 +1,159 @@
+---
+title: "Single Factor ANOVA Problem Set"
+author: "Your Name Here"
+date: "Your Date Here"
+output: 
+  html_document:
+    number_sections: true
+    
+---
+
+<!-- Don't change this -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+```
+
+# Introduction
+
+This problem set is associated with the https://doe.dscoe.org section on Single Factor ANOVA.
+
+For this problem set we will use the following package:
+
+```{r}
+library(tidyverse)
+```
+
+
+# Tank Simulation
+
+Assume you are analyst working to build the next Army tank.  One question you have is, Does the maximum range of the tank main gun have an effect on the number of kills achieved?  You have run a stochastic simulation in which the only thing you have varied is the maximum range associated with the tank's main gun^[For simulation people out there, you may say that kill rate can vary by range.  You modify the kill rates over range so that they are proprtional to the maximum range you chose]..  You assess 3 simulation runs for each of the following maximum ranges: 1km, 2km, 3km, 4km, 5km.  Your results are contained in <a href = '/_Chapter3_1_ProblemSets/tank.csv'> this csv </a>.
+
+## Conceptual Questions
+
+What type of ANOVA should you conduct to assess if range has an effect on the number of kills achieved?
+
+```{}
+# Answer here.
+```
+
+How many factor(s) are there? What are they (or is it)? What are their level(s)?  How many replicates are you doing?
+
+```{}
+# Answer here.
+```
+
+What are your null and alternate hypotheses for this ANOVA?
+
+```{}
+# Answer here.
+```
+
+What assumptions are you making in doing this sort of analysis.  Are they reasonable?
+
+```{}
+# Answer here.
+```
+
+## ANOVA Execution
+
+Conduct an ANOVA on the data.  Show your work to include any data cleaning, etc..  We'll actually analyze the results in the next question.
+
+```{r}
+# Answer here.
+```
+
+## ANOVA Analysis
+
+Produce the ANOVA table.
+
+```{r}
+# Answer here.
+```
+
+Before assessing if we met any assumptions, based on the ANOVA table, would you reject or fail to reject the null hypothesis?  What does this mean?
+
+```{}
+# Answer here.
+```
+
+Check the assumptions that the errors are normally and independently distributed with constant variance.  What does this tell you about your analysis?
+
+```{r}
+# Answer here.
+```
+
+
+
+# Soldier Load Simulation
+
+Now assume that you are an analyst assessing the impact of soldier load on their 12 mile march time.  You randomly assign soldiers in a company (120 soldiers) to one of three groups:
+
++ Soldiers with no load ('Unloaded').
++ Soldiers with a "fighting load"^[i.e., just what they need for combat] ('Fighting').
++ Soldiers with a "full load"^[i.e., what they need for fighting and sustainment] ('Full').
+
+You further randomly assign starting times to each soldier such that there are no issues of congestion or any soldier impacting another soldier's march.  All soldiers march on the same course.  Your results are contained in <a href = '/_Chapter3_1_ProblemSets/soldier.csv'> this csv </a>.
+
+
+## Conceptual
+
+What type of ANOVA should you conduct to assess if load has an effect on the number of kills achieved?
+
+```{}
+# Answer here.
+```
+
+How many factor(s) are there? What are they (or is it)? What are their level(s)?  How many replicates are you doing?
+
+```{}
+# Answer here.
+```
+
+What are your null and alternate hypotheses for this ANOVA?
+
+```{}
+# Answer here.
+```
+
+What assumptions are you making in doing this sort of analysis.  Are they reasonable?
+
+```{}
+# Answer here.
+```
+
+## ANOVA Execution
+
+Conduct an ANOVA on the data.  Show your work to include any data cleaning, etc..  We'll actually analyze the results in the next question.
+
+```{r}
+# Answer here.
+```
+
+## ANOVA Analysis
+
+Produce the ANOVA table.
+
+```{r}
+# Answer here.
+```
+
+Before assessing if we met any assumptions, based on the ANOVA table, would you reject or fail to reject the null hypothesis?  What does this mean?
+
+```{}
+# Answer here.
+```
+
+Check the assumptions that the errors are normally and independently distributed with constant variance.  What does this tell you about your analysis?
+
+```{r}
+# Answer here.
+```
+
+
+
+
+
+
+
+

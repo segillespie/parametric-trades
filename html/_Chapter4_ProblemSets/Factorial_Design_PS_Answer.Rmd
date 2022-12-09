@@ -1,0 +1,233 @@
+---
+title: "Introduction to Factorial Designs Problem Set"
+output: 
+  html_document:
+    number_sections: true
+    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Single Replicate Analysis
+
+Consider the following factorial design and the responses:
+
+| Round | Caliber | Kills |
+| --- | --- | --- |
+| HE | 105mm | 10 |
+| HE | 120mm | 30 | 
+| AP | 105mm | 20 | 
+| AP | 120mm | 42 | 
+
+Where "Kills" is your response.
+
+## Describe the Design
+
+1. What type of design is this?
+
+```
+This is a 2 factor factorial design, specifically a 2^2 design.
+```
+
+2. How many replicates are we using?
+
+```
+1 x replicate
+```
+
+3. Treatment Combinations
+
+Consider Round as Factor A and Caliber as Factor B.  List the treatment combinations using the lower case letter notation and tell what their high and low levels are.
+
+```
+Let HE is low for B and AP is high for A
+Let 105mm is low for A and 120mm is high for B.
+
+(1) = HE / 105mm 
+a = AP / 105mm 
+b = HE / 120mm 
+ab = AP / 120mm
+
+```
+
+4. Visualize the Design Geometrically
+
+```{r}
+# Create the data
+myDF <- data.frame(Round = as.factor(c('HE', 'HE', 'AP', 'AP')), 
+                   Caliber = as.factor(c('105mm', '120mm', '105mm', '120mm')), 
+                   Kills = c(10, 30, 20, 42))
+
+
+ggplot(myDF, aes(x = Round, y = Caliber)) + 
+  geom_point(size = 24) + 
+  geom_label(aes(label = Kills))
+```
+
+## Analysis
+
+Conduct an ANOVA to show if the factors and their interaction have an effect.  What do you learn from this ANOVA?
+
+```{r}
+# Conduct an ANOVA on this data
+summary(aov(Kills ~ Round + Caliber + Round:Caliber, data = myDF))
+
+# Note that as we only have a single replicate, we have no degrees of freedom on the 
+# error so we cannot actually estimate all of the effects.
+```
+
+Conduct an ANOVA to show if the main effects only are significant.  
+
+```{r}
+summary(aov(Kills ~ Round + Caliber, data = myDF))
+# We see Caliber is significant at alpha = .05 and Round isn't quite significant, but close
+
+# We can view the interaction plot
+stats::interaction.plot(myDF$Round, myDF$Caliber, myDF$Kills)
+stats::interaction.plot(myDF$Caliber, myDF$Round, myDF$Kills)
+
+#We can visually see that it does not appear that there are any interaction effects.
+# The question of whether or not to 
+```
+
+# Blocking
+
+You are running a simulation that provides the total kills against an enemy by varying the numbers of armored fighting vehicles (AFV) and tanks in your friendly unit.  You have decided two test the following factors:
+
+* Factor A: Tanks with the low level: '1 x tank co' and the high level: '2 x tank co'.
+* Factor B: AFVs with the low level: '1 x AFV co' and the high level: '2 x AFV co'.
+
+You further have reason to believe that the machine you run your simulation on may have an effect on your results.^[Something to do with how the simulation is compiled.  Go figure.]  Therefore you are going to block based on the machine.  You have three machines: 'yzma', 'cruella', and 'lex'.  You can run a total of 12 replicates.
+
+## Design
+
+1. What are your treatment combinations?
+
+```
+(1): 1 x tank co, 1 x AFV co
+a: 2 x tank co, 1 x AFV co
+b: 1 x tank co, 2 x AFV co
+ab: 2 x tank co, 2 x AFV co
+```
+
+2. How do you assign your treatment combinations to your blocks?
+
+```
+You have 12 possible runs.  You can assign one of each  of the 4 treatment combinations
+to each of the 3 x blocks.  Within each block you can "randomize the run order" by ensuring 
+you do not have a consistent seed when you do the runs.
+```
+
+## Analysis
+
+Your results are in <a href = '/_Chapter4_ProblemSets/blocking.csv'> blocking.csv </a>.
+
+```{r, hide = T}
+# For future reference how this was built
+# myDF <- data.frame(Tank = rep(c('1 x tank co', '1 x tank co', '2 x tank co', '2 x tank co'), 3), 
+#                    AFV = rep(c('1 x AFV co', '2 x AFV co', '1 x AFV co', '2 x AFV co'), 3),
+#                    Machine = c(rep('yzma', 4), rep('cruella', 4), rep('lex', 4)))
+# 
+# #myDF$error <- round(rnorm(12, 0, 2), 0)
+# myDF <- myDF %>% 
+#   mutate(Kills = round(13 + ifelse(Tank == '2 x tank co', 5, 0) + ifelse(AFV == '2 x AFV co', 8, 0) + rnorm(12, 0, 2), 0))
+# myDF$Kills[myDF$Tank == '1 x tank co' & myDF$AFV == '1 x AFV co'] <- myDF$Kills[myDF$Tank == '1 x tank co' & myDF$AFV == '1 x AFV co']-2
+# write.csv(select(myDF, -error), './blocking.csv', row.names = F)
+```
+
+1. Read / format your data
+
+```{r}
+fs <- read.csv('blocking.csv')
+fs$Tank <- as.factor(fs$Tank)
+fs$AFV <- as.factor(fs$AFV)
+fs$Machine <- as.factor(fs$Machine)
+```
+
+2. Visualize Your Data
+
+```{r}
+ggpubr::ggarrange(
+  ggplot(fs, aes(x = Tank, y = Kills, color = AFV)) + 
+    geom_boxplot(), 
+  ggplot(fs, aes(x = Tank, y = Kills, color = AFV, group = AFV)) + 
+    stat_summary(fun = 'mean', geom = 'line') + 
+    stat_summary(fun = 'mean', geom = 'point'),
+  nrow = 1)
+
+
+ggpubr::ggarrange(
+  ggplot(fs, aes(x = AFV, y = Kills, color = Tank)) + 
+    geom_boxplot(), 
+  ggplot(fs, aes(x = AFV, y = Kills, color = Tank, group = Tank)) + 
+    stat_summary(fun = 'mean', geom = 'line') + 
+    stat_summary(fun = 'mean', geom = 'point'),
+  nrow = 1)
+
+# It certainly appears that there is an effect of adding companies
+# but it does not appear that there is an interaction effect
+# Potentially hard to say if one has a greater effect than the other
+```
+
+3. Analyze the Data
+
+Conduct, assess, and interpret an ANOVA that accounts for potential factor interaction (i.e. Tank:AFV), accounts for the block, but assumes there is no interaction between the block and the factors.  Use $\alpha = .01$ for your significance.
+
+```{r}
+# We can set up our ANOVA with the model y = mu + tau + beta + tau:beta + block + error
+myAOV <- aov(Kills ~ Tank + AFV + Tank:AFV + Machine, data = fs)
+
+summary(myAOV)
+# This shows us that both the tank and AFV are significant at alpha = .01
+# The machine has no apparent effect
+# The interaction is also not significant
+
+par(mfrow = c(2,2))
+plot(myAOV)
+# our plots appear to meet our assumptions
+shapiro.test(myAOV$residuals)
+# We pass the shapiro wilk test
+
+lawstat::levene.test(fs$Kills, fs$Tank)
+lawstat::levene.test(fs$Kills, fs$AFV)
+# We pass homogenity of variance across both groups
+
+# I don't know if we need to just test by the lowest level of groups...
+lawstat::levene.test(fs$Kills, mutate(fs, group = as.factor(paste(Tank, AFV)))$group)
+
+# We can say that adding more armored vehicles (tanks or AFVs) is significant, 
+# but it does not appear that there is any synergy there
+```
+
+4. Estimate the Effects
+
+Estimate the treatment effects for your significant factors
+
+```{r}
+grand.mean <- mean(fs$Kills)
+
+# We calclualate our treatment effects for each of the two significant levels
+tau.1 <- mean(fs$Kills[fs$Tank == '1 x tank co']) - grand.mean
+tau.2 <- mean(fs$Kills[fs$Tank == '2 x tank co']) - grand.mean
+beta.1 <- mean(fs$Kills[fs$AFV == '1 x AFV co']) - grand.mean
+beta.2 <- mean(fs$Kills[fs$AFV == '2 x AFV co']) - grand.mean
+
+# We can further estimate the sd of the error by doing an ANOVA using this model
+myAOV.ME <- aov(Kills ~ Tank + AFV, data = fs)
+error.sd <- sd(myAOV.ME$residuals)
+```
+
+Write out your model:
+
+$$ Kills = `r round(grand.mean, 1)` + \tau_i + \beta_j + \epsilon_{ijk}$$
+
+Where:
+
+* $\tau_{1 x tank} = `r round(tau.1, 1)`$
+* $\tau_{2 x tank} = `r round(tau.2, 1)`$
+* $\beta_{1 x AFV} = `r round(beta.1, 1)`$
+* $\beta_{2 x AFV} = `r round(beta.2, 1)`$
+* $\epsilon_{ijk}  \sim N(0, `r round(error.sd^2, 1)`)$

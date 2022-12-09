@@ -1,0 +1,87 @@
+---
+title: "Introduction to Factorial Designs Problem Set - 2^K Designs"
+output: 
+    html_document:
+        number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+# $2^3$ Design
+
+*Note, this is adapted from §6.10 of (Montgomery, 2017).*^[Note, this problem was initally a question about a machining tool, but the analysis is equally valid for simulation results]
+
+You conducted a simulation to assess the impact of three factors, A, B, and C at a low and high level each.  You used a $2^3$ full factorial design.  You were able to do three replicates of each treatment combination and conducted the simulation in a random order so that you would meet all assumptions.  Your data is contained in <a href = '/_Chapter4_ProblemSets/montgomery_6_1.csv'> montgomery_6_1.csv </a>.
+
+## Visualize the Data
+
+Visualize the data using both boxplots and interaction plots.  Interpret your results.
+
+```{r}
+# Answer here
+```
+
+## Estimate the Effects
+
+Estimate the effects using contrasts.
+
+```{r}
+# Answer here
+```
+
+## Conduct ANOVA
+
+Conduct a 3-factor ANOVA for the data set and assess your results.
+
+```{r}
+# Answer here
+```
+
+## Bonus
+
+Visualize this design in three dimensions.
+
+```{r}
+# Answer here
+```
+
+
+# Conceptual
+
+## Combinatorics
+
+For a 6 factor, full factorial ($2^6$) design, with factors A, B, C, D, E, F and levels -1 and 1:
+
+1. How many treatment combinations are there?
+
+```{r}
+# Answer here
+```
+
+2. What is the total number of factors and interaction effects?
+
+```{r}
+# Answer here
+```
+
+3. What are the levels for each factor for the treatment combination:
+    * `(1)`
+    * `ab`
+    * `c`
+    * `def`
+
+```{}
+# Answer here
+```
+
+4. What is the "product" of:
+    * ABC and BCD?
+    * AB, ACE, ADEF?
+    
+```{}
+# Answer here
+```

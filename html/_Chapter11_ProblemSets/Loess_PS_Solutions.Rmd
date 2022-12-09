@@ -1,0 +1,216 @@
+---
+title: "Splines and Loess Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the chapter on splines and loess smoothers in the course https://doe.dscoe.org. For this problem set, you will need the `exa` data set from the `faraway` package and the `swiss` data set that comes with base *R*. The solutions for this problem set use the following additional packages. While developing this problem set, I came across the `mgcv` (mixed GAM computation vehicle) package, which has some really nice features that we'll explore. One downside to the package is that it doesn't support loess smoothing.
+
+```{r, warning = F, message = F}
+library(tidyverse)
+library(fANCOVA)
+library(bestglm)
+library(GGally)
+library(mgcv)
+```
+
+# Simulated Non-Parametric Data 
+
+The `exa` data set contains three variables. For now, just plot the predictor `x` versus the response `y` to see what the data looks like.
+
+```{r}
+exa = faraway::exa
+
+ggplot() +
+  geom_point(data=exa, aes(x, y)) +
+  ggtitle("exa Data") +
+  theme_bw()
+```
+
+## Linear Model
+
+The data is clearly non-linear, but fit a linear model anyway with `lm(y~x, data=exa)` and print the model summary. The model p-value should be no surprise.
+
+```{r}
+summary(lm(y~x, data=exa))
+```
+
+## GAM Linear Model
+
+Instead of `lm()`, use `gam()` and print the model summary. The `gam()` function from the `gam` package comes with base *R*. After you load the `mgcv` package, the `gam()` function from `mgcv` will be used instead. You can always use `mgcv::gam()` to be explicit about which function you want to use. 
+
+We haven't invoked any smoothing, so `gam()` produces the exact same results as the linear model. In the summary, notice the use of "deviance explained" instead of "residual standard error". We also get something called "GCV", which stands for Generalized Cross Validation and is an estimate of the mean square prediction error based on a leave-one-out cross validation estimation process. We can use GCV in the same way we've used an AIC score: to compare different model fits, where lower is better.
+
+```{r}
+exa.lm = mgcv::gam(y~x, data=exa)
+summary(exa.lm)
+```
+
+## Spline Smoother
+
+Using `mgcv::gam()`, fit a spline smoother on `x` using `s(x)` in the formula, and then print the model summary. Note the predictor's p-value, the improved adjusted $R^2$, increase in deviance explained, and decrease in GCV. These all indicate we have a better fit using a spline smoother than we did with the linear model. 
+
+A note on p-values for `gam()` objects: according to `?summary.gam`, "The p-values are approximate and neglect smoothing parameter uncertainty. They are likely to be somewhat too low when smoothing parameter estimates are highly uncertain: do read the details section. If the exact values matter, read Wood (2013a or b)."
+
+```{r}
+exa.gam = mgcv::gam(y ~ s(x), data=exa)
+summary(exa.gam)
+```
+
+Compare the AIC scores for the linear model and the GAM with the spline smoother using `AIC(your_model_object)`.
+
+```{r}
+AIC(exa.lm)
+
+AIC(exa.gam)
+
+# The AIC for the smoother model is lower than the linear model, which
+# indicates a better fit.
+```
+
+Plot the smoother with `plot(your_model_object)`. The y-axis label probably isn't what you'd expect, but it does, in fact, represent `y`, which we'll see next.
+
+```{r}
+plot(exa.gam)
+```
+
+Using `ggplot`, plot the `x` and `y` values from `exa`, and use `geom_line()` to plot the smoother (one way to do this is by using `exa$x` and `your_model_object$fitted.values`). 
+
+```{r}
+ggplot() +
+  geom_point(data=exa, aes(x=x, y=y)) +
+  geom_line(aes(x=exa$x, y=exa.gam$fitted.values), size=1, color='red') +
+  theme_bw()
+```
+
+Another way to plot a spline smoother in `ggplot` is to replace `geom_line()` with `geom_smooth(method='gam')`. Replace that line in your code, and re-plot.
+
+```{r}
+ggplot(data=exa, aes(x=x, y=y)) +
+  geom_point() +
+  geom_smooth(method='gam', size=1, color='red') +
+  theme_bw()
+```
+
+### Cross-Validated Loess Smoother
+
+Fit a loess smoother using cross-validation. Plot the loess smoother and the spline smoother (using `geom_line()`) on the same graph (hint: fitted values can be found in cross-validated loess objects). Which smoother do you think is a more accurate representation of the underlying relationship between `x` and `y`?
+
+```{r}
+exa.ls.cv = loess.as(exa$x, exa$y, criterion="gcv")
+
+ggplot() +
+  geom_point(data=exa, aes(x, y), alpha=0.5) +
+  geom_line(aes(x=exa$x, y=exa.gam$fitted.values, linetype='Spline Smoother'), size=1, color='red') +
+  geom_line(aes(x=exa$x, y=exa.ls.cv$fitted, linetype='Loess Smoother'), size=1, color='red') +
+  scale_linetype_manual(name='Legend', values=c(2,1)) +
+  ggtitle("Spline vs. Loess Smoother") +
+  theme_bw()
+```
+
+### The True Relationship
+
+According to the documentation, the `exa` data are derived from the equation $y=sin^3(2\pi x^3)$ with some noise added to it. Compare the two smoothers on a plot with the true values (`exa$m`), and comment on the comparison.
+
+```{r}
+ggplot() +
+  geom_point(data=exa, aes(x, y), alpha=0.5) +
+  geom_point(data=exa, aes(x, m), color='blue') +
+  geom_line(aes(x=exa$x, y=exa.gam$fitted.values, linetype='Spline Smoother'), size=1, color='red') +
+  geom_line(aes(x=exa$x, y=exa.ls.cv$fitted, linetype='Loess Smoother'), size=1, color='red') +
+  scale_linetype_manual(name='Legend', values=c(2,1)) +
+  ggtitle("True Relationship") +
+  theme_bw()
+
+# the loess smoother appears to be a slightly better fit.
+# the mean squared error for loess is also less than for splines
+print(paste("Spline MSE:", sum((exa$m - exa.gam$fitted.values)^2)))
+print(paste("Loess MSE:", sum((exa$m - exa.ls.cv$fitted)^2)))
+```
+
+# Swiss Data Set
+
+Next we'll work with some real data with multiple predictors. The `swiss` data set contains five predictors and one response, `Fertility`. Take a look at the help for the data set to familiarize yourself with the data. 
+
+## Pairs Plot
+
+Load the data with `data(swiss)` and then produce a pairs plot with any smoother to get a feel for the data. Do any of the predictors appear to have a non-linear relationship with the response?
+
+```{r}
+data(swiss)
+
+smooth_fn <- function(data, mapping, ...){
+  ggplot(data = data, mapping = mapping) + 
+    geom_point() + 
+    geom_smooth(formula = y~x, method='loess', color="red", se=FALSE, ...)
+}
+
+ggpairs(swiss, lower=list(continuous=smooth_fn), progress=FALSE) + 
+  ggtitle("Linear Model") +
+  theme_bw()
+
+# alternatively
+# pairs(swiss, panel=panel.smooth)
+
+# I'd say education and catholic could be non-linear
+```
+
+## Linear Model
+
+Fit a linear model using `mgcv::gam()` with all predictors and summarize the model. Also calculate the AIC.
+
+```{r}
+swiss.lm = gam(Fertility ~ Agriculture + Examination + Education + Catholic + Infant.Mortality, data=swiss)
+summary(swiss.lm)
+
+print(paste("AIC:", AIC(swiss.lm)))
+```
+
+## GAM
+
+For those predictors that appear to be non-linear, fit a spline smoother using `mgcv::gam()`. Leave all other predictors as is. For example, a spline on Agriculture only would be: 
+
+`gam(Fertility ~ s(Agriculture) + Examination + ... + Catholic)`
+
+Note how the predictors are categorized differently in the model summary depending on whether they are smoothed or not. Try different combinations of predictors with and without smoothers until you're satisfied with the fit. Compare the model's GCV, AIC, and % deviance explained with the linear model.
+
+```{r}
+swiss.spl = gam(Fertility ~ Agriculture + Examination + s(Education) + s(Catholic) + Infant.Mortality, data=swiss)
+summary(swiss.spl)
+
+print(paste('AIC:', AIC(swiss.spl)))
+```
+
+### ANOVA
+
+The `mgcv` package has a convenient method for performing ANOVA on `gam()` objects. Using it, we can determine if the difference between the linear and GAM models is significant. The syntax is:
+
+`mgcv::anova.gam(model_1, model_2, test="Chisq")`
+
+Apply this function to your two models. Is the difference significant? 
+
+Based on all of these comparisons, which model has the best fit?
+
+```{r}
+mgcv::anova.gam(swiss.lm, swiss.spl, test="Chisq")
+
+# The difference between the two models is significant at the 95% confidence level. 
+# Based on all of the comparisons, the GAM model is the better fit.
+```
+
+### Plotting With `vis.gam`
+
+Earlier we plotted our GAM object with `plot(gam_object)` and got a 2D plot that showed the spline smoother. With `vis.gam()`, we can plot two predictors on the x and y axes and either a contour plot of the response, or a 3D perspective plot with the response on the z axis. Read the help on the `vis.gam()` function and produce a plot of your choice. If you had two smoothed predictors, plotting those on the x and y axes will produce a more interesting plot. Hint: specify the x and y predictors with `vis.gam(gam_model, view=c('predictor_1', 'predictor_2'))`. 
+
+```{r}
+vis.gam(swiss.spl, view=c('Education', 'Agriculture'), se=2, theta=150, phi=0)
+```
+

@@ -1,0 +1,39 @@
+---
+title: "R For Data Science Chapter 1 Exercises"
+author: "Your Name Here"
+date: "3/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Task 1
+
+If you want to include a written response to a question, you can type it here. 
+
+```{r}
+# Code chunks begin and end with three tick marks.
+# the {r} tells R Studio that this is R code.
+# Comments can be written inside a code chunk by beginning the line with #.
+# Include the code to complete an exercise here. For example:
+
+1 + 1
+```
+
+## Task 2
+
+You can organize and separate your responses using built-in header styles. 
+
+### Task 2.1
+
+#### Task 2.1.1
+
+After typing some code in a code chunk, press each of the icons in the upper right corner of the code chuck to see what they do. 
+
+Here's a blank code chunk for your next exercise response. You can type this directly each time you want a new code chunk, or you can press Ctrl+Alt+I.
+
+```{r}
+# Answer here.
+```

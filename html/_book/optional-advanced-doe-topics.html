@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>12 Optional Advanced DOE Topics | Design of Experiments for Modeling and Simulation</title>
+  <meta name="description" content="12 Optional Advanced DOE Topics | Design of Experiments for Modeling and Simulation" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="12 Optional Advanced DOE Topics | Design of Experiments for Modeling and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="12 Optional Advanced DOE Topics | Design of Experiments for Modeling and Simulation" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="non-parametric-regression.html"/>
+
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.17/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="https://doe.dscoe.org/">DoE for M&S</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction to DOE for M&amp;S</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#background."><i class="fa fa-check"></i><b>1.1</b> Background.</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#mission."><i class="fa fa-check"></i><b>1.2</b> Mission.</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#simulation-analysis."><i class="fa fa-check"></i><b>1.2.1</b> Simulation Analysis.</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#enduring-resource."><i class="fa fa-check"></i><b>1.2.2</b> Enduring Resource.</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#community."><i class="fa fa-check"></i><b>1.2.3</b> Community.</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#concept."><i class="fa fa-check"></i><b>1.3</b> Concept.</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#training-concept"><i class="fa fa-check"></i><b>1.4</b> Training Concept</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="index.html"><a href="index.html#lessons."><i class="fa fa-check"></i><b>1.4.1</b> Lessons.</a></li>
+<li class="chapter" data-level="1.4.2" data-path="index.html"><a href="index.html#projects."><i class="fa fa-check"></i><b>1.4.2</b> Projects.</a></li>
+<li class="chapter" data-level="1.4.3" data-path="index.html"><a href="index.html#assessments."><i class="fa fa-check"></i><b>1.4.3</b> Assessments.</a></li>
+<li class="chapter" data-level="1.4.4" data-path="index.html"><a href="index.html#curriculum."><i class="fa fa-check"></i><b>1.4.4</b> Curriculum.</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#community-concept"><i class="fa fa-check"></i><b>1.5</b> Community Concept</a></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#admin"><i class="fa fa-check"></i><b>1.6</b> Admin</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#contact"><i class="fa fa-check"></i><b>1.6.1</b> Contact</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#errors"><i class="fa fa-check"></i><b>1.6.2</b> Errors</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#resources"><i class="fa fa-check"></i><b>1.6.3</b> Resources</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a><ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#introduction-to-r---part-i"><i class="fa fa-check"></i><b>2.1</b> Introduction to R - Part I</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#objectives-1"><i class="fa fa-check"></i><b>2.1.1</b> Objectives</a></li>
+<li class="chapter" data-level="2.1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#task-1---read-chapter-1-and-install-tidyverse"><i class="fa fa-check"></i><b>2.1.2</b> Task 1 - Read Chapter 1 and Install Tidyverse</a></li>
+<li class="chapter" data-level="2.1.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-operations"><i class="fa fa-check"></i><b>2.1.3</b> Basic Operations</a></li>
+<li class="chapter" data-level="2.1.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#variable-types"><i class="fa fa-check"></i><b>2.1.4</b> Variable Types</a></li>
+<li class="chapter" data-level="2.1.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-structures"><i class="fa fa-check"></i><b>2.1.5</b> Data Structures</a></li>
+<li class="chapter" data-level="2.1.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#relational-and-logical-operators"><i class="fa fa-check"></i><b>2.1.6</b> Relational and Logical Operators</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#introduction-to-r---part-ii"><i class="fa fa-check"></i><b>2.2</b> Introduction to R - Part II</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#reading-tasks"><i class="fa fa-check"></i><b>2.2.1</b> Reading Tasks</a></li>
+<li class="chapter" data-level="2.2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#problem-set"><i class="fa fa-check"></i><b>2.2.2</b> Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="statistics-review.html"><a href="statistics-review.html"><i class="fa fa-check"></i><b>3</b> Statistics Review</a><ul>
+<li class="chapter" data-level="3.1" data-path="statistics-review.html"><a href="statistics-review.html#introduction"><i class="fa fa-check"></i><b>3.1</b> Introduction</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="statistics-review.html"><a href="statistics-review.html#resources-1"><i class="fa fa-check"></i><b>3.1.1</b> Resources</a></li>
+<li class="chapter" data-level="3.1.2" data-path="statistics-review.html"><a href="statistics-review.html#organization"><i class="fa fa-check"></i><b>3.1.2</b> Organization</a></li>
+<li class="chapter" data-level="3.1.3" data-path="statistics-review.html"><a href="statistics-review.html#poc"><i class="fa fa-check"></i><b>3.1.3</b> POC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics"><i class="fa fa-check"></i><b>3.2</b> Descriptive Statistics</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---description"><i class="fa fa-check"></i><b>3.2.1</b> Descriptive Statistics - Description</a></li>
+<li class="chapter" data-level="3.2.2" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---tutorial"><i class="fa fa-check"></i><b>3.2.2</b> Descriptive Statistics - Tutorial</a></li>
+<li class="chapter" data-level="3.2.3" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---problem-set"><i class="fa fa-check"></i><b>3.2.3</b> Descriptive Statistics - Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts"><i class="fa fa-check"></i><b>3.3</b> Statistical Concepts</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---description"><i class="fa fa-check"></i><b>3.3.1</b> Statistical Concepts - Description</a></li>
+<li class="chapter" data-level="3.3.2" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---tutorial"><i class="fa fa-check"></i><b>3.3.2</b> Statistical Concepts - Tutorial</a></li>
+<li class="chapter" data-level="3.3.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---problem-set"><i class="fa fa-check"></i><b>3.3.3</b> Statistical Concepts - Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference"><i class="fa fa-check"></i><b>3.4</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---description"><i class="fa fa-check"></i><b>3.4.1</b> Statistical Inference - Description</a></li>
+<li class="chapter" data-level="3.4.2" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---tutorial"><i class="fa fa-check"></i><b>3.4.2</b> Statistical Inference - Tutorial</a></li>
+<li class="chapter" data-level="3.4.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---conclusion"><i class="fa fa-check"></i><b>3.4.3</b> Statistical Inference - Conclusion</a></li>
+<li class="chapter" data-level="3.4.4" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---problem-set"><i class="fa fa-check"></i><b>3.4.4</b> Statistical Inference - Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html"><i class="fa fa-check"></i><b>4</b> Analysis of Variance (ANOVA)</a><ul>
+<li class="chapter" data-level="4.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#introduction-1"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-overview"><i class="fa fa-check"></i><b>4.2</b> ANOVA Overview</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#motivation"><i class="fa fa-check"></i><b>4.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#broad-concept"><i class="fa fa-check"></i><b>4.2.2</b> Broad Concept</a></li>
+<li class="chapter" data-level="4.2.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#terminology"><i class="fa fa-check"></i><b>4.2.3</b> Terminology</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.3</b> Single Factor, Fixed Effects ANOVA</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#example"><i class="fa fa-check"></i><b>4.3.1</b> Example</a></li>
+<li class="chapter" data-level="4.3.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#model"><i class="fa fa-check"></i><b>4.3.2</b> Model</a></li>
+<li class="chapter" data-level="4.3.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-anova-assumptions"><i class="fa fa-check"></i><b>4.3.3</b> Single Factor ANOVA Assumptions</a></li>
+<li class="chapter" data-level="4.3.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#conducting-single-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.3.4</b> Conducting Single Factor (Fixed Effects) ANOVA</a></li>
+<li class="chapter" data-level="4.3.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-fixed-effects-anova-problem-set"><i class="fa fa-check"></i><b>4.3.5</b> Single Factor, Fixed Effects ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-random-effects-model"><i class="fa fa-check"></i><b>4.4</b> Single Factor, Random Effects Model</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-random-effects-problem-set"><i class="fa fa-check"></i><b>4.4.1</b> Single Factor, Random Effects Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#two-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.5</b> Two Factor, Fixed Effects ANOVA</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#including-interaction-effects"><i class="fa fa-check"></i><b>4.5.1</b> Including Interaction Effects</a></li>
+<li class="chapter" data-level="4.5.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#two-factor-anova-problem-set"><i class="fa fa-check"></i><b>4.5.2</b> Two Factor ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-for-more-than-two-factors"><i class="fa fa-check"></i><b>4.6</b> ANOVA For More Than Two Factors</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multi-factor-anova-problem-set"><i class="fa fa-check"></i><b>4.6.1</b> Multi-Factor ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons"><i class="fa fa-check"></i><b>4.7</b> Multiple Comparisons</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-example"><i class="fa fa-check"></i><b>4.7.1</b> Tukey Test Example</a></li>
+<li class="chapter" data-level="4.7.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-in-r"><i class="fa fa-check"></i><b>4.7.2</b> Tukey Test in R</a></li>
+<li class="chapter" data-level="4.7.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-multiple-factors"><i class="fa fa-check"></i><b>4.7.3</b> Tukey Test, Multiple Factors</a></li>
+<li class="chapter" data-level="4.7.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons-problem-set"><i class="fa fa-check"></i><b>4.7.4</b> Multiple Comparisons Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-summary"><i class="fa fa-check"></i><b>4.8</b> ANOVA Summary</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#how-to-calculate-anova"><i class="fa fa-check"></i><b>4.8.1</b> How to Calculate ANOVA</a></li>
+<li class="chapter" data-level="4.8.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-hypothesis-tests"><i class="fa fa-check"></i><b>4.8.2</b> ANOVA Hypothesis Test(s)</a></li>
+<li class="chapter" data-level="4.8.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-assumptions"><i class="fa fa-check"></i><b>4.8.3</b> ANOVA Assumptions</a></li>
+<li class="chapter" data-level="4.8.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons-1"><i class="fa fa-check"></i><b>4.8.4</b> Multiple Comparisons</a></li>
+<li class="chapter" data-level="4.8.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#further-extensions-of-anova"><i class="fa fa-check"></i><b>4.8.5</b> Further Extensions of ANOVA</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html"><i class="fa fa-check"></i><b>5</b> Fundamentals of Design of Experiments</a><ul>
+<li class="chapter" data-level="5.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-2"><i class="fa fa-check"></i><b>5.1</b> Introduction</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#admin-1"><i class="fa fa-check"></i><b>5.1.1</b> Admin</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#doe-overview"><i class="fa fa-check"></i><b>5.2</b> DOE Overview</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#what-is-design-of-experiments"><i class="fa fa-check"></i><b>5.2.1</b> What is Design of Experiments?</a></li>
+<li class="chapter" data-level="5.2.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#why-design-experiments"><i class="fa fa-check"></i><b>5.2.2</b> Why Design Experiments?</a></li>
+<li class="chapter" data-level="5.2.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#strategies-for-experimental-design"><i class="fa fa-check"></i><b>5.2.3</b> Strategies for Experimental Design</a></li>
+<li class="chapter" data-level="5.2.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#history-and-applications-of-experimental-design"><i class="fa fa-check"></i><b>5.2.4</b> History and Applications of Experimental Design</a></li>
+<li class="chapter" data-level="5.2.5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#principles"><i class="fa fa-check"></i><b>5.2.5</b> Principles</a></li>
+<li class="chapter" data-level="5.2.6" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#guidelines"><i class="fa fa-check"></i><b>5.2.6</b> Guidelines</a></li>
+<li class="chapter" data-level="5.2.7" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-1"><i class="fa fa-check"></i><b>5.2.7</b> Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#factorial-designs"><i class="fa fa-check"></i><b>5.3</b> Factorial Designs</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-3"><i class="fa fa-check"></i><b>5.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.3.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#assessing-and-estimating-effects"><i class="fa fa-check"></i><b>5.3.2</b> Assessing and Estimating Effects</a></li>
+<li class="chapter" data-level="5.3.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#blocking"><i class="fa fa-check"></i><b>5.3.3</b> Blocking</a></li>
+<li class="chapter" data-level="5.3.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-2"><i class="fa fa-check"></i><b>5.3.4</b> Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#k-factorial-design"><i class="fa fa-check"></i><b>5.4</b> <span class="math inline">\(2^K\)</span> Factorial Design</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-4"><i class="fa fa-check"></i><b>5.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.4.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#coding-variables-and-effects-signs"><i class="fa fa-check"></i><b>5.4.2</b> Coding Variables and Effects Signs</a></li>
+<li class="chapter" data-level="5.4.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#estimating-effects-and-contrasts"><i class="fa fa-check"></i><b>5.4.3</b> Estimating Effects and Contrasts</a></li>
+<li class="chapter" data-level="5.4.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#unreplicated-2k-designs"><i class="fa fa-check"></i><b>5.4.4</b> Unreplicated <span class="math inline">\(2^K\)</span> Designs</a></li>
+<li class="chapter" data-level="5.4.5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-3"><i class="fa fa-check"></i><b>5.4.5</b> Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html"><i class="fa fa-check"></i><b>6</b> Fractional Factorial Designs</a><ul>
+<li class="chapter" data-level="6.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#introduction-5"><i class="fa fa-check"></i><b>6.1</b> Introduction</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#admin-2"><i class="fa fa-check"></i><b>6.1.1</b> Admin</a></li>
+<li class="chapter" data-level="6.1.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#overview"><i class="fa fa-check"></i><b>6.1.2</b> Overview</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#frac12-fractional-factorial-design-2k-1"><i class="fa fa-check"></i><b>6.2</b> <span class="math inline">\(\frac{1}{2}\)</span> Fractional Factorial Design (<span class="math inline">\(2^{K-1}\)</span>)</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#motivation-and-example"><i class="fa fa-check"></i><b>6.2.1</b> Motivation and Example</a></li>
+<li class="chapter" data-level="6.2.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#design-generator"><i class="fa fa-check"></i><b>6.2.2</b> Design Generator</a></li>
+<li class="chapter" data-level="6.2.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#estimating-effects"><i class="fa fa-check"></i><b>6.2.3</b> Estimating Effects</a></li>
+<li class="chapter" data-level="6.2.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#geometric-view"><i class="fa fa-check"></i><b>6.2.4</b> Geometric View</a></li>
+<li class="chapter" data-level="6.2.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#example-24-1-design"><i class="fa fa-check"></i><b>6.2.5</b> Example <span class="math inline">\(2^{4-1}\)</span> Design</a></li>
+<li class="chapter" data-level="6.2.6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#frac12-fractional-factorial-design-2k-1-problem-set"><i class="fa fa-check"></i><b>6.2.6</b> <span class="math inline">\(\frac{1}{2}\)</span> Fractional Factorial Design (<span class="math inline">\(2^{K-1}\)</span>) Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-designs"><i class="fa fa-check"></i><b>6.3</b> General <span class="math inline">\(2^{K-P}\)</span> Designs</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#introduction-6"><i class="fa fa-check"></i><b>6.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.3.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#quarter-fractional-design"><i class="fa fa-check"></i><b>6.3.2</b> Quarter Fractional Design</a></li>
+<li class="chapter" data-level="6.3.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-design"><i class="fa fa-check"></i><b>6.3.3</b> General <span class="math inline">\(2^{K-P}\)</span> Design</a></li>
+<li class="chapter" data-level="6.3.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#resolution"><i class="fa fa-check"></i><b>6.3.4</b> Resolution</a></li>
+<li class="chapter" data-level="6.3.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-designs-problem-set"><i class="fa fa-check"></i><b>6.3.5</b> General <span class="math inline">\(2^{K-P}\)</span> Designs Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#additional-notes-on-2k-p-designs"><i class="fa fa-check"></i><b>6.4</b> Additional Notes on <span class="math inline">\(2^{K-P}\)</span> Designs</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#additional-topics"><i class="fa fa-check"></i><b>6.4.1</b> Additional Topics</a></li>
+<li class="chapter" data-level="6.4.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#sequencing-experiments"><i class="fa fa-check"></i><b>6.4.2</b> Sequencing Experiments</a></li>
+<li class="chapter" data-level="6.4.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#fractional-factorial-design-simulation-problem-set"><i class="fa fa-check"></i><b>6.4.3</b> Fractional Factorial Design Simulation Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#screening-experiments-and-selecting-factors"><i class="fa fa-check"></i><b>6.5</b> Screening Experiments and Selecting Factors</a></li>
+<li class="chapter" data-level="6.6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#conclusion"><i class="fa fa-check"></i><b>6.6</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html"><i class="fa fa-check"></i><b>7</b> Fundamentals of Regression</a><ul>
+<li class="chapter" data-level="7.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#admin-3"><i class="fa fa-check"></i><b>7.1</b> Admin</a></li>
+<li class="chapter" data-level="7.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>7.2</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#least-squares-method-manually"><i class="fa fa-check"></i><b>7.2.1</b> Least Squares Method Manually</a></li>
+<li class="chapter" data-level="7.2.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#goodness-of-fit"><i class="fa fa-check"></i><b>7.2.2</b> Goodness of Fit</a></li>
+<li class="chapter" data-level="7.2.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#least-squares-method-in-r"><i class="fa fa-check"></i><b>7.2.3</b> Least Squares Method In <em>R</em></a></li>
+<li class="chapter" data-level="7.2.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#simple-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.2.4</b> Simple Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#assumptions-and-diagnostics"><i class="fa fa-check"></i><b>7.3</b> Assumptions and Diagnostics</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#linearity"><i class="fa fa-check"></i><b>7.3.1</b> Linearity</a></li>
+<li class="chapter" data-level="7.3.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#homoscedasticity"><i class="fa fa-check"></i><b>7.3.2</b> Homoscedasticity</a></li>
+<li class="chapter" data-level="7.3.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#independence"><i class="fa fa-check"></i><b>7.3.3</b> Independence</a></li>
+<li class="chapter" data-level="7.3.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#normality"><i class="fa fa-check"></i><b>7.3.4</b> Normality</a></li>
+<li class="chapter" data-level="7.3.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#unusual-observations"><i class="fa fa-check"></i><b>7.3.5</b> Unusual Observations</a></li>
+<li class="chapter" data-level="7.3.6" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#linear-regression-assumptions-and-diagnostics-problem-set"><i class="fa fa-check"></i><b>7.3.6</b> Linear Regression Assumptions and Diagnostics Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#multiple-linear-regression"><i class="fa fa-check"></i><b>7.4</b> Multiple Linear Regression</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#r-example"><i class="fa fa-check"></i><b>7.4.1</b> <em>R</em> Example</a></li>
+<li class="chapter" data-level="7.4.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#multiple-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.4.2</b> Multiple Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#categorical-variables"><i class="fa fa-check"></i><b>7.5</b> Categorical Variables</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#categorical-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.5.1</b> Categorical Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#transformation"><i class="fa fa-check"></i><b>7.6</b> Transformation</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#identifying-non-linear-relationships"><i class="fa fa-check"></i><b>7.6.1</b> Identifying Non-Linear Relationships</a></li>
+<li class="chapter" data-level="7.6.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#checking-model-structure"><i class="fa fa-check"></i><b>7.6.2</b> Checking Model Structure</a></li>
+<li class="chapter" data-level="7.6.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#how-to-transform-variables-in-r"><i class="fa fa-check"></i><b>7.6.3</b> How To Transform Variables In <em>R</em></a></li>
+<li class="chapter" data-level="7.6.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#transformed-regression-problem-set"><i class="fa fa-check"></i><b>7.6.4</b> Transformed Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression"><i class="fa fa-check"></i><b>7.7</b> Logistic Regression</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#motivating-example"><i class="fa fa-check"></i><b>7.7.1</b> Motivating Example</a></li>
+<li class="chapter" data-level="7.7.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logit-function"><i class="fa fa-check"></i><b>7.7.2</b> Logit Function</a></li>
+<li class="chapter" data-level="7.7.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-in-r"><i class="fa fa-check"></i><b>7.7.3</b> Logistic Regression in <em>R</em></a></li>
+<li class="chapter" data-level="7.7.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-diagnostics"><i class="fa fa-check"></i><b>7.7.4</b> Logistic Regression Diagnostics</a></li>
+<li class="chapter" data-level="7.7.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-problem-set"><i class="fa fa-check"></i><b>7.7.5</b> Logistic Regression Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>8</b> Model Selection</a><ul>
+<li class="chapter" data-level="8.1" data-path="model-selection.html"><a href="model-selection.html#admin-4"><i class="fa fa-check"></i><b>8.1</b> Admin</a></li>
+<li class="chapter" data-level="8.2" data-path="model-selection.html"><a href="model-selection.html#introduction-7"><i class="fa fa-check"></i><b>8.2</b> Introduction</a></li>
+<li class="chapter" data-level="8.3" data-path="model-selection.html"><a href="model-selection.html#testing-based-methods"><i class="fa fa-check"></i><b>8.3</b> Testing-Based Methods</a></li>
+<li class="chapter" data-level="8.4" data-path="model-selection.html"><a href="model-selection.html#criterion-based-methods"><i class="fa fa-check"></i><b>8.4</b> Criterion-Based Methods</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="model-selection.html"><a href="model-selection.html#criterion-problem-set"><i class="fa fa-check"></i><b>8.4.1</b> Criterion Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="model-selection.html"><a href="model-selection.html#cross-validation"><i class="fa fa-check"></i><b>8.5</b> Cross Validation</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="model-selection.html"><a href="model-selection.html#what-about-the-test-set"><i class="fa fa-check"></i><b>8.5.1</b> What About The Test Set?</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="model-selection.html"><a href="model-selection.html#lasso-regression"><i class="fa fa-check"></i><b>8.6</b> Lasso Regression</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="model-selection.html"><a href="model-selection.html#background-reading"><i class="fa fa-check"></i><b>8.6.1</b> Background Reading</a></li>
+<li class="chapter" data-level="8.6.2" data-path="model-selection.html"><a href="model-selection.html#lasso-regression-in-r"><i class="fa fa-check"></i><b>8.6.2</b> Lasso Regression In R</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="model-selection.html"><a href="model-selection.html#parting-thought"><i class="fa fa-check"></i><b>8.7</b> Parting Thought</a></li>
+<li class="chapter" data-level="8.8" data-path="model-selection.html"><a href="model-selection.html#lasso-regression-problem-set"><i class="fa fa-check"></i><b>8.8</b> Lasso Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="application-of-doe-to-the-advanced-warfighting-simulation.html"><a href="application-of-doe-to-the-advanced-warfighting-simulation.html"><i class="fa fa-check"></i><b>9</b> Application of DoE to the Advanced Warfighting Simulation</a></li>
+<li class="chapter" data-level="10" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html"><i class="fa fa-check"></i><b>10</b> Advanced Experimental Designs</a><ul>
+<li class="chapter" data-level="10.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#admin-5"><i class="fa fa-check"></i><b>10.1</b> Admin</a></li>
+<li class="chapter" data-level="10.2" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#introduction-and-background"><i class="fa fa-check"></i><b>10.2</b> Introduction and Background</a></li>
+<li class="chapter" data-level="10.3" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#central-composite-designs"><i class="fa fa-check"></i><b>10.3</b> Central Composite Designs</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#augmented-central-composite-designs"><i class="fa fa-check"></i><b>10.3.1</b> Augmented Central Composite Designs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#response-surface-methodology"><i class="fa fa-check"></i><b>10.4</b> Response Surface Methodology</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#ccd-problem-set"><i class="fa fa-check"></i><b>10.4.1</b> CCD Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#nearly-orthogonal-latin-hypercube-designs"><i class="fa fa-check"></i><b>10.5</b> Nearly Orthogonal Latin Hypercube Designs</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#factor-codings"><i class="fa fa-check"></i><b>10.5.1</b> Factor Codings</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#orthogonality-and-variance-inflation-factors"><i class="fa fa-check"></i><b>10.6</b> Orthogonality and Variance Inflation Factors</a></li>
+<li class="chapter" data-level="10.7" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#shifting-and-stacking"><i class="fa fa-check"></i><b>10.7</b> Shifting and Stacking</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#nolh-problem-set"><i class="fa fa-check"></i><b>10.7.1</b> NOLH Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html"><i class="fa fa-check"></i><b>11</b> Non-Parametric Regression</a><ul>
+<li class="chapter" data-level="11.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#admin-6"><i class="fa fa-check"></i><b>11.1</b> Admin</a></li>
+<li class="chapter" data-level="11.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#non-parametric-anova"><i class="fa fa-check"></i><b>11.2</b> Non-Parametric ANOVA</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#multiple-comparisons-2"><i class="fa fa-check"></i><b>11.2.1</b> Multiple Comparisons</a></li>
+<li class="chapter" data-level="11.2.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#non-parametric-anova-problem-set"><i class="fa fa-check"></i><b>11.2.2</b> Non-Parametric ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#generalized-additive-models"><i class="fa fa-check"></i><b>11.3</b> Generalized Additive Models</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#loess"><i class="fa fa-check"></i><b>11.3.1</b> Loess</a></li>
+<li class="chapter" data-level="11.3.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#splines"><i class="fa fa-check"></i><b>11.3.2</b> Splines</a></li>
+<li class="chapter" data-level="11.3.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#cross-validation-1"><i class="fa fa-check"></i><b>11.3.3</b> Cross Validation</a></li>
+<li class="chapter" data-level="11.3.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#gam-problem-set"><i class="fa fa-check"></i><b>11.3.4</b> GAM Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-machines"><i class="fa fa-check"></i><b>11.4</b> Support Vector Machines</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-regression"><i class="fa fa-check"></i><b>11.4.1</b> Support Vector Regression</a></li>
+<li class="chapter" data-level="11.4.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-classification"><i class="fa fa-check"></i><b>11.4.2</b> Support Vector Classification</a></li>
+<li class="chapter" data-level="11.4.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#svm-problem-set"><i class="fa fa-check"></i><b>11.4.3</b> SVM Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#classification-and-regression-trees"><i class="fa fa-check"></i><b>11.5</b> Classification and Regression Trees</a><ul>
+<li class="chapter" data-level="11.5.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#regression-trees"><i class="fa fa-check"></i><b>11.5.1</b> Regression Trees</a></li>
+<li class="chapter" data-level="11.5.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#random-forest-regression"><i class="fa fa-check"></i><b>11.5.2</b> Random Forest Regression</a></li>
+<li class="chapter" data-level="11.5.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#random-forest-classification"><i class="fa fa-check"></i><b>11.5.3</b> Random Forest Classification</a></li>
+<li class="chapter" data-level="11.5.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#cart-problem-set"><i class="fa fa-check"></i><b>11.5.4</b> CART Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html"><i class="fa fa-check"></i><b>12</b> Optional Advanced DOE Topics</a><ul>
+<li class="chapter" data-level="12.1" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#robust-design"><i class="fa fa-check"></i><b>12.1</b> Robust Design</a></li>
+<li class="chapter" data-level="12.2" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#sequential-designs"><i class="fa fa-check"></i><b>12.2</b> Sequential Designs</a></li>
+<li class="chapter" data-level="12.3" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#ridge-regression"><i class="fa fa-check"></i><b>12.3</b> Ridge Regression</a></li>
+<li class="chapter" data-level="12.4" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#neural-network-regression"><i class="fa fa-check"></i><b>12.4</b> Neural Network Regression</a><ul>
+<li class="chapter" data-level="12.4.1" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#simple-neural-network-model"><i class="fa fa-check"></i><b>12.4.1</b> Simple Neural Network Model</a></li>
+<li class="chapter" data-level="12.4.2" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#gradient-descent"><i class="fa fa-check"></i><b>12.4.2</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.4.3" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#multiple-linear-regression-1"><i class="fa fa-check"></i><b>12.4.3</b> Multiple Linear Regression</a></li>
+<li class="chapter" data-level="12.4.4" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#hidden-layer"><i class="fa fa-check"></i><b>12.4.4</b> Hidden Layer</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#neural-network-classification"><i class="fa fa-check"></i><b>12.5</b> Neural Network Classification</a></li>
+<li class="chapter" data-level="12.6" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#multivariate-adaptive-regression-splines"><i class="fa fa-check"></i><b>12.6</b> Multivariate Adaptive Regression Splines</a></li>
+<li class="chapter" data-level="12.7" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#non-parametric-statistics"><i class="fa fa-check"></i><b>12.7</b> Non-Parametric Statistics</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown">
+Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Design of Experiments for Modeling and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="optional-advanced-doe-topics" class="section level1">
+<h1><span class="header-section-number">12</span> Optional Advanced DOE Topics</h1>
+<div class="sourceCode" id="cb880"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb880-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
+<div id="robust-design" class="section level2">
+<h2><span class="header-section-number">12.1</span> Robust Design</h2>
+</div>
+<div id="sequential-designs" class="section level2">
+<h2><span class="header-section-number">12.2</span> Sequential Designs</h2>
+</div>
+<div id="ridge-regression" class="section level2">
+<h2><span class="header-section-number">12.3</span> Ridge Regression</h2>
+</div>
+<div id="neural-network-regression" class="section level2">
+<h2><span class="header-section-number">12.4</span> Neural Network Regression</h2>
+<p>Like support vector machines and tree-based models, neural networks can be applied to both regression and classification tasks. Neural networks originated in the field of neurophysiology as an attempt to model human brain activity <span class="citation">(Warren S. McCulloch <a href="#ref-mcculloch1943">1943</a>)</span> at the neuron level, but it wasn’t until the 1980s and 1990s <span class="citation">(see David E. Rumelhart <a href="#ref-rumel1986">1986</a>; Bishop <a href="#ref-bishop1995">1995</a>)</span> that they began to be developed into their current form. Neural network models are fit using a training algorithm that slowly reduces prediction error using a process called gradient descent.</p>
+<div id="simple-neural-network-model" class="section level3">
+<h3><span class="header-section-number">12.4.1</span> Simple Neural Network Model</h3>
+<p>Before we get into that, let’s look at visualization of a neural network regression model in it’s simplest form: one to solve for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> given the equation <span class="math inline">\(y = \beta_0 x_0 + \beta_1 x_1 + \epsilon\)</span> where we know <span class="math inline">\(x_0 = 1\)</span>. Below, the two blue circles are referred to as the <strong>input layer</strong> and consist of two <strong>nodes</strong>: an input node that will be used to solve for <span class="math inline">\(\beta_1\)</span>, and a bias node to solve for <span class="math inline">\(\beta_0\)</span>, the y-intercept. Each node of the input layer is connected to the output layer, which consists of just one node because we’ll be predicting a single continuous variable, <span class="math inline">\(\hat{y}\)</span>. If this was a classification problem, and we were trying to classify the three types of irises found in the <code>iris</code> data set, then the output layer would have three nodes, each producing a probability. There is a model parameter, referred to as a <strong>weight</strong>, associated with each connected node as indicated by the <span class="math inline">\(\omega_0\)</span> and <span class="math inline">\(\omega_1\)</span> terms. The output node produces a prediction, <span class="math inline">\(\hat{y}\)</span>, using an <strong>activation function</strong>. In the case of linear regression, we use a linear activation function of the form <span class="math inline">\(f(\sum\limits_{h}{\omega_h} x_h)\)</span>. That’s it - that’s the model!</p>
+<p><img src="_Admin/simple_nn.png" width="500" /></p>
+</div>
+<div id="gradient-descent" class="section level3">
+<h3><span class="header-section-number">12.4.2</span> Gradient Descent</h3>
+<p>The algorithm used to train the model is called gradient descent, and to demonstrate how it works, we need to set the stage first. Let’s assume that we’re trying to find the <span class="math inline">\(\beta\)</span>s that have the following relationship with the predictor:</p>
+<p><span class="math display">\[y = 1 + 0.5x + \epsilon\]</span>
+We’ll create a data set with 10 observations and fit a linear model for comparison later.</p>
+<div class="sourceCode" id="cb881"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb881-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">42</span>)</a>
+<a class="sourceLine" id="cb881-2" data-line-number="2">nn_reg =<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb881-3" data-line-number="3">  <span class="dt">x =</span> <span class="kw">runif</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb881-4" data-line-number="4">  <span class="dt">y =</span> <span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span><span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dt">sd=</span><span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb881-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb881-6" data-line-number="6"><span class="kw">ggplot</span>(nn_reg, <span class="kw">aes</span>(<span class="dt">x=</span>x, <span class="dt">y=</span>y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb881-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb881-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">formula=</span><span class="st">&#39;y~x&#39;</span>, <span class="dt">method=</span><span class="st">&#39;lm&#39;</span>, <span class="dt">se=</span><span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb881-9" data-line-number="9"><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb881-10" data-line-number="10"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Linear Model Fit&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb881-11" data-line-number="11"><span class="st">  </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<p><img src="10-Optional_Advanced_Topics_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div class="sourceCode" id="cb882"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb882-1" data-line-number="1">nn.lm =<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data=</span>nn_reg)</a>
+<a class="sourceLine" id="cb882-2" data-line-number="2"><span class="kw">summary</span>(nn.lm)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x, data = nn_reg)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.67369 -0.38063 -0.08963  0.41550  0.75801 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   0.4127     0.4516   0.914 0.387494    
+## x             0.7641     0.1324   5.773 0.000418 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.5164 on 8 degrees of freedom
+## Multiple R-squared:  0.8064, Adjusted R-squared:  0.7822 
+## F-statistic: 33.32 on 1 and 8 DF,  p-value: 0.000418</code></pre>
+<p>Before the model is trained, its weights are initialized with random numbers. I’ll just pick two random numbers between -1 and 1.</p>
+<div class="sourceCode" id="cb884"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb884-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">42</span>)</a>
+<a class="sourceLine" id="cb884-2" data-line-number="2">(<span class="dt">w0 =</span> <span class="kw">runif</span>(<span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">1</span>))</a></code></pre></div>
+<pre><code>## [1] 0.8296121</code></pre>
+<div class="sourceCode" id="cb886"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb886-1" data-line-number="1">(<span class="dt">w1 =</span> <span class="kw">runif</span>(<span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">1</span>))</a></code></pre></div>
+<pre><code>## [1] 0.8741508</code></pre>
+<p>Since these model parameters are just random numbers, the predictions will not be very accurate. That’s ok, though, and it’s the starting point for all untrained neural network models. We’ll go through the following iterative process to slowly train the model to make more and more accurate predictions.</p>
+<p><strong>The Training Process</strong></p>
+<ol style="list-style-type: decimal">
+<li>Make predictions for input values.</li>
+<li>Measure the difference between those predictions and the true values (called the <strong>loss</strong>).</li>
+<li>Compute the partial derivative (gradient) of the loss with respect to the model parameters.</li>
+<li>Update the model parameters using the partial derivative values computed in the previous step.</li>
+<li>Repeat this process until the loss is either unchanged or is sufficiently low.</li>
+</ol>
+<p>The next several code chunks demonstrate this process one step at a time.</p>
+<p><strong>Step 1. Make predictions.</strong></p>
+<p>We can make predictions manually using the randomly initialized weight and bias.</p>
+<div class="sourceCode" id="cb888"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb888-1" data-line-number="1">get_estimate =<span class="st"> </span><span class="cf">function</span>(omega0, omega1){nn_reg<span class="op">$</span>x <span class="op">*</span><span class="st"> </span>omega1 <span class="op">+</span><span class="st"> </span>omega0}</a>
+<a class="sourceLine" id="cb888-2" data-line-number="2">(<span class="dt">y_hat =</span> <span class="kw">get_estimate</span>(w0, w1))</a></code></pre></div>
+<pre><code>##  [1] 4.828004 4.925338 2.080258 4.459294 3.634524 3.098453 4.049059 1.418207
+##  [9] 3.701164 3.911277</code></pre>
+<p><strong>Step 2. Calculate the loss.</strong></p>
+<p>There are a number of ways we could do this, but for this example, we’ll calculate the loss by determining the mean squared error of the predictions and the target values. Mean squared error is defined as:</p>
+<p><span class="math display">\[MSE = \frac{1}{n} \sum\limits_{i=1}^{n}{(y_i - \hat{y}_i)^2}\]</span></p>
+<div class="sourceCode" id="cb890"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb890-1" data-line-number="1">mse =<span class="st"> </span><span class="cf">function</span>(predicted){<span class="dv">1</span><span class="op">/</span><span class="kw">length</span>(predicted)<span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((nn_reg<span class="op">$</span>y <span class="op">-</span><span class="st"> </span>predicted)<span class="op">^</span><span class="dv">2</span>)}</a>
+<a class="sourceLine" id="cb890-2" data-line-number="2"><span class="co"># the loss</span></a>
+<a class="sourceLine" id="cb890-3" data-line-number="3">(<span class="dt">loss =</span> <span class="kw">mse</span>(y_hat))</a></code></pre></div>
+<pre><code>## [1] 0.8201885</code></pre>
+<p><strong>Step 3. Compute the partial derivatives of the loss.</strong></p>
+<p>At this point, we have two random values for <span class="math inline">\(\omega_0\)</span> and <span class="math inline">\(\omega_1\)</span> and an associated loss (error). Now we need to find new values for the <span class="math inline">\(\omega\)</span>s that will decrease the loss. How do we do that? For each <span class="math inline">\(\omega\)</span>, we need to determine whether we should increase or decrease it’s value and by how much. We determine whether to increase or decrease its value by calculating the gradient of the loss function at the current <span class="math inline">\(\omega\)</span> values. To demonstrate graphically, the loss as a function of <span class="math inline">\(\omega_0\)</span> and <span class="math inline">\(\omega_1\)</span> are plotted below.</p>
+<div class="sourceCode" id="cb892"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb892-1" data-line-number="1"><span class="co"># sequence of w0 values</span></a>
+<a class="sourceLine" id="cb892-2" data-line-number="2">Bvec =<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from=</span>(w0<span class="dv">-1</span>), <span class="dt">to=</span>(w0<span class="op">+</span><span class="dv">1</span>), <span class="dt">length.out =</span> <span class="dv">21</span>)</a>
+<a class="sourceLine" id="cb892-3" data-line-number="3"><span class="co"># calculate loss while holding w1 constant</span></a>
+<a class="sourceLine" id="cb892-4" data-line-number="4">Bloss =<span class="st"> </span>Bvec <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map</span>(<span class="cf">function</span>(x) <span class="kw">get_estimate</span>(x, w1)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(<span class="cf">function</span>(x) <span class="kw">mse</span>(x))</a>
+<a class="sourceLine" id="cb892-5" data-line-number="5"><span class="co"># get a curve through the points and get the gradient</span></a>
+<a class="sourceLine" id="cb892-6" data-line-number="6">Bspl =<span class="st"> </span><span class="kw">smooth.spline</span>(Bloss <span class="op">~</span><span class="st"> </span>Bvec)</a>
+<a class="sourceLine" id="cb892-7" data-line-number="7"><span class="co"># get the gradient at w0</span></a>
+<a class="sourceLine" id="cb892-8" data-line-number="8">Bgrad =<span class="st"> </span><span class="kw">predict</span>(Bspl, <span class="dt">x=</span>w0, <span class="dt">deriv=</span><span class="dv">1</span>)<span class="op">$</span>y</a>
+<a class="sourceLine" id="cb892-9" data-line-number="9"><span class="co"># same thing for w1</span></a>
+<a class="sourceLine" id="cb892-10" data-line-number="10">Wvec =<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from=</span>(w1<span class="dv">-1</span>), <span class="dt">to=</span>(w1<span class="op">+</span><span class="dv">1</span>), <span class="dt">length.out =</span> <span class="dv">21</span>)</a>
+<a class="sourceLine" id="cb892-11" data-line-number="11">Wloss =<span class="st"> </span>Wvec <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map</span>(<span class="cf">function</span>(x) <span class="kw">get_estimate</span>(w0,x)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(<span class="cf">function</span>(x) <span class="kw">mse</span>(x))</a>
+<a class="sourceLine" id="cb892-12" data-line-number="12">Wspl =<span class="st"> </span><span class="kw">smooth.spline</span>(Wloss <span class="op">~</span><span class="st"> </span>Wvec)</a>
+<a class="sourceLine" id="cb892-13" data-line-number="13">Wgrad =<span class="st"> </span><span class="kw">predict</span>(Wspl, <span class="dt">x=</span>w1, <span class="dt">deriv=</span><span class="dv">1</span>)<span class="op">$</span>y</a>
+<a class="sourceLine" id="cb892-14" data-line-number="14">w0plot =<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb892-15" data-line-number="15"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Bvec, <span class="dt">y=</span>Bloss), <span class="dt">color=</span><span class="st">&#39;red&#39;</span>, <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb892-16" data-line-number="16"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">c</span>(w0<span class="fl">-0.5</span>, w0<span class="fl">+0.5</span>), <span class="dt">y=</span><span class="kw">c</span>(Bloss[<span class="dv">11</span>]<span class="op">-</span>Bgrad<span class="op">/</span><span class="dv">2</span>, Bloss[<span class="dv">11</span>]<span class="op">+</span>Bgrad<span class="op">/</span><span class="dv">2</span>)), <span class="dt">color=</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb892-17" data-line-number="17"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Bvec[<span class="dv">11</span>], <span class="dt">y =</span> Bloss[<span class="dv">11</span>]), <span class="dt">size=</span><span class="dv">5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb892-18" data-line-number="18"><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span><span class="fl">0.5</span>, <span class="dt">y=</span><span class="dv">2</span>, <span class="dt">label=</span><span class="kw">paste</span>(<span class="st">&quot;Slope =&quot;</span>, <span class="kw">round</span>(Bgrad, <span class="dv">2</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb892-19" data-line-number="19"><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">3.5</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb892-20" data-line-number="20"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;w0&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Loss&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb892-21" data-line-number="21"><span class="st">  </span><span class="kw">theme_bw</span>()</a>
+<a class="sourceLine" id="cb892-22" data-line-number="22">w1plot =<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb892-23" data-line-number="23"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Wvec, <span class="dt">y=</span>Wloss), <span class="dt">color=</span><span class="st">&#39;red&#39;</span>, <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb892-24" data-line-number="24"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">c</span>(w1<span class="fl">-0.5</span>, w1<span class="fl">+0.5</span>), <span class="dt">y=</span><span class="kw">c</span>(Wloss[<span class="dv">11</span>]<span class="op">-</span>Wgrad<span class="op">/</span><span class="dv">2</span>, Wloss[<span class="dv">11</span>]<span class="op">+</span>Wgrad<span class="op">/</span><span class="dv">2</span>)), <span class="dt">color=</span><span class="st">&#39;blue&#39;</span>, <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb892-25" data-line-number="25"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Wvec[<span class="dv">11</span>], <span class="dt">y=</span>Wloss[<span class="dv">11</span>]), <span class="dt">size=</span><span class="dv">5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb892-26" data-line-number="26"><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span><span class="fl">1.4</span>, <span class="dt">y=</span><span class="fl">0.5</span>, <span class="dt">label=</span><span class="kw">paste</span>(<span class="st">&quot;Slope =&quot;</span>, <span class="kw">round</span>(Wgrad, <span class="dv">2</span>))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb892-27" data-line-number="27"><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="fl">3.5</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb892-28" data-line-number="28"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;w1&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Loss&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb892-29" data-line-number="29"><span class="st">  </span><span class="kw">theme_bw</span>()</a>
+<a class="sourceLine" id="cb892-30" data-line-number="30">gridExtra<span class="op">::</span><span class="kw">grid.arrange</span>(w0plot, w1plot, <span class="dt">nrow=</span><span class="dv">1</span>, <span class="dt">ncol=</span><span class="dv">2</span>)</a></code></pre></div>
+<p><img src="10-Optional_Advanced_Topics_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>In practice, the partial derivatives are calculated as follows:</p>
+<div class="sourceCode" id="cb893"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb893-1" data-line-number="1">(<span class="dt">Bpartial =</span> <span class="kw">sum</span>(<span class="op">-</span>(nn_reg<span class="op">$</span>y <span class="op">-</span><span class="st"> </span>y_hat)))</a></code></pre></div>
+<pre><code>## [1] 7.670526</code></pre>
+<div class="sourceCode" id="cb895"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb895-1" data-line-number="1">(<span class="dt">Wpartial =</span> <span class="kw">sum</span>(<span class="op">-</span>(nn_reg<span class="op">$</span>y <span class="op">-</span><span class="st"> </span>y_hat) <span class="op">*</span><span class="st"> </span>nn_reg<span class="op">$</span>x))</a></code></pre></div>
+<pre><code>## [1] 26.07812</code></pre>
+<p><strong>Step 4. Update the model parameters.</strong></p>
+<p>From the above plots, we can see that to decrease the loss, we need to decrease both <span class="math inline">\(\omega\)</span>s. In fact, the following rules always apply:</p>
+<ul>
+<li><p>With a <em>positive</em> gradient, <em>decrease</em> the parameter value.</p></li>
+<li><p>With a <em>negative</em> gradient, <em>increase</em> the parameter value.</p></li>
+</ul>
+<p>We know we need to decrease the parameter values, so now we need to determine <em>how much</em> to decrease them. Right now, all we have to go on are the magnitude of the gradients. If we decreased the parameters by their respective gradients, the new parameter values would be far to the left on both plots above - we would overshoot the bottom of the curve in both cases. Instead of using the full gradient value, it appears that the parameters should be updated as follows:</p>
+<p><span class="math display">\[\omega_{new} = (\omega_{old}) - (\omega_{gradient})(\alpha)\]</span></p>
+<p>Where <span class="math inline">\(\alpha\)</span> is a multiplier in the range [0, 1], and is referred to as the <strong>learning rate</strong>. For our example, <span class="math inline">\(\alpha=0.01\)</span> will suffice, but keep in mind that <span class="math inline">\(\alpha\)</span> is a hyperparameter that often must be tuned. The code below selects <span class="math inline">\(\alpha\)</span>, updates the parameter values, and recalculates the loss. Notice that the loss has decreased as expected.</p>
+<div class="sourceCode" id="cb897"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb897-1" data-line-number="1">alpha =<span class="st"> </span><span class="fl">0.001</span></a>
+<a class="sourceLine" id="cb897-2" data-line-number="2">w0 =<span class="st"> </span>w0 <span class="op">-</span><span class="st"> </span>Bpartial <span class="op">*</span><span class="st"> </span>alpha</a>
+<a class="sourceLine" id="cb897-3" data-line-number="3">w1 =<span class="st"> </span>w1 <span class="op">-</span><span class="st"> </span>Wpartial <span class="op">*</span><span class="st"> </span>alpha</a>
+<a class="sourceLine" id="cb897-4" data-line-number="4"><span class="kw">mse</span>(<span class="kw">get_estimate</span>(w0, w1))</a></code></pre></div>
+<pre><code>## [1] 0.6816571</code></pre>
+<p>Next we’ll put all this in a loop, iterate through a number of times, and see what we get for parameter estimates. I’ll start from the beginning and capture the parameters and loss as training progresses through 5000 iterations. Below, the parameter estimates are plotted for each iteration and compared to the linear model coefficients.</p>
+<div class="sourceCode" id="cb899"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb899-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">42</span>)</a>
+<a class="sourceLine" id="cb899-2" data-line-number="2">w0 =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb899-3" data-line-number="3">w1 =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb899-4" data-line-number="4">alpha =<span class="st"> </span><span class="fl">0.001</span></a>
+<a class="sourceLine" id="cb899-5" data-line-number="5">w0s =<span class="st"> </span>w0</a>
+<a class="sourceLine" id="cb899-6" data-line-number="6">w1s =<span class="st"> </span>w1</a>
+<a class="sourceLine" id="cb899-7" data-line-number="7"><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">500</span>){</a>
+<a class="sourceLine" id="cb899-8" data-line-number="8">  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(nn_reg)){</a>
+<a class="sourceLine" id="cb899-9" data-line-number="9">    y_hat =<span class="st"> </span><span class="kw">get_estimate</span>(w0, w1)</a>
+<a class="sourceLine" id="cb899-10" data-line-number="10">    Bgrad =<span class="st"> </span><span class="kw">sum</span>(<span class="op">-</span>(nn_reg<span class="op">$</span>y <span class="op">-</span><span class="st"> </span>y_hat))</a>
+<a class="sourceLine" id="cb899-11" data-line-number="11">    Wgrad =<span class="st"> </span><span class="kw">sum</span>(<span class="op">-</span>(nn_reg<span class="op">$</span>y <span class="op">-</span><span class="st"> </span>y_hat) <span class="op">*</span><span class="st"> </span>nn_reg<span class="op">$</span>x)</a>
+<a class="sourceLine" id="cb899-12" data-line-number="12">    w0 =<span class="st"> </span>w0 <span class="op">-</span><span class="st"> </span>Bgrad <span class="op">*</span><span class="st"> </span><span class="fl">0.001</span></a>
+<a class="sourceLine" id="cb899-13" data-line-number="13">    w1 =<span class="st"> </span>w1 <span class="op">-</span><span class="st"> </span>Wgrad <span class="op">*</span><span class="st"> </span><span class="fl">0.001</span></a>
+<a class="sourceLine" id="cb899-14" data-line-number="14">    w0s =<span class="st"> </span><span class="kw">c</span>(w0s, w0)</a>
+<a class="sourceLine" id="cb899-15" data-line-number="15">    w1s =<span class="st"> </span><span class="kw">c</span>(w1s, w1)</a>
+<a class="sourceLine" id="cb899-16" data-line-number="16">  }</a>
+<a class="sourceLine" id="cb899-17" data-line-number="17">}</a>
+<a class="sourceLine" id="cb899-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb899-19" data-line-number="19">wHistory =<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb899-20" data-line-number="20">  <span class="dt">iter =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(w0s),</a>
+<a class="sourceLine" id="cb899-21" data-line-number="21">  <span class="dt">b =</span> w0s,</a>
+<a class="sourceLine" id="cb899-22" data-line-number="22">  <span class="dt">w =</span> w1s</a>
+<a class="sourceLine" id="cb899-23" data-line-number="23">)</a>
+<a class="sourceLine" id="cb899-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb899-25" data-line-number="25"><span class="kw">library</span>(gganimate)</a></code></pre></div>
+<pre><code>## No renderer backend detected. gganimate will default to writing frames to separate files
+## Consider installing:
+## - the `gifski` package for gif output
+## - the `av` package for video output
+## and restarting the R session</code></pre>
+<div class="sourceCode" id="cb901"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb901-1" data-line-number="1"><span class="kw">ggplot</span>(wHistory) <span class="op">+</span></a>
+<a class="sourceLine" id="cb901-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>iter, <span class="dt">y=</span>w0s, <span class="dt">color=</span><span class="st">&#39;w_0 Estimate&#39;</span>, <span class="dt">group=</span><span class="kw">seq_along</span>(iter))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb901-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept=</span><span class="kw">coef</span>(nn.lm)[<span class="dv">1</span>]) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb901-4" data-line-number="4"><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span><span class="dv">1200</span>, <span class="dt">y=</span><span class="fl">0.43</span>, <span class="dt">label=</span><span class="st">&quot;Linear Model Intercept Coefficient&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb901-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>iter, <span class="dt">y=</span>w1s, <span class="dt">color=</span><span class="st">&#39;w_1 Estimate&#39;</span>, <span class="dt">group=</span><span class="kw">seq_along</span>(iter))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb901-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept=</span><span class="kw">coef</span>(nn.lm)[<span class="dv">2</span>]) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb901-7" data-line-number="7"><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span><span class="dv">1300</span>, <span class="dt">y=</span><span class="fl">0.785</span>, <span class="dt">label=</span><span class="st">&quot;Linear Model Slope Coefficient&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb901-8" data-line-number="8"><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">name=</span><span class="st">&quot;Legend&quot;</span>, <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&#39;blue&#39;</span>, <span class="st">&#39;red&#39;</span>)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb901-9" data-line-number="9"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Iteration&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Parameter Value&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb901-10" data-line-number="10"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb901-11" data-line-number="11"><span class="st">  </span><span class="kw">transition_reveal</span>(iter)</a></code></pre></div>
+<pre><code>## Warning: No renderer available. Please install the gifski, av, or magick package
+## to create animated output</code></pre>
+<pre><code>## NULL</code></pre>
+<p>To visualize the gradient descent methodology, calculate the loss for a range of <span class="math inline">\(\omega_0\)</span> and <span class="math inline">\(\omega_1\)</span> values and plot the loss function as a surface.</p>
+<div class="sourceCode" id="cb904"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb904-1" data-line-number="1">loss_fn =<span class="st"> </span><span class="kw">expand_grid</span>(<span class="dt">bs=</span><span class="kw">seq</span>(<span class="fl">0.3</span>,<span class="fl">0.9</span>,<span class="dt">length.out=</span><span class="dv">20</span>), <span class="dt">ws=</span><span class="kw">seq</span>(<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dt">length.out=</span><span class="dv">20</span>))</a>
+<a class="sourceLine" id="cb904-2" data-line-number="2">  </a>
+<a class="sourceLine" id="cb904-3" data-line-number="3">loss_fn<span class="op">$</span>Loss =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(loss_fn) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb904-4" data-line-number="4"><span class="st">  </span><span class="kw">map</span>(<span class="cf">function</span>(x) <span class="kw">get_estimate</span>(loss_fn[x,<span class="st">&#39;bs&#39;</span>] <span class="op">%&gt;%</span><span class="st"> </span>.<span class="op">$</span>bs, loss_fn[x,<span class="st">&#39;ws&#39;</span>]<span class="op">%&gt;%</span><span class="st"> </span>.<span class="op">$</span>ws)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb904-5" data-line-number="5"><span class="st">  </span><span class="kw">map_dbl</span>(<span class="cf">function</span>(x) <span class="kw">mse</span>(x))</a>
+<a class="sourceLine" id="cb904-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb904-7" data-line-number="7"><span class="kw">ggplot</span>(wHistory) <span class="op">+</span></a>
+<a class="sourceLine" id="cb904-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_raster</span>(<span class="dt">data=</span>loss_fn, <span class="kw">aes</span>(<span class="dt">x=</span>bs, <span class="dt">y=</span>ws, <span class="dt">fill=</span>Loss)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb904-9" data-line-number="9"><span class="st">  </span><span class="kw">geom_contour</span>(<span class="dt">data=</span>loss_fn, <span class="kw">aes</span>(<span class="dt">x=</span>bs, <span class="dt">y=</span>ws, <span class="dt">z=</span>Loss), <span class="dt">color=</span><span class="st">&#39;white&#39;</span>, <span class="dt">bins=</span><span class="dv">28</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb904-10" data-line-number="10"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>b, <span class="dt">y=</span>w, <span class="dt">group=</span><span class="kw">seq_along</span>(iter)), <span class="dt">color=</span><span class="st">&#39;yellow&#39;</span>, <span class="dt">size=</span><span class="dv">5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb904-11" data-line-number="11"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Intercept&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="st">&quot;Slope&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb904-12" data-line-number="12"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb904-13" data-line-number="13"><span class="st">  </span><span class="kw">transition_time</span>(iter) <span class="op">+</span></a>
+<a class="sourceLine" id="cb904-14" data-line-number="14"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="kw">paste</span>(<span class="st">&quot;Gradient Descent Iteration:&quot;</span>, <span class="st">&quot;{round(frame_time, 0)}&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb904-15" data-line-number="15"><span class="st">  </span><span class="kw">shadow_wake</span>(<span class="dt">wake_length =</span> <span class="fl">0.2</span>)</a></code></pre></div>
+<pre><code>## Warning: No renderer available. Please install the gifski, av, or magick package
+## to create animated output</code></pre>
+<pre><code>## NULL</code></pre>
+<p>We can also see the regression line update as training progresses.</p>
+<div class="sourceCode" id="cb907"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb907-1" data-line-number="1"><span class="kw">ggplot</span>(wHistory) <span class="op">+</span></a>
+<a class="sourceLine" id="cb907-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">data=</span>nn_reg, <span class="kw">aes</span>(<span class="dt">x=</span>x, <span class="dt">y=</span>y), <span class="dt">formula=</span><span class="st">&#39;y~x&#39;</span>, <span class="dt">method=</span><span class="st">&#39;lm&#39;</span>, <span class="dt">se=</span><span class="ot">FALSE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb907-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_abline</span>(<span class="kw">aes</span>(<span class="dt">intercept=</span>b, <span class="dt">slope=</span>w), <span class="dt">color=</span><span class="st">&#39;red&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb907-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data=</span>nn_reg, <span class="kw">aes</span>(<span class="dt">x=</span>x, <span class="dt">y=</span>y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb907-5" data-line-number="5"><span class="st">  </span><span class="kw">coord_fixed</span>(<span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb907-6" data-line-number="6"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb907-7" data-line-number="7"><span class="st">  </span><span class="kw">transition_time</span>(iter) <span class="op">+</span></a>
+<a class="sourceLine" id="cb907-8" data-line-number="8"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="kw">paste</span>(<span class="st">&quot;Gradient Descent Iteration:&quot;</span>, <span class="st">&quot;{round(frame_time, 0)}&quot;</span>)) </a></code></pre></div>
+<pre><code>## Warning: No renderer available. Please install the gifski, av, or magick package
+## to create animated output</code></pre>
+<pre><code>## NULL</code></pre>
+<p>Let’s compare the final parameter estimates from the neural network model to the linear model coefficients.</p>
+<div class="sourceCode" id="cb910"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb910-1" data-line-number="1"><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb910-2" data-line-number="2">  <span class="dt">Model =</span> <span class="kw">c</span>(<span class="st">&quot;Linear&quot;</span>, <span class="st">&quot;Neural Network&quot;</span>),</a>
+<a class="sourceLine" id="cb910-3" data-line-number="3">  <span class="dt">w_0 =</span> <span class="kw">c</span>(<span class="kw">coef</span>(nn.lm)[<span class="dv">1</span>], <span class="kw">tail</span>(w0s, <span class="dv">1</span>)),</a>
+<a class="sourceLine" id="cb910-4" data-line-number="4">  <span class="dt">w_1 =</span> <span class="kw">c</span>(<span class="kw">coef</span>(nn.lm)[<span class="dv">2</span>], <span class="kw">tail</span>(w1s, <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb910-5" data-line-number="5">)</a></code></pre></div>
+<pre><code>## # A tibble: 2 x 3
+##   Model            w_0   w_1
+##   &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt;
+## 1 Linear         0.413 0.764
+## 2 Neural Network 0.414 0.764</code></pre>
+<p>There are a variety of <em>R</em> packages to simplify the process of fitting a neural network model. Since we’re doing regression and not something for complicated like image classification, natural language processing, or reinforcement learning, a package like <code>nnet</code> provides everything we need.</p>
+<div class="sourceCode" id="cb912"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb912-1" data-line-number="1">nnModel =<span class="st"> </span>nnet<span class="op">::</span><span class="kw">nnet</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> nn_reg,   <span class="co"># formula notation is the same as lm()</span></a>
+<a class="sourceLine" id="cb912-2" data-line-number="2">                     <span class="dt">linout =</span> <span class="ot">TRUE</span>,          <span class="co"># specifies linear output (instead of logistic)</span></a>
+<a class="sourceLine" id="cb912-3" data-line-number="3">                     <span class="dt">decay =</span> <span class="fl">0.001</span>,          <span class="co"># weight decay</span></a>
+<a class="sourceLine" id="cb912-4" data-line-number="4">                     <span class="dt">maxit =</span> <span class="dv">100</span>,            <span class="co"># stop training after 100 iterations</span></a>
+<a class="sourceLine" id="cb912-5" data-line-number="5">                     <span class="dt">size =</span> <span class="dv">0</span>, <span class="dt">skip =</span> <span class="ot">TRUE</span>)  <span class="co"># no hidden layer (covered later)</span></a></code></pre></div>
+<pre><code>## # weights:  2
+## initial  value 31.444863 
+## final  value 2.134476 
+## converged</code></pre>
+<div class="sourceCode" id="cb914"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb914-1" data-line-number="1"><span class="kw">summary</span>(nnModel)</a></code></pre></div>
+<pre><code>## a 1-0-1 network with 2 weights
+## options were - skip-layer connections  linear output units  decay=0.001
+##  b-&gt;o i1-&gt;o 
+##  0.41  0.76</code></pre>
+<p>From the model summary, we see that has two weights: one for <span class="math inline">\(\omega_0\)</span> and one for <span class="math inline">\(\omega_1\)</span>. The initial and final values are model error terms. Converged means that training stopped before it reached <code>maxit</code>. The model takes the form 1-0-1, which means it has one input node (the bias, or intercept, node is automatically included) in the input layer, 0 nodes in the hidden layer (we’ll cover hidden layers later), and one node in the output layer. The <code>b-&gt;o</code> term is our <span class="math inline">\(\omega_0\)</span> (intercept) parameter value, and <code>i1-&gt;o</code> is our <span class="math inline">\(\omega_1\)</span> (slope) parameter value. We can extract the coefficients the usual way.</p>
+<div class="sourceCode" id="cb916"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb916-1" data-line-number="1"><span class="kw">coef</span>(nnModel)</a></code></pre></div>
+<pre><code>##      b-&gt;o     i1-&gt;o 
+## 0.4125070 0.7641276</code></pre>
+</div>
+<div id="multiple-linear-regression-1" class="section level3">
+<h3><span class="header-section-number">12.4.3</span> Multiple Linear Regression</h3>
+<p>The neural network model can be easily expanded to accommodate additional predictors by adding a node to the input layer for each additional predictor and connecting it to the output node. Below is a comparison of coefficients obtained from a linear model and a neural network model for a data set with three predictors.</p>
+<div class="sourceCode" id="cb918"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb918-1" data-line-number="1"><span class="co"># make up data</span></a>
+<a class="sourceLine" id="cb918-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">42</span>)</a>
+<a class="sourceLine" id="cb918-3" data-line-number="3">mlr =<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb918-4" data-line-number="4">  <span class="dt">x1 =</span> <span class="kw">runif</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb918-5" data-line-number="5">  <span class="dt">x2 =</span> <span class="kw">runif</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb918-6" data-line-number="6">  <span class="dt">x3 =</span> <span class="kw">runif</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb918-7" data-line-number="7">  <span class="dt">y =</span> <span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span><span class="op">*</span>x1 <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span><span class="op">*</span>x2 <span class="op">+</span><span class="st"> </span>x3 <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dt">sd=</span><span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb918-8" data-line-number="8">)</a>
+<a class="sourceLine" id="cb918-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb918-10" data-line-number="10"><span class="co"># linear model coefficients</span></a>
+<a class="sourceLine" id="cb918-11" data-line-number="11"><span class="kw">coef</span>(<span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data=</span>mlr))</a></code></pre></div>
+<pre><code>## (Intercept)          x1          x2          x3 
+##   2.0447549   0.5355719  -0.7312496   0.8035532</code></pre>
+<div class="sourceCode" id="cb920"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb920-1" data-line-number="1"><span class="co"># neural network coefficients</span></a>
+<a class="sourceLine" id="cb920-2" data-line-number="2"><span class="kw">coef</span>(nnet<span class="op">::</span><span class="kw">nnet</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mlr, <span class="dt">linout =</span> <span class="ot">TRUE</span>, <span class="dt">decay =</span> <span class="fl">0.001</span>, <span class="dt">maxit =</span> <span class="dv">100</span>,</a>
+<a class="sourceLine" id="cb920-3" data-line-number="3">                     <span class="dt">size =</span> <span class="dv">0</span>, <span class="dt">skip =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<pre><code>## # weights:  4
+## initial  value 195.927838 
+## final  value 4.149504 
+## converged</code></pre>
+<pre><code>##       b-&gt;o      i1-&gt;o      i2-&gt;o      i3-&gt;o 
+##  2.0399505  0.5361400 -0.7307887  0.8040190</code></pre>
+<p>If you think this seems like overkill just to model a linear relationship between two variables, I’d agree with you. But consider this:</p>
+<ul>
+<li><p>What if the relationship between two variables isn’t linear?</p></li>
+<li><p>What if there are dozens of predictor variables and dozens of response variables and the underlying relationships are highly complex?</p></li>
+</ul>
+<p>In cases like these, neural networks models can be very beneficial. To make that leap, however, we need to give our neural network model more power by giving it the ability to model these complexities. We do that by adding one or more <strong>hidden layers</strong> to the model.</p>
+</div>
+<div id="hidden-layer" class="section level3">
+<h3><span class="header-section-number">12.4.4</span> Hidden Layer</h3>
+<p>Neural network models become <strong>universal function approximators</strong> with the addition of one or more hidden layers. Hidden layers fall between the input layer and the output layer. Adding more predictor variables and one hidden layer, we get the following network.</p>
+<p><img src="_Admin/hidden_nn.png" width="800" /></p>
+<p>We’ve introduced a new variable <span class="math inline">\(\nu\)</span>, and a new function <span class="math inline">\(u\)</span>. The <span class="math inline">\(\nu\)</span> variables are trainable weights just like the <span class="math inline">\(w\)</span> variables. The <span class="math inline">\(u\)</span> functions are activation functions as described earlier. Typically, all nodes in a hidden layer share a common type of activation function. A variety of activation functions have been developed, a few of which are shown below. For many applications, a rectified linear, activation function is a good choice for hidden layers.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="46%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Activation Function</th>
+<th>Activation Function Formula</th>
+<th>Output Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Threshold</td>
+<td><span class="math inline">\(f(u) = \begin{Bmatrix} 1, u&gt;0 \\ 0, u\le0 \end{Bmatrix}\)</span></td>
+<td>Binary</td>
+</tr>
+<tr class="even">
+<td>Linear</td>
+<td><span class="math inline">\(f(u) = u\)</span></td>
+<td>Numeric</td>
+</tr>
+<tr class="odd">
+<td>Logistic</td>
+<td><span class="math inline">\(f(u) = \frac{e^u}{1+e^u}\)</span></td>
+<td>Numeric Between 0 &amp; 1</td>
+</tr>
+<tr class="even">
+<td>Rectified Linear</td>
+<td><span class="math inline">\(f(u) = \begin{Bmatrix} u, u&gt;0 \\ 0, u\le0 \end{Bmatrix}\)</span></td>
+<td>Numeric Positive</td>
+</tr>
+</tbody>
+</table>
+<p>As stated, adding a hidden layer turns the neural network model into a universal function approximator. For the case of regression, we can think of this as giving the neural network the ability to model non-linear functions without knowing what the nature of the nonlinear relationship is. Compare that to linear regression. If we had the relationship <span class="math inline">\(y = x^2\)</span>, we would need to transform either the response or predictor variable in a linear regression model, and this requires knowing the order of the polynomial to get a good fit. With neural network regression, we don’t need this knowledge. Instead, we allow the hidden layer to learn the nature of the relationship through the model training process. To demonstrate, we’ll use the <code>exa</code> data set from the <code>faraway</code> package, which looks like this.</p>
+<div class="sourceCode" id="cb923"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb923-1" data-line-number="1">exa =<span class="st"> </span>faraway<span class="op">::</span>exa</a>
+<a class="sourceLine" id="cb923-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb923-3" data-line-number="3"><span class="kw">ggplot</span>(exa) <span class="op">+</span></a>
+<a class="sourceLine" id="cb923-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>x, <span class="dt">y=</span>m), <span class="dt">color=</span><span class="st">&#39;red&#39;</span>, <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb923-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x=</span>x, <span class="dt">y=</span>y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb923-6" data-line-number="6"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Simulated Data (Black) and True Function (Red)&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb923-7" data-line-number="7"><span class="st">  </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<p><img src="10-Optional_Advanced_Topics_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>To fit a linear model with a 10-node hidden layer, we specify <code>size = 10</code>, and since 100 iterations might not be enough to converge, we’ll increase <code>maxit</code> to 500. Otherwise, everything else is the same. With 2 nodes in the input layer (1 for the bias, 1 for x) and 11 nodes in the hidden layer (1 for the bias, and 10 for those we specified), the model will have 31 weights to train.</p>
+<div class="sourceCode" id="cb924"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb924-1" data-line-number="1">nnModel2 =<span class="st"> </span>nnet<span class="op">::</span><span class="kw">nnet</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> exa, <span class="dt">linout =</span> <span class="ot">TRUE</span>, <span class="dt">decay =</span> <span class="dv">10</span><span class="op">^</span>(<span class="op">-</span><span class="dv">4</span>), <span class="dt">maxit =</span> <span class="dv">500</span>, <span class="dt">size =</span> <span class="dv">10</span>)</a></code></pre></div>
+<pre><code>## # weights:  31
+## initial  value 499.220789 
+## iter  10 value 78.378021
+## iter  20 value 48.290911
+## iter  30 value 40.726235
+## iter  40 value 27.840931
+## iter  50 value 26.694405
+## iter  60 value 25.771775
+## iter  70 value 25.636491
+## iter  80 value 25.582305
+## iter  90 value 25.470552
+## iter 100 value 25.224183
+## iter 110 value 24.521006
+## iter 120 value 24.090293
+## iter 130 value 23.790948
+## iter 140 value 23.700198
+## iter 150 value 23.655064
+## iter 160 value 23.604385
+## iter 170 value 23.523641
+## iter 180 value 23.447751
+## iter 190 value 23.374363
+## iter 200 value 23.334554
+## iter 210 value 23.328928
+## iter 220 value 23.299974
+## iter 230 value 23.236649
+## iter 240 value 23.202253
+## iter 250 value 23.140707
+## iter 260 value 23.113750
+## iter 270 value 23.112667
+## iter 280 value 23.098585
+## iter 290 value 23.091294
+## iter 300 value 23.078402
+## iter 310 value 23.076582
+## iter 320 value 23.073208
+## iter 330 value 23.072469
+## iter 340 value 23.072050
+## iter 350 value 23.071342
+## iter 360 value 23.070678
+## iter 370 value 23.070162
+## iter 380 value 23.069796
+## iter 390 value 23.069353
+## iter 390 value 23.069353
+## final  value 23.069351 
+## converged</code></pre>
+<div class="sourceCode" id="cb926"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb926-1" data-line-number="1">preds =<span class="st"> </span><span class="kw">predict</span>(nnModel2, <span class="dt">newdata=</span><span class="kw">data.frame</span>(<span class="dt">x=</span>exa<span class="op">$</span>x))</a>
+<a class="sourceLine" id="cb926-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb926-3" data-line-number="3"><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb926-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>exa, <span class="kw">aes</span>(<span class="dt">x=</span>x, <span class="dt">y=</span>m, <span class="dt">color=</span><span class="st">&#39;True Function&#39;</span>), <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb926-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>exa<span class="op">$</span>x, <span class="dt">y=</span>preds, <span class="dt">color=</span><span class="st">&#39;Model Fit&#39;</span>), <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb926-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data=</span>exa, <span class="kw">aes</span>(<span class="dt">x=</span>x, <span class="dt">y=</span>y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb926-7" data-line-number="7"><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">name=</span><span class="st">&quot;Legend&quot;</span>, <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&#39;blue&#39;</span>, <span class="st">&#39;red&#39;</span>)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb926-8" data-line-number="8"><span class="st">  </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<p><img src="10-Optional_Advanced_Topics_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>The plot above indicates the model over fit the data somewhat, although we only know this because we have the benefit of knowing the true function. We could reduce the amount of over fitting by choosing different hyperparameter values (decay, or the number of hidden layer nodes) or by changing the default training stopping criteria.</p>
+<p>The trained model’s weights are saved with the model, and all 31 are shown below. This highlights a significant drawback of neural network regression. Earlier when we used a neural network model to estimate the slope and intercept, the model weights had meaning: we could directly interpret the weights as slope and intercept. How do we interpret the weights below? I have no idea! The point is that neural network models can be trained to make highly accurate predictions…but at the cost of interpretability.</p>
+<div class="sourceCode" id="cb927"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb927-1" data-line-number="1">nnModel2<span class="op">$</span>wts</a></code></pre></div>
+<pre><code>##  [1] -16.9725673  20.8097910 -29.5370775  34.5222783 -20.7276175  28.4041875
+##  [7] -28.7287379  40.1850426   0.4509965   0.9949686  -6.7984091   9.0542803
+## [13]   2.7378634 -14.7593037   0.5132994  -0.9159351   3.7162426 -21.0383138
+## [19]   1.0052389  -3.2571286   0.4460657  18.5160472 -11.5102823 -22.7474633
+## [25]   9.8426558   1.1112220   6.1837956   6.4103313  -0.8137049  -4.3845932
+## [31]  -3.1923620</code></pre>
+</div>
+</div>
+<div id="neural-network-classification" class="section level2">
+<h2><span class="header-section-number">12.5</span> Neural Network Classification</h2>
+<p>Neural network models have been extremely successful when applied to classification tasks such as image classification and natural language processing. These models are highly complex and are built using sophisticated packages such as TensorFlow (developed by Google) and PyTorch (developed by Facebook). Building complex models for those kinds of classification tasks are beyond the scope of this tutorial. Instead, this section provides a high-level overview of classification using the <code>nnet</code> package and the <code>iris</code> data set.</p>
+<p>The neural network training algorithm for classification is the same as for regression, but for classification, we need to change some of the attributes of the model itself. Instead of a linear activation function in the output layer, we need to use the softmax function. Doing so will cause the output layer to produce probabilities for each of the three flower species (this is accomplished by simply removing <code>linout = TRUE</code> from the <code>nnet()</code> function. Additionally, we use a categorical cross entropy loss function instead of mean squared error. Below, I also set <code>rang = 0.1</code> to scale the predictors to be in the range recommended in the function help. We’ll also create the same training/test split as in the non-parametric regression chapter so we can directly compare results.</p>
+<div class="sourceCode" id="cb929"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb929-1" data-line-number="1"><span class="co"># create a training and a test set</span></a>
+<a class="sourceLine" id="cb929-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb929-3" data-line-number="3">train =<span class="st"> </span>caTools<span class="op">::</span><span class="kw">sample.split</span>(iris, <span class="dt">SplitRatio =</span> <span class="fl">0.8</span>)</a>
+<a class="sourceLine" id="cb929-4" data-line-number="4">iris_train =<span class="st"> </span><span class="kw">subset</span>(iris, train <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb929-5" data-line-number="5">iris_test =<span class="st"> </span><span class="kw">subset</span>(iris, train <span class="op">==</span><span class="st"> </span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb929-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb929-7" data-line-number="7"><span class="co"># train the model</span></a>
+<a class="sourceLine" id="cb929-8" data-line-number="8">irisModel =<span class="st"> </span>nnet<span class="op">::</span><span class="kw">nnet</span>(Species <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> iris_train, </a>
+<a class="sourceLine" id="cb929-9" data-line-number="9">                       <span class="dt">size=</span><span class="dv">2</span>,       <span class="co"># only two nodes in the hidden layer</span></a>
+<a class="sourceLine" id="cb929-10" data-line-number="10">                       <span class="dt">maxit=</span><span class="dv">200</span>,    <span class="co"># stopping criteria</span></a>
+<a class="sourceLine" id="cb929-11" data-line-number="11">                       <span class="dt">entropy=</span><span class="ot">TRUE</span>, <span class="co"># switch for entropy</span></a>
+<a class="sourceLine" id="cb929-12" data-line-number="12">                       <span class="dt">decay=</span><span class="fl">5e-4</span>,   <span class="co"># weight decay hyperparameter</span></a>
+<a class="sourceLine" id="cb929-13" data-line-number="13">                       <span class="dt">rang=</span><span class="fl">0.1</span>)     <span class="co"># scale input values</span></a></code></pre></div>
+<pre><code>## # weights:  19
+## initial  value 131.916499 
+## iter  10 value 75.933787
+## iter  20 value 56.873818
+## iter  30 value 55.958531
+## iter  40 value 55.852468
+## iter  50 value 55.797951
+## iter  60 value 51.382669
+## iter  70 value 11.286807
+## iter  80 value 7.667108
+## iter  90 value 7.657444
+## iter 100 value 7.643547
+## iter 110 value 7.642436
+## iter 120 value 7.641672
+## iter 130 value 7.640995
+## iter 140 value 7.640338
+## iter 150 value 7.627436
+## iter 160 value 7.377523
+## iter 170 value 5.672073
+## iter 180 value 4.882416
+## iter 190 value 4.810307
+## iter 200 value 4.793242
+## final  value 4.793242 
+## stopped after 200 iterations</code></pre>
+<div class="sourceCode" id="cb931"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb931-1" data-line-number="1"><span class="co"># make predictions on test data</span></a>
+<a class="sourceLine" id="cb931-2" data-line-number="2">iris_preds =<span class="st"> </span><span class="kw">predict</span>(irisModel, <span class="dt">newdata=</span>iris_test)</a>
+<a class="sourceLine" id="cb931-3" data-line-number="3"><span class="kw">head</span>(iris_preds)</a></code></pre></div>
+<pre><code>##       setosa  versicolor    virginica
+## 5  0.9956736 0.004326355 6.389963e-16
+## 10 0.9911208 0.008879241 2.890320e-15
+## 15 0.9976183 0.002381730 1.829078e-16
+## 20 0.9957229 0.004277111 6.238407e-16
+## 25 0.9739590 0.026040969 2.797958e-14
+## 30 0.9901588 0.009841242 3.588147e-15</code></pre>
+<p>This first six predictions for the test set are shown above, and notice that the values are in fact probabilities. The model is highly confident that each one of these first six predictions are setosa. Recall from the SVM and CART sections of the non-parametric regression chapter that both of those models misclassified test set observations #24 and #27 as versicolor that are actually virginica. Below we see that the neural network model correctly predicts both observations but is less confident about observation #24.</p>
+<div class="sourceCode" id="cb933"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb933-1" data-line-number="1">iris_preds[<span class="kw">c</span>(<span class="dv">24</span>,<span class="dv">27</span>), ]</a></code></pre></div>
+<pre><code>##           setosa versicolor virginica
+## 120 7.348409e-11 0.18917739 0.8108226
+## 135 5.486873e-13 0.03107722 0.9689228</code></pre>
+<p>The confusion matrix for the entire test set reveals that the model has an accuracy of 100%.</p>
+<div class="sourceCode" id="cb935"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb935-1" data-line-number="1">iris_cm =<span class="st"> </span>cvms<span class="op">::</span><span class="kw">confusion_matrix</span>(</a>
+<a class="sourceLine" id="cb935-2" data-line-number="2">  <span class="dt">targets =</span> iris_test[, <span class="dv">5</span>], </a>
+<a class="sourceLine" id="cb935-3" data-line-number="3">  <span class="dt">predictions =</span> <span class="kw">colnames</span>(iris_preds)[<span class="kw">max.col</span>(iris_preds)])</a>
+<a class="sourceLine" id="cb935-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb935-5" data-line-number="5">cvms<span class="op">::</span><span class="kw">plot_confusion_matrix</span>(iris_cm<span class="op">$</span><span class="st">`</span><span class="dt">Confusion Matrix</span><span class="st">`</span>[[<span class="dv">1</span>]], <span class="dt">add_zero_shading =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb935-6" data-line-number="6"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Neural Network Confusion Matrix&quot;</span>)</a></code></pre></div>
+<pre><code>## Warning in cvms::plot_confusion_matrix(iris_cm$`Confusion Matrix`[[1]], :
+## &#39;ggimage&#39; is missing. Will not plot arrows and zero-shading.</code></pre>
+<pre><code>## Warning in cvms::plot_confusion_matrix(iris_cm$`Confusion Matrix`[[1]], : &#39;rsvg&#39;
+## is missing. Will not plot arrows and zero-shading.</code></pre>
+<p><img src="10-Optional_Advanced_Topics_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+</div>
+<div id="multivariate-adaptive-regression-splines" class="section level2">
+<h2><span class="header-section-number">12.6</span> Multivariate Adaptive Regression Splines</h2>
+<div class="sourceCode" id="cb938"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb938-1" data-line-number="1">marsFit =<span class="st"> </span>earth<span class="op">::</span><span class="kw">earth</span>(exa<span class="op">$</span>x, exa<span class="op">$</span>y)</a>
+<a class="sourceLine" id="cb938-2" data-line-number="2">marsFit</a></code></pre></div>
+<pre><code>## Selected 7 of 12 terms, and 1 of 1 predictors
+## Termination condition: Reached nk 21
+## Importance: exa$x
+## Number of terms at each degree of interaction: 1 6 (additive model)
+## GCV 0.09986259    RSS 23.03432    GRSq 0.6894275    RSq 0.71797</code></pre>
+<div class="sourceCode" id="cb940"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb940-1" data-line-number="1"><span class="kw">summary</span>(marsFit)</a></code></pre></div>
+<pre><code>## Call: earth(x=exa$x, y=exa$y)
+## 
+##                 coefficients
+## (Intercept)       -0.0097451
+## h(exa$x-0.236)    -0.9896598
+## h(exa$x-0.3972)    6.4260664
+## h(exa$x-0.6421)  -14.2707959
+## h(exa$x-0.7821)   12.6408844
+## h(exa$x-0.8351)  -19.7830105
+## h(exa$x-0.9105)   29.6611872
+## 
+## Selected 7 of 12 terms, and 1 of 1 predictors
+## Termination condition: Reached nk 21
+## Importance: exa$x
+## Number of terms at each degree of interaction: 1 6 (additive model)
+## GCV 0.09986259    RSS 23.03432    GRSq 0.6894275    RSq 0.71797</code></pre>
+<div class="sourceCode" id="cb942"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb942-1" data-line-number="1">mars_preds =<span class="st"> </span><span class="kw">predict</span>(marsFit, exa<span class="op">$</span>x)</a>
+<a class="sourceLine" id="cb942-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb942-3" data-line-number="3"><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb942-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>exa, <span class="kw">aes</span>(<span class="dt">x=</span>x, <span class="dt">y=</span>m, <span class="dt">color=</span><span class="st">&#39;True Function&#39;</span>), <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb942-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>exa<span class="op">$</span>x, <span class="dt">y=</span>mars_preds, <span class="dt">color=</span><span class="st">&#39;MARS Fit&#39;</span>), <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb942-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data=</span>exa, <span class="kw">aes</span>(<span class="dt">x=</span>x, <span class="dt">y=</span>y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb942-7" data-line-number="7"><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">name=</span><span class="st">&quot;Legend&quot;</span>, <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&#39;blue&#39;</span>, <span class="st">&#39;red&#39;</span>)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb942-8" data-line-number="8"><span class="st">  </span><span class="kw">theme_bw</span>() </a></code></pre></div>
+<p><img src="10-Optional_Advanced_Topics_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>With bootstrap aggregation.</p>
+<div class="sourceCode" id="cb943"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb943-1" data-line-number="1">marsFit2 =<span class="st"> </span>caret<span class="op">::</span><span class="kw">bagEarth</span>(exa<span class="op">$</span>x, exa<span class="op">$</span>y)</a>
+<a class="sourceLine" id="cb943-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb943-3" data-line-number="3">mars_preds2 =<span class="st"> </span><span class="kw">predict</span>(marsFit2, exa<span class="op">$</span>x)</a>
+<a class="sourceLine" id="cb943-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb943-5" data-line-number="5"><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb943-6" data-line-number="6"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>exa, <span class="kw">aes</span>(<span class="dt">x=</span>x, <span class="dt">y=</span>m, <span class="dt">color=</span><span class="st">&#39;True Function&#39;</span>), <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb943-7" data-line-number="7"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>exa<span class="op">$</span>x, <span class="dt">y=</span>mars_preds2, <span class="dt">color=</span><span class="st">&#39;Bagged MARS Fit&#39;</span>), <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb943-8" data-line-number="8"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data=</span>exa, <span class="kw">aes</span>(<span class="dt">x=</span>x, <span class="dt">y=</span>y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb943-9" data-line-number="9"><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">name=</span><span class="st">&quot;Legend&quot;</span>, <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&#39;blue&#39;</span>, <span class="st">&#39;red&#39;</span>)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb943-10" data-line-number="10"><span class="st">  </span><span class="kw">theme_bw</span>() </a></code></pre></div>
+<p><img src="10-Optional_Advanced_Topics_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+</div>
+<div id="non-parametric-statistics" class="section level2">
+<h2><span class="header-section-number">12.7</span> Non-Parametric Statistics</h2>
+
+<div id="refs" class="references">
+<div>
+<p>Akaike, Hirotugu. 1974. “A New Look at the Statistical Model Identification.” <em>IEEE Transactions on Automatic Control</em> 19(6).</p>
+</div>
+<div>
+<p>Bishop, Christopher. 1995. <em>Neural Networks for Pattern Recognition</em>. Oxford University Press.</p>
+</div>
+<div>
+<p>David E. Rumelhart, James L. McClelland. 1986. <em>Parallel Distributed Processing</em>. MIT Press.</p>
+</div>
+<div>
+<p>Devore, Jay. 2015. <em>Probability and Statisticsfor Engineering and the Sciences</em>. 9th ed. Cengage Learning.</p>
+</div>
+<div>
+<p>Faraway, Julian. 2006. <em>Extending the Linear Model with R: Generalized Linear, Mixed Effects and Nonparametric Regression Models</em>. CRC Press.</p>
+</div>
+<div>
+<p>———. 2014. <em>Linear Models with R</em>. Chapman &amp; Hall.</p>
+</div>
+<div>
+<p>George Box, William G. Hunter, J. Stuart Hunter. 2005. <em>Statistics for Experimenters</em>. Wiley.</p>
+</div>
+<div>
+<p>Law, Averill. 2015. <em>Simulation Modeling and Analysis</em>. McGraw Hill Education.</p>
+</div>
+<div>
+<p>Montgomery, Douglas C. 2017. <em>Design and Analysis of Experiments</em>. John wiley &amp; sons.</p>
+</div>
+<div>
+<p>Trevor Hastie, Robert Tibshirani, and Jerome Friedman. 2008. <em>The Elements of Statistical Learning</em>. Springer.</p>
+</div>
+<div>
+<p>Warren S. McCulloch, Walter H. Pitts. 1943. “A Logical Calculus of the Ideas Immanent in Nervous Activity.” <em>Bulletin of Mathematical Biophysics</em> 5.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-bishop1995">
+<p>Bishop, Christopher. 1995. <em>Neural Networks for Pattern Recognition</em>. Oxford University Press.</p>
+</div>
+<div id="ref-rumel1986">
+<p>David E. Rumelhart, James L. McClelland. 1986. <em>Parallel Distributed Processing</em>. MIT Press.</p>
+</div>
+<div id="ref-mcculloch1943">
+<p>Warren S. McCulloch, Walter H. Pitts. 1943. “A Logical Calculus of the Ideas Immanent in Nervous Activity.” <em>Bulletin of Mathematical Biophysics</em> 5.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="non-parametric-regression.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "chapter"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

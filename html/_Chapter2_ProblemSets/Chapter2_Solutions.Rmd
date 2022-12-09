@@ -1,0 +1,727 @@
+---
+title: "Introduction to R Problem Set"
+author: "Your Name Here"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the Introduction to *R* chapter in the course https://doe.dscoe.org. The solutions to the problem set use the packages shown below.
+
+```{r}
+library(tidyverse)
+library(nycflights13)
+```
+
+# 3.1 Exercises
+
+There are no exercises associated with this section.
+
+# 3.2 Exercises
+
+Complete all exercises for this section.
+
+## 1
+
+Run ggplot(data = mpg). What do you see?
+
+```{r}
+ggplot(data = mpg)
+
+# produces a blank plot because we haven't given it a geometry yet.
+```
+
+## 2 
+
+How many rows are in mpg? How many columns?
+
+```{r}
+# method 1
+dim(mpg)
+# 234 rows, 11 columns
+
+# method 2
+nrow(mpg)
+ncol(mpg)
+
+# method 3 - look at the summary at the bottom of the dataframe
+mpg
+```
+
+## 3
+
+What does the `drv` variable describe? Read the help for `?mpg` to find out.
+
+```{r}
+# not run
+# ?mpg
+
+# f = front-wheel drive, r = rear wheel drive, 4 = 4wd
+```
+
+## 4
+
+Make a scatter plot of `hwy` vs. `cyl`.
+
+```{r}
+ggplot(mpg, aes(x=hwy, y=cyl)) +
+  geom_point()
+```
+
+## 5
+
+What happens if you make a scatter plot of `class` vs `drv`? Why is the plot not useful?
+
+```{r}
+ggplot(mpg, aes(x=class, y=drv)) +
+  geom_point()
+
+# class and drv are both unordered categorical variables, so "increasing" 
+# values on the x and y axes have no meaning. Additionally, there are many 
+# points plotted on top of each other, so you don't know how many points 
+# are plotted for each pair of values.
+```
+
+# 3.3 Exercises
+
+Complete all exercises for this section.
+
+## 1
+
+What’s gone wrong with this code? Why are the points not blue? `ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))`
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+
+# color = "blue" needs to be outside of the aesthetic call. Using 
+# color inside the aesthetic mapping assigns colors based on a third variable.
+```
+
+  
+## 2
+
+Which variables in mpg are categorical? Which variables are continuous? (Hint: type `?mpg` to read the documentation for the dataset). How can you see this information when you run `mpg`?
+
+```{r}
+str(mpg)
+
+# continuous: displ
+# integer: year, cyl, cty, hwy
+# categorical: the rest of the variables
+
+# or
+# head(mpg)
+```
+
+
+## 3
+
+Map a continuous variable to color, size, and shape. How do these aesthetics behave differently for categorical vs. continuous variables?
+
+```{r message=FALSE, warning=FALSE}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = displ))
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, size = displ))
+
+# not run
+#ggplot(data = mpg) + 
+#  geom_point(mapping = aes(x = displ, y = hwy, shape = displ))
+# Error: A continuous variable can not be mapped to shape
+```
+
+
+## 4
+
+What happens if you map the same variable to multiple aesthetics?
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = fl, size = fl, shape = fl))
+
+# Using the same variable doesn't add dimensions to the plot.
+# It repeats the same information.
+```
+
+## 5
+
+What does the stroke aesthetic do? What shapes does it work with? (Hint: use `?geom_point`)
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), shape = 21, stroke = 0.5)
+
+# Works with shapes the have a border - it changes the thickness of the border.
+```
+
+## 6
+
+What happens if you map an aesthetic to something other than a variable name, like `aes(colour = displ < 5)`? Note, you’ll also need to specify `x` and `y`.
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = displ < 5))
+```
+
+# 3.4 Exercises
+
+There are no exercises for this section.
+
+# 3.5 Exercises
+
+Complete exercises 1-4.
+
+## 1
+
+What happens if you facet on a continuous variable?
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap(~displ)
+```
+
+## 2
+
+What do the empty cells in plot with `facet_grid(drv ~ cyl)` mean? How do they relate to this plot?
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(drv ~ cyl)
+
+# It means there are no x and y values associated with that combination 
+# of drv and cyl. For example, there are no cars in the dataset with 4WD 
+# and 5 cylinders.
+```
+
+## 3
+
+What plots does the following code make? `ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy)) + facet_grid(drv ~ .)` What does `.` do?
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(drv ~ .)
+
+# `.` is a wildcard for including the combination of all other variables.
+```
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(. ~ cyl)
+```
+  
+## 4
+
+Take the first faceted plot in this section:
+
+`ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy)) + facet_wrap(~ class, nrow = 2)`
+
+What are the advantages to using faceting instead of the colour aesthetic? What are the disadvantages? How might the balance change if you had a larger dataset?
+
+```{r}
+# There is no single correct answer. Faceting can help de-clutter a plot,
+# but then it also makes it more difficult to directly compare two 
+# categories. 
+```
+
+# 3.6 Exercises
+
+Complete all exercises for this section.
+
+## 1
+
+What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?
+
+```{r}
+# line: geom_line or geom_path
+# boxplot: geom_boxplot
+# histogram: geom_histogram
+# area chart: geom_area
+```
+
+## 2
+
+Run this code in your head and predict what the output will look like. Then, run the code in *R* and check your predictions.
+
+`ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + geom_point() + geom_smooth(se = FALSE)`
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE)
+```
+
+## 3
+
+What does `show.legend = FALSE` do? What happens if you remove it? Why do you think I used it earlier in the chapter?
+
+```{r}
+ggplot(data = mpg) +
+  geom_smooth(
+    mapping = aes(x = displ, y = hwy, color = drv),
+    show.legend = FALSE
+  )
+# show.legend = FALSE removes the plot legend.
+
+ggplot(data = mpg) +
+  geom_smooth(
+    mapping = aes(x = displ, y = hwy, color = drv)
+  )
+```
+
+## 4
+
+What does the `se` argument to `geom_smooth()` do? Note: we will cover smoothers in detail in the non-parametric regression chapter of the DoE tutorial.
+
+```{r}
+# Displays a confidence interval for the smooth line (controlled with `level`).
+```
+
+## 5
+
+Will these two graphs look different? Why/why not?
+
+`ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + geom_point() + geom_smooth()`
+
+`ggplot() + geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))`
+
+```{r}
+# They will look the same because both geom mappings in the second plot 
+# are the same as the global mapping in the first plot.
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth()
+
+ggplot() + 
+  geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
+```
+
+## 6
+
+Recreate the *R* code necessary to generate the following graphs (see R graphs in **R for Data Science** book)..
+
+```{r}
+ggplot(mpg, aes(x=displ, y=hwy)) +
+  geom_point() +
+  geom_smooth(se=FALSE)
+```
+
+```{r}
+ggplot(mpg, aes(x=displ, y=hwy)) +
+  geom_point() +
+  geom_smooth(aes(group = drv), se=FALSE)
+```
+
+```{r}
+ggplot(mpg, aes(x=displ, y=hwy)) +
+  geom_point(aes(color=drv)) +
+  geom_smooth(aes(color=drv), se=FALSE)
+```
+
+```{r}
+ggplot(mpg, aes(x=displ, y=hwy)) +
+  geom_point(aes(color=drv)) +
+  geom_smooth(se=FALSE)
+```
+
+```{r}
+ggplot(mpg, aes(x=displ, y=hwy)) +
+  geom_point(aes(color=drv)) +
+  geom_smooth(aes(group=drv, linetype=drv), se=FALSE)
+```
+
+```{r}
+ggplot(mpg, aes(x=displ, y=hwy)) +
+  geom_point(aes(color=drv)) +
+  geom_point(shape = 21, stroke = 2, color='white')
+```
+
+# 3.7 Exercises
+
+These exercises are optional, and no solutions are provided. 
+
+# 3.8 Exercises
+
+Complete exercises 1, 2, and 4 only. 
+
+## 1
+
+What is the problem with this plot? How could you improve it?
+
+`ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + geom_point()`
+
+```{r}
+# Add jitter.
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point(position = "jitter")
+
+# alternatively:
+#ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+#  geom_jitter()
+```
+
+## 2
+
+What parameters to geom_jitter() control the amount of jittering?
+
+```{r}
+# width = 
+# height =
+```
+
+## 4
+
+What’s the default position adjustment for `geom_boxplot()`? Create a visualisation of the `mpg` dataset that demonstrates it.
+
+```{r}
+# Default position adjustment is dodge.
+# Otherwise we would have superimposed boxplots.
+
+ggplot(mpg, aes(x=class, y=hwy)) +
+  geom_boxplot()
+```
+
+# 5.1
+
+There are no exercises for this section.
+
+# 5.2 Exercises
+
+Complete exercises 1-3.
+
+## 1 Find all flights that:
+
+1. Had an arrival delay of two or more hours.
+
+```{r}
+flights = nycflights13::flights
+
+flights %>% filter(arr_delay >= 120)
+```
+
+2. Flew to Houston (IAH or HOU).
+
+```{r}
+flights %>% filter(dest %in% c('IAH', 'HOU'))
+```
+
+3. Were operated by United, American, or Delta.
+
+```{r}
+flights %>% filter(carrier %in% c('UA', 'AA', 'DL'))
+```
+
+4. Departed in summer (July, August, and September).
+
+```{r}
+flights %>% filter(month %in% 7:9)
+```
+
+5. Arrived more than two hours late, but didn’t leave late.
+
+```{r}
+flights %>% filter(arr_delay > 120 & dep_delay <= 0)
+```
+
+6. Were delayed by at least an hour, but made up over 30 minutes in flight.
+
+```{r}
+flights %>% filter(dep_delay >= 60 & arr_delay < dep_delay - 30) 
+# over 30 minutes means <, not <=
+```
+
+7. Departed between midnight and 6am (inclusive).
+
+```{r}
+flights %>% filter(dep_time == 2400 | dep_time <= 600)
+```
+
+## 2
+
+Another useful dplyr filtering helper is `between()`. What does it do? Can you use it to simplify the code needed to answer the previous challenges?
+
+```{r}
+# 4 done again. Others follow the same format.
+flights %>% filter(between(month, 7, 9))
+```
+
+## 3
+
+How many flights have a missing `dep_time`? What other variables are missing? What might these rows represent?
+
+```{r}
+flights %>% filter(is.na(dep_time))
+# 8,255 flights with missing dep_time. 
+# Other missing variables: arrival and departure info. 
+# Probably are canceled flights.
+```
+
+# 5.3 Exercises
+
+Complete all exercises.
+
+## 1
+
+How could you use `arrange()` to sort all missing values to the start? (Hint: use `is.na()`).
+
+```{r}
+flights %>% arrange(desc(is.na(dep_time)))
+```
+
+## 2
+
+Sort flights to find the most delayed flights. Find the flights that left earliest.
+
+```{r}
+# most delayed
+flights %>% arrange(desc(dep_delay))
+
+# left earliest
+flights %>% arrange(dep_delay)
+```
+
+## 3
+
+Sort flights to find the fastest (highest speed) flights.
+
+```{r}
+flights %>% arrange(desc(distance/air_time*60)) 
+```
+
+## 4
+
+Which flights travelled the farthest? Which travelled the shortest?
+
+```{r}
+# the farthest
+flights %>% arrange(desc(distance))
+
+# the shortest
+flights %>% arrange(distance)
+```
+
+# 5.4 Exercises
+
+Complete exercises 2-4.
+
+## 2
+
+What happens if you include the name of a variable multiple times in a `select()` call?
+
+```{r}
+flights %>% select(carrier, carrier)
+
+# It only includes the column once.
+```
+
+## 3
+
+What does the `one_of()` function do? Why might it be helpful in conjunction with this vector?
+
+`vars <- c("year", "month", "day", "dep_delay", "arr_delay")`
+
+Note: the `tidyselect` documentation states:
+
+>`one_of()` is retired in favour of the more precise `any_of()` and `all_of()` selectors.
+
+```{r}
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+
+flights %>% select(one_of(vars))
+```
+
+## 4
+
+Does the result of running the following code surprise you? How do the select helpers deal with case by default? How can you change that default?
+
+`select(flights, contains("TIME"))`
+
+```{r}
+select(flights, contains("TIME"))
+
+select(flights, contains("TIME", ignore.case=FALSE))
+
+# select helpers ignore case
+```
+
+# 5.5 Exercises
+
+Complete exercises 1-3.
+
+## 1
+
+Currently `dep_time` and `sched_dep_time` are convenient to look at, but hard to compute with because they’re not really continuous numbers. Convert them to a more convenient representation of number of minutes since midnight.
+
+```{r}
+flights %>% mutate(dep_since_midnight = (dep_time %/% 100) * 60 + dep_time %% 100,
+                   sched_dep_since_midnight = (sched_dep_time %/% 100) * 60 + sched_dep_time %% 100
+                   ) %>%
+  select(dep_time, sched_dep_time, dep_since_midnight, sched_dep_since_midnight)
+```
+
+## 2
+
+Compare `air_time` with `arr_time - dep_time`. What do you expect to see? What do you see? What do you need to do to fix it?
+
+```{r}
+flights %>% 
+  mutate(diff = ((arr_time %/% 100) * 60 + arr_time %% 100) - 
+           ((dep_time %/% 100) * 60 + dep_time %% 100)) %>%
+  select(arr_time, dep_time, diff)
+
+# Need to account for changing time zones and taxi-ing times.
+```
+
+## 3
+
+Compare `dep_time`, `sched_dep_time`, and `dep_delay`. How would you expect those three numbers to be related?
+
+```{r}
+flights %>% 
+  mutate(diff = ((dep_time %/% 100) * 60 + dep_time %% 100) - 
+           ((sched_dep_time %/% 100) * 60 + sched_dep_time %% 100)) %>%
+  select(diff, dep_delay)
+```
+
+# 5.6 Exercises
+
+Complete exercises 1, 2, and 4. 
+
+## 1
+
+For this exercise, just find one way of solving the problem.
+
+A flight is 15 minutes early 50% of the time, and 15 minutes late 50% of the time.
+
+```{r}
+not_cancelled = flights %>% filter(!is.na(dep_delay), !is.na(arr_delay))
+
+not_cancelled %>% 
+  group_by(flight) %>%
+  summarize(prop_early = mean(arr_delay <= -15),
+            prop_late = mean(arr_delay >= 15)) %>%
+  filter(prop_early == 0.5 & prop_late == 0.5)
+```
+
+A flight is always 10 minutes late.
+
+```{r}
+not_cancelled %>%
+  group_by(flight) %>%
+  summarize(prop_late = mean(arr_delay >= 10)) %>%
+  filter(prop_late == 1.0)
+```
+
+A flight is 30 minutes early 50% of the time, and 30 minutes late 50% of the time.
+
+```{r}
+not_cancelled %>% 
+  group_by(flight) %>%
+  summarize(prop_early = mean(arr_delay <= -30),
+            prop_late = mean(arr_delay >= 30)) %>%
+  filter(prop_early == 0.5 & prop_late == 0.5)
+```
+
+99% of the time a flight is on time. 1% of the time it’s 2 hours late.
+
+```{r}
+not_cancelled %>% 
+  group_by(flight) %>%
+  summarize(prop_ontime = mean(dep_delay <= 0),
+            prop_late = mean(dep_delay >= 120)) %>%
+  filter(prop_ontime >= 0.99 & prop_late <= 0.01)
+
+```
+
+## 2
+
+Come up with another approach that will give you the same output as `not_cancelled %>% count(dest)` and `not_cancelled %>% count(tailnum, wt = distance)` without using `count()`.
+
+```{r}
+# not_cancelled %>% count(dest)
+not_cancelled %>%
+  group_by(dest) %>%
+  summarize(dest_sum = n())
+
+# not_cancelled %>% count(tailnum, wt = distance)
+not_cancelled %>% 
+  group_by(tailnum) %>%
+  summarize(sum_dist = sum(distance))
+```
+
+## 4
+
+Look at the number of cancelled flights per day. Is there a pattern? Is the proportion of cancelled flights related to the average delay?
+
+```{r}
+# number of cancelled flights per day faceted by month
+flights %>%
+  group_by(year, month, day) %>%
+  summarize(n_cancel = sum(is.na(dep_delay))) %>%
+  ggplot() +
+  geom_col(aes(x=day, y=n_cancel)) +
+  facet_wrap(~month)
+
+# days combined from each month
+flights %>%
+  group_by(day) %>%
+  summarize(n_cancel = sum(is.na(dep_delay))) %>%
+  ggplot() +
+  geom_col(aes(x=day, y=n_cancel))
+
+flights %>%
+  group_by(day) %>%
+  summarize(prop_cancel = mean(is.na(dep_delay)),
+            ave_delay = mean(dep_delay[!is.na(dep_delay)])) %>%
+  ggplot() +
+  geom_point(aes(x=prop_cancel, y=ave_delay)) +
+  geom_smooth(aes(x=prop_cancel, y=ave_delay))
+```
+
+# 5.7 Exercises
+
+Complete exercises 2 and 3.
+
+## 2
+
+Which plane (`tailnum`) has the worst on-time record?
+
+```{r}
+# If we define "worst on-time record" as the percent of flights a tailnum arrives late:
+
+not_cancelled %>%
+  group_by(tailnum) %>%
+  summarize(pct_late = mean(arr_delay>0)) %>%
+  arrange(desc(pct_late))
+```
+
+## 3
+
+What time of day should you fly if you want to avoid delays as much as possible?
+
+```{r}
+# Looking at it from the perspective of departure delay:
+
+not_cancelled %>%
+  mutate(time_of_day = case_when(
+    sched_dep_time < 0600 ~ "early_morning",
+    between(sched_dep_time, 0600, 1200) ~ "morning",
+    between(sched_dep_time, 1200, 1800) ~ "afternoon",
+    sched_dep_time > 1800 ~ "night")) %>%
+  group_by(time_of_day) %>%
+  summarize(pct_late = mean(dep_delay>0)) %>%
+  arrange(pct_late)
+
+# Alternatively, we could define "avoid delays" as arriving on time.
+```

@@ -1,0 +1,233 @@
+---
+title: "Introduction to Factorial Designs Problem Set - 2^K Designs"
+output: 
+    html_document:
+      number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+# Half Fractional Question
+
+*Note, this problem is adapted from Montgomery 2017, Question 8.10*
+
+You have an experiment with five factors, A, B, C, D, and E.  You ran three replicates of each of 16 treatment combinations.  Your results are contained in <a href = '/_Chapter4_ProblemSets/montgomery_8_10.csv'> montgomery_8_10.csv </a>.  
+
+## Read and Format the Data as Required
+
+```{r}
+myData <- read.csv('montgomery_8_10.csv')
+myData
+```
+
+## Understand the Design
+
+1. Write out the alias structure of this design.
+
+```{r}
+# This is clearly a half fractional factorial design
+# It was a little bit of trial and error to ID the generator
+myData %>% select(-c(Rep.1, Rep.2, Rep.3)) %>% 
+  mutate(ABCD = A*B*C*D)
+# We see we took the principal fraction of I = ABCD
+```
+
+```
+We can then write out the alias structure
+
+## First find main effects (5 main effects)
+A = A*ABCD = BCD
+B = B*ABCD = ACD
+C = C*ABCD = ABD
+D = D*ABCD = ABC
+E = E*ABCD = ABCDE
+
+## Next ID 2nd order effects (10 2nd order)
+AB = AB*ABCD = CD
+AC = AC*ABCD = BD
+AD = AD*ABCD = BC
+AE = AE*ABCD = BCDE
+BE = BE*ABCD = ACDE
+CE = CE*ABCD = ABDE
+DE = DE*ABCD = ABCE
+
+## Next ID 3rd order effects (10 3rd order) note 4 are aliased with first order
+ABE = ABE*ABCD = CED
+ACE = ACE*ABCD = BDE
+ADE = ADE*ABCD = BCE
+
+## Next ID 4th order effects (5 4th order) and 5th order
+I = ABCD
+The other 5 are aliased with 2nd order effects
+ABCDE is aliased with E
+```
+
+2. What is the design generator?  What is the defining relation?  Is this a principal or alternate fraction?
+
+```
+The design generator is ABCD.
+The defining relation is I = ABCD.
+We are taking the principal fraction.
+```
+
+## Analyze the Results
+
+1. Visualize the main effects and interpret your results
+
+```{r}
+myTempData <- myData %>% 
+  pivot_longer(cols = c(Rep.1, Rep.2, Rep.3), names_to = 'Replicate', values_to = 'Response') %>% 
+  mutate(A = as.factor(A), B = as.factor(B), C = as.factor(C), D = as.factor(D), E = as.factor(E))
+
+ggpubr::ggarrange(
+  ggplot(myTempData) + geom_boxplot(aes(x = A, y = Response)),
+  ggplot(myTempData) + geom_boxplot(aes(x = B, y = Response)),
+  ggplot(myTempData) + geom_boxplot(aes(x = C, y = Response)),
+  ggplot(myTempData) + geom_boxplot(aes(x = D, y = Response)),
+  ggplot(myTempData) + geom_boxplot(aes(x = E, y = Response))
+)
+
+# A and E are likely significant.  Possibly B.  We some potential variation in variance with B at 1 and A at -1
+```
+
+2. Visualize 2nd order interaction effects.
+
+```{r}
+ggpubr::ggarrange(
+  #AB
+  ggplot(myTempData, aes(x = A, y = Response, group = B, color = B)) + 
+    stat_summary(fun = 'mean', geom = 'point') + stat_summary(fun = 'mean', geom = 'line') +
+    ylim(c(7.1, 8.2)), 
+  #AC
+  ggplot(myTempData, aes(x = A, y = Response, group = C, color = C)) + 
+    stat_summary(fun = 'mean', geom = 'point') + stat_summary(fun = 'mean', geom = 'line') +
+    ylim(c(7.1, 8.2)), 
+  #AD
+  ggplot(myTempData, aes(x = A, y = Response, group = D, color = D)) + 
+    stat_summary(fun = 'mean', geom = 'point') + stat_summary(fun = 'mean', geom = 'line') +
+    ylim(c(7.1, 8.2)), 
+    #AE
+  ggplot(myTempData, aes(x = A, y = Response, group = E, color = E)) + 
+    stat_summary(fun = 'mean', geom = 'point') + stat_summary(fun = 'mean', geom = 'line') +
+    ylim(c(7.1, 8.2)), 
+    #BC
+  ggplot(myTempData, aes(x = B, y = Response, group = C, color = C)) + 
+    stat_summary(fun = 'mean', geom = 'point') + stat_summary(fun = 'mean', geom = 'line') +
+    ylim(c(7.1, 8.2)), 
+    #BD
+  ggplot(myTempData, aes(x = B, y = Response, group = D, color = D)) + 
+    stat_summary(fun = 'mean', geom = 'point') + stat_summary(fun = 'mean', geom = 'line') +
+    ylim(c(7.1, 8.2)), 
+    #BE
+  ggplot(myTempData, aes(x = B, y = Response, group = E, color = E)) + 
+    stat_summary(fun = 'mean', geom = 'point') + stat_summary(fun = 'mean', geom = 'line') +
+    ylim(c(7.1, 8.2)), 
+    #CD
+  ggplot(myTempData, aes(x = C, y = Response, group = D, color = D)) + 
+    stat_summary(fun = 'mean', geom = 'point') + stat_summary(fun = 'mean', geom = 'line') +
+    ylim(c(7.1, 8.2)), 
+    #CE
+  ggplot(myTempData, aes(x = C, y = Response, group = E, color = E)) + 
+    stat_summary(fun = 'mean', geom = 'point') + stat_summary(fun = 'mean', geom = 'line') +
+    ylim(c(7.1, 8.2)), 
+    #DE
+  ggplot(myTempData, aes(x = D, y = Response, group = E, color = E)) + 
+    stat_summary(fun = 'mean', geom = 'point') + stat_summary(fun = 'mean', geom = 'line') +
+    ylim(c(7.1, 8.2))
+)
+
+# It appears that B and E have an interaction, and possibly A and E.
+# Note - when I first ploted these, each plot produced its own y scale, so it
+# made it hard to really compare.  Be aware of scales when comparing plots!
+# I went back and added the y scale to be from 7.1 to 8.2 which is about the 
+# range of the response data
+
+```
+
+3. Calculate the effect for each main and second order effect:
+
+```{r}
+### First find main effects (5 main effects)
+#[A] = [BCD] -> A + BCD
+E.A <- (1/(3*(2^(5-1-1))))*sum(myData$A * (myData$Rep.1 + myData$Rep.2 + myData$Rep.3))
+#[B] = [ACD] -> B + ACD
+E.B <- (1/(3*(2^(5-1-1))))*sum(myData$B * (myData$Rep.1 + myData$Rep.2 + myData$Rep.3))
+#[C] = [ABD] -> C + ABD
+E.C <- (1/(3*(2^(5-1-1))))*sum(myData$C * (myData$Rep.1 + myData$Rep.2 + myData$Rep.3))
+#[D] = [ABC] -> D + ABC
+E.D <- (1/(3*(2^(5-1-1))))*sum(myData$D * (myData$Rep.1 + myData$Rep.2 + myData$Rep.3))
+#[E] = [ABCDE] -> E + ABCDE
+E.E <- (1/(3*(2^(5-1-1))))*sum(myData$E * (myData$Rep.1 + myData$Rep.2 + myData$Rep.3))
+#
+### Next ID 2nd order effects (10 2nd order)
+#[AB] = [CD]
+E.AB <- (1/(3*(2^(5-1-1))))*sum(myData$A *myData$B * (myData$Rep.1 + myData$Rep.2 + myData$Rep.3))
+#AC = AC*ABCD = BD
+E.AC <- (1/(3*(2^(5-1-1))))*sum(myData$A *myData$C * (myData$Rep.1 + myData$Rep.2 + myData$Rep.3))
+#AD = AD*ABCD = BC
+E.AD <- (1/(3*(2^(5-1-1))))*sum(myData$A *myData$D * (myData$Rep.1 + myData$Rep.2 + myData$Rep.3))
+#AE = AE*ABCD = BCDE
+E.AE <- (1/(3*(2^(5-1-1))))*sum(myData$A *myData$E * (myData$Rep.1 + myData$Rep.2 + myData$Rep.3))
+#BE = BE*ABCD = ACDE
+E.BE <- (1/(3*(2^(5-1-1))))*sum(myData$B *myData$E * (myData$Rep.1 + myData$Rep.2 + myData$Rep.3))
+#CE = CE*ABCD = ABDE
+E.CE <- (1/(3*(2^(5-1-1))))*sum(myData$C *myData$E * (myData$Rep.1 + myData$Rep.2 + myData$Rep.3))
+#DE = DE*ABCD = ABCE
+E.DE <- (1/(3*(2^(5-1-1))))*sum(myData$D *myData$E * (myData$Rep.1 + myData$Rep.2 + myData$Rep.3))
+#
+### Next ID 3rd order effects (10 3rd order) note 4 are aliased with first order
+#ABE = ABE*ABCD = CED
+#ACE = ACE*ABCD = BDE
+#ADE = ADE*ABCD = BCE
+
+myResults <- data.frame(
+  Effect = c(E.A, E.B, E.C, E.D, E.E, E.AB, E.AC, E.AD, E.AE, E.BE, E.CE, E.DE),
+  Factor.Name = c("A", 'B', 'C', 'D', 'E', 'AB', 'AC', 'AD', 'AE', 'BE', 'CE', 'DE')
+)
+myResults
+```
+
+4. Plot the effects on a normal probability plot.
+
+```{r}
+temp.coord <- qqnorm(myResults$Effect, ylim = c(-.3, .3))
+qqline(myResults$Effect)
+text(x = temp.coord$x, y = temp.coord$y + .05, labels = myResults$Factor.Name)
+```
+
+5. Based on your visualization and effects analysis, what do you conclude?
+
+```
+It appears that A, B, E, and B:E are all significant in this experiment.  
+Further experimentation, analysis or modeling, perhaps only using those three factors
+would be useful and informative.
+```
+
+# Conceptual Question
+
+If you are in a scenario in which you have many factors, each at two levels, but only a fixed number of possible runs, does it make more sense to:
+
+* Do a full factorial experiment with only a single replicate of each treatment combination?
+* Do a fractional factorial experiment with multiple replicates of the tested treatment combinations?
+
+```
+The answer to this question is that it depends.  It depends on a number of things.  A few considerations:
+
+1. How well do you trust the outcome of your tests?  That is, if you have reason to believe that any given
+test has an output with a small variance, you increase the likelihood of producing a reasonable answer
+with a single replicate, and thus gain some more information doing the full factorial experiment.  Of course,
+the converse is true if you are unsure of your test.
+
+2. How likely do think higher order interactions are to be significant?  If you think anything higher
+than 2nd order is likely to be insignificant, you can safely gain accuracy on your tests (via replication) 
+at the expense of aliasing.  
+
+3. How likely do you think all of your factors are significant.  If you think that some number of factors
+are likely to be insignificant, you will in effect gain replicates by identifying and discarding them
+in your analysis.  This may suggest that you are better off with an unreplicated full factorial design.
+
+```

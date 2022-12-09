@@ -1,0 +1,92 @@
+---
+title: "Two Factor ANOVA Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the section on two factor ANOVA in the course https://doe.dscoe.org.  
+
+For this problem set, we will use the following packages:
+
+```{r, warning = F, message = F}
+library(tidyverse)
+```
+
+
+# Weapon System
+
+In this problem, you are an analyst developing requirements for a future soldier weapon.  You have a physics simulation that incorporates the input data for both the weapon system and the range the system is employed at.  It provides the number of targets hit as an output.  The data is available as <a href = '/_Chapter3_1_ProblemSets/weapon_range.csv'> weapon_range.csv </a>. 
+
+## Read the Data
+
+Read the data, format it as required, and identify the factors, levels, and numbers of replicates.
+
+```{r}
+# Answer here
+```
+
+## Visualize the Data
+
+Produce trace-plots of the mean number of targets engaged as a function of both the weapon and the range.  What do you observe based on these?
+
+```{r, warning = F}
+# Answer here
+```
+
+## Conduct the ANOVA
+
+Conduct a two-factor ANOVA for this analysis, check your assumptions, and draw relevant conclusions.
+
+```{r}
+# Answer here
+```
+
+
+# Tank Gunnery Problem
+
+You are conducting a study assessing the utility of a sensor for a tank.  There are three possible choices for the sensor: "Gen 1", "Gen 2", and "Gen 3".  You have a human in the loop simulation where users can virtually conduct a tank gunnery.  As you know the abilities of gunners can vary greatly, you randomly select five gunners out of a tank battalion and name them "A", "B", "C", "D", "E" and have them conduct the gunnery in your simulation.  You provide each gunner with a random order to conduct the simulations.  Each gunner does each simulation four times.  You measure their probability of hit in the simulation.  Your data is contained in <a href = '/_Chapter3_1_ProblemSets/gunnery.csv'> gunnery.csv </a>.
+
+## Conceptual
+
+What type of model is this?
+
+```{}
+# Answer here
+```
+
+What are your factors and the levels?
+
+```{}
+# Answer here
+```
+
+## Read and Format the Data
+
+```{r}
+# Answer here
+```
+
+## Visualize the Data with Trace Plots
+
+Produce trace plots for each factor.  Interpret your results.
+
+```{r}
+# Answer here
+```
+
+## ANOVA
+
+Conduct the ANOVA, check your assumptions, and analyze your results.
+
+```{r}
+# Answer here
+```
+

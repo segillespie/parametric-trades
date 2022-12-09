@@ -1,0 +1,60 @@
+---
+title: "Transformed Variables Regression Problem Set"
+output: 
+  html_document:
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Boiling Point Water
+
+In the 1800s, <a href = 'https://en.wikipedia.org/wiki/Joseph_Dalton_Hooker'> Joseph Hooker </a> collected data on the boiling point of water at various pressures in the Himilayas.  He did this so he could approximate the altitude (via the air pressure) by boiling water instead of carrying fragile barometers in the mountains.  
+
+He used this <a href = '/_Chapter6_ProblemSets/temp_pressure.csv'> data </a> (originally taken from <a href = 'http://www.math.mcgill.ca/~dstephens/OldCourses/204-2007/Handouts/Math204-LinearRegressionExamples.pdf'> here </a>).
+
+## Initial Model
+
+1. Plot the data with pressure as a function of temperature.  Does linear regression seem to be appropriate?
+
+```{r}
+# Answer here.
+```
+
+2. Conduct a simple linear regression.  Check your assumptions.  Do you meet your assumptions?
+
+```{r}
+# Answer here.
+```
+
+## Transformed Model
+
+1. Try modeling the data with the following transformations:
+
+* Square Root of Temperature
+* Natural Log of Temperature
+* Inverse of Temperature
+* Log10 of Temperature and Log10 of Pressure
+
+Are any of these appropriate?  If so, which one?
+
+```{r}
+# Answer here.
+```
+
+
+2. Pick the best model of the above options and:
+
+2a. Write the mathematical equation:
+
+```{r}
+# Answer here.
+```
+
+2b. Plot your results in the transformed and original units.  Compare this with your original, simple model (in original units only).
+
+```{r}
+# Answer here.
+```

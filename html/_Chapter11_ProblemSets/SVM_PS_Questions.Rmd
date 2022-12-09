@@ -1,0 +1,178 @@
+---
+title: "Support Vector Machines Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the chapter on support vector machines in the course https://doe.dscoe.org. In this problem set, you'll train a support vector regression model on the `airquality` data set from base *R* and a support vector classification model in the `glass` data set from the University of California - Irvine's <a href="https://archive.ics.uci.edu/ml/datasets/glass+identification">Machine Learning Repository</a>. The solutions for this problem set use the following packages; however, you may use whatever packages you prefer.
+
+* `tidyverse`
+
+* `e1071`
+
+* `GGally`
+
+# Support Vector Regression
+
+Remove the NAs from the data, set a random number seed, create a training and a test data set using an 80/20 split, and drop the `Month` and `Day` columns.
+
+```{r message=FALSE, warning=FALSE}
+# Answer here.
+```
+
+## Linear Model
+
+Fit and summarize a linear model with all predictors.
+
+```{r}
+# Answer here.
+```
+
+### Diagnostics
+
+Are any linear model assumptions violated?
+
+```{r}
+# Answer here.
+```
+
+### Predictions
+
+Predict Ozone measurements using the linear model and the test data set and calculate the mean squared error (MSE) of the predictions. Recall $MSE = \sum{(predicted - actual)^2}$.
+
+```{r}
+# Answer here.
+```
+
+## Linear Support Vector Machine
+
+Fit a linear SVM and compare the coefficients with the `lm()` coefficients.
+
+```{r}
+# Answer here.
+```
+
+### Predictions
+
+Predict Ozone measurements using the SVM linear model and the test data set and calculate the MSE of the predictions. How does it compare to the linear model?
+
+```{r}
+# Answer here.
+```
+
+## Radial Kernel SVM
+
+Fit an SVM with a radial kernel and calculate the MSE of its predictions. How does this MSE compare to the previous two?
+
+```{r}
+# Answer here.
+```
+
+### Tuned SVM
+
+Tune the radial kernel SVM over a range of gamma and cost values. What were the resulting hyperparameter values?
+
+```{r}
+# Answer here.
+```
+
+### Predictions
+
+As before, get predictions for the tuned model and calculate the MSE. How does this MSE compare?
+
+```{r}
+# Answer here.
+```
+
+# Support Vector Classification
+
+Download the glass data set from the UC-Irvine repository. This will save you some typing:
+
+```
+# glass=read.csv('https://archive.ics.uci.edu/ml/machine-learning-databases/glass/glass.data', 
+#                col.names=c("ID", "RI", "Na", "Mg", "Al", "Si", "K", "Ca", "Ba", "Fe", "Type"),
+#                header=F, colClasses=c(rep("numeric", 10), "factor"))
+```
+
+As indicated on the repository's website, 
+
+>The study of classification of types of glass was motivated by criminological investigation. At the scene of the crime, the glass left can be used as evidence...if it is correctly identified!
+
+The data has 11 columns with the categorical response variable with six levels, `Type`, in the last column. The first column is a sample ID number followed by refractive index and then the weight percent of seven elements in their corresponding oxide. Our task is to see if we can correctly identify the six glass types using a support vector classifier.
+  
+```{r}
+# Answer here.
+```
+
+## Train and Test Data Sets
+
+Set a seed and create a training and a test data set using an 80/20 split. Either drop the `ID` column or just don't include it when training your models.
+
+```{r}
+# Answer here.
+```
+
+
+## Plots
+
+There are no missing values, and the data set is considered "well behaved" for a classification problem. Produce one or more scatter plots with your choice of predictors on the x and y axes, and the points color coded by `Type`. Comment on whether it appears this will be a difficult classification task or not.
+
+```{r}
+# Answer here.
+```
+
+## Linear SVC
+
+Fit a linear support vector machine on the training set using default hyperparameters, use that model to make predictions on the test set, and produce a confusion matrix. How many glass types were misclassified? 
+
+```{r}
+# Answer here.
+```
+
+### Accuracy
+
+One measure of the model's accuracy is to divide the number of correct classifications (the diagonal) by the total number of observations. Using this method, what is the model's accuracy? Keep in mind that random guessing would have expected accuracy of 16.7%.
+
+```{r}
+# Answer here.
+```
+
+### Scaling
+
+By default, `svm` scales the predictors. Re-fit the liner SVM model with `scale=FALSE` and produce the confusion matrix. Does scaling seem to help with accuracy?
+
+```{r}
+# Answer here.
+```
+
+## Tuned Linear SVC
+
+Tune a linear SVC over a range of cost, and use the best model to produce and confusion matrix and measure accuracy.
+
+```{r}
+# Answer here.
+```
+
+## Radial SVC
+
+Repeat the above steps, but use a radial kernel with default hyperparameters. What is this model's accuracy?
+
+```{r}
+# Answer here.
+```
+
+### Tuned Radial SVC
+
+Tune a radial SVC over a range of cost and gamma, and use the best model to produce and confusion matrix and measure accuracy.
+
+```{r}
+# Answer here.
+```

@@ -1,0 +1,92 @@
+---
+title: "DOE Packages in R"
+output: html_document
+---
+
+```{r setup-10, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# DOE Packages in *R* {-}
+
+## Admin
+
+```{r include=FALSE}
+mySession = sessionInfo()
+```
+
+This chapter was published using the following software:
+
+* `r mySession$R.version$version.string`.
+* On `r mySession$platform` running `r mySession$running`.
+* This appendix looks at the following packages and their versions:
+    * `FrF2` version `r packageVersion('FrF2')`.
+
+## FrF2
+
+```{r}
+tempFunc <- function(n){return(data.frame(nfac = FrF2::catlg[[n]]$nfac, res = FrF2::catlg[[n]]$res))}
+catlg.summary <- bind_rows(lapply(X = 1:length(FrF2::catlg), tempFunc))
+min.fac <- min(catlg.summary$nfac)
+max.fac <- max(catlg.summary$nfac)
+```
+
+`FrF2`, "Fractional Factorial Designs with 2-Level Factors" is an *R* package by <a href = "http://prof.beuth-hochschule.de/groemping/software/versuchsplanung/"> Ulrike Groemping </a>.  It can produce designs for experiments with `r min.fac` to `r max.fac` factors at varying resolutions.  It (appears) to do this by using a catalog of designs and fitting a design based on the variety of input arguments.  Below is a summary of the available design by number of factors, the associated minimum and maximum resolutions, and the number of designs available:
+
+```{r}
+temp <- catlg.summary %>% 
+  group_by(nfac) %>% 
+  summarise(Min.Available.Resolution = min(res), 
+            Max.Available.Resolution = max(res), 
+            Number.Designs.Available = n()) 
+
+temp %>% ungroup() %>% group_by(Max.Available.Resolution) %>% summarize(nfac = max(nfac)) %>% arrange(nfac) %>% filter(nfac > 3) %>% select(nfac, Max.Available.Resolution)
+```
+
+Of note, for factors up to 65, we can get resolution 5.  For factors 66 - 160, we can get resolution 4
+
+Each design can be accessed through the `FrF2` list `catlg`:
+
+```{r}
+FrF2::catlg
+```
+
+We can access an individual design either by index or by its name:
+
+```{r}
+FrF2::catlg$`3-1.1`
+
+FrF2::catlg[[1]]
+```
+
+We can further access individual elements of this list in the usual way, e.g. `catlg[[1]]$gen` yields the generating column.
+
+### Generating a Design
+
+The `FrF2` command `FrF2` generates commands.  It has several possible inputs:
+
+* nruns
+* nfactors
+* factor.names
+* ncenter
+* center.distribute
+* generators
+* design
+* resolution
+* 
+
+
+```{r}
+myDesign <- FrF2(nruns = 4, nfactors = 3, factor.names = c('Factor1', 'Factor2', 'Factor3'))
+myDesign
+
+generators(myDesign)
+```
+
+### Introduction
+
+### Capabilities
+
+### Producing a Design
+
+### 

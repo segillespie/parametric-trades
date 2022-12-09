@@ -1,0 +1,301 @@
+---
+title: "Multiple Linear Regression Problem Set"
+output: 
+  html_document:
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Multiple Linear Regression - Ames, IA
+
+Using the Ames, IA <a href = '/_Chapter3_ProblemSets/ames.csv'> data set </a> do the following:
+
+* Select the columns: `SalePrice`, `Year.Built`, and `Gr.Liv.Area`.
+* Sample 100 houses (with replacement) using the seed 12345.
+
+```{r, message = F}
+library(tidyverse)
+
+ames <- read.csv('../_Chapter3_ProblemSets/ames.csv')
+set.seed(12345)
+
+ames1 <- sample_n(ames, 100, replace = T)
+ames1 <- ames1 %>% select(SalePrice, Year.Built, Gr.Liv.Area)
+```
+
+## Visualize 
+
+Visualize the data in a pairwise manner. Interpret each of the pairs.
+
+```{r}
+pairs(ames1, upper.panel = NULL)
+
+# Sale price and year built have a roughly linear relationship
+# Sale price and gross living area have a pretty clear linear relationship
+# Year built and gross living area don't appear to ahve a relationship
+```
+
+## Model
+
+Model Sale Price as a function of the other two variables.  Interpret your results.
+
+```{r}
+myModel <- lm(SalePrice ~ ., ames1)
+summary(myModel)
+# All the regressors are significant
+# Our R^2 is reasonably large
+# the standard errors are on order of $1000s except for our intercept and residuals which are on order of $10000
+# this is probably OK as we'll likely get into a +/- 10K for our house estimation.
+```
+
+Get the 99% confidence interval on the coefficients.
+
+```{r}
+confint(myModel, level = .99)
+```
+
+Write the mathematical model.
+
+$$ [Sale Price] = -1,900,000 + 960[Year Built] + 130[Gross Living Area] + \epsilon $$
+Interpret the meaning of the coefficients.
+
+```
+For each year newer the house is, add $960 to the cost.
+For each square foot the house is, add $130 to the cost.
+```
+
+## Assumptions & Diagnostics
+
+1. Check to see if your model meets the assumptions requisite in linear regression.
+
+```{r}
+par(mfrow = c(2,2))
+plot(myModel)
+
+# It looks like we likely meet the independence criteria (no major patterns)
+# We're probably normal and homscedatic, but there appear to be some outliers that throw us off
+
+# Let's check normality numerically
+shapiro.test(myModel$residuals)
+# We fail our Shapiro Wilk Test
+
+# Let's check homscedasticity
+car::ncvTest(myModel)
+# we fail homoscedasticity
+```
+
+2. Identify Unusual Observations (Outliers)
+
+```{r}
+# ID points with a residual greater than 2 x SD from the mean
+myModel$residuals[abs(myModel$residuals) >= 2*sd(myModel$residuals)]
+# We see 5 x points: 18, 38, 77, 90, and 94 (We also see three of these points in the plots above, 18, 38, and 90)
+
+# ID points with high cook's distance
+plot(myModel, which = 4)
+# We ID points 18, 38, and 77
+```
+
+## Model Corrections
+
+If your model passed all assumptions and you accept all observations, skip this step.  If you do not, choose points to drop from your set and remodel and check your assumptions.  Explain why you dropped any observations.
+
+```{r}
+# We'll drop points conservatively
+# Let's consider the three points that have both high leverage and are unusual, 18, 77, and 38.  
+# First, let's look at these points:
+ames1[c(18, 38, 77),]
+# 18 and 38 appear to be exceptionally expensive houses; likely in a more expensive neighborhood.
+# 77 is not as clear; review of the standard residuals for these points may help explain.
+
+rstandard(myModel)[c(18, 38, 77)]
+# We can confirm that 18 and 38 are exceptionally expensive
+# (more than three standard deviations pricier than their model predictions).
+# 77 is right on the cusp of being considered an outlier
+# (~2 standard deviations cheaper than its model prediction).
+# To remain conservative, we'll only drop 18 and 38 for now.
+
+# Model without these points:
+myModel <- lm(SalePrice ~ ., ames1[-c(18, 38),])
+
+# Look at the results
+summary(myModel)
+# We see our model is now adjusted, all coefficients are significant
+# We do see a lower intercept and slightly lesser slopes - which makes sense
+# as we got rid of exceptionally expensive homes that were "pulling our costs up"
+
+# Check assumptions
+par(mfrow = c(2,2))
+plot(myModel)
+# We look better, but we may still have some issue with 90, 94, and 96 (overly expensive) and some older houses - 3 for example
+shapiro.test(myModel$residuals) # fail normality
+car::ncvTest(myModel) # fail homoscedasticity
+
+myModel$residuals[abs(myModel$residuals) >= 2*sd(myModel$residuals)]
+# We see 43, 66, 90, 94, 96 all have large residuals.
+plot(myModel, which = 4)
+# we also ID 3, 90, and 94 as having high cook's distnace
+
+# At this point, it might be helpful to see how these points look graphically:
+
+# Let's plot the data to see how we look
+ggplot() + 
+  # Plot all of the data
+  geom_point(data = ames1, aes(x = Year.Built, y = Gr.Liv.Area, color = SalePrice)) + 
+  # Plot any points that might be problematic, but color them red
+  geom_point(data = ames1[c(3, 18, 38, 43, 66, 77, 90, 94, 96), ], aes(x = Year.Built, y = Gr.Liv.Area), color = 'red')
+# While it's hard to exactly compare the prices, we can see that it's likely an issue of some exceptionally expensive houses
+# and an unusual (high leverage) point that is unuusually old
+# It is perhaps surprising that the other, older observation was not identified,
+# It looks like we don't have sufficient data for older than 1920, let's remove those points too
+ames1[ames1$Year.Built < 1920,]
+# also choose to remove 24
+
+# We've now chosen to cut a large number of points (i.e., more aggressive)
+# Let's rename our data set:
+ames2 <- ames1[-c(3, 18, 24, 38, 43, 66, 77, 90, 94, 96),]
+# Model the resulting data
+myModel2 <- lm(SalePrice ~ ., ames2)
+summary(myModel2)
+# This appears to be a reasonable model by all the summary statistics
+
+# check assumptions
+par(mfrow = c(2,2))
+plot(myModel2)
+# This appears to be much better
+shapiro.test(myModel2$residuals) # we definitively pass normality
+car::ncvTest(myModel2) # we are close on homoscedasticity but pass at alpha > .05
+
+# check for outliers
+myModel2$residuals[abs(myModel2$residuals) > 2*sd(myModel2$residuals)]
+# we have 7 possible outliers
+
+# check for leverage
+plot(myModel2, which = 4)
+# we have a few points of high leverage, let's look at our model
+
+ggplot() + 
+  geom_point(data = ames2, aes(x = Year.Built, y = Gr.Liv.Area, color = SalePrice)) + 
+  geom_point(data = ames2[c(8, 28, 39, 67, 68, 73, 75, 8, 39, 95),], aes(x = Year.Built, y = Gr.Liv.Area), color = 'red') 
+
+# We see these points are squarely in our data, they may skew our results somewhat, but it would be 
+# too aggressive to cut these points.  let's procede with myModel2
+
+# Finally, in our analysis - we should not that we had to remove a subset of points that were exceptionally 
+# expensive and/or exceptionally old.  We can hypothesize that there is another factor that 
+# contributes to exceptionally expensive house (e.g., neighborhood) and exceptionally older houses
+# may warrant higher prices based on an "antique effect".  Further analysis is warranted for a more refined model.
+```
+
+## Prediction
+
+Predict the cost of a house built in 1984 that is 2002 square feet with 90% confidence on the mean cost.
+
+```{r}
+predict(myModel2, list(Year.Built = 1984, Gr.Liv.Area = 2002), interval = 'confidence', level = .9)
+# ~$219K +/- $8K
+```
+
+If someone asked you to predict the cost of a house built in in Ames based on this model and this data for a house built in 1900, would this make good sense?  
+
+```
+This likely would not make a lot of sense.  First, we would be extrapolating beyond the majority of the data which is bad practice.
+Second, it may be the case that older houses are generally less valuable to a point as they are 
+generally more worn.  However, exceptionally old houses may increase in value for a variety of reasons
+including historic value, location (often older houses are in older areas), and the fact that 
+they are still extant means they were valued and well maintained.
+```
+## Visualize the Data
+
+Create a contour plot that shows the contours for predicted sale price with the year built on the x axis and the gross living area on the y axis.  Overlay your observations on the graph.  
+
+
+```{r}
+# We can build a surface of every two years and every 50 square feet (this is overkill, but why not)
+mySurface <- expand_grid(Year.Built = seq(min(ames2$Year.Built), max(ames2$Year.Built), by = 2),
+                         Gr.Liv.Area = seq(min(ames2$Gr.Liv.Area), max(ames2$Gr.Liv.Area), by = 50))
+# We predict the response for each combination
+mySurface$SalePrice <- predict(myModel2, mySurface)
+
+# View our data to make sure it is structured as we need it
+head(mySurface)
+
+# plot the contours and observations
+ggplot() + 
+  # geom_contour gives us a contour plot
+  geom_contour(data = mySurface, aes(x = Year.Built, y = Gr.Liv.Area, z = SalePrice, color = after_stat(level))) + 
+  # geom_point gives us our data points
+  geom_point(data = ames2, aes(x = Year.Built, y = Gr.Liv.Area, color = SalePrice)) + 
+  # We can choose colors we like
+  scale_color_distiller(palette = 'YlOrRd', direction = -1)  + # change the color from indecipherable blue
+  # Clean up the graph
+  xlab('Year Built') + 
+  ylab('Gross Living Area (square feet)') + 
+  ggtitle('Cost as a Function of House Size and Age') + 
+  theme_classic()
+
+```
+
+Interpret the graph.
+
+```
+We can visually see what we saw matehmatically, houses generally get more expensive as they get larger and newer.
+We can see some distinctions.  For example, you can see some more expensive houses (observed) that are new
+and about 2500 square feet that are yellow orange (i.e., more expensive), but would be predicted to cost less.
+This makes sense as there are certainly other factors that affect house price (e.g., location)
+
+
+```
+
+Would it make sense to use your model to predict the price of houses that are in the region bounded by $Square Feet > 2000$ and $Age < 1960$?  Why or why not?
+
+```{r}
+# It would be a bad choice.  We have no observations in this region of the design space 
+# We do have points that are in one or the other of those two bounds.
+# We cannot trust that region, however, because it is uninformed by any observations
+# We can see this visually
+
+# Produce our initial graph
+ggplot() + 
+  geom_contour(data = mySurface, aes(x = Year.Built, y = Gr.Liv.Area, z = SalePrice, color = after_stat(level))) + 
+  geom_point(data = ames2, aes(x = Year.Built, y = Gr.Liv.Area, color = SalePrice)) + 
+  scale_color_distiller(palette = 'YlOrRd', direction = -1)  + # change the color from indecipherable blue
+  xlab('Year Built') + 
+  ylab('Gross Living Area (square feet)') + 
+  ggtitle('Cost as a Function of House Size and Age') + 
+  theme_classic() + 
+  # Add a box to outline the prediction area in question
+  geom_segment(aes(x = 1920, xend = 1920, y = 2000, yend = 2800), color = 'blue', size = 2) +
+  geom_segment(aes(x = 1960, xend = 1960, y = 2000, yend = 2800), color = 'blue', size = 2) +
+  geom_segment(aes(x = 1920, xend = 1960, y = 2000, yend = 2000), color = 'blue', size = 2) +
+  geom_segment(aes(x = 1920, xend = 1960, y = 2800, yend = 2800), color = 'blue', size = 2) + 
+  geom_label(aes(x = 1940, y = 2400, label = 'No Observations!'), color = 'blue')
+
+# We can actually expand this region of space that is unfilled or poorly filled by observations, but 
+# that is a bit harder to graph, though easy to imagine
+# As we move into latin hypercubes, we'll talk about the concept of 'space filling designs'
+# We haven't gotten there yet, but you can conceptualize the concept very well.
+```
+
+# Commo Conceptual
+
+In a problem set on ANOVA, we had data bout the relationship between one of five commo sets, that were each defined as having some weight, range, bandwidth, error rate, and time value, and the number of kills achieved and losses received in a simulation.  That data set is available <a href = '/_Chapter3_1_ProblemSets/commo.csv'> here </a>.  
+
+Consider a situation where you did not have information about the what the system numbers were (i.e., you drop the `system` column from your data set).  Look at the pairs plots for the variables.  Would it make sense to try to do a multiple linear regression with this data?  Why or why not?
+
+```{r}
+commo <- read.csv('../_Chapter3_1_ProblemSets/commo.csv')
+commo <- commo %>% select(-system)
+pairs(commo, upper.panel = NULL)
+
+# We see clear evidence of patterns associated among our potential predictor variables
+# This makes sense as we know that this data was grouped by system numbers so there
+# is a relationship among the independent variables (i.e. system type).
+# We also are having a hard time distinguishing a clear linear relationship among the kills 
+# and any given potential predictor.
+# I would not use this data as is to model the results in a linear regression
+```
+

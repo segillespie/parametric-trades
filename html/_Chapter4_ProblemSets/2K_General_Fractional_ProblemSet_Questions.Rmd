@@ -1,0 +1,102 @@
+---
+title: "Problem Set 2^{K-P} Designs"
+output: 
+    html_document:
+      number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Quarter Fraction Design
+
+*This problem is adapted from Montgomery (2017) Problem 8.23*
+
+A researcher is conducting an experiment using Monte Carlo simulation of an inventory system.  There are five factors: $A$, $B$, $C$, $D$, and $E$ that relate to the design parameters of the system.  The response is measured in cost.  The researcher could only do 8 runs using $I = ABD = BCE$ as the defining relations.  The results by treatment combination name are located here: <a href = '/_Chapter4_ProblemSets/Montgomery_8_23.csv'> Montgomery_8_23.csv </a>.  
+
+## Understand the Design and the Data
+
+1. Write out the alias structure for this design (only up to third order interactions is necessary):
+
+```{r, message = F}
+# Answer Here
+```
+
+2. What is the resolution of this design?
+
+```
+# Answer Here
+```
+
+3. Join the data given with the design in an appropriate way.  (Hint: You may find it helpful to figure a way to write the treatment combination names in the design and then do a join (e.g. `left_join` from dplyr to combine your data and design)).
+
+```{r}
+# Answer Here
+```
+
+## Visualize the Data
+
+1. Visualize the main effects of the data. Comment on what you see.
+
+```{r}
+# Answer Here
+```
+
+## Effects
+
+Estimate the effects of all main factors and any 2nd level interactions that are not aliased with main factors.
+
+```{r}
+# Answer Here
+```
+
+2. Based on this, what factors do you consider significant?
+
+```
+# Answer Here
+```
+
+## Second Run
+
+You were able to do a second run of 8 factors and got the following results:
+
+```{r}
+second.run <- data.frame(
+  TC = c('ade', 'e', 'ab', 'bd', 'acd', 'c', 'abce', 'bcde'),
+  Cost = c(136, 93, 187, 153, 139, 99, 191, 150)
+)
+```
+
+You got this design by using the following generators (i.e., an alternate fraction): $D = -AB$ and $E = BC$.
+
+Combine these results with your previous results:
+
+```{r}
+# Answer Here
+```
+
+## Alias Structure
+
+Explain the alias structure of the combined data and design.  What is its resolution?
+
+```{r}
+# Answer Here
+```
+
+## Estimate Effects
+
+Using the combined data sets, estimate the effects for all main effects and the following 2nd order interactions:
+AB, AC, AD, AE, BD, CD, and DE.  
+
+```{r}
+# Answer Here
+```
+
+## Other Design Options
+
+In the above questions, you analyzed a $2^{5-2}$ design, then conducted a sequential experiment with an alternate fraction of the first design, effectively giving you a $2^{5-1}$ design.  Is your resulting design the highest resolution choice for a $2^{5-1}$ design?  If so, why?  If not, what is a better option?
+
+```{r}
+# Answer Here
+```

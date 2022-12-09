@@ -1,0 +1,140 @@
+---
+title: "Linear Regression Problem Set"
+output: 
+  html_document:
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Simple Linear Regresion - 
+
+For this problem, use the data set that relates the results of a simulation that predicts kills as a function ofweapon system caliber. It is available <a href = '/_Chapter6_ProblemSets/simple_regression_data.csv'> here </a>.
+
+## Initial Plotting
+
+Plot the observations and comment on the suitability of using linear regression for this data.
+
+```{r}
+# Answer Here
+```
+
+## Model
+
+Build a linear model, comment on the summary output.  Is this a good model (not including diagnostic checks)?
+
+```{r}
+ 
+```
+
+Plot the model and compare it to the observations.
+
+```{r}
+# Answer Here 
+```
+
+## Assumptions
+
+1. Does your model meet the assumptions of linearity, independence, normality and homoscedsticity of residuals?
+
+```{r}
+# Answer Here
+```
+
+2. Do you have outliers or points with high influence?
+
+```{r}
+# Answer Here
+```
+
+3. If you have no problematic points, skip to the next question.  If you do, make a decision about what to do with them, justify it, and then produce a new model (if necessary).
+
+```{r}
+# Answer Here
+```
+
+If you produced a new model, plot it and your observations here.  Compare this with your original model.
+
+```{r}
+# Answer Here
+```
+
+## Prediction
+
+1. Write down your model mathematically.
+
+```
+Answer Here
+```
+
+2. Use your best model to predict the number of kills associated with weapons with calibers of 81, 105, and 120mm.  Provide a confidence interval bound.  What does this tell us?
+
+```{r}
+# Answer Here
+```
+
+# Simple Linear Regression - Iris
+
+For this problem we are going to use the built in *R* data set, `iris`.  You can read about the data set in the help file (`?iris`).
+
+## Model
+
+Develop a simple linear regression for the relationship between Petal.Length and Sepal.Length using Petal.Length as the response.  Interpret the results.  Specifically comment on:
+
+* What coefficients are significant at $\alpha = .05$.  Interpret their meaning.
+* What the residual and coefficient standard errors are and how you interpret them.
+* What the coefficient of determination is and how you can interpret that.
+* What the resulting model is.
+
+```{r}
+# Answer Here
+```
+
+
+## Visualization
+
+Plot the data and the assessed model.  Interpret your visualization
+
+```{r}
+# Answer Here
+```
+
+## Prediction
+
+Calculate the 95% and 90% confidence intervals on your regression's coefficients.
+
+```{r}
+# Answer Here
+```
+
+Predict the petal length and confidence bounds on that prediction (for the mean response) for the sepal length associated with every 10th percentile of the sepal length data (i.e. the 10th percentile of the data is 4.80, etc..):
+
+```{r, echo = F}
+# Answer Here
+```
+
+## Check Assumptions
+
+1. Check the assumptions of independence, normality of residuals, and homoscedasticity.  Does this model meet the assumptions?  
+
+```{r}
+# Answer Here
+
+```
+
+Check for unusual observations: outliers and influential.  Explain what you would do with any of either type.
+
+Outliers:
+
+```{r}
+# Answer Here
+```
+
+Influential:
+
+```{r}
+# Answer Here
+```
+

@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>8 Model Selection | Design of Experiments for Modeling and Simulation</title>
+  <meta name="description" content="8 Model Selection | Design of Experiments for Modeling and Simulation" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="8 Model Selection | Design of Experiments for Modeling and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="8 Model Selection | Design of Experiments for Modeling and Simulation" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="fundamentals-of-regression.html"/>
+<link rel="next" href="application-of-doe-to-the-advanced-warfighting-simulation.html"/>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.17/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="https://doe.dscoe.org/">DoE for M&S</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction to DOE for M&amp;S</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#background."><i class="fa fa-check"></i><b>1.1</b> Background.</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#mission."><i class="fa fa-check"></i><b>1.2</b> Mission.</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#simulation-analysis."><i class="fa fa-check"></i><b>1.2.1</b> Simulation Analysis.</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#enduring-resource."><i class="fa fa-check"></i><b>1.2.2</b> Enduring Resource.</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#community."><i class="fa fa-check"></i><b>1.2.3</b> Community.</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#concept."><i class="fa fa-check"></i><b>1.3</b> Concept.</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#training-concept"><i class="fa fa-check"></i><b>1.4</b> Training Concept</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="index.html"><a href="index.html#lessons."><i class="fa fa-check"></i><b>1.4.1</b> Lessons.</a></li>
+<li class="chapter" data-level="1.4.2" data-path="index.html"><a href="index.html#projects."><i class="fa fa-check"></i><b>1.4.2</b> Projects.</a></li>
+<li class="chapter" data-level="1.4.3" data-path="index.html"><a href="index.html#assessments."><i class="fa fa-check"></i><b>1.4.3</b> Assessments.</a></li>
+<li class="chapter" data-level="1.4.4" data-path="index.html"><a href="index.html#curriculum."><i class="fa fa-check"></i><b>1.4.4</b> Curriculum.</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#community-concept"><i class="fa fa-check"></i><b>1.5</b> Community Concept</a></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#admin"><i class="fa fa-check"></i><b>1.6</b> Admin</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#contact"><i class="fa fa-check"></i><b>1.6.1</b> Contact</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#errors"><i class="fa fa-check"></i><b>1.6.2</b> Errors</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#resources"><i class="fa fa-check"></i><b>1.6.3</b> Resources</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a><ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#introduction-to-r---part-i"><i class="fa fa-check"></i><b>2.1</b> Introduction to R - Part I</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#objectives-1"><i class="fa fa-check"></i><b>2.1.1</b> Objectives</a></li>
+<li class="chapter" data-level="2.1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#task-1---read-chapter-1-and-install-tidyverse"><i class="fa fa-check"></i><b>2.1.2</b> Task 1 - Read Chapter 1 and Install Tidyverse</a></li>
+<li class="chapter" data-level="2.1.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-operations"><i class="fa fa-check"></i><b>2.1.3</b> Basic Operations</a></li>
+<li class="chapter" data-level="2.1.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#variable-types"><i class="fa fa-check"></i><b>2.1.4</b> Variable Types</a></li>
+<li class="chapter" data-level="2.1.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-structures"><i class="fa fa-check"></i><b>2.1.5</b> Data Structures</a></li>
+<li class="chapter" data-level="2.1.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#relational-and-logical-operators"><i class="fa fa-check"></i><b>2.1.6</b> Relational and Logical Operators</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#introduction-to-r---part-ii"><i class="fa fa-check"></i><b>2.2</b> Introduction to R - Part II</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#reading-tasks"><i class="fa fa-check"></i><b>2.2.1</b> Reading Tasks</a></li>
+<li class="chapter" data-level="2.2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#problem-set"><i class="fa fa-check"></i><b>2.2.2</b> Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="statistics-review.html"><a href="statistics-review.html"><i class="fa fa-check"></i><b>3</b> Statistics Review</a><ul>
+<li class="chapter" data-level="3.1" data-path="statistics-review.html"><a href="statistics-review.html#introduction"><i class="fa fa-check"></i><b>3.1</b> Introduction</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="statistics-review.html"><a href="statistics-review.html#resources-1"><i class="fa fa-check"></i><b>3.1.1</b> Resources</a></li>
+<li class="chapter" data-level="3.1.2" data-path="statistics-review.html"><a href="statistics-review.html#organization"><i class="fa fa-check"></i><b>3.1.2</b> Organization</a></li>
+<li class="chapter" data-level="3.1.3" data-path="statistics-review.html"><a href="statistics-review.html#poc"><i class="fa fa-check"></i><b>3.1.3</b> POC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics"><i class="fa fa-check"></i><b>3.2</b> Descriptive Statistics</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---description"><i class="fa fa-check"></i><b>3.2.1</b> Descriptive Statistics - Description</a></li>
+<li class="chapter" data-level="3.2.2" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---tutorial"><i class="fa fa-check"></i><b>3.2.2</b> Descriptive Statistics - Tutorial</a></li>
+<li class="chapter" data-level="3.2.3" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---problem-set"><i class="fa fa-check"></i><b>3.2.3</b> Descriptive Statistics - Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts"><i class="fa fa-check"></i><b>3.3</b> Statistical Concepts</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---description"><i class="fa fa-check"></i><b>3.3.1</b> Statistical Concepts - Description</a></li>
+<li class="chapter" data-level="3.3.2" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---tutorial"><i class="fa fa-check"></i><b>3.3.2</b> Statistical Concepts - Tutorial</a></li>
+<li class="chapter" data-level="3.3.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---problem-set"><i class="fa fa-check"></i><b>3.3.3</b> Statistical Concepts - Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference"><i class="fa fa-check"></i><b>3.4</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---description"><i class="fa fa-check"></i><b>3.4.1</b> Statistical Inference - Description</a></li>
+<li class="chapter" data-level="3.4.2" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---tutorial"><i class="fa fa-check"></i><b>3.4.2</b> Statistical Inference - Tutorial</a></li>
+<li class="chapter" data-level="3.4.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---conclusion"><i class="fa fa-check"></i><b>3.4.3</b> Statistical Inference - Conclusion</a></li>
+<li class="chapter" data-level="3.4.4" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---problem-set"><i class="fa fa-check"></i><b>3.4.4</b> Statistical Inference - Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html"><i class="fa fa-check"></i><b>4</b> Analysis of Variance (ANOVA)</a><ul>
+<li class="chapter" data-level="4.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#introduction-1"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-overview"><i class="fa fa-check"></i><b>4.2</b> ANOVA Overview</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#motivation"><i class="fa fa-check"></i><b>4.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#broad-concept"><i class="fa fa-check"></i><b>4.2.2</b> Broad Concept</a></li>
+<li class="chapter" data-level="4.2.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#terminology"><i class="fa fa-check"></i><b>4.2.3</b> Terminology</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.3</b> Single Factor, Fixed Effects ANOVA</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#example"><i class="fa fa-check"></i><b>4.3.1</b> Example</a></li>
+<li class="chapter" data-level="4.3.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#model"><i class="fa fa-check"></i><b>4.3.2</b> Model</a></li>
+<li class="chapter" data-level="4.3.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-anova-assumptions"><i class="fa fa-check"></i><b>4.3.3</b> Single Factor ANOVA Assumptions</a></li>
+<li class="chapter" data-level="4.3.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#conducting-single-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.3.4</b> Conducting Single Factor (Fixed Effects) ANOVA</a></li>
+<li class="chapter" data-level="4.3.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-fixed-effects-anova-problem-set"><i class="fa fa-check"></i><b>4.3.5</b> Single Factor, Fixed Effects ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-random-effects-model"><i class="fa fa-check"></i><b>4.4</b> Single Factor, Random Effects Model</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-random-effects-problem-set"><i class="fa fa-check"></i><b>4.4.1</b> Single Factor, Random Effects Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#two-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.5</b> Two Factor, Fixed Effects ANOVA</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#including-interaction-effects"><i class="fa fa-check"></i><b>4.5.1</b> Including Interaction Effects</a></li>
+<li class="chapter" data-level="4.5.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#two-factor-anova-problem-set"><i class="fa fa-check"></i><b>4.5.2</b> Two Factor ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-for-more-than-two-factors"><i class="fa fa-check"></i><b>4.6</b> ANOVA For More Than Two Factors</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multi-factor-anova-problem-set"><i class="fa fa-check"></i><b>4.6.1</b> Multi-Factor ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons"><i class="fa fa-check"></i><b>4.7</b> Multiple Comparisons</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-example"><i class="fa fa-check"></i><b>4.7.1</b> Tukey Test Example</a></li>
+<li class="chapter" data-level="4.7.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-in-r"><i class="fa fa-check"></i><b>4.7.2</b> Tukey Test in R</a></li>
+<li class="chapter" data-level="4.7.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-multiple-factors"><i class="fa fa-check"></i><b>4.7.3</b> Tukey Test, Multiple Factors</a></li>
+<li class="chapter" data-level="4.7.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons-problem-set"><i class="fa fa-check"></i><b>4.7.4</b> Multiple Comparisons Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-summary"><i class="fa fa-check"></i><b>4.8</b> ANOVA Summary</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#how-to-calculate-anova"><i class="fa fa-check"></i><b>4.8.1</b> How to Calculate ANOVA</a></li>
+<li class="chapter" data-level="4.8.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-hypothesis-tests"><i class="fa fa-check"></i><b>4.8.2</b> ANOVA Hypothesis Test(s)</a></li>
+<li class="chapter" data-level="4.8.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-assumptions"><i class="fa fa-check"></i><b>4.8.3</b> ANOVA Assumptions</a></li>
+<li class="chapter" data-level="4.8.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons-1"><i class="fa fa-check"></i><b>4.8.4</b> Multiple Comparisons</a></li>
+<li class="chapter" data-level="4.8.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#further-extensions-of-anova"><i class="fa fa-check"></i><b>4.8.5</b> Further Extensions of ANOVA</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html"><i class="fa fa-check"></i><b>5</b> Fundamentals of Design of Experiments</a><ul>
+<li class="chapter" data-level="5.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-2"><i class="fa fa-check"></i><b>5.1</b> Introduction</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#admin-1"><i class="fa fa-check"></i><b>5.1.1</b> Admin</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#doe-overview"><i class="fa fa-check"></i><b>5.2</b> DOE Overview</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#what-is-design-of-experiments"><i class="fa fa-check"></i><b>5.2.1</b> What is Design of Experiments?</a></li>
+<li class="chapter" data-level="5.2.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#why-design-experiments"><i class="fa fa-check"></i><b>5.2.2</b> Why Design Experiments?</a></li>
+<li class="chapter" data-level="5.2.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#strategies-for-experimental-design"><i class="fa fa-check"></i><b>5.2.3</b> Strategies for Experimental Design</a></li>
+<li class="chapter" data-level="5.2.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#history-and-applications-of-experimental-design"><i class="fa fa-check"></i><b>5.2.4</b> History and Applications of Experimental Design</a></li>
+<li class="chapter" data-level="5.2.5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#principles"><i class="fa fa-check"></i><b>5.2.5</b> Principles</a></li>
+<li class="chapter" data-level="5.2.6" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#guidelines"><i class="fa fa-check"></i><b>5.2.6</b> Guidelines</a></li>
+<li class="chapter" data-level="5.2.7" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-1"><i class="fa fa-check"></i><b>5.2.7</b> Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#factorial-designs"><i class="fa fa-check"></i><b>5.3</b> Factorial Designs</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-3"><i class="fa fa-check"></i><b>5.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.3.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#assessing-and-estimating-effects"><i class="fa fa-check"></i><b>5.3.2</b> Assessing and Estimating Effects</a></li>
+<li class="chapter" data-level="5.3.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#blocking"><i class="fa fa-check"></i><b>5.3.3</b> Blocking</a></li>
+<li class="chapter" data-level="5.3.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-2"><i class="fa fa-check"></i><b>5.3.4</b> Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#k-factorial-design"><i class="fa fa-check"></i><b>5.4</b> <span class="math inline">\(2^K\)</span> Factorial Design</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-4"><i class="fa fa-check"></i><b>5.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.4.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#coding-variables-and-effects-signs"><i class="fa fa-check"></i><b>5.4.2</b> Coding Variables and Effects Signs</a></li>
+<li class="chapter" data-level="5.4.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#estimating-effects-and-contrasts"><i class="fa fa-check"></i><b>5.4.3</b> Estimating Effects and Contrasts</a></li>
+<li class="chapter" data-level="5.4.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#unreplicated-2k-designs"><i class="fa fa-check"></i><b>5.4.4</b> Unreplicated <span class="math inline">\(2^K\)</span> Designs</a></li>
+<li class="chapter" data-level="5.4.5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-3"><i class="fa fa-check"></i><b>5.4.5</b> Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html"><i class="fa fa-check"></i><b>6</b> Fractional Factorial Designs</a><ul>
+<li class="chapter" data-level="6.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#introduction-5"><i class="fa fa-check"></i><b>6.1</b> Introduction</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#admin-2"><i class="fa fa-check"></i><b>6.1.1</b> Admin</a></li>
+<li class="chapter" data-level="6.1.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#overview"><i class="fa fa-check"></i><b>6.1.2</b> Overview</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#frac12-fractional-factorial-design-2k-1"><i class="fa fa-check"></i><b>6.2</b> <span class="math inline">\(\frac{1}{2}\)</span> Fractional Factorial Design (<span class="math inline">\(2^{K-1}\)</span>)</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#motivation-and-example"><i class="fa fa-check"></i><b>6.2.1</b> Motivation and Example</a></li>
+<li class="chapter" data-level="6.2.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#design-generator"><i class="fa fa-check"></i><b>6.2.2</b> Design Generator</a></li>
+<li class="chapter" data-level="6.2.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#estimating-effects"><i class="fa fa-check"></i><b>6.2.3</b> Estimating Effects</a></li>
+<li class="chapter" data-level="6.2.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#geometric-view"><i class="fa fa-check"></i><b>6.2.4</b> Geometric View</a></li>
+<li class="chapter" data-level="6.2.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#example-24-1-design"><i class="fa fa-check"></i><b>6.2.5</b> Example <span class="math inline">\(2^{4-1}\)</span> Design</a></li>
+<li class="chapter" data-level="6.2.6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#frac12-fractional-factorial-design-2k-1-problem-set"><i class="fa fa-check"></i><b>6.2.6</b> <span class="math inline">\(\frac{1}{2}\)</span> Fractional Factorial Design (<span class="math inline">\(2^{K-1}\)</span>) Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-designs"><i class="fa fa-check"></i><b>6.3</b> General <span class="math inline">\(2^{K-P}\)</span> Designs</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#introduction-6"><i class="fa fa-check"></i><b>6.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.3.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#quarter-fractional-design"><i class="fa fa-check"></i><b>6.3.2</b> Quarter Fractional Design</a></li>
+<li class="chapter" data-level="6.3.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-design"><i class="fa fa-check"></i><b>6.3.3</b> General <span class="math inline">\(2^{K-P}\)</span> Design</a></li>
+<li class="chapter" data-level="6.3.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#resolution"><i class="fa fa-check"></i><b>6.3.4</b> Resolution</a></li>
+<li class="chapter" data-level="6.3.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-designs-problem-set"><i class="fa fa-check"></i><b>6.3.5</b> General <span class="math inline">\(2^{K-P}\)</span> Designs Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#additional-notes-on-2k-p-designs"><i class="fa fa-check"></i><b>6.4</b> Additional Notes on <span class="math inline">\(2^{K-P}\)</span> Designs</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#additional-topics"><i class="fa fa-check"></i><b>6.4.1</b> Additional Topics</a></li>
+<li class="chapter" data-level="6.4.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#sequencing-experiments"><i class="fa fa-check"></i><b>6.4.2</b> Sequencing Experiments</a></li>
+<li class="chapter" data-level="6.4.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#fractional-factorial-design-simulation-problem-set"><i class="fa fa-check"></i><b>6.4.3</b> Fractional Factorial Design Simulation Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#screening-experiments-and-selecting-factors"><i class="fa fa-check"></i><b>6.5</b> Screening Experiments and Selecting Factors</a></li>
+<li class="chapter" data-level="6.6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#conclusion"><i class="fa fa-check"></i><b>6.6</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html"><i class="fa fa-check"></i><b>7</b> Fundamentals of Regression</a><ul>
+<li class="chapter" data-level="7.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#admin-3"><i class="fa fa-check"></i><b>7.1</b> Admin</a></li>
+<li class="chapter" data-level="7.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>7.2</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#least-squares-method-manually"><i class="fa fa-check"></i><b>7.2.1</b> Least Squares Method Manually</a></li>
+<li class="chapter" data-level="7.2.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#goodness-of-fit"><i class="fa fa-check"></i><b>7.2.2</b> Goodness of Fit</a></li>
+<li class="chapter" data-level="7.2.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#least-squares-method-in-r"><i class="fa fa-check"></i><b>7.2.3</b> Least Squares Method In <em>R</em></a></li>
+<li class="chapter" data-level="7.2.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#simple-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.2.4</b> Simple Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#assumptions-and-diagnostics"><i class="fa fa-check"></i><b>7.3</b> Assumptions and Diagnostics</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#linearity"><i class="fa fa-check"></i><b>7.3.1</b> Linearity</a></li>
+<li class="chapter" data-level="7.3.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#homoscedasticity"><i class="fa fa-check"></i><b>7.3.2</b> Homoscedasticity</a></li>
+<li class="chapter" data-level="7.3.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#independence"><i class="fa fa-check"></i><b>7.3.3</b> Independence</a></li>
+<li class="chapter" data-level="7.3.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#normality"><i class="fa fa-check"></i><b>7.3.4</b> Normality</a></li>
+<li class="chapter" data-level="7.3.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#unusual-observations"><i class="fa fa-check"></i><b>7.3.5</b> Unusual Observations</a></li>
+<li class="chapter" data-level="7.3.6" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#linear-regression-assumptions-and-diagnostics-problem-set"><i class="fa fa-check"></i><b>7.3.6</b> Linear Regression Assumptions and Diagnostics Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#multiple-linear-regression"><i class="fa fa-check"></i><b>7.4</b> Multiple Linear Regression</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#r-example"><i class="fa fa-check"></i><b>7.4.1</b> <em>R</em> Example</a></li>
+<li class="chapter" data-level="7.4.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#multiple-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.4.2</b> Multiple Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#categorical-variables"><i class="fa fa-check"></i><b>7.5</b> Categorical Variables</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#categorical-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.5.1</b> Categorical Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#transformation"><i class="fa fa-check"></i><b>7.6</b> Transformation</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#identifying-non-linear-relationships"><i class="fa fa-check"></i><b>7.6.1</b> Identifying Non-Linear Relationships</a></li>
+<li class="chapter" data-level="7.6.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#checking-model-structure"><i class="fa fa-check"></i><b>7.6.2</b> Checking Model Structure</a></li>
+<li class="chapter" data-level="7.6.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#how-to-transform-variables-in-r"><i class="fa fa-check"></i><b>7.6.3</b> How To Transform Variables In <em>R</em></a></li>
+<li class="chapter" data-level="7.6.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#transformed-regression-problem-set"><i class="fa fa-check"></i><b>7.6.4</b> Transformed Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression"><i class="fa fa-check"></i><b>7.7</b> Logistic Regression</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#motivating-example"><i class="fa fa-check"></i><b>7.7.1</b> Motivating Example</a></li>
+<li class="chapter" data-level="7.7.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logit-function"><i class="fa fa-check"></i><b>7.7.2</b> Logit Function</a></li>
+<li class="chapter" data-level="7.7.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-in-r"><i class="fa fa-check"></i><b>7.7.3</b> Logistic Regression in <em>R</em></a></li>
+<li class="chapter" data-level="7.7.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-diagnostics"><i class="fa fa-check"></i><b>7.7.4</b> Logistic Regression Diagnostics</a></li>
+<li class="chapter" data-level="7.7.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-problem-set"><i class="fa fa-check"></i><b>7.7.5</b> Logistic Regression Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>8</b> Model Selection</a><ul>
+<li class="chapter" data-level="8.1" data-path="model-selection.html"><a href="model-selection.html#admin-4"><i class="fa fa-check"></i><b>8.1</b> Admin</a></li>
+<li class="chapter" data-level="8.2" data-path="model-selection.html"><a href="model-selection.html#introduction-7"><i class="fa fa-check"></i><b>8.2</b> Introduction</a></li>
+<li class="chapter" data-level="8.3" data-path="model-selection.html"><a href="model-selection.html#testing-based-methods"><i class="fa fa-check"></i><b>8.3</b> Testing-Based Methods</a></li>
+<li class="chapter" data-level="8.4" data-path="model-selection.html"><a href="model-selection.html#criterion-based-methods"><i class="fa fa-check"></i><b>8.4</b> Criterion-Based Methods</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="model-selection.html"><a href="model-selection.html#criterion-problem-set"><i class="fa fa-check"></i><b>8.4.1</b> Criterion Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="model-selection.html"><a href="model-selection.html#cross-validation"><i class="fa fa-check"></i><b>8.5</b> Cross Validation</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="model-selection.html"><a href="model-selection.html#what-about-the-test-set"><i class="fa fa-check"></i><b>8.5.1</b> What About The Test Set?</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="model-selection.html"><a href="model-selection.html#lasso-regression"><i class="fa fa-check"></i><b>8.6</b> Lasso Regression</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="model-selection.html"><a href="model-selection.html#background-reading"><i class="fa fa-check"></i><b>8.6.1</b> Background Reading</a></li>
+<li class="chapter" data-level="8.6.2" data-path="model-selection.html"><a href="model-selection.html#lasso-regression-in-r"><i class="fa fa-check"></i><b>8.6.2</b> Lasso Regression In R</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="model-selection.html"><a href="model-selection.html#parting-thought"><i class="fa fa-check"></i><b>8.7</b> Parting Thought</a></li>
+<li class="chapter" data-level="8.8" data-path="model-selection.html"><a href="model-selection.html#lasso-regression-problem-set"><i class="fa fa-check"></i><b>8.8</b> Lasso Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="application-of-doe-to-the-advanced-warfighting-simulation.html"><a href="application-of-doe-to-the-advanced-warfighting-simulation.html"><i class="fa fa-check"></i><b>9</b> Application of DoE to the Advanced Warfighting Simulation</a></li>
+<li class="chapter" data-level="10" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html"><i class="fa fa-check"></i><b>10</b> Advanced Experimental Designs</a><ul>
+<li class="chapter" data-level="10.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#admin-5"><i class="fa fa-check"></i><b>10.1</b> Admin</a></li>
+<li class="chapter" data-level="10.2" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#introduction-and-background"><i class="fa fa-check"></i><b>10.2</b> Introduction and Background</a></li>
+<li class="chapter" data-level="10.3" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#central-composite-designs"><i class="fa fa-check"></i><b>10.3</b> Central Composite Designs</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#augmented-central-composite-designs"><i class="fa fa-check"></i><b>10.3.1</b> Augmented Central Composite Designs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#response-surface-methodology"><i class="fa fa-check"></i><b>10.4</b> Response Surface Methodology</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#ccd-problem-set"><i class="fa fa-check"></i><b>10.4.1</b> CCD Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#nearly-orthogonal-latin-hypercube-designs"><i class="fa fa-check"></i><b>10.5</b> Nearly Orthogonal Latin Hypercube Designs</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#factor-codings"><i class="fa fa-check"></i><b>10.5.1</b> Factor Codings</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#orthogonality-and-variance-inflation-factors"><i class="fa fa-check"></i><b>10.6</b> Orthogonality and Variance Inflation Factors</a></li>
+<li class="chapter" data-level="10.7" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#shifting-and-stacking"><i class="fa fa-check"></i><b>10.7</b> Shifting and Stacking</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#nolh-problem-set"><i class="fa fa-check"></i><b>10.7.1</b> NOLH Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html"><i class="fa fa-check"></i><b>11</b> Non-Parametric Regression</a><ul>
+<li class="chapter" data-level="11.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#admin-6"><i class="fa fa-check"></i><b>11.1</b> Admin</a></li>
+<li class="chapter" data-level="11.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#non-parametric-anova"><i class="fa fa-check"></i><b>11.2</b> Non-Parametric ANOVA</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#multiple-comparisons-2"><i class="fa fa-check"></i><b>11.2.1</b> Multiple Comparisons</a></li>
+<li class="chapter" data-level="11.2.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#non-parametric-anova-problem-set"><i class="fa fa-check"></i><b>11.2.2</b> Non-Parametric ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#generalized-additive-models"><i class="fa fa-check"></i><b>11.3</b> Generalized Additive Models</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#loess"><i class="fa fa-check"></i><b>11.3.1</b> Loess</a></li>
+<li class="chapter" data-level="11.3.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#splines"><i class="fa fa-check"></i><b>11.3.2</b> Splines</a></li>
+<li class="chapter" data-level="11.3.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#cross-validation-1"><i class="fa fa-check"></i><b>11.3.3</b> Cross Validation</a></li>
+<li class="chapter" data-level="11.3.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#gam-problem-set"><i class="fa fa-check"></i><b>11.3.4</b> GAM Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-machines"><i class="fa fa-check"></i><b>11.4</b> Support Vector Machines</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-regression"><i class="fa fa-check"></i><b>11.4.1</b> Support Vector Regression</a></li>
+<li class="chapter" data-level="11.4.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-classification"><i class="fa fa-check"></i><b>11.4.2</b> Support Vector Classification</a></li>
+<li class="chapter" data-level="11.4.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#svm-problem-set"><i class="fa fa-check"></i><b>11.4.3</b> SVM Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#classification-and-regression-trees"><i class="fa fa-check"></i><b>11.5</b> Classification and Regression Trees</a><ul>
+<li class="chapter" data-level="11.5.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#regression-trees"><i class="fa fa-check"></i><b>11.5.1</b> Regression Trees</a></li>
+<li class="chapter" data-level="11.5.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#random-forest-regression"><i class="fa fa-check"></i><b>11.5.2</b> Random Forest Regression</a></li>
+<li class="chapter" data-level="11.5.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#random-forest-classification"><i class="fa fa-check"></i><b>11.5.3</b> Random Forest Classification</a></li>
+<li class="chapter" data-level="11.5.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#cart-problem-set"><i class="fa fa-check"></i><b>11.5.4</b> CART Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html"><i class="fa fa-check"></i><b>12</b> Optional Advanced DOE Topics</a><ul>
+<li class="chapter" data-level="12.1" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#robust-design"><i class="fa fa-check"></i><b>12.1</b> Robust Design</a></li>
+<li class="chapter" data-level="12.2" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#sequential-designs"><i class="fa fa-check"></i><b>12.2</b> Sequential Designs</a></li>
+<li class="chapter" data-level="12.3" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#ridge-regression"><i class="fa fa-check"></i><b>12.3</b> Ridge Regression</a></li>
+<li class="chapter" data-level="12.4" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#neural-network-regression"><i class="fa fa-check"></i><b>12.4</b> Neural Network Regression</a><ul>
+<li class="chapter" data-level="12.4.1" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#simple-neural-network-model"><i class="fa fa-check"></i><b>12.4.1</b> Simple Neural Network Model</a></li>
+<li class="chapter" data-level="12.4.2" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#gradient-descent"><i class="fa fa-check"></i><b>12.4.2</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.4.3" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#multiple-linear-regression-1"><i class="fa fa-check"></i><b>12.4.3</b> Multiple Linear Regression</a></li>
+<li class="chapter" data-level="12.4.4" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#hidden-layer"><i class="fa fa-check"></i><b>12.4.4</b> Hidden Layer</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#neural-network-classification"><i class="fa fa-check"></i><b>12.5</b> Neural Network Classification</a></li>
+<li class="chapter" data-level="12.6" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#multivariate-adaptive-regression-splines"><i class="fa fa-check"></i><b>12.6</b> Multivariate Adaptive Regression Splines</a></li>
+<li class="chapter" data-level="12.7" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#non-parametric-statistics"><i class="fa fa-check"></i><b>12.7</b> Non-Parametric Statistics</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown">
+Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Design of Experiments for Modeling and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="model-selection" class="section level1">
+<h1><span class="header-section-number">8</span> Model Selection</h1>
+<p>This chapter presents methods for finding a balance between under fitting and over fitting a model. Under fitting is when the model is a poor predictor of the response. With linear regression, this is largely addressed through diagnostic checks, which was covered in previous chapters. A linear model is over fitted when it includes more predictors than are needed to represent the relationship to the response variable. Appropriately reducing the complexity of the model improves its ability to make predictions based on new data, and it helps with interpretability.</p>
+<div id="admin-4" class="section level2">
+<h2><span class="header-section-number">8.1</span> Admin</h2>
+<p>For any errors associated with this section, please contact <a href="mailto:john.f.king1.mil@mail.mil">John King</a>.</p>
+<p>This chapter was published using the following software:</p>
+<ul>
+<li>R version 3.6.0 (2019-04-26).</li>
+<li>On x86_64-pc-linux-gnu (64-bit) running Ubuntu 18.04.2 LTS.</li>
+<li>Packages used in this chapter are explicitly shown in the code snippets.</li>
+</ul>
+</div>
+<div id="introduction-7" class="section level2">
+<h2><span class="header-section-number">8.2</span> Introduction</h2>
+<p>There are three general approaches to reducing model complexity: dimension reduction, variable selection, and regularization. Dimension reduction is beyond the scope of this tutorial and will not be covered. This chapter presents two methods of variable selection (testing- and criterion-based methods) and regularization through lasso regression.</p>
+</div>
+<div id="testing-based-methods" class="section level2">
+<h2><span class="header-section-number">8.3</span> Testing-Based Methods</h2>
+<p>Testing-based methods are the easiest to implement but should only be considered when there are only a few predictors. The idea is simple. In <strong>forward elimination</strong>, we start with a linear model with no predictors, manually add them one at a time, and keep only those predictors with a low p-value. <strong>Backward elimination</strong> is just the opposite: we start with a linear model that contains all predictors (including interactions, if suspected), remove the predictor with the highest p-value, build a new linear model with the reduced set or predictors, and continue that process until only those predictors with low p-values remain.</p>
+<p>We’ll use the <code>teengamb</code> dataset from the <code>faraway</code> package to demonstrate backward elimination. This dataset contains survey results from a study of teenage gambling in Britain. The response variable is <code>gamble</code>, which is the expenditure on gambling in pounds per year. The predictors are information regarding each survey respondent, such as gender and income.</p>
+<div class="sourceCode" id="cb690"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb690-1" data-line-number="1"><span class="kw">library</span>(faraway)</a>
+<a class="sourceLine" id="cb690-2" data-line-number="2"><span class="kw">data</span>(teengamb)</a>
+<a class="sourceLine" id="cb690-3" data-line-number="3"><span class="kw">head</span>(teengamb)</a></code></pre></div>
+<pre><code>##   sex status income verbal gamble
+## 1   1     51   2.00      8    0.0
+## 2   1     28   2.50      8    0.0
+## 3   1     37   2.00      6    0.0
+## 4   1     28   7.00      4    7.3
+## 5   1     65   2.00      8   19.6
+## 6   1     61   3.47      6    0.1</code></pre>
+<p>A linear model with all predictors is as follows (we’ll assume this model passes all of the required diagnostic checks):</p>
+<div class="sourceCode" id="cb692"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb692-1" data-line-number="1">tg =<span class="st"> </span><span class="kw">lm</span>(gamble<span class="op">~</span>., <span class="dt">data=</span>teengamb)</a>
+<a class="sourceLine" id="cb692-2" data-line-number="2"><span class="kw">summary</span>(tg)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = gamble ~ ., data = teengamb)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -51.082 -11.320  -1.451   9.452  94.252 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  22.55565   17.19680   1.312   0.1968    
+## sex         -22.11833    8.21111  -2.694   0.0101 *  
+## status        0.05223    0.28111   0.186   0.8535    
+## income        4.96198    1.02539   4.839 1.79e-05 ***
+## verbal       -2.95949    2.17215  -1.362   0.1803    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 22.69 on 42 degrees of freedom
+## Multiple R-squared:  0.5267, Adjusted R-squared:  0.4816 
+## F-statistic: 11.69 on 4 and 42 DF,  p-value: 1.815e-06</code></pre>
+<p>Since the p-value for <code>status</code> is the highest, we remove it first.</p>
+<div class="sourceCode" id="cb694"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb694-1" data-line-number="1">tg =<span class="st"> </span><span class="kw">update</span>(tg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span>status) <span class="co"># remove status</span></a>
+<a class="sourceLine" id="cb694-2" data-line-number="2"><span class="kw">summary</span>(tg)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = gamble ~ sex + income + verbal, data = teengamb)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -50.639 -11.765  -1.594   9.305  93.867 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  24.1390    14.7686   1.634   0.1095    
+## sex         -22.9602     6.7706  -3.391   0.0015 ** 
+## income        4.8981     0.9551   5.128 6.64e-06 ***
+## verbal       -2.7468     1.8253  -1.505   0.1397    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 22.43 on 43 degrees of freedom
+## Multiple R-squared:  0.5263, Adjusted R-squared:  0.4933 
+## F-statistic: 15.93 on 3 and 43 DF,  p-value: 4.148e-07</code></pre>
+<p>Then we remove <code>verbal</code>.</p>
+<div class="sourceCode" id="cb696"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb696-1" data-line-number="1">tg =<span class="st"> </span><span class="kw">update</span>(tg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span>verbal) <span class="co"># remove verbal</span></a>
+<a class="sourceLine" id="cb696-2" data-line-number="2"><span class="kw">summary</span>(tg)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = gamble ~ sex + income, data = teengamb)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -49.757 -11.649   0.844   8.659 100.243 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    4.041      6.394   0.632  0.53070    
+## sex          -21.634      6.809  -3.177  0.00272 ** 
+## income         5.172      0.951   5.438 2.24e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 22.75 on 44 degrees of freedom
+## Multiple R-squared:  0.5014, Adjusted R-squared:  0.4787 
+## F-statistic: 22.12 on 2 and 44 DF,  p-value: 2.243e-07</code></pre>
+<p>Notice that even though we eliminated half of the predictors from the model, we only slightly reduced the adjusted <span class="math inline">\(R^{2}\)</span>. The simpler model explains almost as much variance in the response with only half the number of predictors. Something to keep in mind when conducting forward or backward elimination is that the predictor p-value does not necessarily have to be above 0.05 to eliminate the predictor from the model. You could also choose something higher - even up to around 0.15 to 0.20 if predictive performance is the goal. For example, note that the p-value for <code>verbal</code> in the second model was 0.14, and the adjusted <span class="math inline">\(R^{2}\)</span> for the model was the highest of the three. The coefficient for <code>verbal</code> was also negative, which is what we’d expect: teens with higher verbal scores spend less money on gambling. We should therefore consider keeping <code>verbal</code> in the model (there’s a little bit of an art to it).</p>
+</div>
+<div id="criterion-based-methods" class="section level2">
+<h2><span class="header-section-number">8.4</span> Criterion-Based Methods</h2>
+<p>As previously stated, testing-based procedures should only be considered when there are just a few factors to consider. The more potential factors in your model, the greater the chance that you’ll miss the optimal combination. We saw in the previous section that we had two competing goals: model simplicity versus model fit. <span class="citation">Akaike (<a href="#ref-akaike1974">1974</a>)</span> developed a method to measure this balance between simplicity and fit called the <strong>Akaike Information Criterion (AIC)</strong>, which takes the form of:</p>
+<center>
+<span class="math display">\[AIC = 2(p+1) - 2ln(\hat{L})\]</span>
+</center>
+<p>where,</p>
+<ul>
+<li><span class="math inline">\(p\)</span> is the number of predictors, and</li>
+<li><span class="math inline">\(\hat{L}\)</span> is the maximized likelihood for the predictive model.</li>
+</ul>
+<p>We then choose the model with the lowest AIC. The <strong>Bayes Information Criterion (BIC)</strong> is an alternative to AIC and replaces <span class="math inline">\(2(p+1)\)</span> with <span class="math inline">\(ln(n)(p+1)\)</span>, where <span class="math inline">\(n\)</span> is the number of observations (design points). Adding <span class="math inline">\(ln(n)\)</span> increases the penalty for the number of factors in the model more for larger data sets. Which criterion you use can therefore depend on the dataset you’re working with.</p>
+<p>Another common estimator of error is <strong>Mallow’s Cp</strong>, which is defined as:</p>
+<center>
+<span class="math display">\[C_{p}=\frac{1}{n}(RSS+2p\hat{\sigma}^{2})\]</span>
+</center>
+<p>where,</p>
+<ul>
+<li><span class="math inline">\(RSS\)</span> is the root sum of squares,</li>
+<li><span class="math inline">\(p\)</span> is the number of predictor, and</li>
+<li><span class="math inline">\(\hat{\sigma}^{2}\)</span> is an estimate of the variance of the error, <span class="math inline">\(\varepsilon\)</span>, in the linear regression equation.</li>
+</ul>
+<p>As with AIC and BIC, the penalty term (in this case <span class="math inline">\(2p\hat{\sigma}^{2}\)</span>) increases as the number of predictors in the model increases, which is intended to balance the corresponding decrease in <span class="math inline">\(RSS\)</span>. With each of these methods, as we vary <span class="math inline">\(p\)</span>, we get an associated criterion value from which we select the minimum as the best model. In <em>R</em>, we can calculate AIC and BIC with the <code>bestglm()</code> function from the <code>bestglm</code> package. Be aware that <code>bestglm()</code> expects the data to be in a dataframe with the response variable in the last column.</p>
+<div class="sourceCode" id="cb698"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb698-1" data-line-number="1"><span class="kw">library</span>(bestglm)</a>
+<a class="sourceLine" id="cb698-2" data-line-number="2"><span class="co"># Note that bestglm is picky about how your dataset is structured</span></a>
+<a class="sourceLine" id="cb698-3" data-line-number="3"><span class="co"># It expects a dataframe with the response variable in the last column</span></a>
+<a class="sourceLine" id="cb698-4" data-line-number="4"><span class="co"># and all other columns are predictors. Don&#39;t include any other &quot;extra&quot;</span></a>
+<a class="sourceLine" id="cb698-5" data-line-number="5"><span class="co"># columns. Fortunately, teengamb is already set up that way.</span></a>
+<a class="sourceLine" id="cb698-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb698-7" data-line-number="7">tg.AIC =<span class="st"> </span><span class="kw">bestglm</span>(teengamb, <span class="dt">IC=</span><span class="st">&quot;AIC&quot;</span>)</a>
+<a class="sourceLine" id="cb698-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb698-9" data-line-number="9"><span class="co"># this will provide the best model</span></a>
+<a class="sourceLine" id="cb698-10" data-line-number="10">tg.AIC</a></code></pre></div>
+<pre><code>## AIC
+## BICq equivalent for q in (0.672366796081496, 0.87054246206156)
+## Best Model:
+##               Estimate Std. Error   t value     Pr(&gt;|t|)
+## (Intercept)  24.138972 14.7685884  1.634481 1.094591e-01
+## sex         -22.960220  6.7705747 -3.391177 1.502436e-03
+## income        4.898090  0.9551179  5.128256 6.643750e-06
+## verbal       -2.746817  1.8252807 -1.504874 1.396672e-01</code></pre>
+<p>Notice that <code>verbal</code> is included in the best fit model even though its p-value is &gt; 0.05. Using <code>summary()</code>, we get a likelihood-ratio test for the best model compared to the null model.</p>
+<div class="sourceCode" id="cb700"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb700-1" data-line-number="1"><span class="kw">summary</span>(tg.AIC)</a></code></pre></div>
+<pre><code>## Fitting algorithm:  AIC-leaps
+## Best Model:
+##            df deviance
+## Null Model 43 21641.54
+## Full Model 46 45689.49
+## 
+##  likelihood-ratio test - GLM
+## 
+## data:  H0: Null Model vs. H1: Best Fit AIC-leaps
+## X = 24048, df = 3, p-value &lt; 2.2e-16</code></pre>
+<p>To get the best model in a <code>lm()</code> format:</p>
+<div class="sourceCode" id="cb702"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb702-1" data-line-number="1">tg.AIC<span class="op">$</span>BestModel</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ ., data = data.frame(Xy[, c(bestset[-1], FALSE), 
+##     drop = FALSE], y = y))
+## 
+## Coefficients:
+## (Intercept)          sex       income       verbal  
+##      24.139      -22.960        4.898       -2.747</code></pre>
+<p>We can also see a comparison of the best model (model 1) to the next 4 best models.</p>
+<div class="sourceCode" id="cb704"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb704-1" data-line-number="1">tg.AIC<span class="op">$</span>BestModels</a></code></pre></div>
+<pre><code>##     sex status income verbal Criterion
+## 1  TRUE  FALSE   TRUE   TRUE  294.2145
+## 2  TRUE  FALSE   TRUE  FALSE  294.6268
+## 3  TRUE   TRUE   TRUE   TRUE  296.1758
+## 4  TRUE   TRUE   TRUE  FALSE  296.2086
+## 5 FALSE   TRUE   TRUE   TRUE  301.6659</code></pre>
+<p>We can also see the best model (row 3) and its subsets. Row 0 contains just the y-intercept, and in each successive row one predictor is added at a time.</p>
+<div class="sourceCode" id="cb706"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb706-1" data-line-number="1">tg.AIC<span class="op">$</span>Subsets</a></code></pre></div>
+<pre><code>##    (Intercept)   sex status income verbal logLikelihood      AIC
+## 0         TRUE FALSE  FALSE  FALSE  FALSE     -161.6677 323.3354
+## 1         TRUE FALSE  FALSE   TRUE  FALSE     -150.1678 302.3356
+## 2         TRUE  TRUE  FALSE   TRUE  FALSE     -145.3134 294.6268
+## 3*        TRUE  TRUE  FALSE   TRUE   TRUE     -144.1072 294.2145
+## 4         TRUE  TRUE   TRUE   TRUE   TRUE     -144.0879 296.1758</code></pre>
+<p>Using BIC, however, <code>verbal</code> is excluded from the best fit model.</p>
+<div class="sourceCode" id="cb708"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb708-1" data-line-number="1">tg.BIC =<span class="st"> </span><span class="kw">bestglm</span>(teengamb, <span class="dt">IC=</span><span class="st">&quot;BIC&quot;</span>)</a>
+<a class="sourceLine" id="cb708-2" data-line-number="2">tg.BIC</a></code></pre></div>
+<pre><code>## BIC
+## BICq equivalent for q in (0.0507226962510261, 0.672366796081496)
+## Best Model:
+##               Estimate Std. Error    t value     Pr(&gt;|t|)
+## (Intercept)   4.040829  6.3943499  0.6319374 5.306977e-01
+## sex         -21.634391  6.8087973 -3.1774174 2.717320e-03
+## income        5.171584  0.9510477  5.4377755 2.244878e-06</code></pre>
+<p>For Mallow’s Cp, we can use the <code>leaps</code> package.</p>
+<div class="sourceCode" id="cb710"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb710-1" data-line-number="1"><span class="kw">library</span>(leaps)</a>
+<a class="sourceLine" id="cb710-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb710-3" data-line-number="3"><span class="co"># leaps expects x and y to be passed separately</span></a>
+<a class="sourceLine" id="cb710-4" data-line-number="4">tg.cp =<span class="st"> </span><span class="kw">leaps</span>(<span class="dt">x=</span>teengamb[<span class="op">-</span><span class="dv">5</span>], <span class="dt">y=</span>teengamb<span class="op">$</span>gamble, <span class="dt">method=</span><span class="st">&quot;Cp&quot;</span>)</a>
+<a class="sourceLine" id="cb710-5" data-line-number="5">tg.cp</a></code></pre></div>
+<pre><code>## $which
+##       1     2     3     4
+## 1 FALSE FALSE  TRUE FALSE
+## 1  TRUE FALSE FALSE FALSE
+## 1 FALSE FALSE FALSE  TRUE
+## 1 FALSE  TRUE FALSE FALSE
+## 2  TRUE FALSE  TRUE FALSE
+## 2 FALSE  TRUE  TRUE FALSE
+## 2 FALSE FALSE  TRUE  TRUE
+## 2  TRUE  TRUE FALSE FALSE
+## 2  TRUE FALSE FALSE  TRUE
+## 2 FALSE  TRUE FALSE  TRUE
+## 3  TRUE FALSE  TRUE  TRUE
+## 3  TRUE  TRUE  TRUE FALSE
+## 3 FALSE  TRUE  TRUE  TRUE
+## 3  TRUE  TRUE FALSE  TRUE
+## 4  TRUE  TRUE  TRUE  TRUE
+## 
+## $label
+## [1] &quot;(Intercept)&quot; &quot;1&quot;           &quot;2&quot;           &quot;3&quot;           &quot;4&quot;          
+## 
+## $size
+##  [1] 2 2 2 2 3 3 3 3 3 3 4 4 4 4 5
+## 
+## $Cp
+##  [1] 11.401283 30.984606 41.445676 45.517426  3.248323 12.003293 12.276400
+##  [8] 25.967108 26.743051 42.897591  3.034526  4.856329 10.256053 26.416920
+## [15]  5.000000</code></pre>
+<p>It takes a little finagling to get the predictors that we should include in the best model. Columns 1, 2, and 4 correspond to <code>sex</code>, <code>status</code>, and <code>verbal</code>, which is the same as the AIC result.</p>
+<div class="sourceCode" id="cb712"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb712-1" data-line-number="1">tg.cp<span class="op">$</span>which[<span class="kw">which.min</span>(tg.cp<span class="op">$</span>Cp), ]</a></code></pre></div>
+<pre><code>##     1     2     3     4 
+##  TRUE FALSE  TRUE  TRUE</code></pre>
+<div id="criterion-problem-set" class="section level3">
+<h3><span class="header-section-number">8.4.1</span> Criterion Problem Set</h3>
+<p>The problem set for this section is located <a href = "/_Chapter8_ProblemSets/Criterion_ProblemSet_Questions.html">here</a>.</p>
+<p>For your convenience, the problem set as an R markdown is located <a href = "/_Chapter8_ProblemSets/Criterion_ProblemSet_Questions.Rmd">here</a>.</p>
+<p>The solutions for this problem set are located <a href = "/_Chapter8_ProblemSets/Criterion_ProblemSet_Solutions.html">here</a>.</p>
+</div>
+</div>
+<div id="cross-validation" class="section level2">
+<h2><span class="header-section-number">8.5</span> Cross Validation</h2>
+<p>An alternative approach to using AIC, BIC, or Cp is to use cross validation (CV) to select the best model. The idea is that we randomly divide our data into a <strong>training set</strong> and a <strong>test set</strong>. An 80/20 split between the training set and test set is common but will depend on your sample size. For very large sample sizes (in the millions), the training set can contain a larger percentage, while for relatively small sample sizes, the split may be closer to 50/50. The training set is further randomly divided into <span class="math inline">\(k\)</span> subsets (called <strong>folds</strong>), and one of these folds is withheld as the <strong>validation set</strong>. We fit a model to the remaining training set, and then measure the prediction error using the validation set. Typically, the prediction error is measured by the mean squared error (MSE) for a quantitative response variable. We repeat this process by cycling though each of the folds and holding it out as the validation set. The cross validated error (CV error) is then the average prediction error for the <span class="math inline">\(k\)</span> folds.</p>
+<p>The website for the <code>scikit-learn</code> module for Python has a good visualization (shown below) of these various data sets and a <a href="https://scikit-learn.org/stable/modules/cross_validation.html">good explanation</a> of this and other cross validation methods. A more thorough, academic treatment of cross validation may be found in <a href="https://web.stanford.edu/~hastie/Papers/ESLII.pdf">Chapter 7.10</a> in Elements of Statistical Learning written by Trevor Hastie, Robert Tibshirani, and Jerome Friedman.</p>
+<p><img src="https://scikit-learn.org/stable/_images/grid_search_cross_validation.png" /></p>
+<p>Once the CV process is complete, we re-combine each of the folds into a single training set for a final evaluation against the test set. With this approach, we can compare multiple CV methods and choose the method with the best performance.</p>
+<p>Notice that we are not using an Information Criterion (IC) anywhere in this method. Another difference is that with criterion-based methods, we chose the model with the lowest IC score, but with CV, we don’t choose the model with the lowest CV error. Instead, we calculate the standard deviation (<span class="math inline">\(\sigma\)</span>) of the CV error for each of the <span class="math inline">\(p\)</span> predictors and then choose the smallest model that’s CV error is within one standard error of the lowest. Standard error is defined as <span class="math inline">\(se = \sigma/\sqrt(k)\)</span>. This is best shown graphically, which you’ll see below.</p>
+<p>CV techniques are particularly useful for datasets with many predictors, but for consistency, we’ll stick with the <code>teengamb</code> dataset. Below, we’ll perform k-fold cross validation on the <code>teamgamb</code> dataset, once again using <code>bestglm()</code>. We’ll use an 80/20 train/test split.</p>
+<div class="sourceCode" id="cb714"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb714-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb714-2" data-line-number="2">test_set =<span class="st"> </span><span class="kw">sample</span>(<span class="dv">47</span>, <span class="dv">10</span>, <span class="dt">replace=</span><span class="ot">FALSE</span>)  <span class="co"># randomly select row indices</span></a>
+<a class="sourceLine" id="cb714-3" data-line-number="3">tg_test =<span class="st"> </span>teengamb[test_set, ]              <span class="co"># create test set</span></a>
+<a class="sourceLine" id="cb714-4" data-line-number="4">tg_train =<span class="st"> </span>teengamb[<span class="op">-</span>test_set, ]            <span class="co"># create training set </span></a></code></pre></div>
+<p>The training set has only 24 observations, so if we further partition it into a large number of folds, we’ll have a small number of observations in each of the validation folds. For this example, we’ll choose just 3 folds. In the <code>bestglm()</code> function, we specify <code>CV</code> as the IC and pass three arguments to specify cross validation parameters. As mentioned, there are a variety of cross validation methods to choose from. For the method described above, we specify <code>Method=&quot;HTF&quot;</code>, which you might have noticed are the first letters of the last names of the authors mentioned in the “Elements of Statistical Learning” reference above. <code>K=3</code> specifies the number of k-folds, and we can chose one or more repetition with <code>REP</code>. Remember that cross validation randomly partitions the data into folds, so if we want to repeat the CV process with different random partitions, we increase the <code>REP</code> value. Due to the small sample size and number of folds, we’ll do 10 repetitions.</p>
+<div class="sourceCode" id="cb715"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb715-1" data-line-number="1">tg.cv =<span class="st"> </span><span class="kw">bestglm</span>(tg_train, <span class="dt">IC=</span><span class="st">&quot;CV&quot;</span>, <span class="dt">CVArgs=</span><span class="kw">list</span>(<span class="dt">Method=</span><span class="st">&quot;HTF&quot;</span>, <span class="dt">K=</span><span class="dv">3</span>, <span class="dt">REP=</span><span class="dv">10</span>))</a>
+<a class="sourceLine" id="cb715-2" data-line-number="2">tg.cv</a></code></pre></div>
+<pre><code>## CV(K = 3, REP = 10)
+## BICq equivalent for q in (0.000199326484859652, 0.329344259543028)
+## Best Model:
+##              Estimate Std. Error    t value     Pr(&gt;|t|)
+## (Intercept) -6.132874   6.892883 -0.8897401 3.796805e-01
+## income       5.877955   1.149221  5.1147292 1.134028e-05</code></pre>
+<p>The model above is the model with the fewest predictors that is within one standard error of the model with the lowest CV error. To illustrate this relationship, next we’ll visualize how this model was determined based on the CV and standard errors. We can get the CV errors and the <span class="math inline">\(se\)</span> from the <code>tg.cv</code> object.</p>
+<p><img src="06-Model_Selection_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<div id="what-about-the-test-set" class="section level3">
+<h3><span class="header-section-number">8.5.1</span> What About The Test Set?</h3>
+<p>This model selection method included <code>income</code> as the only predictor variable in their respective best model. However, the coefficients differ between the two models, so now we can bring in the test set to compare Best BIC model. For a fair comparison with the CV results, we’ll find the best model using BIC on the training set only.</p>
+<div class="sourceCode" id="cb717"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb717-1" data-line-number="1"><span class="co"># get the BIC model on the training set only</span></a>
+<a class="sourceLine" id="cb717-2" data-line-number="2">tg_train.BIC =<span class="st"> </span><span class="kw">bestglm</span>(tg_train, <span class="dt">IC=</span><span class="st">&quot;BIC&quot;</span>)</a>
+<a class="sourceLine" id="cb717-3" data-line-number="3">bic_preds =<span class="st"> </span><span class="kw">predict</span>(tg_train.BIC<span class="op">$</span>BestModel, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(tg_test[, <span class="dv">-5</span>]))</a>
+<a class="sourceLine" id="cb717-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb717-5" data-line-number="5"><span class="kw">print</span>(<span class="st">&quot;BIC predictors included are:&quot;</span>)</a></code></pre></div>
+<pre><code>## [1] &quot;BIC predictors included are:&quot;</code></pre>
+<div class="sourceCode" id="cb719"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb719-1" data-line-number="1"><span class="kw">print</span>(tg_train.BIC<span class="op">$</span>BestModel<span class="op">$</span>coefficients)</a></code></pre></div>
+<pre><code>## (Intercept)         sex      income 
+##    3.515245  -19.116151    5.362915</code></pre>
+<p>Now we’ll get the CV model.</p>
+<div class="sourceCode" id="cb721"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb721-1" data-line-number="1"><span class="co"># based on the CV results, only income should be included as a factor</span></a>
+<a class="sourceLine" id="cb721-2" data-line-number="2">cv.glm =<span class="st"> </span><span class="kw">glm</span>(gamble<span class="op">~</span>income, <span class="dt">data=</span>tg_train)</a>
+<a class="sourceLine" id="cb721-3" data-line-number="3">cv_preds =<span class="st"> </span><span class="kw">predict</span>(cv.glm, <span class="dt">newdata =</span> <span class="kw">data.frame</span>(tg_test[, <span class="dv">-5</span>]))</a></code></pre></div>
+<p>We’ll use mean absolute error as our measure of error.</p>
+<div class="sourceCode" id="cb722"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb722-1" data-line-number="1"><span class="co"># calculate and compare mean absolute error</span></a>
+<a class="sourceLine" id="cb722-2" data-line-number="2"><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;BIC mean absolute error:&quot;</span>, <span class="kw">round</span>(<span class="kw">mean</span>(<span class="kw">abs</span>(bic_preds <span class="op">-</span><span class="st"> </span>tg_test<span class="op">$</span>gamble)), <span class="dv">1</span>)))</a></code></pre></div>
+<pre><code>## [1] &quot;BIC mean absolute error: 10.9&quot;</code></pre>
+<div class="sourceCode" id="cb724"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb724-1" data-line-number="1"><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;CV mean absolute error:&quot;</span>, <span class="kw">round</span>(<span class="kw">mean</span>(<span class="kw">abs</span>(cv_preds <span class="op">-</span><span class="st"> </span>tg_test<span class="op">$</span>gamble)), <span class="dv">1</span>)))</a></code></pre></div>
+<pre><code>## [1] &quot;CV mean absolute error: 16.3&quot;</code></pre>
+<p>Using mean absolute error, BIC out-performed the cross-validated model. This result shouldn’t be too surprising given that the BIC model contained additional predictor variables that appeared to be statistically significant.</p>
+</div>
+</div>
+<div id="lasso-regression" class="section level2">
+<h2><span class="header-section-number">8.6</span> Lasso Regression</h2>
+<p>Ridge and lasso regression are closely related regularization techniques to reduce model complexity. The primary difference between the two methods is that ridge regression reduces factor coefficients close to (but not equal to) zero, while lasso regression reduces the coefficients all the way to zero, which makes it useful for reducing model complexity by eliminating factors.</p>
+<div id="background-reading" class="section level3">
+<h3><span class="header-section-number">8.6.1</span> Background Reading</h3>
+<p>For the theoretical framework, please read <a href = "https://towardsdatascience.com/ridge-and-lasso-regression-a-complete-guide-with-python-scikit-learn-e20e34bcbf0b">this article</a>. Don’t worry about the Python code. Just read the text portions of the article that explain the how ridge and, more importantly, lasso regression work.</p>
+</div>
+<div id="lasso-regression-in-r" class="section level3">
+<h3><span class="header-section-number">8.6.2</span> Lasso Regression In R</h3>
+<p>Lasso regression is particularly useful when a dataset has many factors, but we’ll continue to use the <code>teengamb</code> data so we can compare the results with the <code>stepAIC()</code> method. Performing lasso regression with the <code>glmnet</code> package is straight forward. The function has two required arguments, an <code>x</code> and a <code>y</code>, where <code>x</code> are the data associated with the predictors (note <code>x</code> must be a <code>data.matrix</code>, not a <code>data.frame</code>), and <code>y</code> is the response as a vector. By default, <code>glmnet</code> automatically scales and centers the data, and then converts them back to the original scale when providing results. If we plot the results, we get the following.</p>
+<div class="sourceCode" id="cb726"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb726-1" data-line-number="1"><span class="kw">library</span>(glmnet)</a>
+<a class="sourceLine" id="cb726-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb726-3" data-line-number="3"><span class="co"># for some reason, glmnet works best with data.matrix instead of as.matrix</span></a>
+<a class="sourceLine" id="cb726-4" data-line-number="4">x =<span class="st"> </span><span class="kw">data.matrix</span>(tg_train[<span class="op">-</span><span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb726-5" data-line-number="5">y =<span class="st"> </span>tg_train<span class="op">$</span>gamble</a>
+<a class="sourceLine" id="cb726-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb726-7" data-line-number="7">tg.lasso =<span class="st"> </span><span class="kw">glmnet</span>(x, y)</a>
+<a class="sourceLine" id="cb726-8" data-line-number="8"><span class="kw">plot</span>(tg.lasso, <span class="dt">xvar=</span><span class="st">&quot;lambda&quot;</span>, <span class="dt">label=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="06-Model_Selection_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>Each of the above lines represents a predictor. The number next to each line on the left side of the plot refers to the column number in the <code>x</code> matrix. The vertical axis represents the factor coefficient. The bottom x axis is <span class="math inline">\(log(\lambda)\)</span>, and the top x axis is the associated number of predictors included in the model.</p>
+<p>So how do we interpret this plot? At the far right, we can see that the coefficient for every predictor is zero. In other words, this is the null model. As <span class="math inline">\(\lambda\)</span> decreases, predictors are added one at a time to the model. Since predictor #3 (income) is the first to have a non-zero coefficient, it is the most significant. Sex (predictor #1) is the next non-zero coefficient followed by verbal (predictor #4) and then status (predictor #2). If we compare this order with the p-values from the best fit linear model, we see that there is consistency. Note that income was the first non-zero coefficient, and it has the lowest p-value in the linear model. Also note that the maximum coefficients in the lasso regression plot are also consistent with the linear model coefficients.</p>
+<p>Our task now is to find the model that has good predictive power while including only the most significant predictors. In other words, we need a method to find the right <span class="math inline">\(\lambda\)</span> value. Before we get to how we identify that <span class="math inline">\(\lambda\)</span>, let’s look at some other useful information from <code>tg.lasso</code>. If we print our glmnet object, we see (going by columns from left to right) the number of predictors included in the model (Df, not to be confused with the degrees of freedom in a linear model summary), the percent of null deviance explained, and the associated <span class="math inline">\(\lambda\)</span> value.</p>
+<div class="sourceCode" id="cb727"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb727-1" data-line-number="1"><span class="kw">print</span>(tg.lasso)</a></code></pre></div>
+<pre><code>## 
+## Call:  glmnet(x = x, y = y) 
+## 
+##    Df  %Dev  Lambda
+## 1   0  0.00 21.9800
+## 2   1  7.26 20.0300
+## 3   1 13.29 18.2500
+## 4   1 18.30 16.6300
+## 5   1 22.45 15.1500
+## 6   1 25.90 13.8100
+## 7   1 28.77 12.5800
+## 8   1 31.15 11.4600
+## 9   2 34.07 10.4400
+## 10  2 36.78  9.5160
+## 11  2 39.03  8.6710
+## 12  2 40.90  7.9010
+## 13  2 42.46  7.1990
+## 14  2 43.75  6.5590
+## 15  2 44.82  5.9770
+## 16  2 45.71  5.4460
+## 17  3 46.46  4.9620
+## 18  3 47.38  4.5210
+## 19  3 48.14  4.1190
+## 20  3 48.77  3.7530
+## 21  3 49.30  3.4200
+## 22  3 49.73  3.1160
+## 23  3 50.10  2.8390
+## 24  3 50.40  2.5870
+## 25  3 50.65  2.3570
+## 26  3 50.85  2.1480
+## 27  3 51.03  1.9570
+## 28  3 51.17  1.7830
+## 29  3 51.29  1.6250
+## 30  3 51.39  1.4800
+## 31  3 51.47  1.3490
+## 32  3 51.54  1.2290
+## 33  3 51.59  1.1200
+## 34  3 51.64  1.0200
+## 35  3 51.68  0.9298
+## 36  3 51.71  0.8472
+## 37  3 51.74  0.7719
+## 38  3 51.76  0.7033
+## 39  3 51.78  0.6409
+## 40  3 51.79  0.5839
+## 41  3 51.80  0.5320
+## 42  4 51.83  0.4848
+## 43  4 51.85  0.4417
+## 44  4 51.87  0.4025
+## 45  4 51.89  0.3667
+## 46  4 51.90  0.3341
+## 47  4 51.91  0.3045
+## 48  4 51.92  0.2774
+## 49  4 51.93  0.2528
+## 50  4 51.93  0.2303
+## 51  4 51.94  0.2099
+## 52  4 51.94  0.1912
+## 53  4 51.95  0.1742
+## 54  4 51.95  0.1587
+## 55  4 51.95  0.1446
+## 56  4 51.95  0.1318
+## 57  4 51.96  0.1201
+## 58  4 51.96  0.1094
+## 59  4 51.96  0.0997
+## 60  4 51.96  0.0908
+## 61  4 51.96  0.0828
+## 62  4 51.96  0.0754
+## 63  4 51.96  0.0687
+## 64  4 51.96  0.0626</code></pre>
+<p>We can also see the coefficient values for any given <span class="math inline">\(\lambda\)</span> with <code>coef</code>. We can see that small values of <span class="math inline">\(\lambda\)</span> include more predictors and so correspond with the right side of the plot above. We can get the coefficients for any given <span class="math inline">\(\lambda\)</span> value with <code>coef()</code>. If we choose the smallest values of <span class="math inline">\(\lambda\)</span> from the above data, we get:</p>
+<div class="sourceCode" id="cb729"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb729-1" data-line-number="1"><span class="co"># Note that we specify lambda with s</span></a>
+<a class="sourceLine" id="cb729-2" data-line-number="2"><span class="kw">coef</span>(tg.lasso, <span class="dt">s=</span><span class="fl">0.0626</span>)</a></code></pre></div>
+<pre><code>## 5 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
+##                        1
+## (Intercept)  18.03799848
+## sex         -18.24900253
+## status        0.08230075
+## income        5.20255057
+## verbal       -2.69223049</code></pre>
+<p>Now we can more directly compare these coefficients to the full linear model coefficients. Recall that we withheld a test set prior to performing lasso regression, so the coefficients are close, but not equal to the linear model coefficients.</p>
+<div class="sourceCode" id="cb731"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb731-1" data-line-number="1"><span class="kw">sumary</span>(<span class="kw">lm</span>(gamble<span class="op">~</span>., <span class="dt">data=</span>teengamb))</a></code></pre></div>
+<pre><code>##               Estimate Std. Error t value  Pr(&gt;|t|)
+## (Intercept)  22.555651  17.196803  1.3116   0.19677
+## sex         -22.118330   8.211115 -2.6937   0.01011
+## status        0.052234   0.281112  0.1858   0.85349
+## income        4.961979   1.025392  4.8391 1.792e-05
+## verbal       -2.959493   2.172150 -1.3625   0.18031
+## 
+## n = 47, p = 5, Residual SE = 22.69034, R-Squared = 0.53</code></pre>
+<p>If we choose a <span class="math inline">\(\lambda\)</span> associated with 2 Df, we see that only two predictors have non-zero coefficients.</p>
+<div class="sourceCode" id="cb733"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb733-1" data-line-number="1"><span class="kw">coef</span>(tg.lasso, <span class="dt">s=</span><span class="fl">5.9770</span>)</a></code></pre></div>
+<pre><code>## 5 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
+##                     1
+## (Intercept)  5.858393
+## sex         -8.912086
+## status       .       
+## income       4.039764
+## verbal       .</code></pre>
+<p>To find the optimal value for <span class="math inline">\(\lambda\)</span>, we use cross validation again. We can include cross validation in the <code>glmnet()</code> function by prepending <code>cv.</code> as shown below. The default number of folds in the <code>cv.glmnet</code> function is 10, which is fine for this example. There’s a built-in method for plotting the results as we did manually above.</p>
+<div class="sourceCode" id="cb735"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb735-1" data-line-number="1">tg.cv =<span class="st"> </span><span class="kw">cv.glmnet</span>(x, y)</a>
+<a class="sourceLine" id="cb735-2" data-line-number="2"><span class="kw">plot</span>(tg.cv)</a></code></pre></div>
+<p><img src="06-Model_Selection_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>What we get is the cross validation curve (red dots) and two values for <span class="math inline">\(\lambda\)</span> (vertical dashed lines). The left dashed line is the value of lambda that gives the minimum mean cross-validated error. The right dashed line is the value of <span class="math inline">\(\lambda\)</span> whose error is within one standard deviation of the minimum. This is the <span class="math inline">\(\lambda\)</span> we’ve been after. We can get the coefficients associated with this <span class="math inline">\(\lambda\)</span> by specifying <code>s = &quot;lambda.1se&quot;</code>. Our cross validated best fit lasso regression model is shown below.</p>
+<div class="sourceCode" id="cb736"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb736-1" data-line-number="1"><span class="kw">coef</span>(tg.cv, <span class="dt">s =</span> <span class="st">&quot;lambda.1se&quot;</span>)</a></code></pre></div>
+<pre><code>## 5 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
+##                     1
+## (Intercept) 12.864028
+## sex          .       
+## status       .       
+## income       1.826509
+## verbal       .</code></pre>
+<p>For a more thorough discussion of the <code>glmnet</code> package, including its use with non-Gaussian data, refer to the <a href = "https://web.stanford.edu/~hastie/glmnet/glmnet_alpha.html">vignette</a> written by Trevor Hastie and Junyang Qian.</p>
+</div>
+</div>
+<div id="parting-thought" class="section level2">
+<h2><span class="header-section-number">8.7</span> Parting Thought</h2>
+<p>In this chapter, we have seen that different methods for model selection can produce different “best” models, which might make you leery about the whole thing. Remember the George Box quote:</p>
+<blockquote>
+<p>All models are wrong…</p>
+</blockquote>
+<p>We’re just trying to find one that’s useful.</p>
+</div>
+<div id="lasso-regression-problem-set" class="section level2">
+<h2><span class="header-section-number">8.8</span> Lasso Regression Problem Set</h2>
+<p>The problem set for this section is located <a href = "/_Chapter8_ProblemSets/Lasso_ProblemSet_Questions.html">here</a>.</p>
+<p>For your convenience, the problem set as an R markdown is located <a href = "/_Chapter8_ProblemSets/Lasso_ProblemSet_Questions.Rmd">here</a>.</p>
+<p>The solutions for this problem set are located <a href = "/_Chapter8_ProblemSets/Lasso_ProblemSet_Solutions.html">here</a>.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-akaike1974">
+<p>Akaike, Hirotugu. 1974. “A New Look at the Statistical Model Identification.” <em>IEEE Transactions on Automatic Control</em> 19(6).</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="fundamentals-of-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="application-of-doe-to-the-advanced-warfighting-simulation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "chapter"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,123 @@
+---
+title: "Introduction to Factorial Designs Problem Set"
+output: 
+  html_document:
+    number_sections: true
+    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Single Replicate Analysis
+
+Consider the following factorial design and the responses:
+
+| Round | Caliber | Kills |
+| --- | --- | --- |
+| HE | 105mm | 10 |
+| HE | 120mm | 30 | 
+| AP | 105mm | 20 | 
+| AP | 120mm | 42 | 
+
+Where "Kills" is your response.
+
+## Describe the Design
+
+1. What type of design is this?
+
+```
+# Answer here
+```
+
+2. How many replicates are we using?
+
+```
+# Answer here
+```
+
+3. Treatment Combinations
+
+Consider Round as Factor A and Caliber as Factor B.  List the treatment combinations using the lower case letter notation and tell what their high and low levels are.
+
+```
+# Answer here
+```
+
+4. Visualize the Design Geometrically
+
+```{r}
+# Answer here
+```
+
+## Analysis
+
+Conduct an ANOVA to show if the factors and their interaction have an effect.  What do you learn from this ANOVA?
+
+```{r}
+# Answer here
+```
+
+Conduct an ANOVA to show if the main effects only are significant.  
+
+```{r}
+# Answer here
+```
+
+# Blocking
+
+You are running a simulation that provides the total kills against an enemy by varying the numbers of armored fighting vehicles (AFV) and tanks in your friendly unit.  You have decided two test the following factors:
+
+* Factor A: Tanks with the low level: '1 x tank co' and the high level: '2 x tank co'.
+* Factor B: AFVs with the low level: '1 x AFV co' and the high level: '2 x AFV co'.
+
+You further have reason to believe that the machine you run your simulation on may have an effect on your results.^[Something to do with how the simulation is compiled.  Go figure.]  Therefore you are going to block based on the machine.  You have three machines: 'yzma', 'cruella', and 'lex'.  You can run a total of 12 replicates.
+
+## Design
+
+1. What are your treatment combinations?
+
+```
+# Answer here
+```
+
+2. How do you assign your treatment combinations to your blocks?
+
+```
+# Answer here
+```
+
+## Analysis
+
+Your results are in <a href = '/_Chapter4_ProblemSets/blocking.csv'> blocking.csv </a>.
+
+1. Read / format your data
+
+```{r}
+# Answer here
+```
+
+2. Visualize Your Data
+
+```{r}
+# Answer here
+```
+
+3. Analyze the Data
+
+Conduct, assess, and interpret an ANOVA that accounts for potential factor interaction (i.e. Tank:AFV), accounts for the block, but assumes there is no interaction between the block and the factors.  Use $\alpha = .01$ for your significance.
+
+```{r}
+# Answer here
+```
+
+4. Estimate the Effects
+
+Estimate the treatment effects for your significant factors
+
+```{r}
+# Answer here
+```
+

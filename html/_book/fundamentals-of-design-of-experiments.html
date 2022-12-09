@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 Fundamentals of Design of Experiments | Design of Experiments for Modeling and Simulation</title>
+  <meta name="description" content="5 Fundamentals of Design of Experiments | Design of Experiments for Modeling and Simulation" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 Fundamentals of Design of Experiments | Design of Experiments for Modeling and Simulation" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 Fundamentals of Design of Experiments | Design of Experiments for Modeling and Simulation" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="analysis-of-variance-anova.html"/>
+<link rel="next" href="fractional-factorial-designs.html"/>
+<script src="libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.17/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<script src="libs/plotly-binding-4.9.3/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="https://doe.dscoe.org/">DoE for M&S</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction to DOE for M&amp;S</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#background."><i class="fa fa-check"></i><b>1.1</b> Background.</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#mission."><i class="fa fa-check"></i><b>1.2</b> Mission.</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#simulation-analysis."><i class="fa fa-check"></i><b>1.2.1</b> Simulation Analysis.</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#enduring-resource."><i class="fa fa-check"></i><b>1.2.2</b> Enduring Resource.</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#community."><i class="fa fa-check"></i><b>1.2.3</b> Community.</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#concept."><i class="fa fa-check"></i><b>1.3</b> Concept.</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#training-concept"><i class="fa fa-check"></i><b>1.4</b> Training Concept</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="index.html"><a href="index.html#lessons."><i class="fa fa-check"></i><b>1.4.1</b> Lessons.</a></li>
+<li class="chapter" data-level="1.4.2" data-path="index.html"><a href="index.html#projects."><i class="fa fa-check"></i><b>1.4.2</b> Projects.</a></li>
+<li class="chapter" data-level="1.4.3" data-path="index.html"><a href="index.html#assessments."><i class="fa fa-check"></i><b>1.4.3</b> Assessments.</a></li>
+<li class="chapter" data-level="1.4.4" data-path="index.html"><a href="index.html#curriculum."><i class="fa fa-check"></i><b>1.4.4</b> Curriculum.</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#community-concept"><i class="fa fa-check"></i><b>1.5</b> Community Concept</a></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#admin"><i class="fa fa-check"></i><b>1.6</b> Admin</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#contact"><i class="fa fa-check"></i><b>1.6.1</b> Contact</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#errors"><i class="fa fa-check"></i><b>1.6.2</b> Errors</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#resources"><i class="fa fa-check"></i><b>1.6.3</b> Resources</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R</a><ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#introduction-to-r---part-i"><i class="fa fa-check"></i><b>2.1</b> Introduction to R - Part I</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#objectives-1"><i class="fa fa-check"></i><b>2.1.1</b> Objectives</a></li>
+<li class="chapter" data-level="2.1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#task-1---read-chapter-1-and-install-tidyverse"><i class="fa fa-check"></i><b>2.1.2</b> Task 1 - Read Chapter 1 and Install Tidyverse</a></li>
+<li class="chapter" data-level="2.1.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-operations"><i class="fa fa-check"></i><b>2.1.3</b> Basic Operations</a></li>
+<li class="chapter" data-level="2.1.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#variable-types"><i class="fa fa-check"></i><b>2.1.4</b> Variable Types</a></li>
+<li class="chapter" data-level="2.1.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-structures"><i class="fa fa-check"></i><b>2.1.5</b> Data Structures</a></li>
+<li class="chapter" data-level="2.1.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#relational-and-logical-operators"><i class="fa fa-check"></i><b>2.1.6</b> Relational and Logical Operators</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#introduction-to-r---part-ii"><i class="fa fa-check"></i><b>2.2</b> Introduction to R - Part II</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#reading-tasks"><i class="fa fa-check"></i><b>2.2.1</b> Reading Tasks</a></li>
+<li class="chapter" data-level="2.2.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#problem-set"><i class="fa fa-check"></i><b>2.2.2</b> Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="statistics-review.html"><a href="statistics-review.html"><i class="fa fa-check"></i><b>3</b> Statistics Review</a><ul>
+<li class="chapter" data-level="3.1" data-path="statistics-review.html"><a href="statistics-review.html#introduction"><i class="fa fa-check"></i><b>3.1</b> Introduction</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="statistics-review.html"><a href="statistics-review.html#resources-1"><i class="fa fa-check"></i><b>3.1.1</b> Resources</a></li>
+<li class="chapter" data-level="3.1.2" data-path="statistics-review.html"><a href="statistics-review.html#organization"><i class="fa fa-check"></i><b>3.1.2</b> Organization</a></li>
+<li class="chapter" data-level="3.1.3" data-path="statistics-review.html"><a href="statistics-review.html#poc"><i class="fa fa-check"></i><b>3.1.3</b> POC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics"><i class="fa fa-check"></i><b>3.2</b> Descriptive Statistics</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---description"><i class="fa fa-check"></i><b>3.2.1</b> Descriptive Statistics - Description</a></li>
+<li class="chapter" data-level="3.2.2" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---tutorial"><i class="fa fa-check"></i><b>3.2.2</b> Descriptive Statistics - Tutorial</a></li>
+<li class="chapter" data-level="3.2.3" data-path="statistics-review.html"><a href="statistics-review.html#descriptive-statistics---problem-set"><i class="fa fa-check"></i><b>3.2.3</b> Descriptive Statistics - Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts"><i class="fa fa-check"></i><b>3.3</b> Statistical Concepts</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---description"><i class="fa fa-check"></i><b>3.3.1</b> Statistical Concepts - Description</a></li>
+<li class="chapter" data-level="3.3.2" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---tutorial"><i class="fa fa-check"></i><b>3.3.2</b> Statistical Concepts - Tutorial</a></li>
+<li class="chapter" data-level="3.3.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-concepts---problem-set"><i class="fa fa-check"></i><b>3.3.3</b> Statistical Concepts - Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference"><i class="fa fa-check"></i><b>3.4</b> Statistical Inference</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---description"><i class="fa fa-check"></i><b>3.4.1</b> Statistical Inference - Description</a></li>
+<li class="chapter" data-level="3.4.2" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---tutorial"><i class="fa fa-check"></i><b>3.4.2</b> Statistical Inference - Tutorial</a></li>
+<li class="chapter" data-level="3.4.3" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---conclusion"><i class="fa fa-check"></i><b>3.4.3</b> Statistical Inference - Conclusion</a></li>
+<li class="chapter" data-level="3.4.4" data-path="statistics-review.html"><a href="statistics-review.html#statistical-inference---problem-set"><i class="fa fa-check"></i><b>3.4.4</b> Statistical Inference - Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html"><i class="fa fa-check"></i><b>4</b> Analysis of Variance (ANOVA)</a><ul>
+<li class="chapter" data-level="4.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#introduction-1"><i class="fa fa-check"></i><b>4.1</b> Introduction</a></li>
+<li class="chapter" data-level="4.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-overview"><i class="fa fa-check"></i><b>4.2</b> ANOVA Overview</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#motivation"><i class="fa fa-check"></i><b>4.2.1</b> Motivation</a></li>
+<li class="chapter" data-level="4.2.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#broad-concept"><i class="fa fa-check"></i><b>4.2.2</b> Broad Concept</a></li>
+<li class="chapter" data-level="4.2.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#terminology"><i class="fa fa-check"></i><b>4.2.3</b> Terminology</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.3</b> Single Factor, Fixed Effects ANOVA</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#example"><i class="fa fa-check"></i><b>4.3.1</b> Example</a></li>
+<li class="chapter" data-level="4.3.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#model"><i class="fa fa-check"></i><b>4.3.2</b> Model</a></li>
+<li class="chapter" data-level="4.3.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-anova-assumptions"><i class="fa fa-check"></i><b>4.3.3</b> Single Factor ANOVA Assumptions</a></li>
+<li class="chapter" data-level="4.3.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#conducting-single-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.3.4</b> Conducting Single Factor (Fixed Effects) ANOVA</a></li>
+<li class="chapter" data-level="4.3.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-fixed-effects-anova-problem-set"><i class="fa fa-check"></i><b>4.3.5</b> Single Factor, Fixed Effects ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-random-effects-model"><i class="fa fa-check"></i><b>4.4</b> Single Factor, Random Effects Model</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#single-factor-random-effects-problem-set"><i class="fa fa-check"></i><b>4.4.1</b> Single Factor, Random Effects Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#two-factor-fixed-effects-anova"><i class="fa fa-check"></i><b>4.5</b> Two Factor, Fixed Effects ANOVA</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#including-interaction-effects"><i class="fa fa-check"></i><b>4.5.1</b> Including Interaction Effects</a></li>
+<li class="chapter" data-level="4.5.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#two-factor-anova-problem-set"><i class="fa fa-check"></i><b>4.5.2</b> Two Factor ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-for-more-than-two-factors"><i class="fa fa-check"></i><b>4.6</b> ANOVA For More Than Two Factors</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multi-factor-anova-problem-set"><i class="fa fa-check"></i><b>4.6.1</b> Multi-Factor ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons"><i class="fa fa-check"></i><b>4.7</b> Multiple Comparisons</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-example"><i class="fa fa-check"></i><b>4.7.1</b> Tukey Test Example</a></li>
+<li class="chapter" data-level="4.7.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-in-r"><i class="fa fa-check"></i><b>4.7.2</b> Tukey Test in R</a></li>
+<li class="chapter" data-level="4.7.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#tukey-test-multiple-factors"><i class="fa fa-check"></i><b>4.7.3</b> Tukey Test, Multiple Factors</a></li>
+<li class="chapter" data-level="4.7.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons-problem-set"><i class="fa fa-check"></i><b>4.7.4</b> Multiple Comparisons Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-summary"><i class="fa fa-check"></i><b>4.8</b> ANOVA Summary</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#how-to-calculate-anova"><i class="fa fa-check"></i><b>4.8.1</b> How to Calculate ANOVA</a></li>
+<li class="chapter" data-level="4.8.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-hypothesis-tests"><i class="fa fa-check"></i><b>4.8.2</b> ANOVA Hypothesis Test(s)</a></li>
+<li class="chapter" data-level="4.8.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-assumptions"><i class="fa fa-check"></i><b>4.8.3</b> ANOVA Assumptions</a></li>
+<li class="chapter" data-level="4.8.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#multiple-comparisons-1"><i class="fa fa-check"></i><b>4.8.4</b> Multiple Comparisons</a></li>
+<li class="chapter" data-level="4.8.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#further-extensions-of-anova"><i class="fa fa-check"></i><b>4.8.5</b> Further Extensions of ANOVA</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html"><i class="fa fa-check"></i><b>5</b> Fundamentals of Design of Experiments</a><ul>
+<li class="chapter" data-level="5.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-2"><i class="fa fa-check"></i><b>5.1</b> Introduction</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#admin-1"><i class="fa fa-check"></i><b>5.1.1</b> Admin</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#doe-overview"><i class="fa fa-check"></i><b>5.2</b> DOE Overview</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#what-is-design-of-experiments"><i class="fa fa-check"></i><b>5.2.1</b> What is Design of Experiments?</a></li>
+<li class="chapter" data-level="5.2.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#why-design-experiments"><i class="fa fa-check"></i><b>5.2.2</b> Why Design Experiments?</a></li>
+<li class="chapter" data-level="5.2.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#strategies-for-experimental-design"><i class="fa fa-check"></i><b>5.2.3</b> Strategies for Experimental Design</a></li>
+<li class="chapter" data-level="5.2.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#history-and-applications-of-experimental-design"><i class="fa fa-check"></i><b>5.2.4</b> History and Applications of Experimental Design</a></li>
+<li class="chapter" data-level="5.2.5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#principles"><i class="fa fa-check"></i><b>5.2.5</b> Principles</a></li>
+<li class="chapter" data-level="5.2.6" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#guidelines"><i class="fa fa-check"></i><b>5.2.6</b> Guidelines</a></li>
+<li class="chapter" data-level="5.2.7" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-1"><i class="fa fa-check"></i><b>5.2.7</b> Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#factorial-designs"><i class="fa fa-check"></i><b>5.3</b> Factorial Designs</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-3"><i class="fa fa-check"></i><b>5.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.3.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#assessing-and-estimating-effects"><i class="fa fa-check"></i><b>5.3.2</b> Assessing and Estimating Effects</a></li>
+<li class="chapter" data-level="5.3.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#blocking"><i class="fa fa-check"></i><b>5.3.3</b> Blocking</a></li>
+<li class="chapter" data-level="5.3.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-2"><i class="fa fa-check"></i><b>5.3.4</b> Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#k-factorial-design"><i class="fa fa-check"></i><b>5.4</b> <span class="math inline">\(2^K\)</span> Factorial Design</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#introduction-4"><i class="fa fa-check"></i><b>5.4.1</b> Introduction</a></li>
+<li class="chapter" data-level="5.4.2" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#coding-variables-and-effects-signs"><i class="fa fa-check"></i><b>5.4.2</b> Coding Variables and Effects Signs</a></li>
+<li class="chapter" data-level="5.4.3" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#estimating-effects-and-contrasts"><i class="fa fa-check"></i><b>5.4.3</b> Estimating Effects and Contrasts</a></li>
+<li class="chapter" data-level="5.4.4" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#unreplicated-2k-designs"><i class="fa fa-check"></i><b>5.4.4</b> Unreplicated <span class="math inline">\(2^K\)</span> Designs</a></li>
+<li class="chapter" data-level="5.4.5" data-path="fundamentals-of-design-of-experiments.html"><a href="fundamentals-of-design-of-experiments.html#problem-set-3"><i class="fa fa-check"></i><b>5.4.5</b> Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html"><i class="fa fa-check"></i><b>6</b> Fractional Factorial Designs</a><ul>
+<li class="chapter" data-level="6.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#introduction-5"><i class="fa fa-check"></i><b>6.1</b> Introduction</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#admin-2"><i class="fa fa-check"></i><b>6.1.1</b> Admin</a></li>
+<li class="chapter" data-level="6.1.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#overview"><i class="fa fa-check"></i><b>6.1.2</b> Overview</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#frac12-fractional-factorial-design-2k-1"><i class="fa fa-check"></i><b>6.2</b> <span class="math inline">\(\frac{1}{2}\)</span> Fractional Factorial Design (<span class="math inline">\(2^{K-1}\)</span>)</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#motivation-and-example"><i class="fa fa-check"></i><b>6.2.1</b> Motivation and Example</a></li>
+<li class="chapter" data-level="6.2.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#design-generator"><i class="fa fa-check"></i><b>6.2.2</b> Design Generator</a></li>
+<li class="chapter" data-level="6.2.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#estimating-effects"><i class="fa fa-check"></i><b>6.2.3</b> Estimating Effects</a></li>
+<li class="chapter" data-level="6.2.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#geometric-view"><i class="fa fa-check"></i><b>6.2.4</b> Geometric View</a></li>
+<li class="chapter" data-level="6.2.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#example-24-1-design"><i class="fa fa-check"></i><b>6.2.5</b> Example <span class="math inline">\(2^{4-1}\)</span> Design</a></li>
+<li class="chapter" data-level="6.2.6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#frac12-fractional-factorial-design-2k-1-problem-set"><i class="fa fa-check"></i><b>6.2.6</b> <span class="math inline">\(\frac{1}{2}\)</span> Fractional Factorial Design (<span class="math inline">\(2^{K-1}\)</span>) Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-designs"><i class="fa fa-check"></i><b>6.3</b> General <span class="math inline">\(2^{K-P}\)</span> Designs</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#introduction-6"><i class="fa fa-check"></i><b>6.3.1</b> Introduction</a></li>
+<li class="chapter" data-level="6.3.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#quarter-fractional-design"><i class="fa fa-check"></i><b>6.3.2</b> Quarter Fractional Design</a></li>
+<li class="chapter" data-level="6.3.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-design"><i class="fa fa-check"></i><b>6.3.3</b> General <span class="math inline">\(2^{K-P}\)</span> Design</a></li>
+<li class="chapter" data-level="6.3.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#resolution"><i class="fa fa-check"></i><b>6.3.4</b> Resolution</a></li>
+<li class="chapter" data-level="6.3.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#general-2k-p-designs-problem-set"><i class="fa fa-check"></i><b>6.3.5</b> General <span class="math inline">\(2^{K-P}\)</span> Designs Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#additional-notes-on-2k-p-designs"><i class="fa fa-check"></i><b>6.4</b> Additional Notes on <span class="math inline">\(2^{K-P}\)</span> Designs</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#additional-topics"><i class="fa fa-check"></i><b>6.4.1</b> Additional Topics</a></li>
+<li class="chapter" data-level="6.4.2" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#sequencing-experiments"><i class="fa fa-check"></i><b>6.4.2</b> Sequencing Experiments</a></li>
+<li class="chapter" data-level="6.4.3" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#fractional-factorial-design-simulation-problem-set"><i class="fa fa-check"></i><b>6.4.3</b> Fractional Factorial Design Simulation Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#screening-experiments-and-selecting-factors"><i class="fa fa-check"></i><b>6.5</b> Screening Experiments and Selecting Factors</a></li>
+<li class="chapter" data-level="6.6" data-path="fractional-factorial-designs.html"><a href="fractional-factorial-designs.html#conclusion"><i class="fa fa-check"></i><b>6.6</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html"><i class="fa fa-check"></i><b>7</b> Fundamentals of Regression</a><ul>
+<li class="chapter" data-level="7.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#admin-3"><i class="fa fa-check"></i><b>7.1</b> Admin</a></li>
+<li class="chapter" data-level="7.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>7.2</b> Simple Linear Regression</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#least-squares-method-manually"><i class="fa fa-check"></i><b>7.2.1</b> Least Squares Method Manually</a></li>
+<li class="chapter" data-level="7.2.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#goodness-of-fit"><i class="fa fa-check"></i><b>7.2.2</b> Goodness of Fit</a></li>
+<li class="chapter" data-level="7.2.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#least-squares-method-in-r"><i class="fa fa-check"></i><b>7.2.3</b> Least Squares Method In <em>R</em></a></li>
+<li class="chapter" data-level="7.2.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#simple-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.2.4</b> Simple Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#assumptions-and-diagnostics"><i class="fa fa-check"></i><b>7.3</b> Assumptions and Diagnostics</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#linearity"><i class="fa fa-check"></i><b>7.3.1</b> Linearity</a></li>
+<li class="chapter" data-level="7.3.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#homoscedasticity"><i class="fa fa-check"></i><b>7.3.2</b> Homoscedasticity</a></li>
+<li class="chapter" data-level="7.3.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#independence"><i class="fa fa-check"></i><b>7.3.3</b> Independence</a></li>
+<li class="chapter" data-level="7.3.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#normality"><i class="fa fa-check"></i><b>7.3.4</b> Normality</a></li>
+<li class="chapter" data-level="7.3.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#unusual-observations"><i class="fa fa-check"></i><b>7.3.5</b> Unusual Observations</a></li>
+<li class="chapter" data-level="7.3.6" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#linear-regression-assumptions-and-diagnostics-problem-set"><i class="fa fa-check"></i><b>7.3.6</b> Linear Regression Assumptions and Diagnostics Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#multiple-linear-regression"><i class="fa fa-check"></i><b>7.4</b> Multiple Linear Regression</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#r-example"><i class="fa fa-check"></i><b>7.4.1</b> <em>R</em> Example</a></li>
+<li class="chapter" data-level="7.4.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#multiple-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.4.2</b> Multiple Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#categorical-variables"><i class="fa fa-check"></i><b>7.5</b> Categorical Variables</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#categorical-linear-regression-problem-set"><i class="fa fa-check"></i><b>7.5.1</b> Categorical Linear Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#transformation"><i class="fa fa-check"></i><b>7.6</b> Transformation</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#identifying-non-linear-relationships"><i class="fa fa-check"></i><b>7.6.1</b> Identifying Non-Linear Relationships</a></li>
+<li class="chapter" data-level="7.6.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#checking-model-structure"><i class="fa fa-check"></i><b>7.6.2</b> Checking Model Structure</a></li>
+<li class="chapter" data-level="7.6.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#how-to-transform-variables-in-r"><i class="fa fa-check"></i><b>7.6.3</b> How To Transform Variables In <em>R</em></a></li>
+<li class="chapter" data-level="7.6.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#transformed-regression-problem-set"><i class="fa fa-check"></i><b>7.6.4</b> Transformed Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression"><i class="fa fa-check"></i><b>7.7</b> Logistic Regression</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#motivating-example"><i class="fa fa-check"></i><b>7.7.1</b> Motivating Example</a></li>
+<li class="chapter" data-level="7.7.2" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logit-function"><i class="fa fa-check"></i><b>7.7.2</b> Logit Function</a></li>
+<li class="chapter" data-level="7.7.3" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-in-r"><i class="fa fa-check"></i><b>7.7.3</b> Logistic Regression in <em>R</em></a></li>
+<li class="chapter" data-level="7.7.4" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-diagnostics"><i class="fa fa-check"></i><b>7.7.4</b> Logistic Regression Diagnostics</a></li>
+<li class="chapter" data-level="7.7.5" data-path="fundamentals-of-regression.html"><a href="fundamentals-of-regression.html#logistic-regression-problem-set"><i class="fa fa-check"></i><b>7.7.5</b> Logistic Regression Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="model-selection.html"><a href="model-selection.html"><i class="fa fa-check"></i><b>8</b> Model Selection</a><ul>
+<li class="chapter" data-level="8.1" data-path="model-selection.html"><a href="model-selection.html#admin-4"><i class="fa fa-check"></i><b>8.1</b> Admin</a></li>
+<li class="chapter" data-level="8.2" data-path="model-selection.html"><a href="model-selection.html#introduction-7"><i class="fa fa-check"></i><b>8.2</b> Introduction</a></li>
+<li class="chapter" data-level="8.3" data-path="model-selection.html"><a href="model-selection.html#testing-based-methods"><i class="fa fa-check"></i><b>8.3</b> Testing-Based Methods</a></li>
+<li class="chapter" data-level="8.4" data-path="model-selection.html"><a href="model-selection.html#criterion-based-methods"><i class="fa fa-check"></i><b>8.4</b> Criterion-Based Methods</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="model-selection.html"><a href="model-selection.html#criterion-problem-set"><i class="fa fa-check"></i><b>8.4.1</b> Criterion Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="model-selection.html"><a href="model-selection.html#cross-validation"><i class="fa fa-check"></i><b>8.5</b> Cross Validation</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="model-selection.html"><a href="model-selection.html#what-about-the-test-set"><i class="fa fa-check"></i><b>8.5.1</b> What About The Test Set?</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="model-selection.html"><a href="model-selection.html#lasso-regression"><i class="fa fa-check"></i><b>8.6</b> Lasso Regression</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="model-selection.html"><a href="model-selection.html#background-reading"><i class="fa fa-check"></i><b>8.6.1</b> Background Reading</a></li>
+<li class="chapter" data-level="8.6.2" data-path="model-selection.html"><a href="model-selection.html#lasso-regression-in-r"><i class="fa fa-check"></i><b>8.6.2</b> Lasso Regression In R</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="model-selection.html"><a href="model-selection.html#parting-thought"><i class="fa fa-check"></i><b>8.7</b> Parting Thought</a></li>
+<li class="chapter" data-level="8.8" data-path="model-selection.html"><a href="model-selection.html#lasso-regression-problem-set"><i class="fa fa-check"></i><b>8.8</b> Lasso Regression Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="application-of-doe-to-the-advanced-warfighting-simulation.html"><a href="application-of-doe-to-the-advanced-warfighting-simulation.html"><i class="fa fa-check"></i><b>9</b> Application of DoE to the Advanced Warfighting Simulation</a></li>
+<li class="chapter" data-level="10" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html"><i class="fa fa-check"></i><b>10</b> Advanced Experimental Designs</a><ul>
+<li class="chapter" data-level="10.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#admin-5"><i class="fa fa-check"></i><b>10.1</b> Admin</a></li>
+<li class="chapter" data-level="10.2" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#introduction-and-background"><i class="fa fa-check"></i><b>10.2</b> Introduction and Background</a></li>
+<li class="chapter" data-level="10.3" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#central-composite-designs"><i class="fa fa-check"></i><b>10.3</b> Central Composite Designs</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#augmented-central-composite-designs"><i class="fa fa-check"></i><b>10.3.1</b> Augmented Central Composite Designs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#response-surface-methodology"><i class="fa fa-check"></i><b>10.4</b> Response Surface Methodology</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#ccd-problem-set"><i class="fa fa-check"></i><b>10.4.1</b> CCD Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#nearly-orthogonal-latin-hypercube-designs"><i class="fa fa-check"></i><b>10.5</b> Nearly Orthogonal Latin Hypercube Designs</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#factor-codings"><i class="fa fa-check"></i><b>10.5.1</b> Factor Codings</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#orthogonality-and-variance-inflation-factors"><i class="fa fa-check"></i><b>10.6</b> Orthogonality and Variance Inflation Factors</a></li>
+<li class="chapter" data-level="10.7" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#shifting-and-stacking"><i class="fa fa-check"></i><b>10.7</b> Shifting and Stacking</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="advanced-experimental-designs.html"><a href="advanced-experimental-designs.html#nolh-problem-set"><i class="fa fa-check"></i><b>10.7.1</b> NOLH Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html"><i class="fa fa-check"></i><b>11</b> Non-Parametric Regression</a><ul>
+<li class="chapter" data-level="11.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#admin-6"><i class="fa fa-check"></i><b>11.1</b> Admin</a></li>
+<li class="chapter" data-level="11.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#non-parametric-anova"><i class="fa fa-check"></i><b>11.2</b> Non-Parametric ANOVA</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#multiple-comparisons-2"><i class="fa fa-check"></i><b>11.2.1</b> Multiple Comparisons</a></li>
+<li class="chapter" data-level="11.2.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#non-parametric-anova-problem-set"><i class="fa fa-check"></i><b>11.2.2</b> Non-Parametric ANOVA Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#generalized-additive-models"><i class="fa fa-check"></i><b>11.3</b> Generalized Additive Models</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#loess"><i class="fa fa-check"></i><b>11.3.1</b> Loess</a></li>
+<li class="chapter" data-level="11.3.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#splines"><i class="fa fa-check"></i><b>11.3.2</b> Splines</a></li>
+<li class="chapter" data-level="11.3.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#cross-validation-1"><i class="fa fa-check"></i><b>11.3.3</b> Cross Validation</a></li>
+<li class="chapter" data-level="11.3.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#gam-problem-set"><i class="fa fa-check"></i><b>11.3.4</b> GAM Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-machines"><i class="fa fa-check"></i><b>11.4</b> Support Vector Machines</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-regression"><i class="fa fa-check"></i><b>11.4.1</b> Support Vector Regression</a></li>
+<li class="chapter" data-level="11.4.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#support-vector-classification"><i class="fa fa-check"></i><b>11.4.2</b> Support Vector Classification</a></li>
+<li class="chapter" data-level="11.4.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#svm-problem-set"><i class="fa fa-check"></i><b>11.4.3</b> SVM Problem Set</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#classification-and-regression-trees"><i class="fa fa-check"></i><b>11.5</b> Classification and Regression Trees</a><ul>
+<li class="chapter" data-level="11.5.1" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#regression-trees"><i class="fa fa-check"></i><b>11.5.1</b> Regression Trees</a></li>
+<li class="chapter" data-level="11.5.2" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#random-forest-regression"><i class="fa fa-check"></i><b>11.5.2</b> Random Forest Regression</a></li>
+<li class="chapter" data-level="11.5.3" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#random-forest-classification"><i class="fa fa-check"></i><b>11.5.3</b> Random Forest Classification</a></li>
+<li class="chapter" data-level="11.5.4" data-path="non-parametric-regression.html"><a href="non-parametric-regression.html#cart-problem-set"><i class="fa fa-check"></i><b>11.5.4</b> CART Problem Set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html"><i class="fa fa-check"></i><b>12</b> Optional Advanced DOE Topics</a><ul>
+<li class="chapter" data-level="12.1" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#robust-design"><i class="fa fa-check"></i><b>12.1</b> Robust Design</a></li>
+<li class="chapter" data-level="12.2" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#sequential-designs"><i class="fa fa-check"></i><b>12.2</b> Sequential Designs</a></li>
+<li class="chapter" data-level="12.3" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#ridge-regression"><i class="fa fa-check"></i><b>12.3</b> Ridge Regression</a></li>
+<li class="chapter" data-level="12.4" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#neural-network-regression"><i class="fa fa-check"></i><b>12.4</b> Neural Network Regression</a><ul>
+<li class="chapter" data-level="12.4.1" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#simple-neural-network-model"><i class="fa fa-check"></i><b>12.4.1</b> Simple Neural Network Model</a></li>
+<li class="chapter" data-level="12.4.2" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#gradient-descent"><i class="fa fa-check"></i><b>12.4.2</b> Gradient Descent</a></li>
+<li class="chapter" data-level="12.4.3" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#multiple-linear-regression-1"><i class="fa fa-check"></i><b>12.4.3</b> Multiple Linear Regression</a></li>
+<li class="chapter" data-level="12.4.4" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#hidden-layer"><i class="fa fa-check"></i><b>12.4.4</b> Hidden Layer</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#neural-network-classification"><i class="fa fa-check"></i><b>12.5</b> Neural Network Classification</a></li>
+<li class="chapter" data-level="12.6" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#multivariate-adaptive-regression-splines"><i class="fa fa-check"></i><b>12.6</b> Multivariate Adaptive Regression Splines</a></li>
+<li class="chapter" data-level="12.7" data-path="optional-advanced-doe-topics.html"><a href="optional-advanced-doe-topics.html#non-parametric-statistics"><i class="fa fa-check"></i><b>12.7</b> Non-Parametric Statistics</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown">
+Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Design of Experiments for Modeling and Simulation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="fundamentals-of-design-of-experiments" class="section level1">
+<h1><span class="header-section-number">5</span> Fundamentals of Design of Experiments</h1>
+<!-- SEG Colinearity, vif,  & fractional, blocking, aliasing confounding, replication-->
+<div id="introduction-2" class="section level2">
+<h2><span class="header-section-number">5.1</span> Introduction</h2>
+<blockquote>
+<p>All experiments are designed experiments. The important issue is whether they are well designed or not.</p>
+</blockquote>
+<p style="text-align: right;">
+Douglas C. Montgomery <span class="citation">Montgomery (<a href="#ref-montgomery2017">2017</a>)</span>
+</p>
+<p><br></p>
+<p>This chapter introduces the fundamentals of Design of Experiments (DOE). An experiment, as we shall discuss, is simply the configuration of one or more tests that we conduct with the intention to learn something. Tests are discrete events where we supply inputs and measure outputs in some manner. These tests take many forms, including the physical (e.g., mixing some quantities of chemicals and measuring the properties of the resulting solution) and the virtual (e.g., providing some inputs to a computer simulation and recording the outputs). As noted by Montgomery in the quote above, any time we conduct an experiment<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> we, by definition, have designed it. The quality of the experiment is whether it 1) can answer our question(s) and 2) do so in an economical manner. The statistical design of experiments helps us with both.</p>
+<div id="admin-1" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> Admin</h3>
+<ul>
+<li><strong>POC:</strong> For any comments or identified errors, please contact Steve Gillespie at <a href="mailto:stephen.e.gillespie.mil@mail.mil" class="email">stephen.e.gillespie.mil@mail.mil</a> or Emma Schlagenhauff at <a href="mailto:emma.schlagenhauff.civ@mail.mil" class="email">emma.schlagenhauff.civ@mail.mil</a>.</li>
+<li>This section was rendered using R version 3.6.0 (2019-04-26) on 24 May 2021.</li>
+<li>The chapter is organized into sections that each include a description, a tutorial, and a problem set.</li>
+</ul>
+</div>
+</div>
+<div id="doe-overview" class="section level2">
+<h2><span class="header-section-number">5.2</span> DOE Overview</h2>
+<div id="what-is-design-of-experiments" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> What is Design of Experiments?</h3>
+<p>The (statistical) design of experiments is the choice of tests for an experiment such that the resulting data may be analyzed using statistical methods in a valid, objective way. A well designed experiment can:</p>
+<ul>
+<li>Help researchers distinguish between causation and correlation.</li>
+<li>Help researchers ensure they have covered an appropriate area of the “experimental space.”</li>
+<li>Help researchers minimize the number of tests they need to run.</li>
+<li>Help researchers model the nature of the relationship between their inputs and their outputs.</li>
+</ul>
+<p>To discuss DOE, we must introduce a few terms:</p>
+<ul>
+<li>Experiment: An experiment is a set of tests that are intended to answer some question about the relationship between inputs (i.e., factors) and outputs (i.e., responses).<br />
+</li>
+<li>Test: A test is an activity that one conducts to measure a response for some set of inputs. This may be physical (e.g., a chemical experiment), or in our case, a simulation. A test can be done with multiple replicates.</li>
+<li>Factor: An input variable that may take two or more values (i.e., levels).</li>
+<li>Level: The value a factor takes.</li>
+<li>Treatment Combination: This is the set of inputs (i.e., factors) and their values (i.e., levels) that a test takes.</li>
+<li>(Experimental or Design) Space: A theoretical space that is the set of all possible treatment combinations. This may be considered either within only the scope of the studied factors or the set of all theoretical factors. <font color = 'red'> <a href = ''> Read more about design and trade spaces here (TBP). </a> </font></li>
+<li>Controllable or Uncontrollable: Factors may be controllable if their level may be varied at will by the experimenter. They are uncontrollable if they cannot be varied at will by the experimenter.</li>
+<li>Nuisance Factor: A factor that has an impact on the outcome of a test, but is not something the experimenter is directly concerned with.</li>
+</ul>
+<p>This <a href = 'https://www.youtube.com/watch?v=-3ZBjmL_fME'> short video provides a nice overview on DOE.<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a></p>
+<!--
+Embed the EMS DOE Cartoon Video directly in site.
+<center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-3ZBjmL_fME" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center><br>
+
+
+Stuart Hunter video 1 of 2
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NoVlRAq0Uxs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Stuart Hunter video 2 of 2 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hTviHGsl5ag" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+-->
+<p>JMP<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a> has two older videos of J. Stuart Hunter<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a> introducing design of experiments: <a href = 'https://www.youtube.com/watch?v=NoVlRAq0Uxs'> Part I </a>, <a href = 'https://www.youtube.com/watch?v=hTviHGsl5ag'> Part II </a>. They are about 30 minutes total, but well worth watching.<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a></p>
+</div>
+<div id="why-design-experiments" class="section level3">
+<h3><span class="header-section-number">5.2.2</span> Why Design Experiments?</h3>
+<p>When discussing DOE, a natural question arises: why? There are at least three answers to this question:</p>
+<p><strong>Analysis:</strong> Data and information do not equal knowledge. While all experiments will produce data, the question of whether or not that data can be transformed into knowledge is not a given. As one of the most common and powerful techniques for turning data into knowledge is statistics, data that has been acquired and structured such that it can be used by statistical tests and models is of much greater value than data that has not been.</p>
+<p><strong>Breadth:</strong> Good experimental design helps one from inadvertently missing a significant portion of the experimental space and finding local extremes.</p>
+<p><strong>Economy:</strong> Experiments are, among other things, expensive. They cost resources, time, and money. All other things being equal, the experiment that uses less, is done faster, and costs less but delivers the same, or a very close approximation to the same knowledge is better than a more resource-intensive, time consuming, and expensive one.</p>
+<p><strong>Fun:</strong> Finally, designing experiments is fun! I’m not sure I can think of a better reason than that!</p>
+<hr>
+<p>Finally, one may say all of the above is well and good, but I’m doing computer simulation and computer simulations are fast and cheap. I should simply design an experiment to test all possibilities. Consider the following situation:</p>
+<p>Imagine you are an analyst designing a system that has 100 parameters, e.g., the length of the system, or the system’s maximum range, etc. Further imagine that for each one of these parameters you have only two values, a high and a low. The set of all possibilities is therefore: <span class="math inline">\(2^{100} \approx 1.3 \times 10^{30}\)</span>.</p>
+<p><span class="math inline">\(10^{30}\)</span> is a fantastically large number. Consider the age of the universe in seconds by comparison. The universe is approximately: 13.8 Billion years old.</p>
+<p><span class="math display">\[13.8 \times 10^{9} years * 365 \frac{days}{year} * 24 \frac{hours}{day} * 60 \frac{minutes}{hour} * 60 \frac{seconds}{minute} \approx 4.4 \times 10^{17} seconds\]</span></p>
+<p>Even if your computer simulation could run in a single second, you would still need <span class="math inline">\(\approx 2.9^{12}\)</span> simultaneous processes running to calculate all the possibilities for this system of the course of the universe’s lifespan. This of course assumes you have room for all of that data!</p>
+<p>While this is an obviously extreme example to make a point, situations like this can easily exist, and we need strategies to deal with them appropriately. DOE provides us with a way.</p>
+</div>
+<div id="strategies-for-experimental-design" class="section level3">
+<h3><span class="header-section-number">5.2.3</span> Strategies for Experimental Design</h3>
+<p>There are a number of strategies an analyst may take in designing experiments. Some have more merit than others.</p>
+<ul>
+<li><strong>Subject Matter Experts</strong>: One may rely on subject matter experts (SMEs) to choose the appropriate tests for an experiment. While one should always employ non-statistical knowledge in designing an experiment (this is a foremost principle), solely using SME judgment is generally a flawed approach. First, it assumes that one has the most appropriate expert for the study.<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a>. Of course, this is never quite true as one is generally conducting experiments to gain new knowledge and an SME has expertise in existing knowledge. Second, it assumes that the selected SME is without bias or other limitations.<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a>.</li>
+<li><strong>One Factor at a Time</strong>: Another approach is to vary one factor at a time (OFAT). This is a more systematic approach than SME judgment, but it has several flaws. The most notable flaw is that it ignores the potential for interaction effects between two or more factors. Second, its success depends heavily on the initial fixed levels of the non-varying factors. J. Stuart Hunter covered the challenges well in his <a href = 'https://youtu.be/hTviHGsl5ag?t=364'>video (note this is the same as the video linked above, but starting at his discussion of OFAT)</a>. Of course, in good experimental design, we do need to vary the levels, so we will carry this forward.</li>
+<li><strong>Random Design</strong>: Another strategy for experimentation may be to randomly choose the treatment combinations. This of course has the advantage that it reduces the potential for bias and allows for interactions. It has the problem, however, that it can introduce colinearity and does not guarantee an appropriate coverage of the experimental space. Of course, randomization is necessary for many statistical tests, so we will carry this forward.</li>
+<li><strong>Statistical DOE</strong> Finally, we can look at statisitcal DOE as a strategy. In this strategy, we begin with the end in mind. That is, we design the experiment such that the results can be subject to appropriate analysis and maximize objectivity.</li>
+</ul>
+</div>
+<div id="history-and-applications-of-experimental-design" class="section level3">
+<h3><span class="header-section-number">5.2.4</span> History and Applications of Experimental Design</h3>
+<p>Statistical experimental design traces its roots to <a href = 'https://en.wikipedia.org/wiki/Ronald_Fisher'> Sir Ronald Fisher </a> in the first half of the 20th century. This work focused primarily on applications to agriculture. It has subsequently been expanded on and developed by a many statisticians including George E.P. Box<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a> among <a href = 'https://en.wikipedia.org/wiki/Design_of_experiments#Experimental_designs_after_Fisher'> others </a>.</p>
+<p>Applications of DOE include:<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a></p>
+<ul>
+<li>Agriculture.</li>
+<li>Biology.</li>
+<li>Medicine.</li>
+<li>Psychology.</li>
+<li>Manufacturing.</li>
+<li>Quality control.</li>
+<li>Requirements and capability engineering.</li>
+</ul>
+<!-- may want to write more on this -->
+</div>
+<div id="principles" class="section level3">
+<h3><span class="header-section-number">5.2.5</span> Principles</h3>
+<p>Montgomery <span class="citation">Montgomery (<a href="#ref-montgomery2017">2017</a>)</span> (§ 1.3) offers three principles for experimental design: randomization, replication, and blocking. We will treat each in turn:</p>
+<p><strong>Randomization:</strong> Randomization is generally necessary to avoid the introduction of dependency among the data. This is most often considered within the context of test order. For example, consider an experiment where the test is boiling temperature of various solutions. Boiling temperature is affected by the air pressure, and air pressure can vary even at a static location according to the weather. If one were conducting tests while the weather system changed, the tests would be affected. Randomizing helps us mitigate that variation when we cannot otherwise control for it. In the context of computer simulations we are in a fortunate situation in that we control this type of noise and so things like run order are not generally consequential for simulations.</p>
+<p><strong>Replication:</strong> We typically need to replicate our tests, that is conduct the same test multiple times, so that we can get an estimate of the variability that occurs for a single level of the test such that we can estimate if differences observed are a function of a true distinction between two or more levels or simply a function of experimental error (note this is the same concept as discussed in the ANOVA chapter).</p>
+<p><strong>Blocking:</strong> Finally, we can block to account for controllable, but undesired factors. That is, we can set groups of tests into relatively similar experimental conditions, so that we can focus on the effects of the factors we care about. Similar to the consideration of randomization, blocking is relatively easy for computer simulation. That stated, we may want to block in a computer simulation for factors that may arise in reality. For example, if we are designing a system, we may want to block on the scenario in which we place the system, as we can never fully know what scenario it may be used in.</p>
+</div>
+<div id="guidelines" class="section level3">
+<h3><span class="header-section-number">5.2.6</span> Guidelines</h3>
+<p>This course was purposefully titled, “The Design <em>and</em> Analysis of Experiments for Simulation” as we consider both the design of the experiment and the subsequent analysis equally important. We will attempt to follow a set of guidelines in designing experiments. These follow Montgomery’s <span class="citation">Montgomery (<a href="#ref-montgomery2017">2017</a>)</span> (§1.4) guidelines, though they are similar to many other problem defining / solving techniques, for example the Army’s TRAC’s Measurement Space methodology closely aligns to the first three steps of the guidelines. We will only cover a brief review of these guidelines, but recommend analysts read the full treatment in <span class="citation">Montgomery (<a href="#ref-montgomery2017">2017</a>)</span>.</p>
+<p>There are seven guidelines for designing an experiment:</p>
+<ol style="list-style-type: decimal">
+<li>Recognition and statement of the problem.</li>
+<li>Selection of the response variable.</li>
+<li>Choice of factors, levels, and ranges.</li>
+<li>Choice of experimental design.</li>
+<li>Performing the experiment.</li>
+<li>Statistical analysis of the data.</li>
+<li>Conclusions and recommendations.</li>
+</ol>
+<p><strong>Steps 1-3:</strong> The first three steps can variously be called measurement space analysis, problem definition and scoping, or simply good critical thinking. In any event, they require a combination of subject matter expertise in 1) the nature and domain of the problem itself, 2) the nature and domain of the experiment. The actual statistical knowledge required for these steps is relatively minimal; however, it can help one categorize variables and the nature of what is possible within experimental design. In particular, one must consider design factors, held constant factors, nuissance factors (both controllable and uncontrollable), and response variables. Statistical knowledge also helps in determining the purpose of the study, whether it is to screen factors for effects or to help build detailed models for optimization. <strong>While these steps are vitally important, conducting them is situation, domain, and organization dependent. We will not cover them in great detail in this course.</strong></p>
+<p><strong>Step 4:</strong> The world of experimental designs is not homogeneous. The choice of design is dependent on the nature of the varying factors (e.g., quantitative vs. qualitative), the desired response model, and the resources available to conduct the experiment. Similar to knowing a wide variety of hypothesis tests, understanding the set of possible designs and their various attributes is important such that analysts may choose the most appropriate design for their problem.</p>
+<p><strong>Step 5:</strong> Actually performing the experiment is highly important. One must ensure it is conducted correctly and that the measured responses are both appropriate and measured correctly. Of course, performing the tests is highly domain dependent; accordingly, we will not cover how to build simulations in this course or conduct other tests. That stated, recall that it is important to validate that the tests were conducted correctly and that the data is accurate before moving on to subsequent steps.</p>
+<p><strong>Steps 6-7:</strong> Finally, one must actually analyze the data, interpret the results, and provide recommendations. This analysis and its associated interpretation and recommendations are covered in later sections of this course. One important note, however, is that experimentation and the development of knowledge is iterative. The results of one experiment generally can and should inform future experiments.</p>
+<p>Finally, recall the purpose of any study is generally to develop knowledge and inform a decision. As such, remember, <strong>do not let the math cloud your judgment.</strong> By that, we mean: ensure you bring your or your team’s non-statistical knowledge of the problem to bear; distinguish between statistical and practical significance; opt for a simplest design and analysis that sufficiently answers the question; recall that you are almost assuredly going to have to 1) explain your results to a non-statistician (or even non-quantitative person) and 2) defend your results as reasonable.</p>
+</div>
+<div id="problem-set-1" class="section level3">
+<h3><span class="header-section-number">5.2.7</span> Problem Set</h3>
+<p>There is no formal problem set for this section. That stated, think of a problem on which you have worked on or may work on and consider how the problem can be related to experimental design. Be prepared to discuss this in a group setting.</p>
+<!--------------------------------------------------------------------------------------------------------------------------->
+</div>
+</div>
+<div id="factorial-designs" class="section level2">
+<h2><span class="header-section-number">5.3</span> Factorial Designs</h2>
+<div id="introduction-3" class="section level3">
+<h3><span class="header-section-number">5.3.1</span> Introduction</h3>
+<p>Factorial designs are some of the most common experimental designs out there and highly useful. In a sense we have already seen these with our discussions on ANOVA, so if this feels familiar that’s a good thing. The basic idea of a factorial design is as follows:</p>
+<p>A researcher has identified two or more factors that can each take two or more levels (where the definition of factor and level are the same as in ANOVA). These factors and levels can be of any variety, quantitative, ordinal, qualitative, etc. We then take the Cartesian product of the sets of levels to produce all possible “treatment combinations.” A treatment combination is simply the set of levels for each factor for a given test. The cardinality of the set of treatment combinations for a factorial experiment is then simply the product of the cardinality of the set of levels for each factor.<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a></p>
+<p>We can see this more concretely with an example. Consider a researcher who is designing a tank main gun and is considering two factors: the caliber, which may be set to either 105mm or 120m and the type of round used, which may be set to High Explosive (HE) or Armor Piercing (AP). In this case, we have:</p>
+<ul>
+<li>Two factors: Caliber (A) and Round (B).</li>
+<li>Each factor has two levels:
+<ul>
+<li>A: 105mm or 120mm.</li>
+<li>B: HE or AP.</li>
+</ul></li>
+<li>We have four treatment combinations:
+<ul>
+<li>105mm and HE ((1)).</li>
+<li>120mm and HE (a).</li>
+<li>105m and AP (b).</li>
+<li>120mm and HE (ab).</li>
+</ul></li>
+<li>Note that by convention we typically indicate factors with capital letters and treatment combinations with lower case letters (more to follow on exactly how we do this).</li>
+</ul>
+<p>Often times, it is helpful to see this geometrically:</p>
+<center>
+<p><img src="04-DOE_Fundamentals_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</center>
+<p>This, of course, should familiar from the discussion of two factor ANOVA. Moreover we can generalize these concepts to any number of factors with any number of levels; however for the next several sections, we will limit our discussion to experiments where there are only two levels per factor, and, in the next section, to experiments with only two factors.</p>
+<p>There are a few other concepts to recall (from our ANOVA discussion) before we move forward:</p>
+<ul>
+<li>Effect: A change in the response (i.e., your output) based on a change in the level of a factor.
+<ul>
+<li>Main Effect: This is the change in the response based on changing a single factor.</li>
+<li>Interaction Effect: This is the change in the response based on changing two or more factors.</li>
+</ul></li>
+<li>Interaction: An interaction occurs when “the effect of one factor on the response depends on the levels of the others”. That is, the combined effects of two factors are not additive <span class="citation">Law (<a href="#ref-law2015">2015</a>)</span>.
+<ul>
+<li>Recall we can see this interaction effect visually. Consider the following plots that use the same scenario as above. Assume we have measured some response as indicated by the numbers in the geometric view:</li>
+</ul></li>
+</ul>
+<center>
+<!--
+Personally, I [John] prefer this definition of interaction effects from Law (2015): interaction effects occur when "the effect of one factor on the response depends on the levels of the others". That is, the combined effects of two factors are not additive.
+
+Steve's definition:  An interaction between two or more factors occurs when their interaction effect is non-zero.
+-->
+<p>Examle <strong>Without</strong> Interaction:</p>
+<p><img src="04-DOE_Fundamentals_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Example <strong>With</strong> Interaction</p>
+<p><img src="04-DOE_Fundamentals_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</center>
+<p>As we have seen before, interaction is generally indicated through a change in the slope of the trace lines (i.e., the lines intersect). More concretely, we see this interaction being “non-additive” in the following sense:</p>
+<ul>
+<li>In the first example, we have two factors: Caliber and Round Type.
+<ul>
+<li>When we increase the caliber from 105mm to 120mm (and hold round constant) we have an effect of ~20, going from 20 to 40.</li>
+<li>When we change the round from HE to AP (and hold caliber constant) we have an effect of ~10, going from 20 to 30.</li>
+<li>When we change both the caliber and round, we have an effect of 32, going from 20 to 52.
+<ul>
+<li>We see very little interaction because we can explain the change in response of 32 by the change of each factor independently as 32 ~ 10 + 20.</li>
+<li>We might say there is an interaction effect of 2 to explain the difference, but in reality, that is so small and subject to experimental error that we generally do not consider such small effects (we’ll make this more precise later).</li>
+</ul></li>
+</ul></li>
+<li>In the second example, we have the same two factors:
+<ul>
+<li>When we increase the caliber from 105mm to 120mm (and hold round constant) we have an effect of ~30, going from 20 to 50.</li>
+<li>When we change the round from HE to AP (and hold caliber constant) we have an effect of ~20, going from 20 to 40.</li>
+<li>When we change both the caliber and round, we have an effect of ~-8 going from 20 to 12.
+<ul>
+<li>We cannot explain this change based solely on the effects of each individual factor, as we would assume, if there were no interaction effect between the round and caliber, we would assume a 120mm with AP would be our base level + the effect of caliber + the effect of round or 20 + 30 + 20 = 70.<br />
+</li>
+<li>Instead we see a large distinction between what we would expect and what we observed and that is the interaction effect of round and caliber at the levels 120mm and AP, of 70 - 12 = 58. We apparently have a large interaction effect.</li>
+</ul></li>
+</ul></li>
+<li>Finally, note all the above numbers are indicated to get an intuitive understanding of interaction effects, we’ll make estimating effects more precise in a future section.</li>
+</ul>
+<p><strong>Coding Variables:</strong> There is a new concept to consider: coding variables.</p>
+<p>We often find ourselves in situations where the levels of a factor can either not be described quantitatively or it is inconvenient to do so. In these cases, we often provide levels a coded, quantitative scale. Very commonly, we have experiments where we have a “low” and “high” level for each factor and we can code the levels as either:
+* Low = -1 and High = 1.
+* Low = 0 and High = 1.</p>
+<p>This coding allows us to model non-quantitative levels and often makes the math easier for levels with quantitative, but unruly<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a> levels.</p>
+<p>We will discuss in future sections how we use this coding to model effects and understand different aspects of our designs.</p>
+<p><strong>Advantages of Factorial Designs:</strong> Finally, it is important to consider why factorial designs are advantageous. There are at least two reasons:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Breadth:</strong> A factorial experiment ensures that you test every combination. This ensures that you do not miss out on interaction effects as you may in an OFAT type strategy.</li>
+<li><strong>Efficiency:</strong> While it might sound odd given that factorial experiments test every treatment combination exhaustively, one can gain some efficiency compared to other possible designs, e.g. an OFAT type design. This occurs from the need for replication:
+<ul>
+<li>Recall that to test the mean effect of a factor and account for experimental error, one must do at least two replicates for each level.<br />
+</li>
+<li>What is useful in a factorial experiment is that one does not necessarily have to test each treatment combination with multiple replicates, as one gets multiple data points for each level of a given factor across all the treatment combinations of which it is a member. For example, in the above scenario, one tests the effect of having a 120mm caliber main gun in both the ‘a’ and the ‘ab’ treatment combination.</li>
+<li>There are further in depth arguments on this, but we will stop at this point. For further reading, see, e.g. <span class="citation">Montgomery (<a href="#ref-montgomery2017">2017</a>)</span> §5.2.</li>
+</ul></li>
+</ol>
+<!--
+### Estimating Effects
+
+Up until this point in the course we have not discussed actually estimating the effects of a given factor.  Consider the example above where we were varying a tank main gun caliber and round type and had some results without interaction:
+
+| A | B | Response | TC | TC |
+|---|---|---|---|
+|105mm|HE|20| $A^- B^-}$ | (1) |
+|120mm|HE|40| $A^+ B^-}$ | a |
+|105mm|AP|30| $A^- B^+$ | b | 
+|120mm|AP|52| $A^+ B^+$ | ab |
+
+Note that we have indicated the treatment combination by two different names, but they say the same thing.  One is in the format $Factor^{Level}$, where '-' for the level indicates the low level and '+' the high. The other is in the lower case letter format previously discussed.  They are equivalent, though the former format makes things more concrete.
+
+We can estimate the effects of each factor by taking the average result whenever the factor is at its high level and subtracting that from the average result when the factor is at its low level.  For example:
+
+* The effect of moving from $A^-$ to $A^+$ is:  $\frac{52 + 40}{2} - \frac{30 + 20}{2} = 21$
+* The effect of moving from $B^-$ to $B^+$ is: $\frac{52 + 30}{2} - \frac{40 + 20}{2} = 11$
+* The interaction effect is 52 - 20 + 21 + 11
+-->
+</div>
+<div id="assessing-and-estimating-effects" class="section level3">
+<h3><span class="header-section-number">5.3.2</span> Assessing and Estimating Effects</h3>
+<p>If much of the discussion has looked familiar, it should, as in our ANOVA section, we covered analyzing the output of factorial designs (even though we didn’t explicitly say that). Recall, for example, our two factor, fixed effects ANOVA effects model:</p>
+<p><span class="math display">\[y_{ijk} = \mu + \tau_i + \beta_j + (\tau\beta)_{ij} + \epsilon_{ijk}\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(y_{ijk}\)</span> is the response for the <span class="math inline">\(k^{th}\)</span> replicate of the <span class="math inline">\(i^{th}\)</span> level of Factor A and <span class="math inline">\(j^{th}\)</span> level of Factor B.</li>
+<li><span class="math inline">\(\mu\)</span> is the overall mean.</li>
+<li><span class="math inline">\(\tau_i\)</span> is the effect of Factor A at the <span class="math inline">\(i^{th}\)</span> level.</li>
+<li><span class="math inline">\(\beta_j\)</span> is the effect of Factor B at the <span class="math inline">\(j^{th}\)</span> level.</li>
+<li><span class="math inline">\((\tau\beta)_{ij}\)</span> is the interaction effect of Factors A and B at their respective levels.</li>
+<li><span class="math inline">\(\epsilon_{ijk}\)</span> is the error associated with that response.</li>
+</ul>
+<p>Further recall that the sum of the treatments effects is 0 for all factors or interactions.</p>
+<p>We can then conduct an ANOVA and multiple comparisons test (e.g., Tukey HSD) as conducted in the ANOVA section of this course. We may further extimate these effects using the following equations:</p>
+<ul>
+<li><span class="math inline">\(\hat{\mu} = \bar{y_{...}}\)</span>, i.e., the estimate for the mean effect is the mean of all observations.</li>
+<li><span class="math inline">\(\hat{\tau_i} = \bar{y_{i..}} - \bar{y_{...}}\)</span>, i.e., the estimate for the effect of the <span class="math inline">\(i^{th}\)</span> level of Factor A is the mean for all observations at that level less the mean of all observations.</li>
+<li><span class="math inline">\(\hat{\beta_j} = \bar{y_{.j.}} - \bar{y_{...}}\)</span>, i.e., the same as above but for Factor B.</li>
+<li><span class="math inline">\(\hat{(\tau\beta)_{ij}} = \bar{y_{ij.}} - \bar{y_{i..}} - \bar{y_{.j.}} + \bar{y_{...}}\)</span>, i.e., the estimate for the interaction effect at the <span class="math inline">\(ij^{th}\)</span> level is the mean at that level less the means at only the <span class="math inline">\(i^{th}\)</span> and <span class="math inline">\(j^{th}\)</span> levels respectively plus the grand mean.</li>
+<li>These derivations are shown in <span class="citation">Montgomery (<a href="#ref-montgomery2017">2017</a>)</span>.</li>
+</ul>
+<p>Note that the <span class="math inline">\(\hat{}\)</span> symbol indicates an estimated parameter, the <span class="math inline">\(\bar{}\)</span> indicates the mean of a set and <span class="math inline">\(y_{...}\)</span> indicates the observed value at the indicated levels where the first dot is for Factor A, the second for Factor B, and the third for the replicate. If there is a dot, it indicates across all levels of the factor or replicates. For example, <span class="math inline">\(\bar{y_{...}}\)</span> is the mean of all observations and <span class="math inline">\(\bar{y_{1..}}\)</span> is the mean for all observations where Factor A is on the first level.</p>
+<p>We can do this more concretely with an example:</p>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb452-1" data-line-number="1"><span class="co"># We will use the weapon range data set from a previous two factor ANOVA homework</span></a>
+<a class="sourceLine" id="cb452-2" data-line-number="2"><span class="co"># Recall there were two factors:</span></a>
+<a class="sourceLine" id="cb452-3" data-line-number="3"><span class="co">#  Factor A was Weapon which could be 1, 2, or 3</span></a>
+<a class="sourceLine" id="cb452-4" data-line-number="4"><span class="co">#  Factor B was range which could be 50, 150, or 200m</span></a>
+<a class="sourceLine" id="cb452-5" data-line-number="5"><span class="co">#  The response was number of targets engaged</span></a>
+<a class="sourceLine" id="cb452-6" data-line-number="6"><span class="co">#  There were 6 replciates for each combination</span></a>
+<a class="sourceLine" id="cb452-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb452-8" data-line-number="8">weapon_range &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;../html/_Chapter3_1_ProblemSets/weapon_range.csv&#39;</span>)</a>
+<a class="sourceLine" id="cb452-9" data-line-number="9">weapon_range<span class="op">$</span>Range &lt;-<span class="st"> </span><span class="kw">as.factor</span>(weapon_range<span class="op">$</span>Range)</a>
+<a class="sourceLine" id="cb452-10" data-line-number="10">weapon_range<span class="op">$</span>Weapon &lt;-<span class="st"> </span><span class="kw">as.factor</span>(weapon_range<span class="op">$</span>Weapon)</a>
+<a class="sourceLine" id="cb452-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb452-12" data-line-number="12"><span class="co"># In the previous homework, we had found that weapon, range, and their interaction were significant.</span></a>
+<a class="sourceLine" id="cb452-13" data-line-number="13"><span class="co"># We can now estimate their parameters</span></a>
+<a class="sourceLine" id="cb452-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb452-15" data-line-number="15"><span class="co"># this gives us our y_{...}</span></a>
+<a class="sourceLine" id="cb452-16" data-line-number="16">grand.mean &lt;-<span class="st"> </span><span class="kw">mean</span>(weapon_range<span class="op">$</span>Targets)</a>
+<a class="sourceLine" id="cb452-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb452-18" data-line-number="18"><span class="co"># We can calculate our means by subsetting the data frame to the levels we desire and following</span></a>
+<a class="sourceLine" id="cb452-19" data-line-number="19"><span class="co"># the above equations</span></a>
+<a class="sourceLine" id="cb452-20" data-line-number="20">tau<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">mean</span>(weapon_range<span class="op">$</span>Targets[weapon_range<span class="op">$</span>Weapon <span class="op">==</span><span class="st"> &#39;1&#39;</span>]) <span class="op">-</span><span class="st"> </span>grand.mean</a>
+<a class="sourceLine" id="cb452-21" data-line-number="21">tau<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">mean</span>(weapon_range<span class="op">$</span>Targets[weapon_range<span class="op">$</span>Weapon <span class="op">==</span><span class="st"> &#39;2&#39;</span>]) <span class="op">-</span><span class="st"> </span>grand.mean</a>
+<a class="sourceLine" id="cb452-22" data-line-number="22">tau<span class="fl">.3</span> &lt;-<span class="st"> </span><span class="kw">mean</span>(weapon_range<span class="op">$</span>Targets[weapon_range<span class="op">$</span>Weapon <span class="op">==</span><span class="st"> &#39;3&#39;</span>]) <span class="op">-</span><span class="st"> </span>grand.mean</a>
+<a class="sourceLine" id="cb452-23" data-line-number="23">beta<span class="fl">.50</span> &lt;-<span class="st"> </span><span class="kw">mean</span>(weapon_range<span class="op">$</span>Targets[weapon_range<span class="op">$</span>Range <span class="op">==</span><span class="st"> &#39;50&#39;</span>]) <span class="op">-</span><span class="st"> </span>grand.mean</a>
+<a class="sourceLine" id="cb452-24" data-line-number="24">beta<span class="fl">.150</span> &lt;-<span class="st"> </span><span class="kw">mean</span>(weapon_range<span class="op">$</span>Targets[weapon_range<span class="op">$</span>Range <span class="op">==</span><span class="st"> &#39;150&#39;</span>]) <span class="op">-</span><span class="st"> </span>grand.mean</a>
+<a class="sourceLine" id="cb452-25" data-line-number="25">beta<span class="fl">.200</span> &lt;-<span class="st"> </span><span class="kw">mean</span>(weapon_range<span class="op">$</span>Targets[weapon_range<span class="op">$</span>Range <span class="op">==</span><span class="st"> &#39;200&#39;</span>]) <span class="op">-</span><span class="st"> </span>grand.mean</a>
+<a class="sourceLine" id="cb452-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb452-27" data-line-number="27"><span class="co"># There are 9 interaction levels, these are left as an exercise to the reader to calculate</span></a></code></pre></div>
+<p>We then see:</p>
+<ul>
+<li><span class="math inline">\(\mu \approx 31.9\)</span></li>
+<li><span class="math inline">\(\tau_1 \approx = -2.8\)</span></li>
+<li><span class="math inline">\(\tau_2 \approx = 3.2\)</span></li>
+<li><span class="math inline">\(\tau_3 \approx = -0.3\)</span></li>
+<li><span class="math inline">\(\beta_{50} \approx = -1.4\)</span></li>
+<li><span class="math inline">\(\beta_{150} \approx = 3.6\)</span></li>
+<li><span class="math inline">\(\beta_{200} \approx = -2.2\)</span></li>
+</ul>
+<p>This of course, can extend to any number of factors, both in terms of the ANOVA and the estimation of effects.</p>
+<p>We can also (and perhaps more commonly) model effects using regression, though we will reserve that discussion for our regression modeling chapter. This is generally called modeling a <strong>“response surface.”</strong> This is particularly useful when the levels are quantitative.</p>
+</div>
+<div id="blocking" class="section level3">
+<h3><span class="header-section-number">5.3.3</span> Blocking</h3>
+<p>We are now going to introduce the concept of a <strong>block.</strong> Recall that a factor is a variable input to one’s experiment, e.g., the choice of caliber or round in the example of the experiment for a main tank gun. These are factors of interest for us as experimenters. In some cases, there are what we call <strong>nuissance factors</strong>. These are factors that affect the outcome of a test, but are not of interest to us. Nuissance factors can be either <strong>uncontrollable</strong> or <strong>controllable.</strong></p>
+<p><strong>Uncontrollable factors</strong> generally occur in physical experiments and are simply the vagaries of life - e.g. the exact amount of wind present or the exact level of humidity, etc. These are often very hard to control precisely. We attempt to avoid issues associated with this by randomly choosing the order for our experiments. We have encountered this in our ANOVA examples. Recall, for example, the single factor, fixed effects ANOVA problem where we considered the effect of soldier’s load on ruck march times. We randomized their starting order to account for the uncontrollable factors that may occur on a ruck march such as wind, temperature, etc.</p>
+<p><strong>Controllable factors</strong> also occur in physical experiments, but are ones where we can choose the level of the nuissance factor. For example, if we had been testing soldier ruck march times over several days, we could have blocked by the day that a soldier conducted the experiment.</p>
+<p>When we block, we assign replicates to a specific level of the controllable nuissance factor. For example, assume we were doing a physical test of shooting a new tank main gun at a physical target and we had two factors: caliber at either 105mm or 120mm and round at HE or AP. Further assume we had 3 rounds each type of material and we were testing the penetration by shooting at steel plates and had three steel plates that we could shoot at. We could cut each plate into 4 parts, randomly assign one of those parts to each of the treatment combinations, then shoot it and measure our result. We would then be blocking by metal sheet.</p>
+<p>Generally when we block, we make an assumption that there is no interaction between the levels of the block and the factors of interest<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a> We then do our analysis in a similar manner to everything we have done before, simply treating the block as a separate factor in our ANOVA and estimation fo the effects.</p>
+<p><strong>Fortunately for simulation:</strong><a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a> we can largely control everything. This is a great advantage of simulation when it comes to experimental design: many of the issues such as run order and blocking become moot. It is imporant to consider blocking and nuissance factors (e.g., scenarios), but the subsequent analysis ultimately becomes the same.</p>
+<!-- I think this is important, but I don't know enough about it... Need to ask John 
+### Number of Replications
+
+The last question in a general factorial experiment is, "How many replicates should I do."  A snarky answer would be, do as many as you can afford.  That is, however, generally unuseful and uneconomical.  The more correct answer is dependent upon the required confidence in one's estimates.  
+
+-->
+</div>
+<div id="problem-set-2" class="section level3">
+<h3><span class="header-section-number">5.3.4</span> Problem Set</h3>
+<p>The problem set for this section is located <a href = '/_Chapter4_ProblemSets/Factorial_Design_PS_Questions.html'> here </a>.</p>
+<p>For your convenience, the problem set as an R markdown is located <a href = '/_Chapter4_ProblemSets/Factorial_Design_PS_Questions.Rmd'> here </a></p>
+<p>The answers for this problem set are <a href = '/_Chapter4_ProblemSets/Factorial_Design_PS_Answer.html'> here </a>.</p>
+</div>
+</div>
+<div id="k-factorial-design" class="section level2">
+<h2><span class="header-section-number">5.4</span> <span class="math inline">\(2^K\)</span> Factorial Design</h2>
+<div id="introduction-4" class="section level3">
+<h3><span class="header-section-number">5.4.1</span> Introduction</h3>
+<p>Very often, we find ourselves working with a particular class of factorial designs we call <span class="math inline">\(2^K\)</span> Factorial designs. These are designs where we have <span class="math inline">\(K\)</span> factors, and each factor has two levels, typically called the low and the high level. As there are only two levels for each of the <span class="math inline">\(K\)</span> factors, there are <span class="math inline">\(2\times 2 \times 2 \times ... \times 2 = 2^K\)</span> treatment combinations in this design.</p>
+<p><strong>Factors and Levels:</strong> In a <span class="math inline">\(2^K\)</span> design, we generally assume that the levels of each factor are fixed. Moreoever, we generally code the values as either <span class="math inline">\(\langle 0, 1 \rangle\)</span> or <span class="math inline">\(\langle -1, +1 \rangle\)</span>. This allows us to consider both purely quantitative measures (e.g., weapon caliber), qualitative measures (e.g., camoglauge color), or even groups of changes (e.g. scenario or entire units).</p>
+<p><strong>Assumptions:</strong> We both assume and design the experiment such that the tests are independent and randomized (up to any blocking we choose) and that we meet the usual normality assumptions (as we have required for ANOVA). We further assume that the response to a factor is approximately linear (if it exists), as when we do our analysis, we can only interpolate in a linear manner between two points.</p>
+<p><strong>Applications:</strong> Often <span class="math inline">\(2^K\)</span> designs are used in <strong>screening experiments</strong>. A screening experiment is an experiment in which one is attempting to simply understand which factors or combination of factors have an effect on the response in any fashion. Often times, experimenters do not know this <em>a priori</em> and simply being able to identify an effect without over-concern on the precision of its estimate allows one to select the most significant factors and then use a more fine-grained approach (i.e., a different design) to understanding the experimental space.<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a></p>
+<p><strong>Limitations:</strong> Beyond any limitations associated with the assumptions, the major limitation to a <span class="math inline">\(2^K\)</span> design is that it is resource intensive and the requisite numbers of tests scales exponentially by <span class="math inline">\(K\)</span>. This means the number of factors you can consider scales logarithmically as a function of your maximum number of tests, i.e., if your maximum number of tests is <span class="math inline">\(N\)</span>, your maximum number of factors is of order <span class="math inline">\(log_2(N)\)</span>.</p>
+</div>
+<div id="coding-variables-and-effects-signs" class="section level3">
+<h3><span class="header-section-number">5.4.2</span> Coding Variables and Effects Signs</h3>
+<p>As discussed in the section on general factorial designs, we often find it convenient to code variables to help us 1) understand something about the design itself, 2) represent categorical levels, and 3) “normalize” the values associated with the effects so that we can understand relative effects size. For the time being, we will represent our <span class="math inline">\(2^K\)</span> designs using <strong>orthogonal coding</strong> which is representing the low level as <code>-1</code> and the high level as <code>1</code>. First, consider how we can represent our <span class="math inline">\(2^K\)</span> design with this coding:</p>
+<p>Consider a <span class="math inline">\(2^2\)</span> design. First, we build a table where the factors are listed as the columns. We then list the treatment combinations as the rows. The level for each factor is then shown as a +/- as we can see here:</p>
+<center>
+<table>
+<thead>
+<tr class="header">
+<th>TC</th>
+<th>A</th>
+<th>B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(1)</td>
+<td>-1</td>
+<td>-1</td>
+</tr>
+<tr class="even">
+<td>a</td>
+<td>1</td>
+<td>-1</td>
+</tr>
+<tr class="odd">
+<td>b</td>
+<td>-1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>ab</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</center>
+<p>This should look familiar from the previous section. Note that we adopt two conventions. The first is that we permute the levels of the factors in increasing order.<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a> That is, for our first factor, we vary the level every single time; i.e., the levels of A go -1, 1, -1, 1. For our second level, we vary the level every second time, i.e., the levels of B go -1, -1, 1, 1. If we had a third factor, we would vary the levels every 4th time, and so forth. The second convention is that we name the treatment combinations by the “product” of the lower case letter associated with the Factor in that treatment combination that is at the high level. That is, if we have A = -1 and B = 1, we name that treatment combination b. There is nothing sacrosanct about these conventions, but it is typical. The most important thing, of course, is to ensure that we capture every treatment combination correctly.</p>
+<p>The next thing we often see is an additional column for the interaction effects. In our above example, this would mean we include the AB interaction as follows:</p>
+<center>
+<table>
+<thead>
+<tr class="header">
+<th>TC</th>
+<th>A</th>
+<th>B</th>
+<th>AB</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(1)</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>a</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+</tr>
+<tr class="odd">
+<td>b</td>
+<td>-1</td>
+<td>1</td>
+<td>-1</td>
+</tr>
+<tr class="even">
+<td>ab</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</center>
+<p>You’ll note two things here. First, this does not add any additional treatment combinations, it merely adds a column for the interaction effect. Second, the value for the interaction effect is the product of the values for the factors that are interacting. For example: for treatment combination <span class="math inline">\((1)\)</span>, <span class="math inline">\(A = -1\)</span> and <span class="math inline">\(B = -1\)</span>, so <span class="math inline">\(AB = -1*-1 = 1\)</span>. Similarly, for treatment combination <span class="math inline">\(a\)</span>, <span class="math inline">\(A = 1\)</span> and <span class="math inline">\(B = -1\)</span>, so <span class="math inline">\(AB = 1*-1 = -1\)</span>. This helps us later in understanding ideas about orthoginality and contrast.</p>
+<p>We can expand this concept to arbitrarily large <span class="math inline">\(K\)</span>. For example, consider <span class="math inline">\(K = 3\)</span>:</p>
+<center>
+<table>
+<thead>
+<tr class="header">
+<th>TC</th>
+<th>A</th>
+<th>B</th>
+<th>AB</th>
+<th>C</th>
+<th>AC</th>
+<th>BC</th>
+<th>ABC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(1)</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+</tr>
+<tr class="even">
+<td>a</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>b</td>
+<td>-1</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>-1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>ab</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+</tr>
+<tr class="odd">
+<td>c</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>ac</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+</tr>
+<tr class="odd">
+<td>bc</td>
+<td>-1</td>
+<td>1</td>
+<td>-1</td>
+<td>1</td>
+<td>-1</td>
+<td>1</td>
+<td>-1</td>
+</tr>
+<tr class="even">
+<td>abc</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</center>
+<p>A note on <strong>orthogonality</strong>: an astute observer may notice something about the columns in these matrices. That is, the columns are <a href = 'https://en.wikipedia.org/wiki/Orthogonality'> orthogonal </a>. <a href = 'https://mathworld.wolfram.com/Orthogonal.html'> Orthoginality </a> is a general mathematical and physical concept that, in elementary geometry, orthoginality can be equated to perpendicularity. More generally, if we have two vectors of the same length, we say they are orthogonial if their dot product is 0. For example, in the above table, we see column ‘A’ as: $ A = -1, 1, -1, 1, -1, 1, -1, 1 $ and column ‘B’ as <span class="math inline">\(B = \langle -1, -1, 1, 1, -1, -1, 1, 1 \rangle\)</span>. Their dot product can be calculated either manually or in <em>R</em>:</p>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb453-1" data-line-number="1"><span class="co"># Define our two vectors</span></a>
+<a class="sourceLine" id="cb453-2" data-line-number="2">A &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb453-3" data-line-number="3">B &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">-1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb453-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb453-5" data-line-number="5"><span class="co"># You can get the dot product in R in any number of ways.  Here are two:</span></a>
+<a class="sourceLine" id="cb453-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb453-7" data-line-number="7"><span class="co"># You can sum the product of each vector multiplied element by element.</span></a>
+<a class="sourceLine" id="cb453-8" data-line-number="8"><span class="kw">sum</span>(A<span class="op">*</span>B)</a></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb455-1" data-line-number="1"><span class="co"># You can use the matrix multiplication in base R of `%*%`.</span></a>
+<a class="sourceLine" id="cb455-2" data-line-number="2">A<span class="op">%*%</span>B</a></code></pre></div>
+<pre><code>##      [,1]
+## [1,]    0</code></pre>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb457-1" data-line-number="1"><span class="co"># There are various packages that have a built in dot product function.</span></a>
+<a class="sourceLine" id="cb457-2" data-line-number="2"><span class="co"># Of course, you can always define your own!</span></a></code></pre></div>
+<p><a href = 'https://support.minitab.com/en-us/minitab/18/help-and-how-to/modeling-statistics/doe/supporting-topics/basics/orthogonal-designs/'> Orthoginality is important in experimental design </a><a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a> as it tells us something about the independence of the effects we are measuring. That is, if two factors or interaction of factors are orthogonal, we can estimate their effects independently. If they are not, we cannot estimate their effects as such. In a <span class="math inline">\(2^K\)</span> design, all of our factors and their interactions are orthogonal, so, if we have sufficient tests, we can estimate the effects independently.</p>
+<p>Finally, note that these tables have several interesting properties:</p>
+<ol style="list-style-type: decimal">
+<li>The sum of any factor column is zero (e.g., in the above table, <span class="math inline">\(A = \langle -1, 1, -1, 1, -1, 1, -1, 1 \rangle\)</span>. One can easily verify that the sum of this column is 0.)</li>
+<li>The element-by-element product of any two columns results in another column in the table. Specifically, it yields the column that is the product of the two factors where the exponent of each factor is assessed modulo 2. This is best seen with an example.
+<ul>
+<li>Consider <span class="math inline">\(A \times AB\)</span>. One “multiplies” the two names to get: <span class="math inline">\(A^2B^1\)</span>. We then take the exponent of A modulo 2 and see <span class="math inline">\(2 mod 2 = 0\)</span> and the exponent of B modulo 2 and see <span class="math inline">\(1 mod 2 = 1\)</span>, so we have: <span class="math inline">\(A^2B^1 = A^0B^1 = 1 \cdot B = B\)</span>.</li>
+<li>We can confirm this: <span class="math inline">\(A = \langle -1, 1, -1, 1, -1, 1, -1, 1 \rangle\)</span>, <span class="math inline">\(AB = \langle 1, -1, -1, 1, 1, -1, -1, 1 \rangle\)</span> and the pairwise product of these two is: <span class="math inline">\(\langle -1*1, 1*-1, -1*-1, 1*1, -1*1, 1*-1, -1*-1, 1*1 \rangle = \langle -1, -1, 1, 1, -1, -1, 1, 1 \rangle = B\)</span>.</li>
+</ul></li>
+<li>We will sometimes include an identity column, <span class="math inline">\(I = \langle 1, 1, ... 1 \rangle\)</span> (i.e., all positives) that is not a factor, but allows for consistent multiplication.</li>
+</ol>
+</div>
+<div id="estimating-effects-and-contrasts" class="section level3">
+<h3><span class="header-section-number">5.4.3</span> Estimating Effects and Contrasts</h3>
+<p>The point of an experimental design, of course, is to identify the effects of a factor <!--or?--> some interaction. We introduced a means to estimate effects in the general factorial design for two factors at any number of levels, we can generalize that here for <span class="math inline">\(K\)</span> factors at two levels. We will do this through the idea of contrasts. Let us consider an example:</p>
+<p>Recall our tank main gun example from the previous section. We had Factor A as the round type, either HE or AP and Factor B as the caliber, either 105mm or 120mm. This is a <span class="math inline">\(2^2\)</span> design. Let HE and 105mm be the low levels and AP and 120mm be the high levels. We can visualize it as follows:</p>
+<p><img src="04-DOE_Fundamentals_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Further assume we have been able conduct the experiment and run each test 3 times (i.e., <span class="math inline">\(n = 3\)</span> replicates) and we had the following results:</p>
+<div id="htmlwidget-1838622b50a8295b704d" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1838622b50a8295b704d">{"x":{"filter":"none","data":[["(1)","(1)","(1)","a","a","a","ab","ab","ab","b","b","b"],["run.1","run.2","run.3","run.1","run.2","run.3","run.1","run.2","run.3","run.1","run.2","run.3"],["-1: HE","-1: HE","-1: HE","1: AP","1: AP","1: AP","1: AP","1: AP","1: AP","-1: HE","-1: HE","-1: HE"],["-1: 105mm","-1: 105mm","-1: 105mm","-1: 105mm","-1: 105mm","-1: 105mm","1: 120mm","1: 120mm","1: 120mm","1: 120mm","1: 120mm","1: 120mm"],[20,18,21,40,37,42,52,53,48,30,31,28]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>tc<\/th>\n      <th>Replicate<\/th>\n      <th>A<\/th>\n      <th>B<\/th>\n      <th>Response<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>We can visualize these results geometrically:</p>
+<p><img src="04-DOE_Fundamentals_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>We will take the convention here that (for a balanced design, i.e., we have the same number of replicates per treatment combination), the value of a treatment combination is the sum of the response of the treatment combination as assessed in each replicate. That is, for example, (1) = 59 because we assessed the response of (1) as 20, 18, and 21. We then say that the effect of a factor is the difference between the average response when the factor is at its high level and the average response when the factor is at its low level. This becomes very apparent in our notation, as we can say, for example the effect of is: <span class="math inline">\(A = \frac{ab + a}{2n} - \frac{b + (1)}{2n} = \frac{1}{2n}[ab + a - b - (1)]\)</span> where <span class="math inline">\(n\)</span> is the number of replicates and the values of <span class="math inline">\((1), a, b, and ab\)</span> are as indicated above.</p>
+<p>In our example, we can then say that <span class="math inline">\(A = \frac{1}{2\cdot3} [153 + 119 - 89 - 59] \approx 20.7\)</span>. Similarly, we can say that <span class="math inline">\(B = \frac{1}{2\cdot3} [153 + 89 - 119 - 59] \approx 10.7\)</span> and $  [153 + 59 - 119 - 89] 0.7$.</p>
+<p>You may notice two things about these equations:</p>
+<ol style="list-style-type: decimal">
+<li>The form (for a <span class="math inline">\(2&amp;K\)</span> design) of these factor effects is <span class="math inline">\(\frac{1}{2^{K-1} \cdot n} \times [Something]\)</span></li>
+<li>That <span class="math inline">\([Something]\)</span> has a generally common form. Two things on this:
+<ul>
+<li>This is called the <strong>contrast</strong> for a given factor.</li>
+<li>The value of the contrast is: <span class="math inline">\(\bf{tc} \cdot \bf{factor}\)</span>. Where, <span class="math inline">\(\bf{tc}\)</span> is the vector of values for the treatment combinations, e.g. <span class="math inline">\(\bf{tc} = \langle (1), a, b, ab \rangle = \langle 59, 119, 89, 153 \rangle\)</span> (in the above example) and <span class="math inline">\(\bf{factor}\)</span> is the vector of +/-1 associated with that factor’s treatment combinations, e.g., <span class="math inline">\(A = \langle -1, 1 -1, 1 \rangle\)</span> in the above example. We generally call this <span class="math inline">\(Contrast_{Factor}\)</span>, e.g. <span class="math inline">\(Contrast_A = -1 \cdot 59 + 1 \cdot 119 + -1 \cdot 89 + 1 \cdot 153 = 124\)</span>.</li>
+</ul></li>
+</ol>
+<p>Given this set up, it’s relatively easy to calculate contrasts using a data frame, for example:</p>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb458-1" data-line-number="1"><span class="co"># Define our data frame</span></a>
+<a class="sourceLine" id="cb458-2" data-line-number="2">myDF  &lt;-<span class="st"> </span>myDF &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">A =</span> (<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">1</span>, <span class="dv">1</span>)), <span class="dt">B =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">1</span>), <span class="dt">tc =</span> <span class="kw">c</span>(<span class="st">&#39;(1)&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;a&#39;</span>, <span class="st">&#39;ab&#39;</span>), <span class="dt">run.1 =</span> <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">52</span>), <span class="dt">run.2 =</span> <span class="kw">c</span>(<span class="dv">18</span>, <span class="dv">31</span>, <span class="dv">37</span>, <span class="dv">53</span>), <span class="dt">run.3 =</span> <span class="kw">c</span>(<span class="dv">21</span>, <span class="dv">28</span>, <span class="dv">42</span>, <span class="dv">48</span>))</a>
+<a class="sourceLine" id="cb458-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb458-4" data-line-number="4"><span class="co"># Modify the data to add the AB column and sum the runs; drop unnecessary additional info and order the data</span></a>
+<a class="sourceLine" id="cb458-5" data-line-number="5">myDF &lt;-<span class="st"> </span>myDF <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Run.Total =</span> run<span class="fl">.1</span> <span class="op">+</span><span class="st"> </span>run<span class="fl">.2</span> <span class="op">+</span><span class="st"> </span>run<span class="fl">.3</span>, <span class="dt">AB =</span> A<span class="op">*</span>B) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(tc, A, B, AB, Run.Total)</a>
+<a class="sourceLine" id="cb458-6" data-line-number="6">myDF</a></code></pre></div>
+<pre><code>##    tc  A  B AB Run.Total
+## 1 (1) -1 -1  1        59
+## 2   b -1  1 -1        89
+## 3   a  1 -1 -1       119
+## 4  ab  1  1  1       153</code></pre>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb460-1" data-line-number="1"><span class="co"># We can then calculate the contrasts:</span></a>
+<a class="sourceLine" id="cb460-2" data-line-number="2">Contrast.A =<span class="st"> </span><span class="kw">sum</span>(myDF<span class="op">$</span>A <span class="op">*</span><span class="st"> </span>myDF<span class="op">$</span>Run.Total)</a>
+<a class="sourceLine" id="cb460-3" data-line-number="3">Contrast.B =<span class="st"> </span><span class="kw">sum</span>(myDF<span class="op">$</span>B <span class="op">*</span><span class="st"> </span>myDF<span class="op">$</span>Run.Total)</a>
+<a class="sourceLine" id="cb460-4" data-line-number="4">Contrast.AB =<span class="st"> </span><span class="kw">sum</span>(myDF<span class="op">$</span>AB <span class="op">*</span><span class="st"> </span>myDF<span class="op">$</span>Run.Total)</a>
+<a class="sourceLine" id="cb460-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb460-6" data-line-number="6">Contrast.A</a></code></pre></div>
+<pre><code>## [1] 124</code></pre>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb462-1" data-line-number="1">Contrast.B</a></code></pre></div>
+<pre><code>## [1] 64</code></pre>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb464-1" data-line-number="1">Contrast.AB</a></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb466-1" data-line-number="1"><span class="co"># Further, we can then show the effects:</span></a>
+<a class="sourceLine" id="cb466-2" data-line-number="2">Contrast.A <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span><span class="op">*</span><span class="dv">3</span>)</a></code></pre></div>
+<pre><code>## [1] 20.66667</code></pre>
+<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb468-1" data-line-number="1">Contrast.B <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span><span class="op">*</span><span class="dv">3</span>)</a></code></pre></div>
+<pre><code>## [1] 10.66667</code></pre>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb470-1" data-line-number="1">Contrast.AB <span class="op">/</span><span class="st"> </span>(<span class="dv">2</span><span class="op">*</span><span class="dv">3</span>)</a></code></pre></div>
+<pre><code>## [1] 0.6666667</code></pre>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb472-1" data-line-number="1"><span class="co"># This of course matches what we showed above</span></a></code></pre></div>
+<p>There is further a nice relationship between these contrasts and the Sum of Squares that you see on an ANOVA table. That is, the sum of squares for a factor F is: <span class="math inline">\(SS_F = \frac{Contrast_F^2}{2^K \cdot n}\)</span>. We can see this explicitly with our above example</p>
+<pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## A            1 1281.3  1281.3 284.741 1.54e-07 ***
+## B            1  341.3   341.3  75.852 2.36e-05 ***
+## A:B          1    1.3     1.3   0.296    0.601    
+## Residuals    8   36.0     4.5                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>And using the contrasts we see:</p>
+<ul>
+<li><span class="math inline">\(SS_A = \frac{Contrast_A^2}{2^2 \cdot 3} = 1281.3333333\)</span></li>
+<li><span class="math inline">\(SS_B = \frac{Contrast_B^2}{2^2 \cdot 3} = 341.3333333\)</span></li>
+<li><span class="math inline">\(SS_{AB} = \frac{Contrast_{AB}^2}{2^2 \cdot 3} = 1.3333333\)</span></li>
+</ul>
+<p>These numbers of course match the numbers we see in our ANOVA table. In our ANOVA discussion, we did not dive deeply into the discussion of sum of squares, but in general its useful to note that, all things being equal, if one has a larger sum of squares, one will have a relatively larger F Value which implies a lower p-value which implies the factor is more significant. This is a long way of saying a larger contrast implies greater statistical significance.</p>
+<p>While both contrast and the sum of squares gives one an idea on the magnitude of the effect, contrast also provides an idea of the direction of the effect that sum of squares does not (as it is always positive). If a contrast is positive, the effect of moving from the low level to the high level is positive; conversely, if it is negative, the effect of moving from the low level to the high level is negative.</p>
+</div>
+<div id="unreplicated-2k-designs" class="section level3">
+<h3><span class="header-section-number">5.4.4</span> Unreplicated <span class="math inline">\(2^K\)</span> Designs</h3>
+<p>Often we find that we only have the ability to conduct a single replicate of a <span class="math inline">\(2^K\)</span> design (especially as <span class="math inline">\(K\)</span> grows). As has been noted before, there are two major challenges to an unreplicated design. First, it does not provide us enough degrees of freedom to assess the residual standard error and thus insufficient degrees of freedom to conduct an ANOVA against every factor and every interaction. Second, there is a possibility that we may erroneously assess a factor as significant or not due to the noise inherent in each test. We can address these problems in several ways.</p>
+<p><strong>Choice of levels</strong>: Montgomery <span class="citation">Montgomery (<a href="#ref-montgomery2017">2017</a>)</span> recommends an “aggressive” spacing in levels. That is, we are less likely to make errors due to response variation if the levels are far apart. This is best seen graphically (recreated from <span class="citation">Montgomery (<a href="#ref-montgomery2017">2017</a>)</span>):</p>
+<center>
+<p><img src="04-DOE_Fundamentals_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</center>
+<p>As we can see, in both cases, the measured response was slightly greater than the true response at the low level and slightly lower than the true response at the higher level. However, in the left graph, with a distance between the levels less than our response error, we can see that it is possible to get test results that indicate no effect of the factor (i.e., a response with zero slope) as indicated by the purple line. Conversely, with a larger distance between the levels, while we will not perfectly model the effect, we will be significantly more accurate and less likely to make an error.</p>
+<p><strong>Sparsity of Effects Principle</strong>: Another approach to assessing unreplicated designs is to make a (generally reasonable) assumption that higher order (e.g., third+ level) interactions are negligible. This, in effect, provides more degrees of freedom for estimating error and thus the significance of main and lower order interaction effects. While there is no mathematical reason why higher order interactions may be insignficant, this is a commonly used heuristic that has been found to hold up in a variety of situations.</p>
+<p><strong>Normal Probability Plot:</strong> Normal probability plots have been used to identify factors that are significant, with the idea that the points that are off of the “normal line” likely have non-zero effect. <a href = 'http://www.stat.yale.edu/Conferences/Stats2009/GOSLIDES.pdf'> This presentation </a> discusses in greater detail this methodology. You can also read more about this in <span class="citation">Montgomery (<a href="#ref-montgomery2017">2017</a>)</span> §6.5.</p>
+<p><strong>Projection of Design:</strong> In an unreplicated design, it is likely that after some initial analysis, you may identify one or more factors that have approximately zero effect. If you do find this, you can disregard the factor with no effect and subsequently “gain replicates.” For example, consider an unreplicated <span class="math inline">\(2^3\)</span> design with Factors A, B, and C. You initially have the following design:</p>
+<table>
+<thead>
+<tr class="header">
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>TC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>(1)</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>a</td>
+</tr>
+<tr class="odd">
+<td>-1</td>
+<td>1</td>
+<td>-1</td>
+<td>b</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>ab</td>
+</tr>
+<tr class="odd">
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>c</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>-1</td>
+<td>1</td>
+<td>ac</td>
+</tr>
+<tr class="odd">
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+<td>bc</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>abc</td>
+</tr>
+</tbody>
+</table>
+<p>Now imagine you have identified C as not having an effect. You can then consider that any treatment combination with a c as an additional replicate for that “residual treatment combination.” For example, ac can now be considered as a replicate of a.</p>
+<table>
+<thead>
+<tr class="header">
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>TC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>(1)</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>a</td>
+</tr>
+<tr class="odd">
+<td>-1</td>
+<td>1</td>
+<td>-1</td>
+<td>b</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>ab</td>
+</tr>
+<tr class="odd">
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>c</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>-1</td>
+<td>1</td>
+<td>ac</td>
+</tr>
+<tr class="odd">
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+<td>bc</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>abc</td>
+</tr>
+</tbody>
+</table>
+<p>You now have an additional replicate to do more thorough analysis.</p>
+<p><strong>Normal Probability Plots</strong>: In unreplicated designs, it is possible that we may see significant effects from higher order interactions. One way to identify these is through the use of normal probability plots. We have seen these when analyzing residuals in an ANOVA; you can read more about them <a href = 'https://www.itl.nist.gov/div898/handbook/eda/section3/normprpl.htm'> here (NIST Engineering Statistics Handbook) </a>. The key difference here is that we are plotting the effects we have observed from an experiment, not residuals. The assumption we are making with this analysis is that if effects are non-signfiicant, they are generally small, average to zero, and any variation is due to random, normal variation. Therefore, any effects that fall outside of what would be expected with this distribution are significant. That is, any points on the plot that fall off of the straight line. We can see this using <em>R</em>:</p>
+<p>Consider a <span class="math inline">\(2^4\)</span> experiment that had the following effects (data taken from <span class="citation">Montgomery (<a href="#ref-montgomery2017">2017</a>)</span>, Example 6.2):</p>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb474-1" data-line-number="1">myDF &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Factor =</span> <span class="kw">c</span>(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;D&#39;</span>, <span class="st">&#39;AB&#39;</span>, <span class="st">&#39;AC&#39;</span>, <span class="st">&#39;AD&#39;</span>, <span class="st">&#39;BC&#39;</span>, <span class="st">&#39;BD&#39;</span>, <span class="st">&#39;CD&#39;</span>, <span class="st">&#39;ABC&#39;</span>, <span class="st">&#39;ABD&#39;</span>, <span class="st">&#39;ACD&#39;</span>, <span class="st">&#39;BCD&#39;</span>, <span class="st">&#39;ABCD&#39;</span>),</a>
+<a class="sourceLine" id="cb474-2" data-line-number="2">                   <span class="dt">Effect =</span> <span class="kw">c</span>(<span class="fl">21.625</span>, <span class="fl">3.125</span>, <span class="fl">9.875</span>, <span class="fl">14.625</span>, <span class="fl">0.125</span>, <span class="fl">-18.125</span>, <span class="fl">16.625</span>, <span class="fl">2.375</span>, <span class="fl">-.375</span>, <span class="fl">1.125</span>, <span class="fl">1.875</span>, <span class="fl">4.125</span>, <span class="fl">-1.625</span>, <span class="fl">-2.625</span>, <span class="fl">1.375</span>))</a>
+<a class="sourceLine" id="cb474-3" data-line-number="3">DT<span class="op">::</span><span class="kw">datatable</span>(myDF, <span class="dt">rownames =</span> F, <span class="dt">options =</span> <span class="kw">list</span>(<span class="dt">pageLength =</span> <span class="dv">16</span>))</a></code></pre></div>
+<div id="htmlwidget-884dc32e25f1bad9101e" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-884dc32e25f1bad9101e">{"x":{"filter":"none","data":[["A","B","C","D","AB","AC","AD","BC","BD","CD","ABC","ABD","ACD","BCD","ABCD"],[21.625,3.125,9.875,14.625,0.125,-18.125,16.625,2.375,-0.375,1.125,1.875,4.125,-1.625,-2.625,1.375]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Factor<\/th>\n      <th>Effect<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":16,"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,16,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<p>We can look at this and certainly say some of the effects are significant, for example, <span class="math inline">\(A\)</span> has the largest effect and is signficantly larger than most (in absolute value). Conversely, <span class="math inline">\(AB\)</span> has an effect that is almost 0 and is almost certainly not significant. The question is where is the cut off for significant. For example, one would certainly include <span class="math inline">\(AD\)</span> and <span class="math inline">\(D\)</span> as significant, but then, what about <span class="math inline">\(C\)</span>, or do we continue to <span class="math inline">\(ABD\)</span>? It is easier to visualize this data with a normal probability plot. One way we can do this is with <code>qqnorm</code>:</p>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb475-1" data-line-number="1"><span class="co"># Use the functions qqnorm and qqline to produce a normal probability plot</span></a>
+<a class="sourceLine" id="cb475-2" data-line-number="2"><span class="co"># Note, various texts will use differing forms of this plot, but the results</span></a>
+<a class="sourceLine" id="cb475-3" data-line-number="3"><span class="co"># are functionally the same</span></a>
+<a class="sourceLine" id="cb475-4" data-line-number="4"><span class="kw">qqnorm</span>(myDF<span class="op">$</span>Effect)</a>
+<a class="sourceLine" id="cb475-5" data-line-number="5"><span class="kw">qqline</span>(myDF<span class="op">$</span>Effect)</a></code></pre></div>
+<p><img src="04-DOE_Fundamentals_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb476-1" data-line-number="1"><span class="co"># This shows us there are several points that are significant</span></a>
+<a class="sourceLine" id="cb476-2" data-line-number="2"><span class="co"># Unfortunately, this does not actually label the points for us</span></a>
+<a class="sourceLine" id="cb476-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb476-4" data-line-number="4"><span class="co"># We can add labels (in probably many ways, this is just one):</span></a>
+<a class="sourceLine" id="cb476-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb476-6" data-line-number="6"><span class="co"># First, calculate the qqnorm x and y coordinates and save as &quot;points&quot;</span></a>
+<a class="sourceLine" id="cb476-7" data-line-number="7"><span class="co"># The argument plot.it = F, prevents the qqnorm from plotting an additional plot</span></a>
+<a class="sourceLine" id="cb476-8" data-line-number="8">points &lt;-<span class="st"> </span><span class="kw">qqnorm</span>(myDF<span class="op">$</span>Effect, <span class="dt">plot.it =</span> F)</a>
+<a class="sourceLine" id="cb476-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb476-10" data-line-number="10"><span class="co"># Next plot the same plot as before</span></a>
+<a class="sourceLine" id="cb476-11" data-line-number="11"><span class="kw">qqnorm</span>(myDF<span class="op">$</span>Effect, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">20</span>, <span class="dv">25</span>)) <span class="co"># modify the y limit to see all labels</span></a>
+<a class="sourceLine" id="cb476-12" data-line-number="12"><span class="kw">qqline</span>(myDF<span class="op">$</span>Effect)</a>
+<a class="sourceLine" id="cb476-13" data-line-number="13"><span class="co"># add text where the labels are plotted at the corresponding points</span></a>
+<a class="sourceLine" id="cb476-14" data-line-number="14"><span class="co"># of the qqnorm.  Note, qqnorm preserves the order of the orginal data</span></a>
+<a class="sourceLine" id="cb476-15" data-line-number="15"><span class="co"># to avoid some overlap, add a small delta to the y coordinate</span></a>
+<a class="sourceLine" id="cb476-16" data-line-number="16"><span class="kw">text</span>(points<span class="op">$</span>x, points<span class="op">$</span>y <span class="op">+</span><span class="st"> </span><span class="dv">2</span>, <span class="dt">labels =</span> myDF<span class="op">$</span>Factor)</a></code></pre></div>
+<p><img src="04-DOE_Fundamentals_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb477-1" data-line-number="1"><span class="co"># This lets us clearly see that A, AD, D, C, and AC are significant factors </span></a>
+<a class="sourceLine" id="cb477-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb477-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb477-4" data-line-number="4"><span class="co"># Sometimes people prefer to flip the axes so that the effect is seen on the x axis</span></a>
+<a class="sourceLine" id="cb477-5" data-line-number="5"><span class="co"># you can simply use the datax = T argument for qqnorm and qqline</span></a>
+<a class="sourceLine" id="cb477-6" data-line-number="6"><span class="co"># Note that you can also change labels, and so forth using various arguments</span></a>
+<a class="sourceLine" id="cb477-7" data-line-number="7"><span class="co"># but this is functionally the same sort of plotting as above</span></a>
+<a class="sourceLine" id="cb477-8" data-line-number="8">points &lt;-<span class="st"> </span><span class="kw">qqnorm</span>(myDF<span class="op">$</span>Effect, <span class="dt">datax =</span> T, <span class="dt">plot.it =</span> F)</a>
+<a class="sourceLine" id="cb477-9" data-line-number="9"><span class="kw">qqnorm</span>(myDF<span class="op">$</span>Effect, <span class="dt">datax =</span> T, <span class="dt">ylab =</span> <span class="st">&#39;Effect&#39;</span>) <span class="co"># Note the labeling on this does not presume the flipped axis</span></a>
+<a class="sourceLine" id="cb477-10" data-line-number="10"><span class="kw">qqline</span>(myDF<span class="op">$</span>Effect, <span class="dt">datax =</span> T)</a>
+<a class="sourceLine" id="cb477-11" data-line-number="11"><span class="kw">text</span>(points<span class="op">$</span>x, points<span class="op">$</span>y <span class="op">+</span><span class="st"> </span><span class="fl">.15</span>, <span class="dt">labels =</span> myDF<span class="op">$</span>Factor)</a></code></pre></div>
+<p><img src="04-DOE_Fundamentals_files/figure-html/unnamed-chunk-13-3.png" width="672" /></p>
+<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb478-1" data-line-number="1"><span class="co"># If one prefers to have more control over the graph, one can do this in ggplot either by making a dataframe out of the </span></a>
+<a class="sourceLine" id="cb478-2" data-line-number="2"><span class="co"># given data or using stat_qq</span></a>
+<a class="sourceLine" id="cb478-3" data-line-number="3"><span class="co"># This stack exachange discussion is highly useful:</span></a>
+<a class="sourceLine" id="cb478-4" data-line-number="4"><span class="co"># https://stackoverflow.com/questions/14958814/how-can-i-label-the-points-of-a-quantile-quantile-plot-composed-with-ggplot2</span></a></code></pre></div>
+<p>One can also do a half-normal probability plot in a similar manner. One can read about it <a href = 'https://www.itl.nist.gov/div898/handbook/pri/section5/pri598.htm'> here </a>. The main difference is that we are plotting the absolute values of effects.</p>
+</div>
+<div id="problem-set-3" class="section level3">
+<h3><span class="header-section-number">5.4.5</span> Problem Set</h3>
+<p>The problem set for this section is located <a href = '/_Chapter4_ProblemSets/2K_Factorial_Design_PS_Question.html'> here </a>.</p>
+<p>For your convenience, the problem set as an R markdown is located <a href = '/_Chapter4_ProblemSets/2K_Factorial_Design_PS_Question.Rmd'> here </a></p>
+<p>The answers for this problem set are <a href = '/_Chapter4_ProblemSets/2K_Factorial_Design_PS_Answer.html'> here </a>.</p>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-law2015">
+<p>Law, Averill. 2015. <em>Simulation Modeling and Analysis</em>. McGraw Hill Education.</p>
+</div>
+<div id="ref-montgomery2017">
+<p>Montgomery, Douglas C. 2017. <em>Design and Analysis of Experiments</em>. John wiley &amp; sons.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="13">
+<li id="fn13"><p>There are, of course, other ways to gain knowledge. For example, observing the social and natural world cannot truly be considered an experiment in the sense that there is no design or observer input.<a href="fundamentals-of-design-of-experiments.html#fnref13" class="footnote-back">↩</a></p></li>
+<li id="fn14"><p>Note that this video was made by a company called EMS Consulting. I know nothing of them and am not endorsing the company, I simply like easy videos. Also, as noted by John King, we don’t think Einstein had a British accent.<a href="fundamentals-of-design-of-experiments.html#fnref14" class="footnote-back">↩</a></p></li>
+<li id="fn15"><p>JMP (pronounced “jump” is a statistical software produced by SAS. It is powerful, but costs money. I do not know if it has the capability to do anything <em>R</em> cannot, but I doubt it.)<a href="fundamentals-of-design-of-experiments.html#fnref15" class="footnote-back">↩</a></p></li>
+<li id="fn16"><p><a href = 'https://asq.org/about-asq/honorary-members/hunter'> J. Stuart Hunter </a> was a professor and well known statistician who was influential in the DOE community. He is known for, among other things, authoring <a href = 'https://www.wiley.com/en-us/Statistics+for+Experimenters%3A+Design%2C+Innovation%2C+and+Discovery%2C+2nd+Edition-p-9780471718130'> <em>Statistics for Experimenters</em> </a> with George Box and William Hunter (no relation).<a href="fundamentals-of-design-of-experiments.html#fnref16" class="footnote-back">↩</a></p></li>
+<li id="fn17"><p>Note: These videos were produced in the 1960s and assume, among other things, that all engineers are men, etc. Obviously, this is incorrect, but the math and explanations are still correct.<a href="fundamentals-of-design-of-experiments.html#fnref17" class="footnote-back">↩</a></p></li>
+<li id="fn18"><p>This is a particular problem in the military where there is a tendency to conflate rank and expertise.<a href="fundamentals-of-design-of-experiments.html#fnref18" class="footnote-back">↩</a></p></li>
+<li id="fn19"><p>This is often a flaw not only in the military, but in many industries where there are competing interests that may cause people to desire a particular result.<a href="fundamentals-of-design-of-experiments.html#fnref19" class="footnote-back">↩</a></p></li>
+<li id="fn20"><p>The same George Box who said “All models are wrong…” that gets quoted at all modeling disucssions.<a href="fundamentals-of-design-of-experiments.html#fnref20" class="footnote-back">↩</a></p></li>
+<li id="fn21"><p>This is not an exhaustive list.<a href="fundamentals-of-design-of-experiments.html#fnref21" class="footnote-back">↩</a></p></li>
+<li id="fn22"><p>Note: for a factorial experiment, we must have a finite number of levels for each factor.<a href="fundamentals-of-design-of-experiments.html#fnref22" class="footnote-back">↩</a></p></li>
+<li id="fn23"><p>Unruly, of course is not a technical term, but I like to use it when talking about numbers that are annoying to work with<a href="fundamentals-of-design-of-experiments.html#fnref23" class="footnote-back">↩</a></p></li>
+<li id="fn24"><p>This may or may not be a good assumption.<a href="fundamentals-of-design-of-experiments.html#fnref24" class="footnote-back">↩</a></p></li>
+<li id="fn25"><p>Specifically constructive, computer simulations.<a href="fundamentals-of-design-of-experiments.html#fnref25" class="footnote-back">↩</a></p></li>
+<li id="fn26"><p>At this point, it is worth noting that there is a very useful <a href = 'https://nps.edu/documents/106696734/108129281/UserGuideSimExpts.pdf/6bf10d35-b507-4554-b77a-6f4a443e4025?t=1475088085000'> paper </a> by Kleijnen, et al. discussing the various considerations for design choice in simulation. This will be required reading later in the course, but it is worth perusing in your spare time.<a href="fundamentals-of-design-of-experiments.html#fnref26" class="footnote-back">↩</a></p></li>
+<li id="fn27"><p>This order is sometimes called standard order or Yate’s order<a href="fundamentals-of-design-of-experiments.html#fnref27" class="footnote-back">↩</a></p></li>
+<li id="fn28"><p>Note this link is from Minitab a proprietary statistical software. Their explanation of orthoginality is useful, and Minitab is a good tool, but we are not using it in this course.<a href="fundamentals-of-design-of-experiments.html#fnref28" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="analysis-of-variance-anova.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="fractional-factorial-designs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "chapter"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

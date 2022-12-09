@@ -1,0 +1,120 @@
+---
+title: "Non-Parametric ANOVA Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the chapter on non-parametric ANOVA in the course https://doe.dscoe.org. The solutions for this problem set use the following packages; however, you may use whatever packages you prefer.
+
+```{r, warning = F, message = F}
+library(tidyverse)
+library(dunn.test)
+```
+
+# Data Familiarization
+
+For this problem set we will use the `airquality` data set available with base *R*. The data are daily air quality measurements in New York from May to September 1973. We are interested in determining if there are monthly differences in ozone measurements, and if so, which month or months are significantly different than the others. First, familiarize yourself with the data by printing the first few rows and calculating some summary statistics.
+
+```{r}
+head(airquality)
+```
+
+```{r}
+summary(airquality)
+```
+
+## Data Transformations
+
+There are missing values in the response (`Ozone`), and the predictor we're interested in (`Month`) is an integer. Make any changes necessary to prepare for conducting ANOVA.
+
+```{r}
+# Change month from integer to a factor, and remove NAs
+aq = airquality %>% 
+  mutate(Month = as.factor(Month)) %>% 
+  drop_na(Ozone) %>%
+  select(Ozone, Month)
+```
+
+## Boxplot
+
+Create and display a box plot of the resulting data. Is there visual evidence of a difference in means?
+
+```{r}
+ggplot(aq, aes(x=Month, y=Ozone)) +
+  geom_boxplot() +
+  theme_bw()
+
+# July and August appear to have average ozone reading higher than the other months
+```
+
+# Parametric ANOVA
+
+Perform single-factor fixed effects ANOVA and print a summary of the model. Based on the p-value, can we reject the null hypothesis and say that at least one of the effects is non-zero at the 95% confidence level?
+
+```{r}
+aq.aov = aov(Ozone~Month, data=aq)
+
+summary(aq.aov)
+
+# reject the null hypothesis
+```
+
+## Check Assumptions
+
+Check if the residuals are normally distributed and have constant variance.
+
+```{r}
+# Q-Q plot
+plot(aq.aov, which = 2)
+# doesn't look promising. Do a shapiro test.
+shapiro.test(residuals(aq.aov))
+# residuals are not normally distributed
+
+# check for constant variance
+plot(aq.aov, which = 3)
+bartlett.test(Ozone~Month, data=airquality)
+# we have non-constance variance
+```
+
+# Non-Parametric ANOVA
+
+We didn't meet the assumptions for parametric ANOVA, so we'll try non-parametric ANOVA. The only assumption we need to verify is that we have at least 5 observations in each month. Determine if we meet that criteria.
+
+```{r}
+aq %>%
+  group_by(Month) %>%
+  summarize(count = n())
+# we're good to go
+```
+
+## Kruskal Wallis Test
+
+Conduct a Kruskal-Wallis test on the data. What does the p-value tell you?
+
+```{r}
+kruskal.test(Ozone ~ Month, data=aq)
+# with the non-parametric test, we reject the null (treatment effect are all =0)
+```
+
+## Dunn Test
+
+Perform the Dunn test and identify which months differ significantly from the others.
+
+```{r}
+dunn.test(aq$Ozone, aq$Month, kw=FALSE, method="bonferroni")
+
+# The following pairs are significant
+# 5:7
+# 5:8
+# 7:9
+# 8:9
+```
+

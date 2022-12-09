@@ -1,0 +1,268 @@
+---
+title: "Chapter 2: Statistical Inference - Problem Set"
+author: "Your Name Here"
+date: "Your Date Here"
+output: 
+  html_document:
+    number_sections: true
+    
+---
+
+<!-- Don't change this -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+```
+
+# Introduction
+
+This problem set is associated with the https://doe.dscoe.org section on Single Factor ANOVA.
+
+For this problem set we will use the following package:
+
+```{r}
+library(tidyverse)
+```
+
+
+# Tank Simulation
+
+Assume you are analyst working to build the next Army tank.  One question you have is, Does the maximum range of the tank main gun have an effect on the number of kills achieved?  You have run a stochastic simulation in which the only thing you have varied is the maximum range associated with the tank's main gun^[For simulation people out there, you may say that kill rate can vary by range.  You modify the kill rates over range so that they are proprtional to the maximum range you chose]..  You assess 3 simulation runs for each of the following maximum ranges: 1km, 2km, 3km, 4km, 5km.  Your results are contained in <a href = '/_Chapter3_1_ProblemSets/tank.csv'> this csv </a>.
+
+## Conceptual Questions
+
+What type of ANOVA should you conduct to assess if range has an effect on the number of kills achieved?
+
+```{}
+You should conduct a single factor, fixed effects ANOVA.
+
+It is single factor because we only have one factor - the maximum range.  
+It is fixed effects because we have identified (i.e., chosen) the levels.
+```
+
+How many factor(s) are there? What are they (or is it)? What are their level(s)?  How many replicates are you doing?
+
+```{}
++ There is 1 factor: the maximum range of the main gun.
++ It has five levels: 1km, 2km, 3km, 4km, 5km.  We say a = 5.
++ We have n = 3 as we have 3 simulation runs.  We have a*n = 15 total observations.
+```
+
+What are your null and alternate hypotheses for this ANOVA?
+
+```{}
+We are using the following model:
+
+$y_{ij} = \mu + \tau_i + \epsilon_{ij}$
+
+Our null hypothesis is that there is no effect from the treatments, i.e.
+
+$\tau_1 = \tau_2 = ... = \tau_5 = 0$
+
+Our alternate is that $tau_i$ \neq 0$ for at least one of $i \in {1, 2, 3, 4, 5}$
+```
+
+What assumptions are you making in doing this sort of analysis.  Are they reasonable?
+
+```{}
+1. We assume the experiments are conducted in a random order.  This is reasonable as 
+our experiments are from independent simulations so we can say that the environment is 
+independent of order run.
+
+2. We assume the experiments are independent of each other.  This is reasonable for
+us to assume again as the outcome of one simulation has no bearing on the outcome of the next.
+
+3. We assume the errors are normally and independently distributed with constant variance.  
+We do not know that yet, but will check the assumption at the end.
+```
+
+## ANOVA Execution
+
+Conduct an ANOVA on the data.  Show your work to include any data cleaning, etc..  We'll actually analyze the results in the next question.
+
+```{r}
+# Read the data
+tank <- read.csv('./tank.csv', sep = ',')
+# Look at the data
+tank
+# Note that the data is in an unusable format (for R)
+
+# Convert the data
+formatted.tank <- tank %>% 
+  # Recall the pivot_longer() function from the tidyverse is useful for formatting data 
+  pivot_longer(cols = c('km_1', 'km_2', 'km_3', 'km_4', 'km_5'), names_to = 'Range', values_to = 'Kills') %>% 
+  # R needs the levels to be of data type "factor"
+  mutate(Range = as.factor(Range)) 
+
+# Conduct the ANOVA and save the results
+tankAOV <- aov(Kills ~ Range, data = formatted.tank)
+
+# This completes this section, move to the analysis
+```
+
+## ANOVA Analysis
+
+Produce the ANOVA table.
+
+```{r}
+summary(tankAOV)
+```
+
+Before assessing if we met any assumptions, based on the ANOVA table, would you reject or fail to reject the null hypothesis?  What does this mean?
+
+```{}
+The p-value for the null hypothesis that all the treatment effects are 0 is .667.  
+This is entirely plausible, so we fail to reject the null and can say that it
+does not appear to be the case that range has an effect on the mean number of kills 
+achieved.  That stated, we still need to check our assumptions.
+```
+
+Check the assumptions that the errors are normally and independently distributed with constant variance.  What does this tell you about your analysis?
+
+```{r}
+# We can check this by plotting the residuals from our aov()
+par(mfrow = c(2,2))
+plot(tankAOV)
+
+# There certainly appears to be a pattern associated with 
+# our residuals vs. Fitted plot and QQ plot, so its possible 
+# that the residuals are not normally distributed
+# The residuals vs. factor levels plot, however, shows
+# a clear change in variance in the residuals with increasing
+# range.  
+
+# We fail the assumption of constant residual variance and 
+# will have to use another means of analysis.
+
+
+# Finally, note for future reference this data was generated as follows:
+#km.1 <- round(rnorm(3, mean = 20, sd = 1), 0)
+#km.2 <- round(rnorm(3, mean = 20, sd = 2), 0)
+#km.3 <- round(rnorm(3, mean = 20, sd = 3), 0)
+#km.4 <- round(rnorm(3, mean = 20, sd = 4), 0)
+#km.5 <- round(rnorm(3, mean = 20, sd = 5), 0)
+#tank <- data.frame(Replicate = rep(1:3, 5), 
+#                   Range = c(rep('1 km', 3), rep('2 km', 3), rep('3 km', 3), rep('4 km', 3), rep('5 km', 3)), 
+#                   Kills = c(km.1, km.2, km.3, km.4, km.5))
+#Note that these data points are expressly normal but with very different variances
+```
+
+
+
+# Soldier Load Simulation
+
+Now assume that you are an analyst assessing the impact of soldier load on their 12 mile march time.  You randomly assign soldiers in a company (120 soldiers) to one of three groups:
+
++ Soldiers with no load ('Unloaded').
++ Soldiers with a "fighting load"^[i.e., just what they need for combat] ('Fighting').
++ Soldiers with a "full load"^[i.e., what they need for fighting and sustainment] ('Full').
+
+You further randomly assign starting times to each soldier such that there are no issues of congestion or any soldier impacting another soldier's march.  All soldiers march on the same course.  Your results are contained in <a href = '/_Chapter3_1_ProblemSets/soldier.csv'> this csv </a>.
+
+
+## Conceptual
+
+What type of ANOVA should you conduct to assess if load has an effect on the number of kills achieved?
+
+```{}
+You should conduct a single factor, fixed effects ANOVA.
+
+It is single factor because we only have one factor - the time to complete the march.  
+It is fixed effects because we have identified (i.e., chosen) the levels.
+```
+
+How many factor(s) are there? What are they (or is it)? What are their level(s)?  How many replicates are you doing?
+
+```{}
++ There is 1 factor: the time to complete the march.
++ It has three levels: unloaded, fighting, and full.  We say a = 3
++ We have n = 40 as we have 40 soldiers per level.  We have a*n = 120 total observations.
+```
+
+What are your null and alternate hypotheses for this ANOVA?
+
+```{}
+This is the same as the previous question.  Our null is that the soldier's load has no effect on the soldier's 12 mile ruck march completion time.
+```
+
+What assumptions are you making in doing this sort of analysis.  Are they reasonable?
+
+```{}
+1. We assume the experiments are conducted in a random order.  This is reasonable as 
+we randomized the start time for each of the soldiers.
+
+2. We assume the experiments are independent of each other.  This is reasonable 
+as we 1) randomly assigned soldiers to a level and 2) ensured that each soldier
+would be able to complete the course without interference of another.
+
+3. We assume the errors are normally and independently distributed with constant variance.  
+We do not know that yet, but will check the assumption at the end.
+```
+
+## ANOVA Execution
+
+Conduct an ANOVA on the data.  Show your work to include any data cleaning, etc..  We'll actually analyze the results in the next question.
+
+```{r}
+# Read the data
+soldier <- read.csv('./soldier.csv', sep = ',', stringsAsFactors = T)
+# Look at the data
+head(soldier)
+# Note that the data formatted nicely 
+# (this must say something about infantry vs. tanks (see the annoying data format above for tanks))
+
+# Conduct the ANOVA and save the results
+soldierAOV <- aov(Minutes ~ Load, data = soldier)
+
+# This completes this section, move to the analysis
+```
+
+## ANOVA Analysis
+
+Produce the ANOVA table.
+
+```{r}
+summary(soldierAOV)
+```
+
+Before assessing if we met any assumptions, based on the ANOVA table, would you reject or fail to reject the null hypothesis?  What does this mean?
+
+```{}
+The p-value for the null hypothesis that all the treatment effects are 0 is ~0.  
+We therefore reject the null hypothesis and can safely conclude that soldier load
+has an effect on the time to complete a 12 mile ruck march.
+
+We still have to assess our assumptions.  Also, we cannot say, from this analysis what 
+the actual effects of the load are.
+```
+
+Check the assumptions that the errors are normally and independently distributed with constant variance.  What does this tell you about your analysis?
+
+```{r}
+# We can check this by plotting the residuals from our aov()
+par(mfrow = c(2,2))
+plot(soldierAOV)
+
+# We see that the data appears to be normally distributed based on the first two plots
+# there is no apparent pattern to the residuals and the QQ plot is approximately straight.
+# there does not appear to be any relatoinship between the levels and the variance
+
+# Finally, note for future reference this data was generated as follows:
+# Unloaded <- round(rnorm(40, mean = 120, sd = 15), 0)
+# Fighting <- round(rnorm(40, mean = 160, sd = 15), 0)
+# Full <- round(rnorm(40, mean = 200, sd = 15), 0)
+# 
+# soldier <- data.frame(Replicate = rep(1:40, 3), 
+#                       Load = c(rep('Unloaded', 40), rep('Fighting', 40), rep('Full', 40)), 
+#                       Minutes = c(Unloaded, Fighting, Full))
+
+#Note that these data points are expressly normal but with very different means but constant variance
+```
+
+
+
+
+
+
+
+

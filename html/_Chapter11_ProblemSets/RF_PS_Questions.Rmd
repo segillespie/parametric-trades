@@ -1,0 +1,197 @@
+---
+title: "Random Forest Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the chapter on classification and regression trees and random forests in the course https://doe.dscoe.org. In this problem set, you'll first perform regression using a regression tree and a random forest on the <a href = "https://archive.ics.uci.edu/ml/datasets/Student+Performance">Student Performance</a> data set. Then you will perform classification using a random forest on the Glass data set (the same data set used in the support vector machine problem set). Both data sets are available from the University of California - Irvine's Machine Learning Repository.
+
+The solutions for this problem set use the following packages; however, you may use whatever packages you prefer.
+
+* `rpart`
+
+* `tidyverse`
+
+* `randomForest`
+
+# Regression
+
+The student performance data set is a zip file, so it's a little trickier to download than a .csv file. This code will do the trick.
+
+```
+# create an empty temporary file
+# temp <- tempfile()
+
+# download the target file to the temp file
+# download.file("https://archive.ics.uci.edu/ml/machine-learning-databases/00320/student.zip",temp)
+
+# read the data from one of the unzipped files
+# sp <- read.csv(unzip(temp, "student-mat.csv"), sep=';', stringsAsFactors = TRUE)
+
+# delete the temporary file
+# unlink(temp)
+
+# remove the temp variable from the name space
+# rm(temp)
+```
+
+```{r message=FALSE, warning=FALSE}
+# Answer here.
+```
+
+The data consists of 395 observations of 33 predictors. The first 30 columns are all information about the students including demographic, social, and school-related features. The last three columns are the student's grades in a math class. It's not completely clear, but I assume the grades are from a one-term math class broken into thirds and that`G1` is the grade received after midterm #1, `G2` is the grade after midterm #2, and `G3` is the final grade. The predictor variables are explained at the link to the website above, but also use `str()` to get a feel for the data.
+
+```{r}
+# Answer here.
+```
+
+## Regression Tree
+
+Grow a tree with `G3` as the response and include all other variables as predictors. Plot the tree.
+
+```{r}
+# Answer here.
+```
+
+### Variable Importance
+
+The `G2` factor shows up in a lot of the splits, which makes sense. Your previous grade in a class is probably a good predictor of your final grade. Print the variable importance for your model with `MyTree$variable.importance` and comment on the results. 
+
+```{r}
+# Answer here.
+```
+
+Plotting the variable importance would be a nice touch.
+
+```{r message=FALSE, warning=FALSE}
+# Answer here.
+```
+
+### Prune
+
+Prune the tree using the 1se rule. First use `plotcp()` to determine the number of splits to allow.
+
+```{r}
+# Answer here.
+```
+
+Now find the `CP` associated with the `nsplit`.
+
+```{r}
+# Answer here.
+```
+
+Choose a `CP` value slightly greater than the one you identified above, and use it to prune your tree. Then, plot the pruned tree.
+
+```{r}
+# Answer here.
+```
+
+### Deviance
+
+How much deviance do your unpruned and pruned trees explain?
+
+```{r}
+# Answer here.
+```
+
+### Drop G1 and G2
+
+Grow a new tree without `G1` and `G2`, print the variable importance, and comment on the results. 
+
+```{r}
+# Answer here.
+```
+
+### Deviance
+
+Without pruning the tree, how much variance does the tree explain without `G1` and `G2`?
+
+```{r}
+# Answer here.
+```
+
+### Linear Model
+
+Fit and summarize a linear model and consider how you might go about eliminating predictors and developing a good linear model fit.
+
+```{r}
+# Answer here.
+```
+
+## Random Forest
+
+Perform regression using a random forest and with all predictors (including `G1` and `G2`). How much deviance does the random forest explain?
+
+```{r}
+# Answer here.
+```
+
+### Variable Importance
+
+Plot the variable importance for the random forest model.
+
+```{r}
+# Answer here.
+```
+
+# Random Forest Classification
+
+Download the glass data set from the UC-Irvine repository. This will save you some typing:
+
+```
+# glass=read.csv('https://archive.ics.uci.edu/ml/machine-learning-databases/glass/glass.data', 
+#                col.names=c("ID", "RI", "Na", "Mg", "Al", "Si", "K", "Ca", "Ba", "Fe", "Type"),
+#                header=F, colClasses=c(rep("numeric", 10), "factor"))
+```
+
+As indicated on the repository's website, 
+
+>The study of classification of types of glass was motivated by criminological investigation. At the scene of the crime, the glass left can be used as evidence...if it is correctly identified!
+
+The data has 11 columns with the categorical response variable with six levels, `Type`, in the last column. The first column is a sample ID number followed by refractive index and then the weight percent of seven elements in their corresponding oxide. Our task is to see if we can correctly identify the six glass types using a classification tree and a random forest. We'll compare our results to those we obtained using a support vector classifier from the most recent problem set.
+  
+```{r}
+# Answer here.
+```
+
+## Train and Test Data Sets
+
+Set a random number generator seed, and create a training and a test data set using an 80/20 split. **Important: Use the same seed that you used in the support vector classifier problem.** Either drop the `ID` column or just don't include it when training your models.
+
+```{r}
+# Answer here.
+```
+
+## Grow a Forest
+
+Fit the model on the training set using default hyperparameters and print the resulting object.
+
+```{r}
+# Answer here.
+```
+
+## Plot
+
+Plot the randomForest object to see if it stabilized before 500 trees.
+
+```{r}
+# Answer here.
+```
+
+## Confusion Matrix and Accuracy
+
+Make predictions on the test set, produce a confusion matrix, and calculate the prediction accuracy. How does it compare the support vector classifier from the previous problem set?
+
+```{r}
+# Answer here.
+```
+

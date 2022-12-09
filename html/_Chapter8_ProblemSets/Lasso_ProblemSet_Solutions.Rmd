@@ -1,0 +1,144 @@
+---
+title: "Cross Validation Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the chapter on model selection in the course https://doe.dscoe.org. For this problem set, we will use the following packages:
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(bestglm)
+library(glmnet)
+```
+
+As with the previous problem set , we will use the `SAheart` dataset from the `bestglm` package. As a reminder, from the help documentation, we find that the data consists of 462 observations of 10 variables. The response is `chd`, which is a binary variable indicating the presence (1) or absence (0) of coronary heart disease. 
+
+# Train and Test Sets
+
+Create training and test sets using an 80/20 split.
+
+```{r}
+set.seed(0)
+test_idx = sample(462, 92, replace=FALSE)
+
+train_set = SAheart[-test_idx, ]
+test_set = SAheart[test_idx, ]
+```
+
+# AIC Model
+
+Find the best model using AIC (remember that the response is binary). This should be the same model fit in the previous problem set.
+
+```{r}
+sa.glm = bestglm(train_set, IC="AIC", family=binomial)
+sa.glm$BestModel
+```
+
+# `bestglm` Model
+
+Find the best model using The "HTF" method with your choice for the number folds and replications. For reproducibility, choose a seed number before performing cross validation.
+
+```{r}
+set.seed(0)
+sa.cv = bestglm(train_set, IC="CV", CVArgs=list(Method="HTF",K=10,REP=2), family=binomial)
+sa.cv
+```
+
+## Predictors
+
+Plot the number of predictors on the x-axis and the CV prediction error and the standard error on the y-axis. How many predictors are included in the model with the lowest CV error versus the best model?
+
+```{r}
+sa.df = tibble(
+  cv = sa.cv$Subsets$CV,    # cross validation errors
+  se = sa.cv$Subsets$sdCV,  # standard errors
+  cv.low = cv - se,
+  cv.high= cv + se,
+  p = 0:(length(cv)-1)      # number of predictors
+)
+
+ggplot(sa.df) +
+  geom_segment(aes(x=0:9, xend=0:9, y=cv.low, yend=cv.high), color='blue') +
+  geom_line(aes(x=p, y=cv), color='red') +
+  geom_point(aes(x=p, y=cv), color='red', size=3) +
+  geom_hline(yintercept = sa.df %>% filter(p==6) %>% .$cv.high, color='blue', linetype=2) +
+  scale_x_continuous(breaks = 0:9) +
+  xlab("Number of Predictors") +
+  ylab("CV Prediction Error") +
+  theme_bw()
+```
+
+# Lasso Regression
+
+Staying with the `SAheart` data, perform lasso regression, and plot log(lambda) vs. coefficients. Remember that the predictors and response variable need to be in separate data structures, and that the predictors should be in a `data.matrix`.
+
+```{r}
+x = data.matrix(train_set[-10])
+y = train_set$chd
+
+sa.lasso = glmnet(x, y, family="binomial")
+plot(sa.lasso, xvar="lambda", label=TRUE)
+```
+
+## First Non-Zero Predictor
+
+Which predictor had the first non-zero coefficient? Is it the same predictor that had the lowest p-value from the other methods?
+
+```{r}
+coef(sa.lasso, s=sa.lasso$lambda[2])
+# age is first and also had the lowest p-value above
+```
+
+## Best Fit Model
+
+Perform lasso regression with cross validation and print the coefficients for the best fit model. How does this model compare to the other methods?
+
+```{r}
+set.seed(0)
+sa.lasso.cv = cv.glmnet(x, y, family="binomial")
+coef(sa.lasso.cv, s = "lambda.1se")
+# 4 factors - fewer than AIC, and more than CV
+```
+
+# Prediction Error
+
+Compare the mean absolute error for the AIC, CV, and lasso models.
+
+```{r}
+# AIC
+aic_preds = predict(sa.glm$BestModel, newdata = data.frame(test_set[, -10]))
+
+# CV
+cv.glm = glm(chd ~ tobacco + famhist + age, data=train_set)
+cv_preds = predict(cv.glm, newdata = data.frame(test_set[, -10]))
+
+# Lasso
+lasso.glm = glm(chd ~ tobacco + ldl + famhist + age, data=train_set)
+lasso_preds = predict(lasso.glm, newdata = data.frame(test_set[, -10]))
+
+# calculate and compare mean absolute error
+print(paste("AIC mean absolute error:", round(mean(abs(aic_preds - test_set$chd)), 3)))
+print(paste("CV mean absolute error:", round(mean(abs(cv_preds - test_set$chd)), 3)))
+print(paste("Lasso mean absolute error:", round(mean(abs(lasso_preds - test_set$chd)), 3)))
+```
+
+# Recommendation
+
+Show the model summary of the model you would recommend using to make new predictions and explain why you chose it?
+
+```{r}
+summary(glm(chd ~ tobacco + ldl + famhist + age, data=SAheart, family=binomial))
+
+# I'd recommend the lasso model because it incorporates cross validation, making 
+# it more robust for predictive purposes as evidenced by it's relatively
+# low mean absolute error.
+```

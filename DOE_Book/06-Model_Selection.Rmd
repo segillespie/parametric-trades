@@ -1,0 +1,321 @@
+# Model Selection
+
+```{r setup-6, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This chapter presents methods for finding a balance between under fitting and over fitting a model. Under fitting is when the model is a poor predictor of the response. With linear regression, this is largely addressed through diagnostic checks, which was covered in previous chapters. A linear model is over fitted when it includes more predictors than are needed to represent the relationship to the response variable. Appropriately reducing the complexity of the model improves its ability to make predictions based on new data, and it helps with interpretability. 
+
+## Admin
+
+For any errors associated with this section, please contact <a href="mailto:john.f.king1.mil@mail.mil">John King</a>.
+
+```{r echo = F}
+mySession <- sessionInfo()
+```
+
+This chapter was published using the following software:
+
+* `r mySession$R.version$version.string`.
+* On `r mySession$platform` running `r mySession$running`.
+* Packages used in this chapter are explicitly shown in the code snippets.
+
+## Introduction
+
+There are three general approaches to reducing model complexity: dimension reduction, variable selection, and regularization. Dimension reduction is beyond the scope of this tutorial and will not be covered. This chapter presents two methods of variable selection (testing- and criterion-based methods) and regularization through lasso regression. 
+
+## Testing-Based Methods
+
+Testing-based methods are the easiest to implement but should only be considered when there are only a few predictors. The idea is simple. In **forward elimination**, we start with a linear model with no predictors, manually add them one at a time, and keep only those predictors with a low p-value. **Backward elimination** is just the opposite: we start with a linear model that contains all predictors (including interactions, if suspected), remove the predictor with the highest p-value, build a new linear model with the reduced set or predictors, and continue that process until only those predictors with low p-values remain. 
+
+We'll use the `teengamb` dataset from the `faraway` package to demonstrate backward elimination. This dataset contains survey results from a study of teenage gambling in Britain. The response variable is `gamble`, which is the expenditure on gambling in pounds per year. The predictors are information regarding each survey respondent, such as gender and income.
+
+```{r message=FALSE, warning=FALSE}
+library(faraway)
+data(teengamb)
+head(teengamb)
+```
+
+A linear model with all predictors is as follows (we'll assume this model passes all of the required diagnostic checks):
+
+```{r}
+tg = lm(gamble~., data=teengamb)
+summary(tg)
+```
+
+Since the p-value for `status` is the highest, we remove it first.
+
+```{r}
+tg = update(tg, . ~ . -status) # remove status
+summary(tg)
+```
+
+Then we remove `verbal`.
+ 
+```{r}
+tg = update(tg, . ~ . -verbal) # remove verbal
+summary(tg)
+```
+
+Notice that even though we eliminated half of the predictors from the model, we only slightly reduced the adjusted $R^{2}$. The simpler model explains almost as much variance in the response with only half the number of predictors. Something to keep in mind when conducting forward or backward elimination is that the predictor p-value does not necessarily have to be above 0.05 to eliminate the predictor from the model. You could also choose something higher - even up to around 0.15 to 0.20 if predictive performance is the goal. For example, note that the p-value for `verbal` in the second model was 0.14, and the adjusted $R^{2}$ for the model was the highest of the three. The coefficient for `verbal` was also negative, which is what we'd expect: teens with higher verbal scores spend less money on gambling. We should therefore consider keeping `verbal` in the model (there's a little bit of an art to it).
+
+## Criterion-Based Methods
+
+As previously stated, testing-based procedures should only be considered when there are just a few factors to consider. The more potential factors in your model, the greater the chance that you'll miss the optimal combination. We saw in the previous section that we had two competing goals: model simplicity versus model fit. @akaike1974 developed a method to measure this balance between simplicity and fit called the **Akaike Information Criterion (AIC)**, which takes the form of:
+
+<center> $$AIC = 2(p+1) - 2ln(\hat{L})$$ </center> 
+
+where,
+
+* $p$ is the number of predictors, and 
+* $\hat{L}$ is the maximized likelihood for the predictive model. 
+
+We then choose the model with the lowest AIC. The **Bayes Information Criterion (BIC)** is an alternative to AIC and replaces $2(p+1)$ with $ln(n)(p+1)$, where $n$ is the number of observations (design points). Adding $ln(n)$ increases the penalty for the number of factors in the model more for larger data sets. Which criterion you use can therefore depend on the dataset you're working with. 
+
+Another common estimator of error is **Mallow's Cp**, which is defined as:
+
+<center> $$C_{p}=\frac{1}{n}(RSS+2p\hat{\sigma}^{2})$$ </center>
+
+where,
+
+* $RSS$ is the root sum of squares,
+* $p$ is the number of predictor, and
+* $\hat{\sigma}^{2}$ is an estimate of the variance of the error, $\varepsilon$, in the linear regression equation.
+
+As with AIC and BIC, the penalty term (in this case $2p\hat{\sigma}^{2}$) increases as the number of predictors in the model increases, which is intended to balance the corresponding decrease in $RSS$. With each of these methods, as we vary $p$, we get an associated criterion value from which we select the minimum as the best model. In *R*, we can calculate AIC and BIC with the `bestglm()` function from the `bestglm` package. Be aware that `bestglm()` expects the data to be in a dataframe with the response variable in the last column.
+
+```{r message=FALSE, warning=FALSE}
+library(bestglm)
+# Note that bestglm is picky about how your dataset is structured
+# It expects a dataframe with the response variable in the last column
+# and all other columns are predictors. Don't include any other "extra"
+# columns. Fortunately, teengamb is already set up that way.
+
+tg.AIC = bestglm(teengamb, IC="AIC")
+
+# this will provide the best model
+tg.AIC
+```
+
+Notice that `verbal` is included in the best fit model even though its p-value is > 0.05. Using `summary()`, we get a likelihood-ratio test for the best model compared to the null model.
+
+```{r}
+summary(tg.AIC)
+```
+
+To get the best model in a `lm()` format:
+
+```{r}
+tg.AIC$BestModel
+```
+
+We can also see a comparison of the best model (model 1) to the next 4 best models.
+
+```{r}
+tg.AIC$BestModels
+```
+
+We can also see the best model (row 3) and its subsets. Row 0 contains just the y-intercept, and in each successive row one predictor is added at a time.
+
+```{r}
+tg.AIC$Subsets
+```
+
+Using BIC, however, `verbal` is excluded from the best fit model.
+
+```{r}
+tg.BIC = bestglm(teengamb, IC="BIC")
+tg.BIC
+```
+
+For Mallow's Cp, we can use the `leaps` package.
+
+```{r}
+library(leaps)
+
+# leaps expects x and y to be passed separately
+tg.cp = leaps(x=teengamb[-5], y=teengamb$gamble, method="Cp")
+tg.cp
+```
+
+It takes a little finagling to get the predictors that we should include in the best model. Columns 1, 2, and 4 correspond to `sex`, `status`, and `verbal`, which is the same as the AIC result.
+
+```{r}
+tg.cp$which[which.min(tg.cp$Cp), ]
+```
+
+### Criterion Problem Set
+
+The problem set for this section is located <a href = "/_Chapter8_ProblemSets/Criterion_ProblemSet_Questions.html">here</a>. 
+
+For your convenience, the problem set as an R markdown is located <a href = "/_Chapter8_ProblemSets/Criterion_ProblemSet_Questions.Rmd">here</a>.
+
+The solutions for this problem set are located <a href = "/_Chapter8_ProblemSets/Criterion_ProblemSet_Solutions.html">here</a>.
+
+## Cross Validation
+
+An alternative approach to using AIC, BIC, or Cp is to use cross validation (CV) to select the best model. The idea is that we randomly divide our data into a **training set** and a **test set**. An 80/20 split between the training set and test set is common but will depend on your sample size. For very large sample sizes (in the millions), the training set can contain a larger percentage, while for relatively small sample sizes, the split may be closer to 50/50. The training set is further randomly divided into $k$ subsets (called **folds**), and one of these folds is withheld as the **validation set**. We fit a model to the remaining training set, and then measure the prediction error using the validation set. Typically, the prediction error is measured by the mean squared error (MSE) for a quantitative response variable. We repeat this process by cycling though each of the folds and holding it out as the validation set. The cross validated error (CV error) is then the average prediction error for the $k$ folds. 
+
+The website for the `scikit-learn` module for Python has a good visualization (shown below) of these various data sets and a <a href="https://scikit-learn.org/stable/modules/cross_validation.html">good explanation</a> of this and other cross validation methods. A more thorough, academic treatment of cross validation may be found in <a href="https://web.stanford.edu/~hastie/Papers/ESLII.pdf">Chapter 7.10</a> in Elements of Statistical Learning written by Trevor Hastie, Robert Tibshirani, and Jerome Friedman.
+
+![](https://scikit-learn.org/stable/_images/grid_search_cross_validation.png)
+
+Once the CV process is complete, we re-combine each of the folds into a single training set for a final evaluation against the test set. With this approach, we can compare multiple CV methods and choose the method with the best performance. 
+
+Notice that we are not using an Information Criterion (IC) anywhere in this method. Another difference is that with criterion-based methods, we chose the model with the lowest IC score, but with CV, we don't choose the model with the lowest CV error. Instead, we calculate the standard deviation ($\sigma$) of the CV error for each of the $p$ predictors and then choose the smallest model that's CV error is within one standard error of the lowest. Standard error is defined as $se = \sigma/\sqrt(k)$. This is best shown graphically, which you'll see below. 
+
+CV techniques are particularly useful for datasets with many predictors, but for consistency, we'll stick with the `teengamb` dataset. Below, we'll perform k-fold cross validation on the `teamgamb` dataset, once again using `bestglm()`. We'll use an 80/20 train/test split.
+
+```{r}
+set.seed(2)
+test_set = sample(47, 10, replace=FALSE)  # randomly select row indices
+tg_test = teengamb[test_set, ]              # create test set
+tg_train = teengamb[-test_set, ]            # create training set 
+```
+
+The training set has only 24 observations, so if we further partition it into a large number of folds, we'll have a small number of observations in each of the validation folds. For this example, we'll choose just 3 folds. In the `bestglm()` function, we specify `CV` as the IC and pass three arguments to specify cross validation parameters. As mentioned, there are a variety of cross validation methods to choose from. For the method described above, we specify `Method="HTF"`, which you might have noticed are the first letters of the last names of the authors mentioned in the "Elements of Statistical Learning" reference above. `K=3` specifies the number of k-folds, and we can chose one or more repetition with `REP`. Remember that cross validation randomly partitions the data into folds, so if we want to repeat the CV process with different random partitions, we increase the `REP` value. Due to the small sample size and number of folds, we'll do 10 repetitions.
+
+```{r}
+tg.cv = bestglm(tg_train, IC="CV", CVArgs=list(Method="HTF", K=3, REP=10))
+tg.cv
+```
+
+The model above is the model with the fewest predictors that is within one standard error of the model with the lowest CV error. To illustrate this relationship, next we'll visualize how this model was determined based on the CV and standard errors. We can get the CV errors and the $se$ from the `tg.cv` object.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+tg.df = tibble(
+  cv = tg.cv$Subsets$CV,    # cross validation errors
+  se = tg.cv$Subsets$sdCV,  # standard errors
+  cv.low = cv - se,
+  cv.high= cv + se,
+  p = 0:(length(cv)-1)      # number of predictors
+)
+
+ggplot(tg.df) +
+  geom_segment(aes(x=0:4, xend=0:4, y=cv.low, yend=cv.high), color='blue') +
+  geom_line(aes(x=p, y=cv), color='red') +
+  geom_point(aes(x=p, y=cv), color='red', size=3) +
+  geom_hline(yintercept = tg.df %>% filter(p==3) %>% .$cv.high, color='blue', linetype=2) +
+  xlab("Number of Predictors") +
+  ylab("CV Prediction Error") +
+  annotate("text", label="Model With\nLowest CV Error", x=3, y=1300) +
+  annotate("text", label="Best Model", x=1, y=1300) +
+  annotate("text", label="1 se", x=2.9, y=910, angle=90, color='blue') +
+  theme_bw()
+
+```
+
+### What About The Test Set?
+
+This model selection method included `income` as the only predictor variable in their respective best model. However, the coefficients differ between the two models, so now we can bring in the test set to compare Best BIC model. For a fair comparison with the CV results, we'll find the best model using BIC on the training set only. 
+
+```{r}
+# get the BIC model on the training set only
+tg_train.BIC = bestglm(tg_train, IC="BIC")
+bic_preds = predict(tg_train.BIC$BestModel, newdata = data.frame(tg_test[, -5]))
+
+print("BIC predictors included are:")
+print(tg_train.BIC$BestModel$coefficients)
+```
+
+Now we'll get the CV model.
+
+```{r}
+# based on the CV results, only income should be included as a factor
+cv.glm = glm(gamble~income, data=tg_train)
+cv_preds = predict(cv.glm, newdata = data.frame(tg_test[, -5]))
+```
+
+We'll use mean absolute error as our measure of error.
+
+```{r}
+# calculate and compare mean absolute error
+print(paste("BIC mean absolute error:", round(mean(abs(bic_preds - tg_test$gamble)), 1)))
+print(paste("CV mean absolute error:", round(mean(abs(cv_preds - tg_test$gamble)), 1)))
+```
+
+Using mean absolute error, BIC out-performed the cross-validated model. This result shouldn't be too surprising given that the BIC model contained additional predictor variables that appeared to be statistically significant.
+
+## Lasso Regression
+
+Ridge and lasso regression are closely related regularization techniques to reduce model complexity. The primary difference between the two methods is that ridge regression reduces factor coefficients close to (but not equal to) zero, while lasso regression reduces the coefficients all the way to zero, which makes it useful for reducing model complexity by eliminating factors. 
+
+### Background Reading
+
+For the theoretical framework, please read <a href = "https://towardsdatascience.com/ridge-and-lasso-regression-a-complete-guide-with-python-scikit-learn-e20e34bcbf0b">this article</a>. Don't worry about the Python code. Just read the text portions of the article that explain the how ridge and, more importantly, lasso regression work.
+
+### Lasso Regression In R
+
+Lasso regression is particularly useful when a dataset has many factors, but we'll continue to use the `teengamb` data so we can compare the results with the `stepAIC()` method. Performing lasso regression with the `glmnet` package is straight forward. The function has two required arguments, an `x` and a `y`, where `x` are the data associated with the predictors (note `x` must be a `data.matrix`, not a `data.frame`), and `y` is the response as a vector. By default, `glmnet` automatically scales and centers the data, and then converts them back to the original scale when providing results. If we plot the results, we get the following.
+
+```{r message=FALSE, warning=FALSE}
+library(glmnet)
+
+# for some reason, glmnet works best with data.matrix instead of as.matrix
+x = data.matrix(tg_train[-5])
+y = tg_train$gamble
+
+tg.lasso = glmnet(x, y)
+plot(tg.lasso, xvar="lambda", label=TRUE)
+```
+
+Each of the above lines represents a predictor. The number next to each line on the left side of the plot refers to the column number in the `x` matrix. The vertical axis represents the factor coefficient. The bottom x axis is $log(\lambda)$, and the top x axis is the associated number of predictors included in the model. 
+
+So how do we interpret this plot? At the far right, we can see that the coefficient for every predictor is zero. In other words, this is the null model. As $\lambda$ decreases, predictors are added one at a time to the model. Since predictor #3 (income) is the first to have a non-zero coefficient, it is the most significant. Sex (predictor #1) is the next non-zero coefficient followed by verbal (predictor #4) and then status (predictor #2). If we compare this order with the p-values from the best fit linear model, we see that there is consistency. Note that income was the first non-zero coefficient, and it has the lowest p-value in the linear model. Also note that the maximum coefficients in the lasso regression plot are also consistent with the linear model coefficients.
+
+Our task now is to find the model that has good predictive power while including only the most significant predictors. In other words, we need a method to find the right $\lambda$ value. Before we get to how we identify that $\lambda$, let's look at some other useful information from `tg.lasso`. If we print our glmnet object, we see (going by columns from left to right) the number of predictors included in the model (Df, not to be confused with the degrees of freedom in a linear model summary), the percent of null deviance explained, and the associated $\lambda$ value. 
+
+```{r}
+print(tg.lasso)
+```
+
+We can also see the coefficient values for any given $\lambda$ with `coef`. We can see that small values of $\lambda$ include more predictors and so correspond with the right side of the plot above. We can get the coefficients for any given $\lambda$ value with `coef()`. If we choose the smallest values of $\lambda$ from the above data, we get:
+
+```{r}
+# Note that we specify lambda with s
+coef(tg.lasso, s=0.0626)
+```
+
+Now we can more directly compare these coefficients to the full linear model coefficients. Recall that we withheld a test set prior to performing lasso regression, so the coefficients are close, but not equal to the linear model coefficients.
+
+```{r}
+sumary(lm(gamble~., data=teengamb))
+```
+
+If we choose a $\lambda$ associated with 2 Df, we see that only two predictors have non-zero coefficients.
+
+```{r}
+coef(tg.lasso, s=5.9770)
+```
+
+To find the optimal value for $\lambda$, we use cross validation again. We can include cross validation in the `glmnet()` function by prepending `cv.` as shown below. The default number of folds in the `cv.glmnet` function is 10, which is fine for this example. There's a built-in method for plotting the results as we did manually above.
+
+```{r}
+tg.cv = cv.glmnet(x, y)
+plot(tg.cv)
+```
+
+What we get is the cross validation curve (red dots) and two values for $\lambda$ (vertical dashed lines). The left dashed line is the value of lambda that gives the minimum mean cross-validated error. The right dashed line is the value of $\lambda$ whose error is within one standard deviation of the minimum. This is the $\lambda$ we've been after. We can get the coefficients associated with this $\lambda$ by specifying `s = "lambda.1se"`. Our cross validated best fit lasso regression model is shown below.
+
+```{r}
+coef(tg.cv, s = "lambda.1se")
+```
+
+For a more thorough discussion of the `glmnet` package, including its use with non-Gaussian data, refer to the <a href = "https://web.stanford.edu/~hastie/glmnet/glmnet_alpha.html">vignette</a> written by Trevor Hastie and Junyang Qian. 
+
+## Parting Thought
+
+In this chapter, we have seen that different methods for model selection can produce different "best" models, which might make you leery about the whole thing. Remember the George Box quote: 
+
+>All models are wrong...
+
+We're just trying to find one that's useful.
+
+## Lasso Regression Problem Set
+
+The problem set for this section is located <a href = "/_Chapter8_ProblemSets/Lasso_ProblemSet_Questions.html">here</a>. 
+
+For your convenience, the problem set as an R markdown is located <a href = "/_Chapter8_ProblemSets/Lasso_ProblemSet_Questions.Rmd">here</a>.
+
+The solutions for this problem set are located <a href = "/_Chapter8_ProblemSets/Lasso_ProblemSet_Solutions.html">here</a>.

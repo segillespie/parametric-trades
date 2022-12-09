@@ -1,0 +1,146 @@
+---
+title: "Chapter 2: Statistical Inference - Problem Set"
+author: "Your Name Here"
+date: "Your Date Here"
+output: 
+  html_document:
+    number_sections: true
+    
+---
+
+<!-- Don't change this -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+```
+
+# Introduction
+
+For this tutorial we are using the Ames, IA data set as used in the previous problem set.
+
+For this tutorial, we will use the following packages:
+
+
+```{r}
+library(tidyverse)
+```
+
+# Problem 1. Read the ames.csv data set.
+
+
+```{r}
+#
+```
+
+
+Take three random samples of the ames data set of the following size and seeds (we'll use a set seed for each so we can compare results):
+
+- Sample 1: N = 10, seed = 2489
+- Sample 2: N = 20, seed = 571
+- Sample 3: N = 30, seed = 2979
+
+Recall that you set the seed by the command `set.seed(SeedNumber)` right before employing a random number.
+
+
+```{r}
+#
+```
+
+# Confidence Intervals
+
+Find the 90% confidence interval for the mean sale price (i.e., `ames$SalePrice`) for each of the three samples.  Plot the results.  Assuming the entire data set is the population, plot the true mean.
+
+
+```{r}
+#
+```
+
+
+
+What can you conclude about the mean sale price from these confidence intervals?  How would you interpret any instances of the true mean falling outside of the confidence interval?
+
+```{}
+#
+```
+
+# Hypothesis Testing
+
+## Hypothesis Test 1: Test of Normality
+
+Based on Sample 3, is it likely that the distribution of house sale prices follows a normal curve?  Clearly articulate your null and alternative hypothesis, what your test is, what level of significance is, what your results are, and what you conclude (hint, this requires a test different from the very common t test, but the appropriate test was listed as a standard test in R in the tutorial).
+
+```{r}
+#
+```
+
+Plot the distribution of sale prices of Sample 3 and see if this generally agrees with what you learned from your hypothesis test above.
+
+How does this compare to a presumed normal distribution (hint: you can check this with a qqplot or overlaying the observed distribution on a normal distribution)?
+
+
+```{r}
+#
+```
+
+## Hypothesis Test 2: Test of distribution
+
+In the Ames, IA data set, there is a field called `Mo.Sold` which has integer values between 1 and 12 that correspond to the month the house was sold (i.e., 1 = Jan, 2 = Feb, etc.).  We want to know if the distribution of sales is even throughout the year.  Take a sample of 100 houses worth of data using seed 81 (i.e., `set.seed(81)` then `sample.4 <- sample_n(ames, 100)`), test the hypothesis that says (hint, 1) use `chisq.test()`, 2) you'll have to format the data in a useful way):
+
+$H_0:\ The\ probability\ a\ house\ is\ sold\ in\ a\ given\ month\ is\ equal\ across\ all\ months.$
+$H_A:\ The\ above\ statement\ is\ not\ true.$
+
+```{r}
+#
+```
+
+Assuming the Ames, IA set is the true population, compare the conclusion you made in the previous question to the true answer.  Did you make an error?  If so, what type of error was it?  What could you do differently to avoid this error?
+
+```{r}
+#      
+```
+
+## Hypothesis Test 3: Paired T-Test
+
+Assume we want to know if there is an effect of two settings (e.g., System A or System B) on the result (Y) of a simulation.  We want to test the results in a random variety of environmental conditions (e.g., starting positions), but know that these starting locations can have an effect on Y, therefore we decide to test each setting in each initial starting condition, so that we get results that look Chap2_DataSet.csv.
+
+Do the following:
+
+- Plot the data and make any general observations.
+- Conduct a paired T-Test and assess the results for confidence at the 90% confidence level.
+- Identify the assumptions / conditions you are using that make a paried t test appropriate.
+
+
+
+```{r}
+#
+```
+
+
+## Hypothesis Test 4:  Learning Hypothesis Tests
+
+Look up **one** of the following tests and do the following:
+
+1.  Provide a brief description.
+2.  Clearly articulate the null and alternative hypothesis.
+3.  Explain any underlying assumptions, requirements, etc. for using the test.
+4.  Explain how to implement this test in *R*.
+5.  Provide a brief example.  You can use the Ames, IA data set, synthesize a data set using a random number generator, or include some other data set.
+6.  Include anything else you think is pertinent.
+
+
+Tests:
+
+1.  Either of the Wilcoxon Tests (Rank Sum, Signed Rank)
+2.  Z Test for Large Sample Proportions (1 or 2 proprotions)
+3.  Bartlett Test of Variances
+3.  Fisher Test of Independence
+5.  Poisson Test (comparison of rates from Poisson distributions)
+6.  Kolmogorov Smirnov Test of Distribution Fit
+7.  Your favorite hypothesis test that I didn't write here.
+
+
+```{r}
+#
+```
+
+

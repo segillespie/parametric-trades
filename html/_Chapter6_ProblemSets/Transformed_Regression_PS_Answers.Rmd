@@ -1,0 +1,150 @@
+---
+title: "Transformed Variables Regression Problem Set"
+output: 
+  html_document:
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Boiling Point Water
+
+In the 1800s, <a href = 'https://en.wikipedia.org/wiki/Joseph_Dalton_Hooker'> Joseph Hooker </a> collected data on the boiling point of water at various pressures in the Himilayas.  He did this so he could approximate the altitude (via the air pressure) by boiling water instead of carrying fragile barometers in the mountains.  
+
+He used this <a href = '/_Chapter6_ProblemSets/temp_pressure.csv'> data </a> (originally taken from <a href = 'http://www.math.mcgill.ca/~dstephens/OldCourses/204-2007/Handouts/Math204-LinearRegressionExamples.pdf'> here </a>).
+
+## Initial Model
+
+1. Plot the data with pressure as a function of temperature.  Does linear regression seem to be appropriate?
+
+```{r, message = F}
+library(tidyverse)
+
+tp <- read.csv('temp_pressure.csv')
+
+ggplot(tp) + geom_point(aes(x = Temp, y = Pressure))
+# This appears to be linear.
+```
+
+2. Conduct a simple linear regression.  Check your assumptions.  Do you meet your assumptions?
+
+```{r}
+# model in the standard way
+simple.model <- lm(Pressure ~ Temp, tp)
+
+# look at the results
+summary(simple.model)
+
+# We appear to have a significant relationship.
+
+par(mfrow = c(2,2))
+plot(simple.model)
+# We can clearly see that we don't have constant variance
+# We effectively have all positive residuals at low and high pressures and 
+# all negative residuals at medium pressures
+
+# we also have a few apparent outliers
+
+```
+
+## Transformed Model
+
+1. Try modeling the data with the following transformations:
+
+* Square Root of Temperature
+* Natural Log of Temperature
+* Inverse of Temperature
+* Log10 of Temperature and Log10 of Pressure
+
+Are any of these appropriate?  If so, which one?
+
+```{r}
+# Square Root of Temperature
+sqrt.model <- lm(Pressure ~ sqrt(Temp), tp)
+par(mfrow = c(2,2))
+plot(sqrt.model)
+# This suffers the same problem
+```
+
+```{r}
+# Natural Log of Temperature
+ln.model <- lm(Pressure ~ log(Temp), tp)
+par(mfrow = c(2,2))
+plot(ln.model)
+# This suffers the same problem
+```
+
+```{r}
+# Inverse of Temperature
+inv.model <- lm(Pressure ~ I(1/Temp), tp)
+par(mfrow = c(2,2))
+plot(inv.model)
+# This suffers the same problem
+```
+
+```{r}
+# Log Log of Temperature
+loglog.model <- lm(log10(Pressure) ~ log10(Temp), tp)
+par(mfrow = c(2,2))
+plot(loglog.model)
+# This appears to be a pretty good model, let's check further
+
+# Normal
+shapiro.test(resid(loglog.model))
+# We fail to reject that we are not normal - we meet that assumption
+
+# Homoscedasticity
+car::ncvTest(loglog.model)
+# We fail to reject that we have constant variance
+```
+
+2. Pick the best model of the above options and:
+
+2a. Write the mathematical equation:
+
+```{r}
+summary(loglog.model)
+```
+
+$$ log_{10}(P) = -7.96 + 4.05 log_{10}(T)$$
+
+This is equivalent to:
+
+$$ P = 10^{-7.96} \cdot T^{4.05}$$
+
+2b. Plot your results in the transformed and original units.  Compare this with your original, simple model (in original units only).
+
+```{r}
+#Transformed Units
+tp <- tp %>% mutate(log.temp = log10(Temp), log.pres = log10(Pressure))
+# get a sequence to make the model line
+loglog.line <- seq(min(tp$log.temp), max(tp$log.temp), by = .001)
+
+ggplot() + 
+  # plot the observations
+  geom_point(data = tp, aes(x = log.temp, y = log.pres)) + 
+  # Plot a line using the sequence and linear formula from the model
+  geom_line(aes(x = loglog.line, 
+                y = loglog.model$coefficients[1] + 
+                  loglog.model$coefficients[2]*loglog.line), 
+            lty = 2, color = 'red') + 
+  xlab('log(Temperature)') + ylab('log(Pressure)') 
+```
+
+```{r}
+# Original Units
+# Build a line with the transformed equation
+original.line <- seq(min(tp$Temp), max(tp$Temp), by = 1)
+original.pressure <- (10^loglog.model$coefficients[1]) * (original.line^loglog.model$coefficients[2])
+
+# Plot the results in the original form
+ggplot() + 
+  geom_point(aes(x = Temp, y = Pressure), data = tp) + 
+  geom_line(aes(x = original.line, y = original.pressure), lty = 2, color = 'red') + 
+  stat_smooth(data = tp, method = 'lm', se = F, aes(x = Temp, y = Pressure), color = 'blue', lty = 3)
+
+# We see this is a much better fit.  The red line (transfomred model) is much more consistent
+# the simple model misses the subtle curvature
+```

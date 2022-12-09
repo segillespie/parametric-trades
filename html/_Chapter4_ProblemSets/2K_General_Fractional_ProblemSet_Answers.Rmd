@@ -1,0 +1,266 @@
+---
+title: "Problem Set 2^{K-P} Designs"
+output: 
+    html_document:
+      number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Quarter Fraction Design
+
+*This problem is adapted from Montgomery (2017) Problem 8.23*
+
+A researcher is conducting an experiment using Monte Carlo simulation of an inventory system.  There are five factors: $A$, $B$, $C$, $D$, and $E$ that relate to the design parameters of the system.  The response is measured in cost.  The researcher could only do 8 runs using $I = ABD = BCE$ as the defining relations.  The results by treatment combination name are located here: <a href = '/_Chapter4_ProblemSets/Montgomery_8_23.csv'> Montgomery_8_23.csv </a>.  
+
+## Understand the Design and the Data
+
+1. Write out the alias structure for this design (only up to third order interactions is necessary):
+
+```{r, message = F}
+library(tidyverse)
+# We can do this manually, but FrF2 is a useful function for this:
+
+myDesign <- FrF2::FrF2(nfactors = 5, # We have 5 factors
+                       nruns = 8, # We have a 2^(5-2) = 8 design, so 8 runs
+                       generators = c('AB', 'BC'), # Recall the generators for FrF2 are odd, but 
+                       # correspond to the last P letters of your design, i.e., D = AB, and E = BC
+                       randomize = F, # We don't want to randomize the design
+                       alias.info = 3 # we want to see up to third order interactions
+                       )
+
+attr(myDesign, "design.info")$aliased
+# Here we can see our alias structure pretty clearly, note that this design is Res III
+```
+
+2. What is the resolution of this design?
+
+```
+This is a resolution III design as none of the main factors are aliased with each other, 
+but are aliased with some of the 2nd order factors.  
+```
+
+3. Join the data given with the design in an appropriate way.  (Hint: You may find it helpful to figure a way to write the treatment combination names in the design and then do a join (e.g. `left_join` from dplyr to combine your data and design)).
+
+```{r}
+# Read the data
+myData <- read.csv('Montgomery_8_23.csv', header = T, sep = ',')
+
+# Consider our design:
+myDesign
+# We know that if a column has a positive number in it we use the lower case name of the column
+# to codify the treatment combination name.
+# In so far as I know, there isn't a useful functio for this, but we can do some dplyr-ing and make TCs:
+# Basically we do this as a series of ifelse() functions and pasting with no seeparation
+myDesign <- myDesign %>% mutate(TC = ifelse(A == '1', 'a', '')) %>% 
+  mutate(TC = paste(TC, ifelse(B == '1', 'b', ''), sep = '')) %>% 
+  mutate(TC = paste(TC, ifelse(C == '1', 'c', ''), sep = '')) %>% 
+  mutate(TC = paste(TC, ifelse(D == '1', 'd', ''), sep = '')) %>% 
+  mutate(TC = paste(TC, ifelse(E == '1', 'e', ''), sep = '')) %>% 
+  mutate(TC = ifelse(TC == '', '(1)', TC))
+#We can check our work
+myDesign
+
+# We can then join our data using left_join
+myDF <- left_join(myDesign, myData)
+# Note that left_join by default joins on matching column names
+# and it will coerce data types to match if it can
+myDF
+```
+
+## Visualize the Data
+
+1. Visualize the main effects of the data. Comment on what you see.
+
+```{r}
+ggpubr::ggarrange(
+  ggplot(myDF, aes(x = A, y = Cost)) + geom_boxplot(),
+  ggplot(myDF, aes(x = B, y = Cost)) + geom_boxplot(),
+  ggplot(myDF, aes(x = C, y = Cost)) + geom_boxplot(),
+  ggplot(myDF, aes(x = D, y = Cost)) + geom_boxplot(),
+  ggplot(myDF, aes(x = E, y = Cost)) + geom_boxplot()
+)
+
+# Recall, each of these boxes is just four data points.
+# It looks as if A and B are significant, the others may not be.
+```
+
+## Effects
+
+Estimate the effects of all main factors and any 2nd level interactions that are not aliased with main factors.
+
+```{r}
+# Recall that FrF2 produces levels as factors, not integers
+# There may be an easier way to do this, but this works
+myDF <- myDF %>% 
+  mutate(A = as.integer(as.character(A))) %>% 
+  mutate(B = as.integer(as.character(B))) %>% 
+  mutate(C = as.integer(as.character(C))) %>% 
+  mutate(D = as.integer(as.character(D))) %>% 
+  mutate(E = as.integer(as.character(E)))
+
+Effect.A <- (1/(2^(5-2-1)))*sum(myDF$A * myDF$Cost)
+Effect.B <- (1/(2^(5-2-1)))*sum(myDF$B * myDF$Cost)
+Effect.C <- (1/(2^(5-2-1)))*sum(myDF$C * myDF$Cost)
+Effect.D <- (1/(2^(5-2-1)))*sum(myDF$D * myDF$Cost)
+Effect.E <- (1/(2^(5-2-1)))*sum(myDF$E * myDF$Cost)
+Effect.AC <- (1/(2^(5-2-1)))*sum(myDF$A * myDF$C * myDF$Cost)
+Effect.AE <- (1/(2^(5-2-1)))*sum(myDF$A * myDF$E * myDF$Cost)
+
+Effects <- data.frame(
+  Factor.Name = c('A', 'B', 'C', 'D', 'E', 'AC', 'AE'),
+  Effect = c(Effect.A, Effect.B, Effect.C, Effect.D, Effect.E, Effect.AC, Effect.AE)
+)
+
+Effects
+```
+
+2. Based on this, what factors do you consider significant?
+
+```
+It appears that A and B are almost certainly significant.
+```
+
+## Second Run
+
+You were able to do a second run of 8 factors and got the following results:
+
+```{r}
+second.run <- data.frame(
+  TC = c('ade', 'e', 'ab', 'bd', 'acd', 'c', 'abce', 'bcde'),
+  Cost = c(136, 93, 187, 153, 139, 99, 191, 150)
+)
+```
+
+You got this design by using the following generators (i.e., an alternate fraction): $D = -AB$ and $E = BC$.
+
+Combine these results with your previous results:
+
+```{r}
+# We can choose to do this one of two ways.
+# The first is that we can generate the design from the above generators as such:
+second.design <- FrF2::FrF2(nfactors = 5, nruns = 8, generators = c('-AB', 'BC'), alias.info = 3, randomized = F)
+second.design
+
+# We can then proceed in the same manner:
+second.design <- second.design %>% mutate(TC = ifelse(A == '1', 'a', '')) %>% 
+  mutate(TC = paste(TC, ifelse(B == '1', 'b', ''), sep = '')) %>% 
+  mutate(TC = paste(TC, ifelse(C == '1', 'c', ''), sep = '')) %>% 
+  mutate(TC = paste(TC, ifelse(D == '1', 'd', ''), sep = '')) %>% 
+  mutate(TC = paste(TC, ifelse(E == '1', 'e', ''), sep = '')) %>% 
+  mutate(TC = ifelse(TC == '', '(1)', TC))
+
+# Join the tables
+second.DF <- left_join(second.design, second.run)
+
+second.DF <- second.DF %>% 
+  mutate(A = as.integer(as.character(A))) %>% 
+  mutate(B = as.integer(as.character(B))) %>% 
+  mutate(C = as.integer(as.character(C))) %>% 
+  mutate(D = as.integer(as.character(D))) %>% 
+  mutate(E = as.integer(as.character(E)))
+
+# Bind the two data frames:
+final.design <- rbind(myDF, second.DF)
+final.design
+# We can then proceed to analyze our data as before.
+# The one challenge of this, is our alias structure is not immediately clear
+
+# We can alternatively think about what our two sets of generators told us
+# In the first one, take all TCs where D = AB and E = BC
+# In the second one, take all TCs where D = -AB and E = BC
+# We now have all possibilities for D, so we only have E = BC as a generator
+# Let's generate that design
+
+final.design.generated <- FrF2::FrF2(nfactors = 5, nruns = 16, generators = 'BC', randomize = F, alias.info = 3)
+
+# Let's compare with final.design
+# First, convert all of A,B, C, D, and E to factors:
+final.design <- final.design %>% mutate(A = as.factor(A), B = as.factor(B), C = as.factor(C), D = as.factor(D), E = as.factor(E))
+# Second, we can join on the generated design to see if we have every TC
+results <- left_join(final.design.generated, final.design)
+results
+# It looks like this worked and is the correct understanding
+# This is convenient, because we now have a design with our alias structure - final.design.generated
+# and also a dataframe with all of our data, results, etc.
+```
+
+## Alias Structure
+
+Explain the alias structure of the combined data and design.  What is its resolution?
+
+```{r}
+attr(final.design.generated, "design.info")$aliased
+# We see B, C, and E are aliased with second order effects
+# A and D are only aliased with 4th or higher
+# We see a similar break up of 2nd order aliasing
+# It is still resolution III due to the aliasing of B, C, and E
+# But we have much higher resolution, particularly on A and D
+# Note AD and CE must only be aliased with higher order effects (4th +)
+```
+
+## Estimate Effects
+
+Using the combined data sets, estimate the effects for all main effects and the following 2nd order interactions:
+AB, AC, AD, AE, BD, CD, and DE.  
+
+```{r}
+# We can proceed as we typically do:
+# We first have to convert our factor values to integers in `results`
+results <- results %>% 
+  mutate(A = as.integer(as.character(A))) %>% 
+  mutate(B = as.integer(as.character(B))) %>% 
+  mutate(C = as.integer(as.character(C))) %>% 
+  mutate(D = as.integer(as.character(D))) %>% 
+  mutate(E = as.integer(as.character(E)))
+
+
+Effect.A <- (1/(2^(5-1-1)))*sum(results$A * results$Cost)
+Effect.B <- (1/(2^(5-1-1)))*sum(results$B * results$Cost)
+Effect.C <- (1/(2^(5-1-1)))*sum(results$C * results$Cost)
+Effect.D <- (1/(2^(5-1-1)))*sum(results$D * results$Cost)
+Effect.E <- (1/(2^(5-1-1)))*sum(results$E * results$Cost)
+Effect.AB <- (1/(2^(5-1-1)))*sum(results$A * results$B * results$Cost)
+Effect.AC <- (1/(2^(5-1-1)))*sum(results$A * results$C * results$Cost)
+Effect.AD <- (1/(2^(5-1-1)))*sum(results$A * results$D * results$Cost)
+Effect.AE <- (1/(2^(5-1-1)))*sum(results$A * results$E * results$Cost)
+Effect.BD <- (1/(2^(5-1-1)))*sum(results$B * results$D * results$Cost)
+Effect.CD <- (1/(2^(5-1-1)))*sum(results$C * results$D * results$Cost)
+Effect.DE <- (1/(2^(5-1-1)))*sum(results$D * results$E * results$Cost)
+
+combined.effects <- data.frame(
+  Factor.Name = c('A', 'B', 'C', 'D', 'E', 'AB', 'AC', 'AD', 'AE', 'BD', 'CD', 'DE'),
+  Effect = c(Effect.A, Effect.B, Effect.C, Effect.D, Effect.E, Effect.AB, Effect.AC, Effect.AD, Effect.AE, Effect.BD, Effect.CD, Effect.DE)
+)
+
+combined.effects
+# we can further see that A and B are significant
+# We may consider the AB interaction, though it would be useful 
+# with further testing to clarify that 
+
+# temp.points <- qqnorm(combined.effects$Effect)
+# qqline(combined.effects$Effect)
+# text(x = temp.points$x, y = temp.points$y + 5, labels = combined.effects$Factor.Name)
+```
+
+## Other Design Options
+
+In the above questions, you analyzed a $2^{5-2}$ design, then conducted a sequential experiment with an alternate fraction of the first design, effectively giving you a $2^{5-1}$ design.  Is your resulting design the highest resolution choice for a $2^{5-1}$ design?  If so, why?  If not, what is a better option?
+
+```{r}
+# Our resulting design was Resolution III.
+# With five factors and a half fractional design, we can get a resolution V design
+# For example, we can create a design using FrF2:
+sample.design <- FrF2::FrF2(nfactors = 5, nruns = 16, alias.info = 3, randomize = F)
+# We can see its resolution here:
+attr(sample.design, "design.info")$catlg.entry
+# We can confirm this by seeing what is aliased with main, second, and third order interactions
+# I'm not quite clear how to read the generator column from FrF2, but it's clearly I = ABCDE
+attr(sample.design, 'design.info')$aliased
+# Note FrF2 only shows up to third order interactions, so all of the main interactions are
+# aliased with 4th order or higher
+# the seconds order interactions are only aliased with third order
+# this meets our requirement for resolution V
+```

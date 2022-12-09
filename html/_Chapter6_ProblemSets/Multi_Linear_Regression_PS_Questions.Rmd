@@ -1,0 +1,123 @@
+---
+title: "Multiple Linear Regression Problem Set"
+output: 
+  html_document:
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Multiple Linear Regression - Ames, IA
+
+Using the Ames, IA <a href = '/_Chapter3_ProblemSets/ames.csv'> data set </a> do the following:
+
+* Select the columns: `SalePrice`, `Year.Built`, and `Gr.Liv.Area`.
+* Sample 100 houses (with replacement) using the seed 12345.
+
+```{r, message = F}
+# Answer Here 
+```
+
+## Visualize 
+
+Visualize the data in a pairwise manner. Interpret each of the pairs.
+
+```{r}
+# Answer Here 
+```
+
+## Model
+
+Model Sale Price as a function of the other two variables.  Interpret your results.
+
+```{r}
+# Answer Here 
+```
+
+Get the 99% confidence interval on the coefficients.
+
+```{r}
+# Answer Here 
+```
+
+Write the mathematical model.
+
+```
+# Answer Here 
+```
+
+Interpret the meaning of the coefficients.
+
+```
+# Answer Here 
+```
+
+## Assumptions & Diagnostics
+
+1. Check to see if your model meets the assumptions requisite in linear regression.
+
+```{r}
+# Answer Here 
+```
+
+2. Identify Unusual Observations (Outliers)
+
+```{r}
+# Answer Here 
+```
+
+## Model Corrections
+
+If your model passed all assumptions and you accept all observations, skip this step.  If you do not, choose points to drop from your set and remodel and check your assumptions.  Explain why you dropped any observations.
+
+```{r}
+# Answer Here 
+```
+
+## Prediction
+
+Predict the cost of a house built in 1984 that is 2002 square feet with 90% confidence on the mean cost.
+
+```{r}
+# Answer Here 
+```
+
+If someone asked you to predict the cost of a house built in in Ames based on this model and this data for a house built in 1900, would this make good sense?  
+
+```
+# Answer Here 
+```
+
+## Visualize the Data
+
+Create a contour plot that shows the contours for predicted sale price with the year built on the x axis and the gross living area on the y axis.  Overlay your observations on the graph.  
+
+
+```{r}
+# Answer Here 
+```
+
+Interpret the graph.
+
+```
+# Answer Here 
+```
+
+Would it make sense to use your model to predict the price of houses that are in the region bounded by $Square Feet > 2000$ and $Age < 1960$?  Why or why not?
+
+```{r}
+# Answer Here 
+```
+
+# Commo Conceptual
+
+In a problem set on ANOVA, we had data bout the relationship between one of five commo sets, that were each defined as having some weight, range, bandwidth, error rate, and time value, and the number of kills achieved and losses received in a simulation.  That data set is available <a href = '/_Chapter3_1_ProblemSets/commo.csv'> here </a>.  
+
+Consider a situation where you did not have information about the what the system numbers were (i.e., you drop the `system` column from your data set).  Look at the pairs plots for the variables.  Would it make sense to try to do a multiple linear regression with this data?  Why or why not?
+
+```{r}
+# Answer Here 
+```
+

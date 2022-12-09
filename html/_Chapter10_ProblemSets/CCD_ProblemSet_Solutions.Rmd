@@ -1,0 +1,193 @@
+---
+title: "CCD Problem Set"
+author: 'Your Name Here'
+output: 
+  html_document:
+    number_sections: T
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This problem set corresponds to the central composite design (CCD) section of the advanced designs chapter in the course https://doe.dscoe.org. For this problem set, we will develop requirements for a hypothetical future ground combat vehicle. The solutions to the problem set use the packages shown below; however, you may use whatever packages you prefer.
+
+```{r, warning = F, message = F}
+library(tidyverse)
+library(rsm)
+library(GGally)
+library(readr)
+library(bestglm)
+library(plotly)
+```
+
+## Design Creation
+
+Generate a CCD that consists of four factors at three levels each with the following names and ranges of values. We will eventually upload the design matrix to a Shiny app to obtain simulation results, so please ensure the column names match those below.
+
+| Factor | Low | High | Remarks |
+|--------|-----|------|---------|
+| Gun | 1.0 | 3.0 | Main gun range (km) |
+| ATGM | 1.0 | 8.0 | Anti-tank guided missile range (km) |
+| Sensor | 1.0 | 10.0 | Sensor range (km) |
+| APS | 0.0 | 1.0 | Level of protection provided by the active protection system (0.0 = no protection) |
+
+Display the resulting design matrix.
+
+```{r}
+ccd = cube(4, n0=0,
+           coding = list(x1~(Gun-2)/1, x2~(ATGM-4.5)/3.5, x3~(Sensor-5.5)/4.5, x4~(APS-0.5)/0.5))
+ccd = djoin(ccd, star(alpha=1, n0=1))
+ccd = decode.data(ccd)
+ccd %>% select(Gun, ATGM, Sensor, APS)
+```
+
+### Pairs Plot
+
+Produce a pairs plot of the four factors.
+
+```{r}
+pairs(ccd %>% select(Gun, ATGM, Sensor, APS))
+```
+
+### Design Points
+
+How many design points does your design matrix have? How many design points does the equivalent gridded design have?
+
+```{r}
+# The CCD has 25 design points.
+# The gridded design has 3^4 = 81 design points.
+```
+
+### Sensor Factor
+
+If one of our factors is `sensor = as.factor(c('2G', '3G', '4G'))`, should we include it in a CCD? Why or why not?
+
+```{r}
+# No, because sensor is a categorical variable and 3G is not half way between 2G and 4G.
+```
+
+## Simulation
+
+Save your CCD design matrix as a .csv file. Then, upload it to the <a href="https://cxxidemo.shinyapps.io/AWARSLite/">Combat Simulator</a> Shiny app to run a simulation for each of your design points. Navigate to the tab titled "Central Composite Designs Problem Set", upload your .csv file, and then download the results. Next, read the data into *R*, and produce a pairs plot with a smoother.
+
+```{r message=FALSE, warning=FALSE}
+# create the .csv file
+# readr::write_csv(ccd %>% select(Gun, ATGM, Sensor, APS), "ccd.csv")
+# do the simulation
+# read the results back in
+omfv = read.csv("ccd_out.csv", sep=',', header=TRUE)
+
+smooth_fn <- function(data, mapping, ...){
+  ggplot(data = data, mapping = mapping) + 
+    geom_point() + 
+    geom_smooth(formula = y~x, method=loess, fill="red", color="red", se=FALSE, ...)
+}
+
+ggpairs(omfv, lower=list(continuous=smooth_fn), progress=FALSE) + 
+  ggtitle("CCD Results") +
+  theme_bw()
+```
+
+## Model
+
+Check for potential two-way interactions and first-order effects. Then, using the model selection method of your choice, fit, summarize, and interpret your recommended linear model.
+
+```{r}
+# check two-way interactions
+summary(lm(kills ~ .^2, data=omfv))
+# atgm:sensor appears significant
+
+# check main effects
+summary(lm(kills ~ ., data=omfv))
+```
+
+
+```{r}
+# see what we get using AIC for model selection
+
+bestglm(omfv, IC="AIC")
+# AIC results don't include gun.
+# There are only four factors, so manual selection of 
+# factors isn't unreasonable.
+```
+
+```{r}
+# all factors except gun plus the two-way interaction
+omfv.lm = lm(kills ~ atgm + sensor + aps + atgm:sensor, data = omfv)
+summary(omfv.lm)
+# looks like everything's significant
+# a negative coefficent for atgm is counterintuitive
+```
+
+## Model Assumptions
+
+Check model assumptions and the need for transformations, and make any adjustments necessary to improve the model.
+
+```{r}
+plot(omfv.lm)
+```
+
+```{r}
+# we almost reject the normality assumption. consider transformation
+shapiro.test(residuals(omfv.lm))
+
+# we fail to reject homoscedasticity
+car::ncvTest(omfv.lm)
+
+# no outliers
+```
+
+```{r}
+# check for non-linear predictors (termplot can accept interaction terms)
+termplot(lm(kills~., data=omfv), partial.resid = TRUE, col.res='blue', se=T)
+# no strong evidence for a need to transform
+# we either need to accept the violation of normally distributed residuals
+# or us non-parametric techniques (a later chapter)
+```
+
+
+```{r}
+# final model
+summary(omfv.lm)
+# interpretation
+# the baseline vehicle gets 11.7 kills on average
+# gun is insignificant
+# for every 1 km increase in atgm range, kills decrease by 0.5
+# for every 1 km increase in sensor range, kills decrease by 0.6
+# upgrading the aps from no protection to full protection, increases kills by 5.3
+# for every 1 km increase in atgm range, if sensor range is also increased, kills increase by 0.5
+```
+
+## Response Surface (optional)
+
+If you identified an interaction between two factors, plot the response surface for those two factors. Otherwise, plot the response surface for any two of your final model's significant factors. Interpret the plot.
+
+```{r}
+killz = as.matrix(omfv %>% 
+  group_by(atgm, sensor) %>%
+  summarize(meanKills = mean(kills)) %>%
+  pivot_wider(names_from = atgm, values_from = meanKills))
+
+plot_ly() %>% 
+  add_surface(x=~colnames(killz)[2:4], y=~killz[, 1], z=~killz) %>% 
+  layout(
+    title = "ATGM Sensor Response Surface",
+    scene = list(
+      xaxis = list(title = "ATGM"),
+      yaxis = list(title = "Sensor"),
+      zaxis = list(title = "Kills"),
+      camera = list(eye = list(x = -1.25, y = -1.25, z = 1.25))
+    ))
+```
+
+```{r}
+# the plot shows the dependency between sensor range and atgm range
+# basically, increasing the sensor range beyond the atgm provides
+# little additional benefit. Keep in minds with this plot, we are 
+# still accounting for the contribution of the other factors, so
+# the kills shown isn't strictly the result of only the atgm and sensor.
+```
+

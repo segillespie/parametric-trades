@@ -1,0 +1,407 @@
+# Introduction to R
+
+```{r setup-2, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+For any noted issues in this chapter (especially errors), please contact: <a href="mailto:john.f.king1.mil@mail.mil">John King</a> or <a href="jacob.s.sherman2.civ@mail.mil">Jacob Sherman</a>.
+
+R is a programming language and free software environment widely used for statistical computing and graphics. R may be launched from Windows by selecting the Start menu, opening the R folder, and choosing R x64 3.6.0. This starts an R session and opens an R Console where you may interact with R via one-line commands. Many R users prefer a more full-featured environment to interact with R, and for this course of instruction we will use the popular R Studio Interactive Development Environment (IDE).
+
+R Studio may be launched via Windows start menu, but there are also cloud-based options such as Amazon Web Services and MatrixDS. If you are launching R Studio for the first time, when it starts, you should see three panels. On the left is the console, and on the right are two panels with several tabs each that display charts, allow for file browsing, etc. To start a new R script, go to File >> New File >> R Script. This will open a fourth panel on the left that is essentially just a text editor where you write R code. For an R Studio IDE cheat sheet, click <a href = "https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf"> here </a>. To interact with R in R Studio, simply type a command in the text editor panel, place the cursor anywhere on the command line, and press CTRL+ENTER (no need to select the text as in SQL). 
+
+## Introduction to R - Part I
+
+For this course, we will use the online tutorial <a href = "https://r4ds.had.co.nz"> R for Data Science </a> to develop your R skills. The tutorial assumes that users have no knowledge of R or any other programming language. When completing these exercises, write your code in an R Markdown file. Generally, one code block per question will be appropriate. You can either start your own R markdown file from R Studio, or you can download <a href = "/Chapter1/Chapter1_ProblemSet.Rmd">Introduction to R Problem Set</a> to get started.
+
+### Objectives
+
+By the end of the Introduction to R - Part I, you will have:
+
++ A working version of R Studio.
++ Installed the `tidyverse` package.
++ An understanding of basic operations in R.
++ An understanding of the primary variable types and data structures used in R.
+
+### Task 1 - Read Chapter 1 and Install Tidyverse
+
+Click on the link to *R for Data Science* and read Chapter 1. Be sure to follow the instructions on installing the `tidyverse` package. After you finished reading Chapter 1, return here and continue.
+
+### Basic Operations
+
+R can be used as a fancy calculator, and mathematical operations are as you would expect. Run each of the commands below in your own R script. Note that you can add comments to your code with #.
+
+```{r basic operations}
+1 + 2          # Comments can be at the end of a line
+1 - 2
+# Or they can be on their own line
+1 * 2
+1 / 2
+2^2            # exponent
+5 %% 2         # division remainder
+5 %/% 2        # division quotient
+sqrt(2)
+exp(2)
+log(2)
+sin(pi/6)      # Note that trig functions assume angles are in radians.
+factorial(5)
+choose(10, 2)
+
+# order of operations is as you'd expect
+1 + 2/3
+(1 + 2)/3
+```
+
+R also has a number of useful built-in constants.
+
+```{r constants}
+pi
+letters
+LETTERS
+month.abb
+month.name
+```
+
+We often want to assign a value to a variable so that we have access to that variable value at any time. Common R syntax for variable assignment is as follows, where the value of 1 is assigned to the variable x. When you assign the value to the variable, notice that the Environment panel in the upper right now shows the variable and its value.
+
+```{r variables1}
+# variable assignment
+x <- 1
+```
+
+The `<-` syntax is a graphical reminder of which direction the assignment is going. An alternative syntax is to use the equal sign.
+
+```{r variables2}
+x = 2
+```
+
+If you want to print the value of x to the console, you can either use the print command or simply type the variable name.
+
+```{r print}
+print(x)
+x
+```
+
+### Variable Types
+
+There are different types of variables in R, and the most common types we'll encounter are numeric (integers and floats), strings, and factors. Integers are what you'd expect, floats are numeric non-integers, strings are text, and factors are categorical variables such as Likert scale responses. If you are unsure of a variable type, you can determine it using `class()`.
+
+```{r var types}
+class(x)  # numeric
+x = as.integer(x)
+class(x)  # now specifically an integer
+
+myWord = "Hello"
+class(myWord) # character (aka string)
+
+myFactors = c("agree", "neutral", "disagree")
+class(myFactors) # these variables are considered strings at this point
+# use as.factor to convert from character to factor
+myFactors = as.factor(c("agree", "neutral", "disagree")) 
+class(myFactors) # now a factor with 3 levels
+```
+
+### Data Structures
+
+When dealing with multiple variables, we'll often want to combine them into a data structure so that we can perform operations on the entire group. The data structures we'll use most are vectors, lists, and data frames.
+
+#### Vectors
+
+Vectors are one of the most common objects in R. They are a collection of values of the same type (e.g., the numbers 1 through 5, or a collection of unit names). To construct a vector from scratch, use the format `c(value1, value2, etc.)`. 
+
+```{r vectors}
+x = c(1, 2, 3, 4, 5)
+x
+```
+
+If we use `class()` on a vector, R will return the class of the data in the vector. Another useful function is `length()`, which will return the number of values in a vector.
+
+```{r class}
+class(x)   # class is referring to the class of the data in the vector
+length(x)  # the number of elements in the vector
+```
+
+Recall that vector elements must be the same type. If they are not, R will coerce the elements to be consistent. For example, R will coerce a mix of characters and numbers into characters.
+
+```{r coersion}
+x = c(1, "foo")
+# note that the number 1 was coerced into a character as 
+# indicated by the quotes around the number: "1"
+x
+class(x)
+is.numeric(x)    # this tests whether the vector contains numbers or not
+```
+
+A benefit of having like elements in a vector is that you can then perform operations on the entire vector at once, rather than one element at a time. For example, say we have a vector containing the numbers 1 through 5. If we want to add 1 to each element, we do the following:
+
+```{r vector operations}
+x = c(1, 2, 3, 4, 5)
+x + 1     # 1 is added to each vector element
+x = x + 1 # if we want to update the value of x, we need to asign the result back to it
+```
+
+##### Vector Math
+
+Having values in a vector allows us to quickly perform mathematical operations on the entire vector.
+
+```{r vector math}
+sum(x)                 # sum up the values in x
+mean(x)                # the mean of the values
+median(x)              # the median value
+sd(x)                  # standard deviation
+mean(x) + 2 * sd(x)    # upper bound of a 95% confidence interval
+max(x)                 # the maximum value in x
+min(x)                 # the minimum value in x
+summary(x)             # a statistical summary of the values in x
+```
+
+If needed, vectors can also be sorted in either ascending or descending order. Sorting a vector of characters will put them in alphabetical order.
+
+```{r sort}
+x = c(2, 1, 4, 3, 5)
+sort(x)                     # default behavior is ascending order
+sort(x, decreasing = TRUE)  # to specify descending order
+x                           # note that the original vector didn't change
+x = sort(x)                 # to update the original vector, assign the results back to it
+x
+```
+
+##### Vector Indexing and Slicing
+
+Often, we need to access one or more individual elements in a vector. Each element in a vector can be accessed using its index number. The first element in a vector has an index of 1, the second has an index of 2, etc. 
+
+```{r indexing}
+x = c(2, 1, 4, 3, 5)
+x[1]             # access the first element
+x[2]             # access the second element
+x[2:4]           # access the second through fourth elements
+x[c(1, 3, 5)]    # the first, third, and fifth element
+x[-1]            # remove the first element
+x[-2]            # remove the second element
+x[-length(x)]    # remove the last element
+which.max(x)     # the index of the maximum value
+x[which.max(x)]  # same as max(x)
+```
+
+Indexing strings is slightly different than indexing a vector. Recall our variable `myWord`, which consists of the string "Hello". If we want to access the second letter in the string, we don't use `myWord[2]` because a string is not a vector of characters. Instead, use `substr()`, which returns a sub-string based on a starting and stopping position.
+
+```{r substring}
+myWord[2]                     # fail!
+substr(myWord, 1, 1)          # the first letter
+substr(myWord, 1, 2)          # the first two letters
+substr(myWord, 2, 5)
+```
+
+If we need to split a string based on a repeated character, we can use the `strsplit()` function and specify the character to split on. Note that we can also split on the space caracter, which allows us to split a sentence into individual words. `strsplit()` returns a list, which is a data type we'll discuss in more detail later.
+
+```{r strsplit}
+# Example 1
+fiple = "platform:weapon:mount:munition:target"
+strsplit(fiple, ":") 
+
+# Example 2
+sentence = "this is an example sentence"
+strsplit(sentence, " ")
+```
+
+The reverse of parsing strings is pasting them back together with either `paste()` or `paste0()`. These methods can be combined with `print()` for console display.
+
+```{r paste}
+fiple = c('platform', 'weapon', 'mount', 'muntion', 'target')
+fiple
+paste(fiple, collapse=":")                 # use collapse to specify how to delimit the vector elements
+
+# combining print and paste
+print(myWord)
+print(paste(myWord, "World!", sep = " "))  # use sep to specify how to separate the elements
+```
+
+##### Vector Construction Methods
+
+R provides some useful methods for quickly creating long vectors.
+
++ `seq.int()` creates a sequence of integers 
++ `seq()` creates a sequence of floats
++ `rep()` replicates a pattern
+
+```{r sequences}
+x = seq.int(from = 4, to = 12) # note: from and to are optional
+x
+
+# a shortcut to create a sequence of integers
+x = 1:10
+x
+
+# if you need breaks in the sequence
+x = c(1:3, 7:10, 15)
+x
+
+# a sequence of floats
+x = seq(from = 0.1, to = 1.0, by = 0.1)
+x
+
+# replication
+rep(1, 10)          # replicate 1, 10 times
+rep(1:4, 2)         # replicate 1:4, two times
+rep(1:4, each = 2)  # replicate 1 twice, 2 twice, etc.
+```
+
+##### Applying Regular Expressions To Character Vectors
+
+A common task with character vectors is to detect, locate, extract, or replace strings based on a pattern. Using the base R `grep` methods, the syntax is `grep(pattern, string)`. Methods from other R packages (such as the `str_detect` method from the stringr package that we'll cover later) reverse the syntax: `str_detect(string, pattern)`. The *Basic Regular Expressions in R Cheatsheet* is a useful reference for a more complete list of methods and pattern matching options.
+
+```{r regex}
+# using base R
+string = fiple  
+pattern = "p"
+
+# detect patterns
+grep(pattern, string)                 # returns the index of words that contain the letter p
+grep(pattern, string, value = TRUE)   # returns the matching words
+grepl(pattern, string)                # returns a logical vector of matches
+stringr::str_detect(string, pattern)  # the stringr equivalent
+
+# replace patterns
+gsub(pattern, "XX", string)           # replace 'p' with 'XX'
+```
+
+#### Lists
+
+As opposed to vectors which must contain elements of the same data type, lists can contain more than one data type. Indexing a list is slightly different than a vector: use double brackets instead. 
+
+```{r lists}
+myList = list(1, "foo")   # can contain different data types
+myList                    # note the double brackets
+myList[[1]]               # indexing a list
+myList[[1]] + 2
+myList = list(units = c("ADA", "EN", "FA", "MI"), x)   # can contain elements with different lengths
+myList
+myList[[1]]               # the units vector back
+myList[[1]][2]            # the second element in the first vector
+```
+
+Lists are commonly used to pass paramters to a function (details in a later section). For example, I was recently exploring the `ReinforcementLearning` package. With this package, tuning parameters are passed to one of the functions with a list that contains names and values for the parameters. Values in the list can be accessed either by index numer or using its name preceeded by `$`.
+
+```{r list example}
+control = list(alpha = 0.2, gamma = 0.4, epsilon = 0.1)
+control
+control[[1]]  
+control$alpha  # equivalent to control[[1]]
+```
+
+#### Matrices
+
+Matrices are not commonly encountered in the WAD workflow, but they are worth mentioning for situational awareness. Matrix construction is column-wise by default, but that can be overwritten by specifying `byrow=TRUE` as shown below.
+
+```{r matrices}
+M = matrix(c(1,2,3,4,5,6), ncol = 2)
+M 
+M = matrix(c(1,2,3,4,5,6), ncol = 2, byrow=TRUE)
+M
+dim(M) # dimensions in rows, columns
+```
+
+R provides the ability to perform linear algebra. For example, to solve the system of equations:
+
+$2x_{1} + x_{2} + 3x_{3} = 19$
+
+$x_{1} + 2x_{2} + x_{3} = 12$
+
+$3x_{1} + x_{2} + 2x_{3} = 17$
+
+Solve $Ax = b$
+
+```{r matrix algebra}
+A = matrix(c(2, 1, 3,
+             1, 2, 1, 
+             3, 1, 2), ncol=3, byrow= TRUE)
+b = c(19, 12, 17)
+x = solve(A) %*% b
+x                   # x[1] is x1, x[2] is x2, x[3] is x3
+```
+
+#### Dataframes
+
+Dataframes are one of the most common data structures you will encounter when working with AWARS data. Think of a dataframe as an Excel spreadsheet or an AWARS postprocessor table. Dataframes have one or more columns, typically with column names, and the length of the columns must be equal. The values in a dataframe column must be of the same type, but columns can be of different types. For example, column 1 can be a unit name (string) and column 2 can be strength (numeric). In this course of instruction, we will use a specific type of dataframe called a tibble, which is available in the tidyverse package.
+
+To create a tibble from scratch, think of the columns as vectors and wrap them into the tibble function.
+
+```{r tibbles}
+library(tidyverse)
+
+tb = tibble(
+  x = 1:10,
+  y = 5:14, 
+  z = rep(month.name[1:5], 2))     # create a tibble with three columns
+tb
+```
+
+We'll cover dataframe operations in depth when we get to Chapter 5 of *R for Data Science*.
+
+### Relational and Logical Operators
+
+R uses relational and logical operators in addition to the arithmethic operators presented earlier (+, -, *, /, etc.). The following summarizes the primary relational and logical operators. When relational and logical operations are performed on vectors, the result is a logical vector of TRUE or FALSE. R treats a TRUE as a 1 and FALSE as a 0, which is useful for counting the number of matches. 
+
+```{r ops tibble, echo=FALSE}
+relOps = tibble(
+  Operator = c("<", "<=", ">", ">=", "==", "!="),
+  Description = c("Less than", "Less than or equal to", "Greater than", "Greater than or equal to", "Equal to", "Not equal to"),
+)
+
+DT::datatable(relOps)
+```
+
+Examples of relational operations.
+
+```{r rel ops}
+x = 1:10
+x < 5
+x <= 5
+x == 5
+x != 5
+sum(x == 5)
+```
+
+Logical operations with examples.
+
+```{r log ops, echo=FALSE}
+logOps = tibble(
+  Operator = c("&", "|", "!", "&&", "||", "%in%"),
+  Description = c("Element-wise AND", "Element-wise OR", "Element-wise NOT", "Operand-wise AND", "Operand-wise OR", "Is an element in a vector")
+)
+
+DT::datatable(logOps)
+```
+
+Logical operations are often useful when comparing two vectors.
+
+```{r two vectors}
+x = 1:10
+y = rep(5, 10)
+x == y 
+x != y 
+which(x == y)     # the index where they are equal
+x[which(x == y)]  # the value of x where they are equal
+sum(x == y) 
+
+# %in% operator
+units = c("ADA", "EN", "FA", "MI")
+myUnit = "EN"
+myUnit %in% units
+myUnit = "AR"
+myUnit %in% units
+```
+
+## Introduction to R - Part II
+
+### Reading Tasks
+
+Read *R for Data Science* Chapters 3 and 5. Each section of the reading has associated exercises. Follow the link to the problem set below for which exercises you should complete. After completing the exercises, briefly skim through *R for Data Science* Chapters 11, 13-15, and 18-21 to get an idea of what they contain. We'll revisit and apply these concepts later in the course. 
+
+### Problem Set 
+
+The problem set for this section is located <a href = '/_Chapter2_ProblemSets/Chapter2_Questions.html'>here</a>.
+
+For your convenience, the R markdown version is <a href = '/_Chapter2_ProblemSets/Chapter2_Questions.Rmd'>here</a>.
+
+The solutions are located <a href = '/_Chapter2_ProblemSets/Chapter2_Solutions.html'>here</a>.
